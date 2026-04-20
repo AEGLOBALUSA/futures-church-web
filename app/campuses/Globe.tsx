@@ -1,8 +1,8 @@
 "use client";
 
 import createGlobe from "cobe";
-import { useEffect, useRef } from "react";
-import { campuses, type Campus } from "@/lib/content/campuses";
+import { useEffect, useRef, useState } from "react";
+import { campuses, regions, type Campus } from "@/lib/content/campuses";
 
 // Flagship campuses read slightly larger; launching Venezuela campuses smaller.
 const FLAGSHIP_SLUGS = new Set(["paradise", "gwinnett"]);
@@ -69,6 +69,18 @@ export default function Globe({ onCampusClick, focus, scale = 1 }: GlobeProps) {
   const focusRef = useRef<{ phi: number; theta: number } | null>(null);
   const scaleRef = useRef(scale);
 
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   // Rebuild focus target whenever the prop changes.
   useEffect(() => {
     if (focus) {
@@ -83,7 +95,7 @@ export default function Globe({ onCampusClick, focus, scale = 1 }: GlobeProps) {
   }, [scale]);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || reducedMotion) return;
     const canvas = canvasRef.current;
 
     let width = canvas.offsetWidth || 1;
@@ -196,12 +208,16 @@ export default function Globe({ onCampusClick, focus, scale = 1 }: GlobeProps) {
       window.removeEventListener("resize", onResize);
       globe.destroy();
     };
-  }, []);
+  }, [reducedMotion]);
 
   // Build the overlay dots (static render; positions are updated per frame).
   const markersStatic = campuses.filter(
     (c) => typeof c.lat === "number" && typeof c.lng === "number",
   );
+
+  if (reducedMotion) {
+    return <StaticGlobeFallback onCampusClick={onCampusClick} />;
+  }
 
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[780px]">
@@ -241,9 +257,10 @@ export default function Globe({ onCampusClick, focus, scale = 1 }: GlobeProps) {
             }}
             type="button"
             onClick={() => onCampusClick?.(c.slug)}
-            aria-label={`${c.name} — ${c.city}`}
+            aria-label={`${c.name} — ${c.city}${c.status === "launching" ? " (launching)" : ""}`}
             title={`${c.name} · ${c.city}`}
-            className="globe-dot absolute left-0 top-0 h-6 w-6 rounded-full transition-opacity duration-200"
+            data-status={c.status}
+            className={`globe-dot globe-dot-${c.status} absolute left-0 top-0 h-6 w-6 rounded-full transition-opacity duration-200`}
             style={{
               background: "transparent",
               transform: "translate(-9999px, -9999px)",
@@ -251,6 +268,33 @@ export default function Globe({ onCampusClick, focus, scale = 1 }: GlobeProps) {
           />
         ))}
       </div>
+
+      {/* Screen-reader / keyboard fallback — always present for a11y.
+          Sighted users see the globe; assistive tech gets a semantic nav. */}
+      <nav aria-label="Futures campuses by region" className="sr-only">
+        <ul>
+          {regions.map((r) => {
+            const inRegion = campuses.filter((c) => c.region === r.slug);
+            if (inRegion.length === 0) return null;
+            return (
+              <li key={r.slug}>
+                <p>{r.name}</p>
+                <ul>
+                  {inRegion.map((c) => (
+                    <li key={c.slug}>
+                      <button type="button" onClick={() => onCampusClick?.(c.slug)}>
+                        {c.name}, {c.city}
+                        {c.status === "launching" ? " — launching" : ""}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
       <style jsx>{`
         .globe-dot {
           cursor: pointer;
@@ -265,14 +309,117 @@ export default function Globe({ onCampusClick, focus, scale = 1 }: GlobeProps) {
                       background 240ms cubic-bezier(0.25, 0.1, 0.25, 1),
                       box-shadow 240ms cubic-bezier(0.25, 0.1, 0.25, 1);
         }
+        .globe-dot-active::before {
+          animation: dotPulseActive 2.4s ease-in-out infinite;
+        }
+        .globe-dot-launching::before {
+          animation: dotPulseLaunching 4.2s ease-in-out infinite;
+        }
+        @keyframes dotPulseActive {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(200, 144, 107, 0); }
+          50%      { box-shadow: 0 0 0 3px rgba(200, 144, 107, 0.18),
+                                  0 0 14px 3px rgba(200, 144, 107, 0.14); }
+        }
+        @keyframes dotPulseLaunching {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(172, 155, 37, 0); }
+          50%      { box-shadow: 0 0 0 3px rgba(172, 155, 37, 0.22),
+                                  0 0 18px 5px rgba(172, 155, 37, 0.18); }
+        }
         .globe-dot:hover::before,
         .globe-dot:focus-visible::before {
           inset: 4px;
           background: rgba(253, 251, 246, 0.95);
           box-shadow: 0 0 0 2px rgba(200, 144, 107, 0.9),
                       0 0 18px 4px rgba(200, 144, 107, 0.35);
+          animation: none;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .globe-dot::before { animation: none !important; }
         }
       `}</style>
     </div>
+  );
+}
+
+// Static fallback for users who prefer reduced motion.
+// Semantic nav list grouped by region — fully keyboard-accessible, no WebGL.
+function StaticGlobeFallback({
+  onCampusClick,
+}: {
+  onCampusClick?: (slug: string) => void;
+}) {
+  return (
+    <nav
+      aria-label="Futures campuses by region"
+      className="relative mx-auto aspect-square w-full max-w-[780px] overflow-hidden rounded-[28px]"
+      style={{
+        background:
+          "radial-gradient(circle at 35% 32%, #FAE8D2 0%, #E8C9A6 55%, #C8906B 100%)",
+        boxShadow:
+          "0 30px 60px -30px rgba(200,144,107,0.45), inset 30px 30px 80px -10px rgba(255,252,247,0.45)",
+      }}
+    >
+      <div className="absolute inset-0 overflow-auto p-8 sm:p-10">
+        <p
+          className="font-ui uppercase"
+          style={{
+            color: "#534D44",
+            fontSize: 11,
+            letterSpacing: "0.28em",
+          }}
+        >
+          21 campuses · 4 countries
+        </p>
+        <ul className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {regions.map((r) => {
+            const inRegion = campuses.filter(
+              (c) => c.region === r.slug && typeof c.lat === "number",
+            );
+            if (inRegion.length === 0) return null;
+            return (
+              <li key={r.slug}>
+                <p
+                  className="font-ui uppercase"
+                  style={{
+                    color: "#1C1A17",
+                    fontSize: 12,
+                    letterSpacing: "0.22em",
+                  }}
+                >
+                  {r.name}
+                  {r.status === "launching" ? " · launching" : ""}
+                </p>
+                <ul className="mt-2 space-y-1.5">
+                  {inRegion.map((c) => (
+                    <li key={c.slug}>
+                      <button
+                        type="button"
+                        onClick={() => onCampusClick?.(c.slug)}
+                        className="font-display italic transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:underline"
+                        style={{ color: "#1C1A17", fontSize: 16, fontWeight: 300 }}
+                      >
+                        {c.name} · {c.city}
+                        {c.status === "launching" && (
+                          <span
+                            className="ml-2 font-ui uppercase"
+                            style={{
+                              color: "#534D44",
+                              fontSize: 10,
+                              letterSpacing: "0.2em",
+                            }}
+                          >
+                            launching
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </nav>
   );
 }

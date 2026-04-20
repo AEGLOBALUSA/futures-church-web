@@ -1,0 +1,11 @@
+[
+  { "id": "g1", "year": "1922", "caption": "The original Adelaide chapel, opening day.", "photo": "https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=1400&q=80&auto=format&fit=crop", "placeholder": true },
+  { "id": "g2", "year": "1934", "caption": "First baptism record book.", "photo": "https://images.unsplash.com/photo-1518976024611-28bf4b48222e?w=1400&q=80&auto=format&fit=crop", "placeholder": true },
+  { "id": "g3", "year": "1952", "caption": "The second-generation congregation.", "photo": "https://images.unsplash.com/photo-1481026469463-66327c86e544?w=1400&q=80&auto=format&fit=crop", "placeholder": true },
+  { "id": "g4", "year": "1987", "caption": "First Sunday, Phoenix.", "photo": "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1400&q=80&auto=format&fit=crop", "placeholder": true },
+  { "id": "g5", "year": "2000", "caption": "Ashley & Jane take the senior pastorate.", "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1400&q=80&auto=format&fit=crop", "placeholder": true },
+  { "id": "g6", "year": "2011", "caption": "Solo, Indonesia \u2014 first Sunday.", "photo": "https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=1400&q=80&auto=format&fit=crop", "placeholder": true },
+  { "id": "g7", "year": "2017", "caption": "Futuros Duluth opens.", "photo": "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1400&q=80&auto=format&fit=crop", "placeholder": true },
+  { "id": "g8", "year": "2024", "caption": "Selah prototype, Adelaide studio.", "photo": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1400&q=80&auto=format&fit=crop", "placeholder": true },
+  { "id": "g9", "year": "2026", "caption": "Venezuela team commissioning.", "photo": "https://images.unsplash.com/photo-1470093851219-69951fcbb533?w=1400&q=80&auto=format&fit=crop", "placeholder": true }
+]

@@ -1,7 +1,7 @@
 export const visionStats = [
   { label: "Campuses today", value: "21", sub: "across 4 countries" },
   { label: "Campus vision", value: "200", sub: "the goal we're building toward" },
-  { label: "Countries", value: "4", sub: "Australia · USA · Indonesia · Online · Venezuela coming soon" },
+  { label: "Countries", value: "4", sub: "Australia \u00b7 USA \u00b7 Indonesia \u00b7 South America (launching)" },
   { label: "Every weekend", value: "20,000", sub: "people worship with us" },
   { label: "Leaders to raise", value: "10,000", sub: "the next generation" },
   { label: "Souls to win", value: "200,000", sub: "to Christ — the mission" },

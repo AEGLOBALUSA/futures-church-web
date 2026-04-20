@@ -1,0 +1,18 @@
+{
+  "asOf": "2026-04-01",
+  "campuses": { "current": 21, "target": 200, "label": "Campuses" },
+  "leaders":  { "current": 1200, "target": 10000, "label": "Leaders raised" },
+  "souls":    { "current": 80000, "target": 200000, "label": "Souls won to Christ" },
+  "nextCampuses": [
+    { "city": "Futuros Grayson", "country": "USA", "year": 2026 },
+    { "city": "Futuros Caracas", "country": "Venezuela", "year": 2026 },
+    { "city": "Futuros Maracaibo", "country": "Venezuela", "year": 2026 },
+    { "city": "Futuros Valencia", "country": "Venezuela", "year": 2026 },
+    { "city": "Futuros Barquisimeto", "country": "Venezuela", "year": 2026 },
+    { "city": "Nashville", "country": "USA", "year": 2027 },
+    { "city": "Jakarta", "country": "Indonesia", "year": 2027 },
+    { "city": "Medellin", "country": "Colombia", "year": 2028 },
+    { "city": "Perth", "country": "Australia", "year": 2028 },
+    { "city": "Bogota", "country": "Colombia", "year": 2029 }
+  ]
+}

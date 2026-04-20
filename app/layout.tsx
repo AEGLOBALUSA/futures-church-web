@@ -1,23 +1,40 @@
 import type { Metadata, Viewport } from "next";
+import { Fraunces, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
-import { AIGuideDock } from "@/components/ai-guide/AIGuideDock";
+import { AIGuideProvider } from "@/lib/ai/AIGuideContext";
+import { AIGuideDock } from "@/components/ai/AIGuideDock";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
-    default: "Futures Church — A Home for Everyone",
+    default: "Futures Church — One family. 21 campuses. 4 countries.",
     template: "%s | Futures Church",
   },
   description:
-    "A home for everyone. Every race. Every age. Every stage. One culture. 21 campuses across 4 countries — Australia, USA, Indonesia — with Venezuela launching next.",
+    "One family across 21 campuses in Australia, the USA, Indonesia — and South America, launching soon. Ask Ezra, our AI guide, where you'll feel at home.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://futures.church"
   ),
   openGraph: {
-    title: "Futures Church — A Home for Everyone",
+    title: "Futures Church — One family. 21 campuses. 4 countries.",
     description:
-      "A home for everyone. Every race. Every age. Every stage. One culture.",
+      "One family across 21 campuses in Australia, the USA, Indonesia — and South America, launching soon.",
     url: "https://futures.church",
     siteName: "Futures Church",
     locale: "en_AU",
@@ -27,14 +44,49 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Futures Church",
-    description: "A home for everyone.",
+    description: "One family across 21 campuses in 4 countries.",
     images: ["/og-default.png"],
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050506",
+  themeColor: "#FDFBF6",
+};
+
+const ORGANIZATION_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Futures Church",
+  alternateName: "Futures",
+  url: "https://futures.church",
+  logo: "https://futures.church/og-default.png",
+  foundingDate: "1922",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Adelaide",
+    addressRegion: "SA",
+    addressCountry: "AU",
+  },
+  sameAs: [
+    "https://instagram.com/futureschurch",
+    "https://youtube.com/futureschurch",
+    "https://facebook.com/futureschurch",
+    "https://open.spotify.com/show/futureschurch",
+  ],
+  email: "hello@futures.church",
+};
+
+const WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Futures Church",
+  url: "https://futures.church",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://futures.church/campuses?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function RootLayout({
@@ -43,8 +95,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }}
+        />
         {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
           <script
             defer
@@ -53,11 +113,13 @@ export default function RootLayout({
           />
         )}
       </head>
-      <body className="font-sans bg-obsidian-900 text-bone antialiased min-h-screen">
-        <Nav />
-        <main className="relative">{children}</main>
-        <Footer />
-        <AIGuideDock />
+      <body className="min-h-screen bg-cream font-sans text-ink-900 antialiased">
+        <AIGuideProvider>
+          <Nav />
+          <main className="relative">{children}</main>
+          <Footer />
+          <AIGuideDock />
+        </AIGuideProvider>
       </body>
     </html>
   );

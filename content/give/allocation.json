@@ -1,0 +1,11 @@
+{
+  "asOf": "2026-04-01",
+  "slices": [
+    { "label": "Ministry & campuses", "percent": 48, "note": "Weekly services, staff, campus operations." },
+    { "label": "Leaders in training", "percent": 18, "note": "College scholarships, coaching, internships." },
+    { "label": "Vision & new campuses", "percent": 16, "note": "Launch funds for the next 179 campuses." },
+    { "label": "Global & compassion", "percent": 10, "note": "Futuros (Latin America), Solo outreach, benevolence." },
+    { "label": "Buildings & capital", "percent": 6, "note": "Spaces that hold what God is building." },
+    { "label": "Administration", "percent": 2, "note": "Finance, compliance, audit. Kept lean on purpose." }
+  ]
+}

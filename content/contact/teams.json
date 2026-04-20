@@ -1,0 +1,11 @@
+{
+  "teams": [
+    { "key": "pastoral", "label": "Pastoral care", "email": "care@futures.church", "sla": "24 hours", "blurb": "Prayer, counsel, a listening ear. If you&rsquo;re hurting, start here." },
+    { "key": "campus", "label": "My campus", "email": "hello@futures.church", "sla": "48 hours", "blurb": "Questions about services, kids, serving at your local campus." },
+    { "key": "media", "label": "Media / press", "email": "press@futures.church", "sla": "3 business days", "blurb": "Interviews, comment, photos, or footage." },
+    { "key": "partnerships", "label": "Partnerships", "email": "partners@futures.church", "sla": "3 business days", "blurb": "Pastors, authors, ministries wanting to build with us." },
+    { "key": "finance", "label": "Finance / giving", "email": "finance@futures.church", "sla": "2 business days", "blurb": "Receipts, stock or crypto gifts, bequests, estate." },
+    { "key": "technical", "label": "App or website help", "email": "help@futures.church", "sla": "2 business days", "blurb": "Broken links, login trouble, app bugs." },
+    { "key": "prayer", "label": "Prayer request", "email": "prayer@futures.church", "sla": "same day", "blurb": "A team prays over every request. Anonymity honored." }
+  ]
+}

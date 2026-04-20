@@ -1,0 +1,78 @@
+{
+  "pillars": [
+    {
+      "title": "Rooted in scripture",
+      "body": "The Bible is our ground. Every sermon, every song, every decision tested against the whole counsel of God."
+    },
+    {
+      "title": "Raised to lead",
+      "body": "Everyone carries something. We train and send — first-time servers, future campus pastors, parents, kids, all of it."
+    },
+    {
+      "title": "Released to the world",
+      "body": "Futures is not a fortress. We plant, serve, give, and go — across twenty-one campuses and the cities that surround them."
+    }
+  ],
+  "beliefs": [
+    {
+      "title": "On God",
+      "body": "One God, eternally Father, Son, and Holy Spirit. Holy, loving, just, and personally known."
+    },
+    {
+      "title": "On scripture",
+      "body": "The Bible is the inspired, authoritative word of God — sufficient for faith, life, and practice."
+    },
+    {
+      "title": "On Jesus",
+      "body": "Fully God and fully man. Born of a virgin, lived without sin, died for our sins, rose bodily, reigns now, and is returning."
+    },
+    {
+      "title": "On the Spirit",
+      "body": "God with us and in us — convicting, empowering, gifting, and transforming the church to look like Jesus."
+    },
+    {
+      "title": "On the Church",
+      "body": "The people of God across every nation — gathered locally, sent globally, responsible for one another and for the world."
+    }
+  ],
+  "worshipCards": [
+    {
+      "title": "Music",
+      "body": "Live, contemporary, sung together. Hymns we love, songs we&rsquo;re writing, silence when we need it.",
+      "photo": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&q=75&auto=format&fit=crop"
+    },
+    {
+      "title": "Message",
+      "body": "Scripture-anchored teaching. Usually 35 minutes. Always aimed at a real, changed Monday.",
+      "photo": "https://images.unsplash.com/photo-1507036066871-b7e8032b3dea?w=1200&q=75&auto=format&fit=crop"
+    },
+    {
+      "title": "Communion",
+      "body": "Weekly at most campuses. A short table, real bread, real cup, real grace. You don&rsquo;t have to be perfect to come.",
+      "photo": "https://images.unsplash.com/photo-1609232905566-ec61d70d2bd8?w=1200&q=75&auto=format&fit=crop"
+    },
+    {
+      "title": "Baptism",
+      "body": "Public, by immersion, celebrated loudly. If you&rsquo;re asking about baptism, ask your campus pastor this Sunday.",
+      "photo": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=1200&q=75&auto=format&fit=crop"
+    }
+  ],
+  "seniorPastors": [
+    {
+      "slug": "ashley-evans",
+      "name": "Ashley Evans",
+      "role": "Global Senior Pastor",
+      "oneLine": "Fourth-generation Adelaide pastor. Leads Futures across twenty-one campuses.",
+      "quote": "I didn&rsquo;t build this. I&rsquo;m a caretaker of something my great-grandfather started in 1922.",
+      "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1000&q=80&auto=format&fit=crop"
+    },
+    {
+      "slug": "jane-evans",
+      "name": "Jane Evans",
+      "role": "Global Senior Pastor",
+      "oneLine": "Pastor, author, founder of bU Women. Mentoring leaders across four countries.",
+      "quote": "There&rsquo;s a version of you God is raising up. bU is the room where she gets named.",
+      "photo": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=1000&q=80&auto=format&fit=crop"
+    }
+  ]
+}

@@ -35,7 +35,7 @@ const PEOPLE: Person[] = [
   {
     name: "Aïcha Diallo",
     role: "Adelaide City",
-    photo: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800&q=80&auto=format&fit=crop",
+    photo: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80&auto=format&fit=crop",
     accent: "#C45236",
     quote:
       "I almost didn't walk in. The volunteer at the door looked me in the eye like she'd been waiting for me. Maybe she had.",
@@ -50,35 +50,35 @@ const PEOPLE: Person[] = [
   },
   {
     name: "Lina Morales",
-    role: "Futuros Duluth",
+    role: "Caracas · launching",
     photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80&auto=format&fit=crop",
     accent: "#D9B089",
     quote:
-      "My family came to America with nothing. Here we worship in our language, and our kids learn in theirs.",
+      "Mi familia llegó con nada. Aquí adoramos en nuestro idioma, y nuestros hijos aprenden en el suyo.",
   },
   {
     name: "Ps. Theo Williams",
-    role: "Mount Barker · Kids team",
+    role: "Los Angeles · Kids team",
     photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80&auto=format&fit=crop",
     accent: "#765020",
     quote:
       "Sundays are the safest, loudest, most fun two hours of the week for our kids. That's the standard.",
   },
   {
-    name: "Noa Bennett",
-    role: "Salisbury",
-    photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&q=80&auto=format&fit=crop",
+    name: "Kadek Wirawan",
+    role: "Bali · Denpasar",
+    photo: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=800&q=80&auto=format&fit=crop",
     accent: "#C8906B",
     quote:
-      "I came for the music. I stayed for the way people remembered what I'd told them last week.",
+      "Sunrise prayer changed how I lead my team all week. Quiet before loud.",
   },
   {
-    name: "Ruben Castillo",
-    role: "Gwinnett",
-    photo: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&q=80&auto=format&fit=crop",
+    name: "Rubén Castillo",
+    role: "Maracaibo · launching",
+    photo: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80&auto=format&fit=crop",
     accent: "#AC9B25",
     quote:
-      "I walked in heartbroken. I walked out a year later with a wife, a calling, and a chosen family.",
+      "I walked in heartbroken. A year later — a wife, a calling, a chosen family.",
   },
 ];
 

@@ -1,0 +1,59 @@
+{
+  "isLive": false,
+  "liveStreamUrl": null,
+  "featuredSeries": [
+    {
+      "slug": "more",
+      "title": "More",
+      "preacher": "Ashley Evans",
+      "episodes": 4,
+      "cover": "https://images.unsplash.com/photo-1520975922323-8b79df60d0e4?w=1600&q=75&auto=format&fit=crop",
+      "blurb": "The hunger that keeps growing — a four-week series on wanting more of God."
+    },
+    {
+      "slug": "rooted",
+      "title": "Rooted",
+      "preacher": "Jane Evans",
+      "episodes": 5,
+      "cover": "https://images.unsplash.com/photo-1518609571773-39b7d303a87b?w=1600&q=75&auto=format&fit=crop",
+      "blurb": "A five-week walk through the soul work that grows deep."
+    },
+    {
+      "slug": "kingdom-come",
+      "title": "Kingdom Come",
+      "preacher": "Josh Greenwood",
+      "episodes": 6,
+      "cover": "https://images.unsplash.com/photo-1519744346361-7fd24e2b1fb1?w=1600&q=75&auto=format&fit=crop",
+      "blurb": "Six messages on living now like heaven is already here."
+    }
+  ],
+  "latest": {
+    "id": "s-2026-04-12",
+    "title": "When God feels quiet",
+    "series": "More",
+    "preacher": "Ashley Evans",
+    "date": "2026-04-12",
+    "duration": "38m",
+    "thumb": "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=1600&q=75&auto=format&fit=crop",
+    "scripture": "Psalm 62",
+    "videoUrl": null,
+    "chapters": [
+      { "t": "00:00", "label": "Welcome" },
+      { "t": "03:12", "label": "A silent heaven" },
+      { "t": "12:40", "label": "What David did" },
+      { "t": "24:05", "label": "The invitation" },
+      { "t": "33:20", "label": "Prayer" }
+    ]
+  },
+  "archive": [
+    { "id": "s-2026-04-12", "title": "When God feels quiet",      "series": "More",          "preacher": "Ashley Evans",   "date": "2026-04-12", "duration": "38m", "scripture": "Psalm 62",      "theme": "Faith",     "thumb": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1200&q=75&auto=format&fit=crop" },
+    { "id": "s-2026-04-05", "title": "Hungry still",              "series": "More",          "preacher": "Ashley Evans",   "date": "2026-04-05", "duration": "41m", "scripture": "John 6",        "theme": "Calling",   "thumb": "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=1200&q=75&auto=format&fit=crop" },
+    { "id": "s-2026-03-29", "title": "The weight of being known", "series": "Rooted",        "preacher": "Jane Evans",     "date": "2026-03-29", "duration": "35m", "scripture": "Psalm 139",     "theme": "Identity",  "thumb": "https://images.unsplash.com/photo-1500835556837-99ac94a94552?w=1200&q=75&auto=format&fit=crop" },
+    { "id": "s-2026-03-22", "title": "Anchored",                  "series": "Rooted",        "preacher": "Jane Evans",     "date": "2026-03-22", "duration": "33m", "scripture": "Hebrews 6",     "theme": "Anxiety",   "thumb": "https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?w=1200&q=75&auto=format&fit=crop" },
+    { "id": "s-2026-03-15", "title": "Small rooms, big kingdom",  "series": "Kingdom Come",  "preacher": "Josh Greenwood", "date": "2026-03-15", "duration": "36m", "scripture": "Matthew 6",     "theme": "Community", "thumb": "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=1200&q=75&auto=format&fit=crop" },
+    { "id": "s-2026-03-08", "title": "The prayer we avoid",       "series": "Kingdom Come",  "preacher": "Sjhana Greenwood","date": "2026-03-08", "duration": "29m", "scripture": "Luke 22",       "theme": "Prayer",    "thumb": "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1200&q=75&auto=format&fit=crop" },
+    { "id": "s-2026-03-01", "title": "What forgiveness is not",   "series": "Rooted",        "preacher": "Jane Evans",     "date": "2026-03-01", "duration": "40m", "scripture": "Matthew 18",    "theme": "Forgiveness","thumb":"https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=1200&q=75&auto=format&fit=crop" },
+    { "id": "s-2026-02-22", "title": "When dreams delay",         "series": "More",          "preacher": "Ashley Evans",   "date": "2026-02-22", "duration": "37m", "scripture": "Genesis 37",    "theme": "Calling",   "thumb": "https://images.unsplash.com/photo-1519744346361-7fd24e2b1fb1?w=1200&q=75&auto=format&fit=crop" },
+    { "id": "s-2026-02-15", "title": "Holy disruption",           "series": "Kingdom Come",  "preacher": "Josh Greenwood", "date": "2026-02-15", "duration": "42m", "scripture": "Acts 2",        "theme": "Holy Spirit","thumb":"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1200&q=75&auto=format&fit=crop" }
+  ]
+}

@@ -71,7 +71,7 @@ export function Invitation() {
             type="button"
             onClick={openDock}
             className="group font-display italic transition-colors"
-            style={{ color: "#534D44", fontSize: 15 }}
+            style={{ color: "#1C1A17", fontSize: 15 }}
           >
             <span className="lowercase">or talk to us first</span>
             <span className="ml-1.5 inline-block transition-transform duration-300 group-hover:translate-x-1">

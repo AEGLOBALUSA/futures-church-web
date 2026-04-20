@@ -1,0 +1,38 @@
+{
+  "manifesto": [
+    "I grew up being told girls were meant to shrink. Quieter, smaller, less. Jesus never said that. Not once.",
+    "bU is for the woman done living small. Done pretending. Done apologising for the fire in her. A global family of women becoming exactly who God designed — unarmoured, unafraid, and usefully dangerous for the kingdom."
+  ],
+  "gatherings": [
+    { "date": "2026-05-09", "city": "Adelaide",   "country": "Australia",  "venue": "Paradise Auditorium",     "status": "open" },
+    { "date": "2026-05-16", "city": "Atlanta",    "country": "USA",        "venue": "Gwinnett Campus",         "status": "open" },
+    { "date": "2026-06-07", "city": "Bali",       "country": "Indonesia",  "venue": "Uluwatu Retreat Centre",  "status": "waitlist" },
+    { "date": "2026-06-14", "city": "Solo",       "country": "Indonesia",  "venue": "Solo Campus",             "status": "open" },
+    { "date": "2026-07-12", "city": "Duluth",     "country": "USA",        "venue": "Futuros Duluth",          "status": "open" },
+    { "date": "2026-08-02", "city": "Adelaide",   "country": "Australia",  "venue": "Adelaide City Campus",    "status": "open" },
+    { "date": "2026-09-20", "city": "Brisbane",   "country": "Australia",  "venue": "Brisbane Campus",         "status": "open" },
+    { "date": "2026-10-11", "city": "Sydney",     "country": "Australia",  "venue": "Sydney Campus",           "status": "open" }
+  ],
+  "circles": [
+    { "city": "Adelaide",    "campus": "Paradise",       "leader": "Bec Mihailidis",    "cadence": "Thursdays 7pm" },
+    { "city": "Adelaide",    "campus": "Adelaide City",  "leader": "Nadia Paolini",     "cadence": "Wednesdays 10am" },
+    { "city": "Atlanta",     "campus": "Gwinnett",       "leader": "Amelia Johnson",    "cadence": "Tuesdays 7pm" },
+    { "city": "Duluth",      "campus": "Futuros Duluth", "leader": "Priscilla Navarro", "cadence": "Mondays 7pm (ES)" },
+    { "city": "Bali",        "campus": "Bali",           "leader": "Kadek Wijaya",      "cadence": "Fridays 5pm" },
+    { "city": "Solo",        "campus": "Solo",           "leader": "Dewi Pratama",      "cadence": "Saturdays 10am" },
+    { "city": "Brisbane",    "campus": "Brisbane",       "leader": "Sarah Finch",       "cadence": "Thursdays 7pm" },
+    { "city": "Sydney",      "campus": "Sydney",         "leader": "Louise Tran",       "cadence": "Thursdays 7pm" }
+  ],
+  "books": [
+    { "title": "be U.",                 "subtitle": "becoming the woman God designed", "cover": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=900&q=75&auto=format&fit=crop" },
+    { "title": "Rooted & Raised",       "subtitle": "forty days in the Psalms",        "cover": "https://images.unsplash.com/photo-1526243741027-444d633d7365?w=900&q=75&auto=format&fit=crop" },
+    { "title": "The Mothering Heart",   "subtitle": "a guide for the tender season",   "cover": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=900&q=75&auto=format&fit=crop" }
+  ],
+  "podcast": [
+    { "ep": 147, "title": "What I wish I knew at 25",      "duration": "42m" },
+    { "ep": 146, "title": "The weight of being liked",    "duration": "38m" },
+    { "ep": 145, "title": "When friendships change",      "duration": "35m" },
+    { "ep": 144, "title": "A letter to the mother of teens","duration": "47m" },
+    { "ep": 143, "title": "How to outgrow your old self", "duration": "41m" }
+  ]
+}

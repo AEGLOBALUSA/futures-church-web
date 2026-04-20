@@ -25,6 +25,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // --- Round 0 Foundation tokens (warm / cream / ink / glass) ---
+        cream: {
+          DEFAULT: "#FDFBF6",
+          50: "#FFFDF8",   // R5.4: codified — ultra-light cream (hover states, inset cards)
+          100: "#FFFCF7",  // R5.4: codified — warmest cream (dark-bg text contrast)
+          200: "#F7F1E6",  // R5.4: codified — hero gradient stop (lightest)
+          300: "#F2E6D1",  // R5.4: codified — hero gradient stop (mid)
+          400: "#E8C9A6",  // R5.4: codified — hero gradient stop (warm)
+        },
+        warm: {
+          300: "#D9BFA0",
+          400: "#CC8F4A",  // R5.4: codified — active-state amber (tabs, progress)
+          500: "#C8906B",
+          600: "#C89675",  // R5.4: codified — hero radial gradient stop
+          700: "#8A5A3C",
+          800: "#765020",  // R5.4: codified — deep brown (from brand guidelines)
+        },
+        // R5.4: codified — dark warm backgrounds for action-page contrast sections.
+        umber: {
+          900: "#141210",
+          800: "#1B1008",
+          700: "#2A1B10",
+        },
+        glass: {
+          bg: "rgba(255,252,247,0.72)",
+          border: "rgba(255,255,255,0.5)",
+        },
+
         // Canonical brand tokens — use these in new code.
         brand: brand,
         violet: { DEFAULT: brand.violet, 500: brand.violet, 600: "#4A15C8", 700: "#3B10A0" },
@@ -63,12 +91,14 @@ const config: Config = {
           400: "#D6D0BD",
         },
         ink: {
-          DEFAULT: "#050506",
+          DEFAULT: "#1C1A17",
           950: "#020203",
-          900: "#050506",
+          900: "#1C1A17",
           800: "#0D0D0F",
           700: "#141417",
+          600: "#534D44",
           500: "#5A5A63",
+          400: "#8A8178",
           300: "#8A8A94",
         },
         ember: {
@@ -92,12 +122,23 @@ const config: Config = {
           DEFAULT: brand.pink,
           700: "#9E2B80",
         },
+        // Home redesign accent — terracotta. Used sparingly (≤3% visual weight):
+        // AI pulsing dot, launching-campus marker, countdown numerals, stream
+        // card arrow glyphs. Nowhere else. Restraint is the design.
+        accent: {
+          DEFAULT: "#B85C3B",
+          muted: "rgba(184, 92, 59, 0.12)",
+          ring:  "rgba(184, 92, 59, 0.32)",
+        },
       },
       fontFamily: {
-        // Rhymes Text = display. Gal Gothic = body/sans. Lausanne = sub-brand marks.
-        display: ["var(--font-rhymes)", "Times New Roman", "Georgia", "serif"],
-        sans: ["var(--font-gal)", "Arial", "system-ui", "sans-serif"],
-        mark: ["var(--font-lausanne)", "Helvetica", "Arial", "sans-serif"],
+        // Round 0 / R5.3: Fraunces (display + body) + Inter Tight (ui/sans).
+        // Tiempos left aliased to Fraunces until licensed.
+        display: ["var(--font-fraunces)", "Georgia", "serif"],
+        sans: ["var(--font-inter-tight)", "system-ui", "sans-serif"],
+        ui: ["var(--font-inter-tight)", "system-ui", "sans-serif"],
+        body: ["var(--font-fraunces)", "Georgia", "serif"],
+        mark: ["var(--font-inter-tight)", "system-ui", "sans-serif"],
       },
       fontSize: {
         "display-2xl": ["clamp(4rem, 10vw, 10.5rem)", { lineHeight: "0.9", letterSpacing: "-0.025em" }],
@@ -107,7 +148,7 @@ const config: Config = {
         "body-lg": ["1.25rem", { lineHeight: "1.55" }],
         "body": ["1.0625rem", { lineHeight: "1.65" }],
         "body-sm": ["0.875rem", { lineHeight: "1.55" }],
-        "eyebrow": ["0.72rem", { lineHeight: "1.0", letterSpacing: "0.2em" }],
+        "eyebrow": ["11px", { lineHeight: "1.2", letterSpacing: "0.24em" }],
         "meta": ["0.72rem", { lineHeight: "1.0", letterSpacing: "0.1em" }],
       },
       maxWidth: {
@@ -122,6 +163,11 @@ const config: Config = {
         "pulse-dot": "pulseDot 1.8s ease-in-out infinite",
         "aurora": "aurora 18s ease infinite",
         "grain": "grain 8s steps(6) infinite",
+        "glass-breathe": "glassBreathe 8s ease-in-out infinite",
+        "input-breathe": "inputBreathe 4s ease-in-out infinite",
+      },
+      backdropBlur: {
+        glass: "24px",
       },
       keyframes: {
         marquee: {
@@ -155,6 +201,14 @@ const config: Config = {
           "70%": { transform: "translate(0%, 15%)" },
           "80%": { transform: "translate(3%, 35%)" },
           "90%": { transform: "translate(-10%, 10%)" },
+        },
+        glassBreathe: {
+          "0%, 100%": { boxShadow: "0 20px 48px -24px rgba(20,20,20,0.22), inset 0 0 0 1px rgba(255,255,255,0.45)" },
+          "50%":      { boxShadow: "0 26px 60px -28px rgba(20,20,20,0.28), inset 0 0 0 1px rgba(255,255,255,0.65)" },
+        },
+        inputBreathe: {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(200,144,107,0.0)" },
+          "50%":      { boxShadow: "0 0 0 6px rgba(200,144,107,0.12)" },
         },
       },
       transitionTimingFunction: {

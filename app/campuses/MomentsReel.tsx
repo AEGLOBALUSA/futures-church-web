@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
+import { Play, X } from "lucide-react";
 
 // Moments — 12 scenes across the Futures family. Image-driven Ken-Burns today;
 // swap for <video> with real clips when the Hannah/comms team cuts them.
@@ -16,6 +16,10 @@ type Moment = {
   accent: string;
 };
 
+// Moment tiles — each chosen so the reel reads as globally diverse:
+// Australian (white + Aboriginal), African-American, Venezuelan/Latino,
+// Indonesian (Javanese, Balinese, Minahasan, East Kalimantan), Brazilian,
+// South Asian. Keep the ethnic spread when swapping to real photography.
 const MOMENTS: Moment[] = [
   {
     id: "paradise-sunday",
@@ -26,18 +30,18 @@ const MOMENTS: Moment[] = [
     accent: "#C8906B",
   },
   {
-    id: "gwinnett-worship",
-    title: "Hands up, Gwinnett",
+    id: "la-worship",
+    title: "Hands up, Los Angeles",
     caption: "Mid-worship in the main auditorium, a few hundred voices holding one note.",
-    campus: "Gwinnett · Duluth, GA",
-    image: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1600&q=75&auto=format&fit=crop",
+    campus: "Los Angeles · California",
+    image: "https://images.unsplash.com/photo-1519058082700-08a0b56da9b4?w=1600&q=75&auto=format&fit=crop",
     accent: "#AC9B25",
   },
   {
-    id: "futuros-duluth",
+    id: "futuros-caracas",
     title: "La familia",
-    caption: "Futuros Duluth — Spanish, laughter, three generations at one table.",
-    campus: "Futuros · Duluth, GA",
+    caption: "Caracas — Spanish, laughter, three generations at one table.",
+    campus: "Caracas · Venezuela (launching)",
     image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1600&q=75&auto=format&fit=crop",
     accent: "#C45236",
   },
@@ -102,49 +106,21 @@ const MOMENTS: Moment[] = [
     title: "After-service, Adelaide City",
     caption: "The room empties at 11:30. The foyer is still full at 1pm.",
     campus: "Adelaide City · SA",
-    image: "https://images.unsplash.com/photo-1511537190424-bbbab87ac5b4?w=1600&q=75&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1524673450801-b5aa9b621b76?w=1600&q=75&auto=format&fit=crop",
     accent: "#D9B089",
   },
   {
     id: "online-global",
     title: "Online Church, everywhere",
-    caption: "Three time zones, one service. Comments from Jakarta, Kenya, Kansas.",
+    caption: "Three time zones, one service. Comments from São Paulo, Nairobi, Kansas.",
     campus: "Online · Worldwide",
-    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1600&q=75&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=75&auto=format&fit=crop",
     accent: "#765020",
   },
 ];
 
 export function MomentsReel() {
-  const scrollerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<Moment | null>(null);
-  const [canLeft, setCanLeft] = useState(false);
-  const [canRight, setCanRight] = useState(true);
-
-  function updateArrows() {
-    const el = scrollerRef.current;
-    if (!el) return;
-    setCanLeft(el.scrollLeft > 8);
-    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 8);
-  }
-
-  useEffect(() => {
-    updateArrows();
-    const el = scrollerRef.current;
-    if (!el) return;
-    el.addEventListener("scroll", updateArrows, { passive: true });
-    window.addEventListener("resize", updateArrows);
-    return () => {
-      el.removeEventListener("scroll", updateArrows);
-      window.removeEventListener("resize", updateArrows);
-    };
-  }, []);
-
-  function scrollBy(dir: -1 | 1) {
-    const el = scrollerRef.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
-  }
 
   // Close modal on ESC
   useEffect(() => {
@@ -167,62 +143,26 @@ export function MomentsReel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex items-end justify-between gap-6 flex-wrap"
+          className="max-w-[50ch]"
         >
-          <div className="max-w-[50ch]">
-            <p
-              className="font-sans"
-              style={{ color: "#534D44", fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase" }}
-            >
-              A week across the family
-            </p>
-            <h2
-              className="mt-4 font-display"
-              style={{ color: "#1C1A17", fontSize: "clamp(2rem, 4vw, 3.25rem)", lineHeight: 1.05, fontWeight: 300 }}
-            >
-              Twelve moments from twelve rooms.
-            </h2>
-            <p className="mt-4 font-sans" style={{ color: "#534D44", fontSize: 16, lineHeight: 1.6 }}>
-              Scroll sideways. Click any card. Every moment is a real rhythm somewhere in the Futures family this week.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => scrollBy(-1)}
-              disabled={!canLeft}
-              aria-label="Scroll moments left"
-              className="flex h-11 w-11 items-center justify-center rounded-full transition-all disabled:cursor-not-allowed disabled:opacity-30"
-              style={{
-                background: "rgba(255,255,255,0.85)",
-                border: "1px solid rgba(20,20,20,0.08)",
-                color: "#1C1A17",
-              }}
-            >
-              <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollBy(1)}
-              disabled={!canRight}
-              aria-label="Scroll moments right"
-              className="flex h-11 w-11 items-center justify-center rounded-full transition-all disabled:cursor-not-allowed disabled:opacity-30"
-              style={{
-                background: "#1C1A17",
-                color: "#FDFBF6",
-              }}
-            >
-              <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
-            </button>
-          </div>
+          <p
+            className="font-sans"
+            style={{ color: "#534D44", fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase" }}
+          >
+            A week across the family
+          </p>
+          <h2
+            className="mt-4 font-display"
+            style={{ color: "#1C1A17", fontSize: "clamp(2rem, 4vw, 3.25rem)", lineHeight: 1.05, fontWeight: 300 }}
+          >
+            Twelve moments from twelve rooms.
+          </h2>
+          <p className="mt-4 font-sans" style={{ color: "#534D44", fontSize: 16, lineHeight: 1.6 }}>
+            Click any card. Every moment is a real rhythm somewhere in the Futures family this week.
+          </p>
         </motion.div>
 
-        <div
-          ref={scrollerRef}
-          className="moments-scroller mt-12 flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory"
-          style={{ scrollbarWidth: "none" }}
-        >
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {MOMENTS.map((m, i) => (
             <MomentCard key={m.id} moment={m} index={i} onOpen={() => setActive(m)} />
           ))}
@@ -318,7 +258,6 @@ export function MomentsReel() {
       </AnimatePresence>
 
       <style jsx>{`
-        .moments-scroller::-webkit-scrollbar { display: none; }
         .kb-active { animation: reel-kb 16s ease-out forwards; }
         @keyframes reel-kb {
           0%   { transform: scale(1.02); }
@@ -352,10 +291,9 @@ function MomentCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.7, delay: index * 0.05, ease: [0.25, 0.1, 0.25, 1] }}
-      className="group relative flex-shrink-0 snap-start overflow-hidden rounded-[22px] text-left"
+      className="group relative overflow-hidden rounded-[22px] text-left w-full"
       style={{
-        width: "clamp(280px, 32vw, 420px)",
-        aspectRatio: "3 / 4",
+        aspectRatio: "4 / 5",
         background: moment.accent,
         boxShadow: hovered
           ? "0 30px 60px -22px rgba(20,20,20,0.4)"
@@ -369,7 +307,7 @@ function MomentCard({
         src={moment.image}
         alt={moment.title}
         fill
-        sizes="(max-width: 640px) 80vw, 32vw"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         className={`object-cover transition-transform duration-[900ms] ease-out ${
           hovered ? "kb-hover" : ""
         }`}

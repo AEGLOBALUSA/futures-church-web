@@ -46,8 +46,8 @@ export function HeroSection() {
             </h1>
 
             <p className="mt-8 font-sans text-bone/75 text-[17px] sm:text-[18px] leading-[1.55] max-w-md">
-              Every race. Every age. Every stage. One culture. Ask anything —
-              our AI guide answers in real time, and a real pastor is never far away.
+              Every race. Every age. Every stage. One culture. Ask Ezra —
+              our always-on guide answers in real time, and a real pastor is never far away.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-5 section-label text-bone/60">

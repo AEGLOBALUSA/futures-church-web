@@ -9,7 +9,7 @@ export function CampusMarquee() {
     <section className="py-20 md:py-24 bg-obsidian-900 overflow-hidden border-y border-bone/5">
       <div className="flex items-center justify-center gap-3 mb-10 px-6">
         <span className="w-1.5 h-1.5 rounded-full bg-sky pulse-dot" />
-        <p className="section-label text-bone/70">21 CAMPUSES · 5 NATIONS · 1 FAMILY</p>
+        <p className="section-label text-bone/70">21 CAMPUSES · 4 COUNTRIES · 1 FAMILY</p>
       </div>
       <Marquee>
         {activeCampuses.map((campus) => (

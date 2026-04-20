@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "ashley-evans",
+    "name": "Ashley Evans",
+    "role": "Global Senior Pastor",
+    "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1200&q=80&auto=format&fit=crop",
+    "bio": [
+      "Ashley is the fourth generation in the family God called to this church. His great-grandfather opened a small Adelaide chapel in 1922. A hundred years on, Ashley leads Futures across twenty-one campuses in four countries.",
+      "He started preaching at nineteen, planted his first campus at twenty-eight, and has been Global Senior Pastor alongside Jane since 2000. Their two sons, Joshua and Sam, both serve inside the Futures family.",
+      "Ashley&rsquo;s teaching is shaped by a conviction that the local church is still God&rsquo;s plan A. He writes and speaks on leadership, succession, and the long obedience of multi-generational ministry.",
+      "He is the host of the weekly Futures podcast, a founding architect of the Selah app, and spends most Sundays somewhere between Adelaide and Atlanta."
+    ],
+    "books": [
+      "The Long Room: Leading What You Inherit",
+      "A Hundred Years: Building a Church That Outlasts You",
+      "Raised for This: Notes to the Next Generation"
+    ],
+    "links": [
+      { "label": "Instagram", "href": "https://instagram.com/ashleyevans" },
+      { "label": "Podcast", "href": "https://futures.church/podcast" }
+    ]
+  },
+  {
+    "slug": "jane-evans",
+    "name": "Jane Evans",
+    "role": "Global Senior Pastor",
+    "photo": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=1200&q=80&auto=format&fit=crop",
+    "bio": [
+      "Jane is a pastor, author, and the founder of bU Women &mdash; the movement inside Futures that trains and releases women leaders across four countries.",
+      "She has been on staff at Futures for thirty years, pastoring alongside Ashley since they took on the senior pastorate in 2000. She speaks at conferences across Australia, the US, the UK, and Asia, and mentors a wide circle of emerging female leaders year-round.",
+      "Jane&rsquo;s teaching is marked by scripture, honesty, and an allergy to performative faith. Ask any Futures woman who they call when life breaks, and Jane&rsquo;s name comes up first.",
+      "She is the author of three books, the co-host of the bU podcast, and the mother of two adult sons."
+    ],
+    "books": [
+      "Be You. Become Her.",
+      "The Mentored Life",
+      "Quiet Strength: A Woman&rsquo;s Handbook for the Long Haul"
+    ],
+    "links": [
+      { "label": "Instagram", "href": "https://instagram.com/janeevans" },
+      { "label": "bU Women", "href": "/women" }
+    ]
+  }
+]

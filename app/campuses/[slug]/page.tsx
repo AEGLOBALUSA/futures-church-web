@@ -4,14 +4,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, MapPin, Instagram, Facebook } from "lucide-react";
 import { campuses, type CampusRegion } from "@/lib/content/campuses";
-import { CAMPUS_PHOTOS } from "../CampusesMap";
+import { CAMPUS_PHOTOS, CAMPUS_GALLERY } from "../CampusesMap";
+import campusPastorsData from "@/content/leaders/campus-pastors.json";
 import { EmailCapture } from "@/components/ui/EmailCapture";
+import { CampusAIPanel } from "./CampusAIPanel";
+import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 
 const REGION_LABEL: Record<CampusRegion, string> = {
   australia: "Australia",
   usa: "United States",
   indonesia: "Indonesia",
-  venezuela: "Venezuela",
+  "south-america": "Venezuela",
+  brazil: "Brazil",
   global: "Online",
 };
 
@@ -19,7 +23,8 @@ const REGION_TONE: Record<CampusRegion, string> = {
   australia: "#C8906B",
   usa: "#AC9B25",
   indonesia: "#C45236",
-  venezuela: "#8A5A3C",
+  "south-america": "#8A5A3C",
+  brazil: "#4A7C59",
   global: "#D9B089",
 };
 
@@ -76,9 +81,13 @@ export default async function CampusPage({
   const isOnline = campus.status === "online";
   const tone = REGION_TONE[campus.region];
   const photo = CAMPUS_PHOTOS[campus.slug];
+  const gallery = CAMPUS_GALLERY[campus.slug] ?? [];
   const nearby = campuses
     .filter((c) => c.region === campus.region && c.slug !== campus.slug)
     .slice(0, 4);
+
+  const campusPastorEntry = (campusPastorsData as Array<{ slug: string; pastors: Array<{ name: string; role: string; photo: string; placeholder: boolean }> }>).find(c => c.slug === slug);
+  const realPastors = campusPastorEntry?.pastors.filter(p => !p.placeholder) ?? [];
 
   return (
     <main className="bg-[#FDFBF6] text-[#1C1A17] selection:bg-[#C8906B] selection:text-[#FDFBF6]">
@@ -244,6 +253,94 @@ export default async function CampusPage({
         </div>
       </section>
 
+      {realPastors.length > 0 && (
+        <section className="px-6 py-16 sm:px-10 lg:px-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="flex items-baseline gap-3">
+              <span
+                aria-hidden
+                className="inline-block h-2 w-2 rounded-full"
+                style={{ background: tone }}
+              />
+              <p
+                className="font-sans"
+                style={{
+                  color: "#534D44",
+                  fontSize: 11,
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Led by
+              </p>
+            </div>
+
+            <div
+              className={`mt-8 grid grid-cols-1 gap-4 ${
+                realPastors.length > 1 ? "sm:grid-cols-2" : "sm:max-w-sm"
+              }`}
+            >
+              {realPastors.map((p) => (
+                <div
+                  key={p.name}
+                  className="group relative overflow-hidden rounded-[22px]"
+                  style={{
+                    aspectRatio: "3/4",
+                    background: tone,
+                    boxShadow: "0 32px 64px -28px rgba(20,18,15,0.38)",
+                  }}
+                >
+                  <Image
+                    src={p.photo}
+                    alt={p.name}
+                    fill
+                    className="object-cover object-center transition-transform duration-[2000ms] ease-out group-hover:scale-[1.04]"
+                    unoptimized
+                    sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 40vw"
+                  />
+                  <div
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{ background: tone, mixBlendMode: "soft-light", opacity: 0.16 }}
+                  />
+                  <div
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, transparent 38%, rgba(18,16,13,0.92) 100%)",
+                    }}
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-8">
+                    <p
+                      className="font-display italic text-[#FDFBF6]"
+                      style={{
+                        fontSize: "clamp(1.6rem, 3.5vw, 2.25rem)",
+                        fontWeight: 300,
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      {p.name}
+                    </p>
+                    <p
+                      className="mt-2 font-sans"
+                      style={{
+                        color: "rgba(253,251,246,0.6)",
+                        fontSize: 11,
+                        letterSpacing: "0.26em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {p.role}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {isLaunching && (
         <section className="px-6 py-16 sm:px-10 lg:px-16">
           <div
@@ -380,6 +477,223 @@ export default async function CampusPage({
                 Open in Maps →
               </a>
             </div>
+          </div>
+        </section>
+      )}
+
+      {!isLaunching && !isOnline && gallery.length > 0 && (
+        <section className="px-6 py-20 sm:px-10 lg:px-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="flex items-baseline gap-3">
+              <span
+                aria-hidden
+                className="inline-block h-2 w-2 rounded-full"
+                style={{ background: tone }}
+              />
+              <p
+                className="font-sans"
+                style={{
+                  color: "#534D44",
+                  fontSize: 11,
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Through the lens · {campus.name}
+              </p>
+            </div>
+            <h2
+              className="mt-3 max-w-[24ch] font-display"
+              style={{
+                color: "#1C1A17",
+                fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
+                lineHeight: 1.05,
+                fontWeight: 300,
+              }}
+            >
+              Real Sundays, real people.
+            </h2>
+
+            <div
+              className="mt-10 grid grid-cols-12 gap-3 sm:gap-4"
+              style={{ gridAutoRows: "clamp(130px, 13vw, 200px)" }}
+            >
+              {gallery.slice(0, 8).map((src, i) => {
+                // Asymmetric layout — 8-tile pattern: 1 tall left, then a 3-up
+                // row, then 2 wide, then a final 2-up row.
+                const layout = [
+                  "col-span-6 sm:col-span-5 row-span-2", // 0 tall
+                  "col-span-6 sm:col-span-4",            // 1
+                  "col-span-6 sm:col-span-3",            // 2
+                  "col-span-6 sm:col-span-4",            // 3
+                  "col-span-6 sm:col-span-7",            // 4 wide
+                  "col-span-6 sm:col-span-5",            // 5
+                  "col-span-6 sm:col-span-6",            // 6
+                  "col-span-6 sm:col-span-6",            // 7
+                ];
+                return (
+                  <figure
+                    key={src}
+                    className={`group relative overflow-hidden rounded-[14px] ${layout[i] ?? "col-span-6 sm:col-span-4"}`}
+                    style={{
+                      background: "#E8DFD3",
+                      boxShadow: "0 14px 32px -22px rgba(20,20,20,0.35)",
+                    }}
+                  >
+                    <Image
+                      src={src}
+                      alt={`${campus.name} — Futures ${campus.city}`}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      className="object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
+                      unoptimized
+                      loading="lazy"
+                    />
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 mix-blend-soft-light"
+                      style={{ background: tone, opacity: 0.12 }}
+                    />
+                  </figure>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <CampusAIPanel
+        campusName={campus.name}
+        city={campus.city}
+        leadPastors={campus.leadPastors}
+        isLaunching={isLaunching}
+        isOnline={isOnline}
+        brand={campus.brand}
+        spanish={campus.spanish}
+      />
+
+      {!isLaunching && !isOnline && (
+        <section className="px-6 py-16 sm:px-10 lg:px-16">
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-start">
+            <ValueExchangeForm
+              offer={`Get a text from the ${campus.city} team the day before you visit.`}
+              proofPoints={[
+                "A real pastor, not a bot",
+                "They'll save you a seat",
+                "Unsubscribe any time",
+              ]}
+              fields={["email", "phone"]}
+              cta={`Save my seat at ${campus.name}`}
+              outcome={
+                campus.leadPastors
+                  ? `${campus.leadPastors.split(" & ")[0]} will text you on Saturday.`
+                  : `The ${campus.city} team will text you on Saturday.`
+              }
+              source={`campus-visit-${campus.slug}`}
+            />
+            <div>
+              <p
+                className="font-sans"
+                style={{
+                  color: "#534D44",
+                  fontSize: 11,
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                }}
+              >
+                More at {campus.name}
+              </p>
+              <h3
+                className="mt-3 font-display"
+                style={{
+                  color: "#1C1A17",
+                  fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                  lineHeight: 1.1,
+                  fontWeight: 300,
+                }}
+              >
+                One campus, one family, lots of ways in.
+              </h3>
+              <ul className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                {[
+                  { href: `/plan-a-visit?campus=${campus.slug}`, label: "Plan a visit" },
+                  { href: `/watch?campus=${campus.slug}`, label: `Watch sermons from ${campus.name}` },
+                  { href: `/leaders#${campus.slug}`, label: `Meet the ${campus.name} pastors` },
+                  { href: `/kids#campus-${campus.slug}`, label: `Kids at ${campus.name}` },
+                  { href: `/dreamers#campus-${campus.slug}`, label: `Dreamers at ${campus.name}` },
+                  { href: `/women#campus-${campus.slug}`, label: `bU Women at ${campus.name}` },
+                  { href: `/give?campus=${campus.slug}&designation=tithe`, label: `Give to ${campus.name}` },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="group flex items-center justify-between rounded-2xl px-4 py-3 font-sans transition-colors hover:bg-[#FFFDF8]"
+                      style={{
+                        border: "1px solid rgba(28,26,23,0.08)",
+                        color: "#1C1A17",
+                        fontSize: 14,
+                      }}
+                    >
+                      <span>{link.label}</span>
+                      <span
+                        aria-hidden
+                        className="transition-transform duration-300 group-hover:translate-x-0.5"
+                        style={{ color: tone }}
+                      >
+                        →
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {(isLaunching || isOnline) && (
+        <section className="px-6 pb-16 sm:px-10 lg:px-16">
+          <div className="mx-auto max-w-3xl">
+            <p
+              className="font-sans"
+              style={{
+                color: "#534D44",
+                fontSize: 11,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+              }}
+            >
+              Still part of the family
+            </p>
+            <ul className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+              {[
+                { href: `/watch?campus=${campus.slug}`, label: "Watch a service" },
+                { href: `/leaders`, label: "Meet our pastors" },
+                { href: `/give?campus=${campus.slug}`, label: `Give to ${campus.name}` },
+                { href: `/plan-a-visit?campus=${campus.slug}`, label: "Visit another Futures campus" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="group flex items-center justify-between rounded-2xl px-4 py-3 font-sans transition-colors hover:bg-[#FFFDF8]"
+                    style={{
+                      border: "1px solid rgba(28,26,23,0.08)",
+                      color: "#1C1A17",
+                      fontSize: 14,
+                    }}
+                  >
+                    <span>{link.label}</span>
+                    <span
+                      aria-hidden
+                      className="transition-transform duration-300 group-hover:translate-x-0.5"
+                      style={{ color: tone }}
+                    >
+                      →
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       )}

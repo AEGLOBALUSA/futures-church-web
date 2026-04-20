@@ -1,0 +1,211 @@
+{
+  "hero": {
+    "eyebrow": "FUTURES LEADERSHIP COLLEGE",
+    "headline": "Outthink. Outbuild. Outlead.",
+    "sub": "One year that changes everything. Three streams. Eight subjects. Three electives.",
+    "facts": [
+      { "value": "25", "label": "Churches" },
+      { "value": "5",  "label": "Countries" },
+      { "value": "18", "label": "Campuses" },
+      { "value": "1",  "label": "Year" }
+    ],
+    "accreditation": {
+      "label": "Accredited Partner",
+      "name": "Alphacrucis College",
+      "logo": "https://futures.college/wp-content/uploads/2025/11/alphacrusis-logo.png"
+    }
+  },
+  "hook": {
+    "eyebrow": "FREE SESSIONS",
+    "headline": "Once you see the next step, you can&rsquo;t unsee it.",
+    "sub": "Three teachings from the College faculty. Free. No commitment.",
+    "sessions": [
+      {
+        "title": "What&rsquo;s Wrong with the Church",
+        "length": "25 min",
+        "thumb": "https://vumbnail.com/1070174300.jpg",
+        "vimeo": "1070174300"
+      },
+      {
+        "title": "The Grace &amp; Favor Revolution",
+        "length": "28 min",
+        "thumb": "https://vumbnail.com/1172978151.jpg",
+        "vimeo": "1172978151"
+      },
+      {
+        "title": "Multiply or Die",
+        "length": "22 min",
+        "thumb": "https://vumbnail.com/1109533469.jpg",
+        "vimeo": "1109533469"
+      }
+    ]
+  },
+  "whyNow": {
+    "eyebrow": "WHY NOW",
+    "headline": "The Church must lead the change &mdash; not react to it.",
+    "stat": {
+      "value": "70% &rarr; 47%",
+      "label": "U.S. church attendance (Gallup, 2024)"
+    },
+    "image": "https://futures.college/wp-content/uploads/2025/11/brown-person-wearing-glasses-outdoor-looking-at-sky.jpg",
+    "body": "A generation is searching for something real. This is not a moment to shrink back. It is a moment to outthink, outbuild, and outlead &mdash; with theology that holds and skill that ships."
+  },
+  "streams": [
+    {
+      "slug": "audit",
+      "title": "Audit",
+      "hours": "~96 hrs / year",
+      "pitch": "Learn without assessment. Sit under every lecture, every subject, no exams.",
+      "for": "The curious believer. The working professional. The parent back for a second chapter.",
+      "cta": { "label": "Enquire", "href": "#apply" }
+    },
+    {
+      "slug": "academic",
+      "title": "Academic",
+      "hours": "~192 hrs / year",
+      "pitch": "Degree-level credit. Accredited through our partnership with Alphacrucis College.",
+      "for": "The student who wants the paper, the rigour, and the lifelong qualification.",
+      "cta": { "label": "Apply", "href": "#apply" }
+    },
+    {
+      "slug": "internship",
+      "title": "Internship",
+      "hours": "~480 hrs / year",
+      "pitch": "Hands-on placement alongside a senior pastor. The classroom is the campus.",
+      "for": "The called leader. Already sure. Wants to be sharpened, sent, and surrounded.",
+      "cta": { "label": "Connect", "href": "#apply" }
+    }
+  ],
+  "programme": {
+    "eyebrow": "YEAR ONE PROGRAMME",
+    "headline": "Eight subjects. Three electives. One sending.",
+    "core": [
+      { "n": "01", "title": "What&rsquo;s Wrong with the Church",               "tagline": "Diagnose clearly. Build honestly." },
+      { "n": "02", "title": "The Grace &amp; Favor Revolution",                  "tagline": "The gospel as power, not performance." },
+      { "n": "03", "title": "Multiply or Die",                                    "tagline": "Why every campus must plant a campus." },
+      { "n": "04", "title": "New Testament Survey &amp; Birth of the Church",    "tagline": "Walk the first century like an insider." },
+      { "n": "05", "title": "Applied Theology",                                   "tagline": "From the text to the team meeting." },
+      { "n": "06", "title": "Building High-Performing Teams",                     "tagline": "Culture, clarity, and commissioning." },
+      { "n": "07", "title": "AI for Leaders: Multiply Your Impact Daily",        "tagline": "Tools that give you hours back, every week." },
+      { "n": "08", "title": "Choose Your Elective",                               "tagline": "One deep dive. Pick the track that fits your calling." }
+    ],
+    "electives": [
+      { "title": "Kids Ministry",    "blurb": "Discipleship that starts early and sticks." },
+      { "title": "Youth Ministry",   "blurb": "A generation worth fighting for, led well." },
+      { "title": "Worship",          "blurb": "Songs, sound, stage &mdash; a room that meets Jesus." }
+    ],
+    "outcomes": [
+      "Lead a team or ministry by graduation.",
+      "Publish and preach a full series.",
+      "Ship a real project with a real P&amp;L or portfolio.",
+      "Graduate sent &mdash; not just credentialed."
+    ],
+    "yearTwoNote": "Year Two is available for deeper study and specialisation."
+  },
+  "faculty": [
+    {
+      "name": "Ashley Evans",
+      "discipline": "Senior Pastor · Founder",
+      "bio": "Global Senior Pastor of Futures Church. 26 years of pastoral leadership across 4 countries.",
+      "photo": "https://res.cloudinary.com/thechurchcoproduction/image/fetch/f_auto,q_80,w_1200/https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/03/Ps-A-J.png"
+    },
+    {
+      "name": "Jane Evans",
+      "discipline": "College President",
+      "bio": "Founder of bU Women. 20 years mentoring emerging female leaders across the globe.",
+      "photo": "https://res.cloudinary.com/thechurchcoproduction/image/fetch/f_auto,q_80,w_1200/https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/03/Ps-A-J.png"
+    },
+    {
+      "name": "Andy Smith",
+      "discipline": "Campus Pastor · Atlanta",
+      "bio": "Pastoral leader and teacher. Anchors the Atlanta campus and the Internship stream.",
+      "photo": "https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/04/Ps-Andy-800x800.png"
+    },
+    {
+      "name": "Alexis Principal",
+      "discipline": "Campus Director · Atlanta",
+      "bio": "Leads campus operations, student life, and internship placement in Atlanta.",
+      "photo": "https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2024/04/ps-alexis-800x800.png"
+    },
+    {
+      "name": "Jacob Collins",
+      "discipline": "College Director · Atlanta",
+      "bio": "Academic director for the Atlanta cohort. Oversees curriculum delivery and student progression.",
+      "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=75&auto=format&fit=crop"
+    },
+    {
+      "name": "David Begley",
+      "discipline": "Dean of College · Adelaide",
+      "bio": "Dean of the Adelaide campus. Pastoral theologian and long-time teacher of emerging leaders.",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=75&auto=format&fit=crop"
+    }
+  ],
+  "experience": [
+    { "t": "06:30", "label": "Morning prayer + liturgy at the chapel" },
+    { "t": "09:00", "label": "Lecture &mdash; theology, ethics, or craft" },
+    { "t": "12:00", "label": "Community lunch with faculty + students" },
+    { "t": "14:00", "label": "Practicum &mdash; embedded in a Futures campus" },
+    { "t": "17:00", "label": "Seminar + small-group discipleship" },
+    { "t": "19:30", "label": "Evening worship + fellowship" }
+  ],
+  "outcomes": {
+    "stats": [
+      { "label": "Placement rate",       "value": "94%" },
+      { "label": "Avg. time-to-role",    "value": "60 days" },
+      { "label": "Scholarships to date", "value": "$2.4M" }
+    ],
+    "alumni": [
+      { "name": "Jordan Mitchell",  "now": "Campus pastor · Alpharetta",              "quote": "I came in thinking I&rsquo;d take a gap year. I left knowing exactly who I was called to be." },
+      { "name": "Rachel Torres",    "now": "Worship director · Adelaide",             "quote": "The teaching was honest. The practicum was real. I walked in a student and walked out a leader." },
+      { "name": "Marcus Williams",  "now": "Youth pastor · Duluth",                   "quote": "My mentors still pick up the phone. That&rsquo;s the difference." },
+      { "name": "Emma Chen",        "now": "Founder &mdash; faith-driven studio",      "quote": "They treated Jesus seriously and enterprise seriously." }
+    ]
+  },
+  "tuition": {
+    "year1": 14800,
+    "year2": 15400,
+    "currency": "USD",
+    "notes": [
+      "Need-based scholarships cover up to 60% of tuition for qualifying students.",
+      "Merit-based scholarships available for top applicants (up to 40%).",
+      "Employer / campus-sponsored pathway: your sending church can cover 25–100%.",
+      "Interest-free payment plans up to 24 months.",
+      "Typical out-of-pocket after aid: $6,800 / year."
+    ]
+  },
+  "enrollment": {
+    "eyebrow": "THE CLOCK IS TICKING",
+    "headline": "Enrollment closes July 15, 2026.",
+    "earlyBird": "2026-05-29",
+    "close": "2026-07-15",
+    "sub": "Early-bird tuition locks in before May 29. Final enrollment closes July 15."
+  },
+  "online": {
+    "eyebrow": "CAN&rsquo;T MAKE IT IN PERSON?",
+    "headline": "Futures Online &mdash; the full programme, self-paced.",
+    "includes": [
+      "All 8 subject video lectures",
+      "3 elective deep dives",
+      "Full notes + reading lists",
+      "Community access"
+    ],
+    "excludes": [
+      "No accreditation",
+      "No internship placement",
+      "No live campus"
+    ],
+    "launch": "Launching 2026",
+    "cta": { "label": "Join the waitlist", "href": "#online-waitlist" }
+  },
+  "faq": [
+    { "q": "How long is the programme?",                       "a": "One year for the core programme. Year Two is optional for students pursuing deeper study or specialisation." },
+    { "q": "When does it start?",                              "a": "The 2026 cohort begins September 2026. Early-bird enrollment closes May 29, 2026. Final enrollment closes July 15, 2026." },
+    { "q": "Is it accredited?",                                "a": "Yes &mdash; through our partnership with Alphacrucis College, the Academic stream carries degree-level credit." },
+    { "q": "What&rsquo;s the difference between the streams?", "a": "Audit (~96 hrs) is lecture-only, no assessment. Academic (~192 hrs) is accredited, with full assessment. Internship (~480 hrs) adds a hands-on placement under a senior pastor." },
+    { "q": "Where are the campuses?",                          "a": "Atlanta (USA) and Adelaide (Australia), with online cohorts serving students worldwide." },
+    { "q": "How much time per week?",                          "a": "Audit: ~2 hrs/week. Academic: ~4 hrs/week. Internship: ~10 hrs/week including on-campus placement." },
+    { "q": "Why AI in the curriculum?",                        "a": "Because the leaders who learn to use AI well will get hours back every week &mdash; and lead further, faster. Subject 07 makes it practical." },
+    { "q": "What are the prerequisites?",                      "a": "A high-school diploma (or equivalent) and a posture of teachability. We interview every applicant." },
+    { "q": "How much does it cost?",                           "a": "Year One is $14,800 USD. Need-based and merit-based scholarships cover up to 60%. Typical out-of-pocket after aid is ~$6,800/year." }
+  ]
+}

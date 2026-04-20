@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "purpose": "Three honest first-timer fears, answered honestly. Rendered in VisitFears component on /plan-a-visit after the user picks a campus. Copy is editable here without code changes.",
+    "voice": "Warm. Pastoral. No church-industry jargon. Short. Never defensive. If the fear is real, name it; if the fear is unfounded, gently disarm it.",
+    "length": "Each 'honest' field: 2–4 short sentences max. No paragraphs over 60 words.",
+    "tone": "Never start with 'Don't worry' or 'Actually'. Lead with empathy."
+  },
+  "fears": [
+    {
+      "id": "alone",
+      "heading": "I don't want to come alone.",
+      "honest": "Most first-timers walk in alone. You won't be the only one. A host meets you at the door, shows you where to sit, and — if you want — sits with you. No pressure, no announcement, no being asked to stand up.",
+      "followup": "If you'd rather a host know you're coming so they can find you, tick that on step 3 and we'll quietly give them a heads-up."
+    },
+    {
+      "id": "not-religious",
+      "heading": "I'm not religious. I'd feel out of place.",
+      "honest": "A lot of the room didn't grow up in church either. We don't do guilt, jargon, or a script you have to know. You can sing, not sing, sit at the back, leave early. Whatever you need to be honest about where you are.",
+      "followup": "If you'd like, Ezra can tell you what a Sunday actually sounds like — word for word, no softening."
+    },
+    {
+      "id": "only-one",
+      "heading": "I'll be the only one who looks like me.",
+      "honest": "Futures is 21 campuses across 4 countries — Australian, American, Indonesian, Venezuelan, Spanish-speaking, English-speaking, young, old, single, family, every shade. At most campuses the room is genuinely mixed. At a few smaller ones it's less so — and we'll tell you the truth about that if you ask.",
+      "followup": "Ask Ezra about your specific campus and he'll describe the room honestly — not the brochure version."
+    }
+  ]
+}

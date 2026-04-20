@@ -11,38 +11,239 @@ const REGIONS: { key: CampusRegion; label: string; tone: string }[] = [
   { key: "australia", label: "Australia", tone: "#C8906B" },
   { key: "usa", label: "United States", tone: "#AC9B25" },
   { key: "indonesia", label: "Indonesia", tone: "#C45236" },
-  { key: "venezuela", label: "Venezuela · coming soon", tone: "#8A5A3C" },
+  { key: "south-america", label: "South America \u00b7 launching", tone: "#8A5A3C" },
   { key: "global", label: "Online", tone: "#D9B089" },
 ];
 
-// City photo library — swap for real Futures photos as they land.
-// Keyed by campus slug; fallback by region if missing.
+// City photo library — real Futures photography, resized & served from /public/photos.
+// One curated hero per campus. Indonesian campuses without dedicated coverage reuse
+// the Cemani/Solo pool; Venezuelan launching campuses reuse the Futuros pool.
 export const CAMPUS_PHOTOS: Record<string, string> = {
-  paradise: "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1200&q=75&auto=format&fit=crop",
-  "adelaide-city": "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1200&q=75&auto=format&fit=crop",
-  south: "https://images.unsplash.com/photo-1541753236788-b0ac1fc5009d?w=1200&q=75&auto=format&fit=crop",
-  "clare-valley": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=75&auto=format&fit=crop",
-  salisbury: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=1200&q=75&auto=format&fit=crop",
-  "mount-barker": "https://images.unsplash.com/photo-1496564203457-11bb12075d90?w=1200&q=75&auto=format&fit=crop",
-  "victor-harbor": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=75&auto=format&fit=crop",
-  "copper-coast": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1200&q=75&auto=format&fit=crop",
-  online: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1200&q=75&auto=format&fit=crop",
-  gwinnett: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&q=75&auto=format&fit=crop",
-  kennesaw: "https://images.unsplash.com/photo-1519642918688-7e43b19245d8?w=1200&q=75&auto=format&fit=crop",
-  alpharetta: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=1200&q=75&auto=format&fit=crop",
-  franklin: "https://images.unsplash.com/photo-1508515053963-70c7cc39dfb5?w=1200&q=75&auto=format&fit=crop",
-  cemani: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=1200&q=75&auto=format&fit=crop",
-  solo: "https://images.unsplash.com/photo-1555899434-94d1368aa7af?w=1200&q=75&auto=format&fit=crop",
-  samarinda: "https://images.unsplash.com/photo-1601823984263-b87b59798b70?w=1200&q=75&auto=format&fit=crop",
-  langowan: "https://images.unsplash.com/photo-1518181835702-6eef8b4b2113?w=1200&q=75&auto=format&fit=crop",
-  bali: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=75&auto=format&fit=crop",
-  "futuros-duluth": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&q=75&auto=format&fit=crop",
-  "futuros-kennesaw": "https://images.unsplash.com/photo-1519642918688-7e43b19245d8?w=1200&q=75&auto=format&fit=crop",
-  "futuros-grayson": "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=1200&q=75&auto=format&fit=crop",
-  "futuros-caracas": "https://images.unsplash.com/photo-1504198266287-1659872e6590?w=1200&q=75&auto=format&fit=crop",
-  "futuros-maracaibo": "https://images.unsplash.com/photo-1552960562-daf630e9278b?w=1200&q=75&auto=format&fit=crop",
-  "futuros-valencia": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=75&auto=format&fit=crop",
-  "futuros-barquisimeto": "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=75&auto=format&fit=crop",
+  // Australia — South Australia
+  paradise:         "/photos/campuses/paradise.jpg",
+  "adelaide-city":  "/photos/campuses/city_1.jpg",
+  south:            "/photos/campuses/south.jpg",
+  "clare-valley":   "/photos/campuses/clare.jpg",
+  salisbury:        "/photos/campuses/salisbury.jpg",
+  "mount-barker":   "/photos/campuses/mtbarker.jpg",
+  "victor-harbor":  "/photos/campuses/victorharbor.jpg",
+  "copper-coast":   "/photos/campuses/kadina.jpg", // Kadina = Copper Coast
+
+  // Online — use a warm lifestyle hero shot
+  online:           "/photos/campuses/city_2.jpg",
+
+  // USA — Futures English (Atlanta metro + Nashville)
+  gwinnett:         "/photos/campuses/gwinnett.jpg",
+  kennesaw:         "/photos/campuses/kennesaw.jpg",
+  alpharetta:       "/photos/campuses/alpharetta.jpg",
+  franklin:         "/photos/campuses/franklin.jpg",
+
+  // Indonesia — Cemani + Solo have dedicated folders; others pull from the pool
+  cemani:           "/photos/campuses/cemani.jpg",
+  solo:             "/photos/campuses/solo.jpg",
+  samarinda:        "/photos/campuses/cemani_2.jpg",
+  langowan:         "/photos/campuses/cemani_3.jpg",
+  bali:             "/photos/campuses/solo_2.jpg",
+
+  // Futuros — Spanish-speaking (USA + Venezuela)
+  "futuros-duluth":       "/photos/campuses/futuros.jpg",
+  "futuros-kennesaw":     "/photos/campuses/futuros_2.jpg",
+  "futuros-grayson":      "/photos/campuses/futuros_3.jpg",
+  "futuros-caracas":      "/photos/campuses/futuros_4.jpg",
+  "futuros-maracaibo":    "/photos/campuses/futuros_5.jpg",
+  "futuros-valencia":     "/photos/campuses/futuros_6.jpg",
+  "futuros-barquisimeto": "/photos/campuses/futuros_7.jpg",
+};
+
+// Gallery: ordered list of supplementary photos for a campus detail page.
+// Excludes the hero already shown via CAMPUS_PHOTOS. Up to 8 images per slug.
+// Slugs without dedicated folders borrow from their regional pool.
+export const CAMPUS_GALLERY: Record<string, string[]> = {
+  // Australia
+  paradise: [
+    "/photos/campuses/paradise_2.jpg",
+    "/photos/campuses/paradise_3.jpg",
+    "/photos/campuses/paradise_4.jpg",
+    "/photos/campuses/paradise_5.jpg",
+    "/photos/campuses/paradise_6.jpg",
+    "/photos/campuses/paradise_7.jpg",
+    "/photos/campuses/paradise_8.jpg",
+    "/photos/campuses/paradise_9.jpg",
+  ],
+  "adelaide-city": [
+    "/photos/campuses/city_2.jpg",
+    "/photos/campuses/city_3.jpg",
+    "/photos/campuses/city_4.jpg",
+    "/photos/campuses/city_5.jpg",
+  ],
+  south: [
+    "/photos/campuses/south_2.jpg",
+    "/photos/campuses/south_3.jpg",
+    "/photos/campuses/south_4.jpg",
+    "/photos/campuses/south_5.jpg",
+    "/photos/campuses/south_6.jpg",
+    "/photos/campuses/south_7.jpg",
+    "/photos/campuses/south_8.jpg",
+    "/photos/campuses/south_9.jpg",
+  ],
+  "clare-valley": [
+    "/photos/campuses/clare_2.jpg",
+    "/photos/campuses/clare_3.jpg",
+    "/photos/campuses/clare_4.jpg",
+    "/photos/campuses/clare_5.jpg",
+    "/photos/campuses/clare_6.jpg",
+    "/photos/campuses/clare_7.jpg",
+  ],
+  salisbury: [
+    "/photos/campuses/salisbury_2.jpg",
+    "/photos/campuses/salisbury_3.jpg",
+    "/photos/campuses/salisbury_4.jpg",
+    "/photos/campuses/salisbury_5.jpg",
+    "/photos/campuses/salisbury_6.jpg",
+    "/photos/campuses/salisbury_7.jpg",
+  ],
+  "mount-barker": [
+    "/photos/campuses/mtbarker_2.jpg",
+    "/photos/campuses/mtbarker_3.jpg",
+    "/photos/campuses/mtbarker_4.jpg",
+    "/photos/campuses/mtbarker_5.jpg",
+    "/photos/campuses/mtbarker_6.jpg",
+    "/photos/campuses/mtbarker_7.jpg",
+    "/photos/campuses/mtbarker_8.jpg",
+    "/photos/campuses/mtbarker_9.jpg",
+  ],
+  "victor-harbor": [
+    "/photos/campuses/victorharbor_2.jpg",
+    "/photos/campuses/victorharbor_3.jpg",
+    "/photos/campuses/victorharbor_4.jpg",
+    "/photos/campuses/victorharbor_5.jpg",
+    "/photos/campuses/victorharbor_6.jpg",
+    "/photos/campuses/victorharbor_7.jpg",
+  ],
+  "copper-coast": [
+    "/photos/campuses/kadina_2.jpg",
+    "/photos/campuses/kadina_3.jpg",
+    "/photos/campuses/kadina_4.jpg",
+    "/photos/campuses/kadina_5.jpg",
+    "/photos/campuses/kadina_6.jpg",
+    "/photos/campuses/kadina_7.jpg",
+    "/photos/campuses/kadina_8.jpg",
+    "/photos/campuses/kadina_9.jpg",
+  ],
+  // USA
+  gwinnett: [
+    "/photos/campuses/gwinnett_2.jpg",
+    "/photos/campuses/gwinnett_3.jpg",
+    "/photos/campuses/gwinnett_4.jpg",
+    "/photos/campuses/gwinnett_5.jpg",
+    "/photos/campuses/gwinnett_6.jpg",
+  ],
+  kennesaw: [
+    "/photos/campuses/kennesaw_2.jpg",
+    "/photos/campuses/kennesaw_3.jpg",
+    "/photos/campuses/kennesaw_4.jpg",
+    "/photos/campuses/kennesaw_5.jpg",
+  ],
+  alpharetta: [
+    "/photos/campuses/alpharetta_2.jpg",
+    "/photos/campuses/alpharetta_3.jpg",
+    "/photos/campuses/alpharetta_4.jpg",
+    "/photos/campuses/alpharetta_5.jpg",
+    "/photos/campuses/alpharetta_6.jpg",
+    "/photos/campuses/alpharetta_7.jpg",
+  ],
+  franklin: [
+    "/photos/campuses/franklin_2.jpg",
+    "/photos/campuses/franklin_3.jpg",
+    "/photos/campuses/franklin_4.jpg",
+    "/photos/campuses/franklin_5.jpg",
+    "/photos/campuses/franklin_6.jpg",
+    "/photos/campuses/franklin_7.jpg",
+    "/photos/campuses/franklin_8.jpg",
+    "/photos/campuses/franklin_9.jpg",
+  ],
+  // Indonesia
+  cemani: [
+    "/photos/campuses/cemani_2.jpg",
+    "/photos/campuses/cemani_3.jpg",
+    "/photos/campuses/cemani_4.jpg",
+    "/photos/campuses/cemani_5.jpg",
+    "/photos/campuses/cemani_6.jpg",
+    "/photos/campuses/cemani_7.jpg",
+  ],
+  solo: [
+    "/photos/campuses/solo_2.jpg",
+    "/photos/campuses/solo_3.jpg",
+    "/photos/campuses/solo_4.jpg",
+    "/photos/campuses/solo_5.jpg",
+    "/photos/campuses/solo_6.jpg",
+    "/photos/campuses/solo_7.jpg",
+  ],
+  samarinda: [
+    "/photos/campuses/cemani_3.jpg",
+    "/photos/campuses/cemani_4.jpg",
+    "/photos/campuses/cemani_5.jpg",
+    "/photos/campuses/cemani_6.jpg",
+  ],
+  langowan: [
+    "/photos/campuses/cemani_4.jpg",
+    "/photos/campuses/cemani_5.jpg",
+    "/photos/campuses/cemani_6.jpg",
+    "/photos/campuses/cemani_7.jpg",
+  ],
+  bali: [
+    "/photos/campuses/solo_3.jpg",
+    "/photos/campuses/solo_4.jpg",
+    "/photos/campuses/solo_5.jpg",
+    "/photos/campuses/solo_6.jpg",
+  ],
+  // Futuros
+  "futuros-duluth": [
+    "/photos/campuses/futuros_2.jpg",
+    "/photos/campuses/futuros_3.jpg",
+    "/photos/campuses/futuros_4.jpg",
+    "/photos/campuses/futuros_5.jpg",
+    "/photos/campuses/futuros_6.jpg",
+    "/photos/campuses/futuros_7.jpg",
+    "/photos/campuses/futuros_8.jpg",
+    "/photos/campuses/futuros_9.jpg",
+  ],
+  "futuros-kennesaw": [
+    "/photos/campuses/futuros_3.jpg",
+    "/photos/campuses/futuros_4.jpg",
+    "/photos/campuses/futuros_5.jpg",
+    "/photos/campuses/futuros_6.jpg",
+  ],
+  "futuros-grayson": [
+    "/photos/campuses/futuros_4.jpg",
+    "/photos/campuses/futuros_5.jpg",
+    "/photos/campuses/futuros_6.jpg",
+    "/photos/campuses/futuros_7.jpg",
+  ],
+  "futuros-caracas": [
+    "/photos/campuses/futuros_5.jpg",
+    "/photos/campuses/futuros_6.jpg",
+    "/photos/campuses/futuros_7.jpg",
+    "/photos/campuses/futuros_8.jpg",
+  ],
+  "futuros-maracaibo": [
+    "/photos/campuses/futuros_6.jpg",
+    "/photos/campuses/futuros_7.jpg",
+    "/photos/campuses/futuros_8.jpg",
+    "/photos/campuses/futuros_9.jpg",
+  ],
+  "futuros-valencia": [
+    "/photos/campuses/futuros_7.jpg",
+    "/photos/campuses/futuros_8.jpg",
+    "/photos/campuses/futuros_9.jpg",
+    "/photos/campuses/futuros_10.jpg",
+  ],
+  "futuros-barquisimeto": [
+    "/photos/campuses/futuros_8.jpg",
+    "/photos/campuses/futuros_9.jpg",
+    "/photos/campuses/futuros_10.jpg",
+    "/photos/campuses/futuros_2.jpg",
+  ],
 };
 
 export function CampusesMap() {
@@ -129,7 +330,7 @@ export function CampusesMap() {
         <div className="mt-10 space-y-14">
           {totalMatches === 0 && (
             <p className="font-display italic" style={{ color: "#534D44", fontSize: 18 }}>
-              Nothing matched &ldquo;{query}&rdquo; — try a city, a country, or ask our guide above.
+              Nothing matched &ldquo;{query}&rdquo; — try a city, a country, or ask Ezra above.
             </p>
           )}
           {REGIONS.map((r) => {
@@ -169,10 +370,10 @@ export function CampusesMap() {
                         href={`/campuses/${c.slug}`}
                         className="group relative block overflow-hidden rounded-[18px] transition-all duration-500"
                         style={{
-                          background: "rgba(255,255,255,0.72)",
-                          border: "1px solid rgba(20,20,20,0.06)",
-                          boxShadow: "0 1px 0 rgba(255,255,255,0.8) inset",
-                          opacity: launching ? 0.65 : 1,
+                          background: r.tone,
+                          border: "1px solid rgba(20,20,20,0.08)",
+                          boxShadow: "0 14px 32px -20px rgba(20,20,20,0.3)",
+                          opacity: launching ? 0.88 : 1,
                           aspectRatio: "4 / 5",
                         }}
                       >
@@ -185,23 +386,21 @@ export function CampusesMap() {
                               fill
                               sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 25vw"
                               className="object-cover transition-all duration-[900ms] ease-out group-hover:scale-110"
-                              style={{
-                                filter: "saturate(0.85) brightness(0.92)",
-                              }}
                               unoptimized
                             />
+                            {/* Region tone wash — keeps family cohesion across photo sources */}
                             <div
                               aria-hidden
-                              className="absolute inset-0 mix-blend-soft-light transition-opacity duration-700"
-                              style={{ background: r.tone, opacity: 0.35 }}
+                              className="absolute inset-0 mix-blend-soft-light"
+                              style={{ background: r.tone, opacity: 0.22 }}
                             />
+                            {/* Bottom ink gradient for text legibility — photo stays visible */}
                             <div
                               aria-hidden
-                              className="absolute inset-0 transition-opacity duration-700 group-hover:opacity-60"
+                              className="absolute inset-0"
                               style={{
                                 background:
-                                  "linear-gradient(180deg, rgba(253,251,246,0.1) 0%, rgba(253,251,246,0.5) 55%, rgba(253,251,246,0.92) 100%)",
-                                opacity: 0.85,
+                                  "linear-gradient(180deg, rgba(28,26,23,0) 40%, rgba(28,26,23,0.35) 65%, rgba(28,26,23,0.85) 100%)",
                               }}
                             />
                           </div>
@@ -217,13 +416,13 @@ export function CampusesMap() {
                           <div className="relative">
                             <p
                               className="font-display"
-                              style={{ color: "#1C1A17", fontSize: 22, fontWeight: 300, lineHeight: 1.12 }}
+                              style={{ color: "#FDFBF6", fontSize: 22, fontWeight: 300, lineHeight: 1.12, textShadow: "0 2px 10px rgba(0,0,0,0.35)" }}
                             >
                               {c.name}
                             </p>
                             <p
                               className="mt-1 flex items-center gap-1.5 font-sans"
-                              style={{ color: "#534D44", fontSize: 13 }}
+                              style={{ color: "rgba(253,251,246,0.85)", fontSize: 13 }}
                             >
                               <MapPin className="h-3.5 w-3.5" strokeWidth={1.5} />
                               {c.city}
@@ -231,7 +430,7 @@ export function CampusesMap() {
                             {c.leadPastors && (
                               <p
                                 className="mt-2 font-display italic"
-                                style={{ color: "#8A8178", fontSize: 13 }}
+                                style={{ color: "rgba(253,251,246,0.75)", fontSize: 13 }}
                               >
                                 {c.leadPastors}
                               </p>
@@ -239,7 +438,7 @@ export function CampusesMap() {
                             {launching && (
                               <p
                                 className="mt-2 font-display italic"
-                                style={{ color: "#8A5A3C", fontSize: 13 }}
+                                style={{ color: "#F2E6D1", fontSize: 13 }}
                               >
                                 coming soon &middot; 2026
                               </p>

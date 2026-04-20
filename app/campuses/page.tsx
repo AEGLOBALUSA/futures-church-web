@@ -1,24 +1,22 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CampusesHero } from "./CampusesHero";
-import { MomentsReel } from "./MomentsReel";
-import { PeopleGallery } from "./PeopleGallery";
-import { CampusesMap } from "./CampusesMap";
+import { CountryPortals } from "./CountryPortals";
 import { Invitation } from "./Invitation";
 
 export const metadata: Metadata = {
   title: "Campuses · Futures Church",
   description:
-    "Twenty-one campuses across four countries — with four more launching in Venezuela. One family. Find your home.",
+    "Twenty-five campuses across five nations — United States, Australia, Indonesia, Venezuela, and Brazil. Step through a country portal and meet the family.",
   openGraph: {
     title: "Find your home · Futures Church",
-    description: "Twenty-one campuses across four countries. Venezuela coming soon.",
+    description: "Five nations. Twenty-five campuses. Step through a country portal and meet the family.",
     images: ["/og-campuses.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Find your home · Futures Church",
-    description: "Twenty-one campuses across four countries. Venezuela coming soon.",
+    description: "Five nations. Twenty-five campuses.",
     images: ["/og-campuses.png"],
   },
 };
@@ -29,9 +27,7 @@ export default function CampusesPage() {
       <Suspense fallback={<div className="min-h-screen" />}>
         <CampusesHero />
       </Suspense>
-      <MomentsReel />
-      <PeopleGallery />
-      <CampusesMap />
+      <CountryPortals />
       <Invitation />
     </main>
   );

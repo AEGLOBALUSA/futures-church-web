@@ -1,15 +1,14 @@
 import Link from "next/link";
-import { Instagram, Facebook, Youtube } from "lucide-react";
+import { Instagram, Facebook, Youtube, Music2 } from "lucide-react";
+import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 
-const footerLinks = [
+const COLUMNS: { heading: string; links: { href: string; label: string }[] }[] = [
   {
-    heading: "Church",
+    heading: "Campus",
     links: [
-      { href: "/about", label: "About" },
-      { href: "/vision", label: "Vision" },
-      { href: "/history", label: "History" },
-      { href: "/leaders", label: "Leaders" },
-      { href: "/campuses", label: "Campuses" },
+      { href: "/plan-a-visit", label: "Plan a visit" },
+      { href: "/campuses", label: "Find a campus" },
+      { href: "/watch", label: "Watch live" },
     ],
   },
   {
@@ -19,82 +18,178 @@ const footerLinks = [
       { href: "/dreamers", label: "Dreamers" },
       { href: "/kids", label: "Kids" },
       { href: "/college", label: "Global College" },
-      { href: "/selah", label: "Selah App" },
     ],
   },
   {
-    heading: "Resources",
+    heading: "Grow",
     links: [
-      { href: "/watch", label: "Watch" },
       { href: "/daily-word", label: "Daily Word" },
-      { href: "/bible-app", label: "Bible App" },
       { href: "/books", label: "Books" },
-      { href: "/give", label: "Give" },
+      { href: "/bible-app", label: "Bible App" },
+      { href: "/selah", label: "Selah" },
     ],
   },
   {
-    heading: "Connect",
+    heading: "About",
     links: [
-      { href: "/plan-a-visit", label: "Plan a Visit" },
+      { href: "/vision", label: "Vision" },
+      { href: "/history", label: "History" },
+      { href: "/leaders", label: "Leaders" },
       { href: "/contact", label: "Contact" },
+      { href: "/give", label: "Give" },
     ],
   },
 ];
 
 export function Footer() {
-  return (
-    <footer className="bg-obsidian-900 border-t border-bone/10 pt-20 pb-10 relative overflow-hidden">
-      <div className="mx-auto max-w-shell px-6 sm:px-12 lg:px-20 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 md:gap-12 mb-16">
-          <div className="col-span-2 md:col-span-1">
-            <Link href="/" prefetch={false} className="block mb-4">
-              <span className="font-display text-2xl text-bone" style={{ fontWeight: 300 }}>
-                Futures<span className="text-lemon">.</span>
-              </span>
-            </Link>
-            <p className="text-sm text-bone/70 font-sans leading-relaxed max-w-xs">
-              A home for everyone. Every race. Every age. Every stage. One culture.
-            </p>
-            <div className="flex gap-4 mt-6">
-              <a href="https://instagram.com/futureschurch" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <Instagram className="w-5 h-5 text-bone/50 hover:text-lemon transition-colors" strokeWidth={1.5} />
-              </a>
-              <a href="https://facebook.com/futureschurch" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <Facebook className="w-5 h-5 text-bone/50 hover:text-lemon transition-colors" strokeWidth={1.5} />
-              </a>
-              <a href="https://youtube.com/futureschurch" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                <Youtube className="w-5 h-5 text-bone/50 hover:text-lemon transition-colors" strokeWidth={1.5} />
-              </a>
-            </div>
-          </div>
+  const year = new Date().getFullYear();
 
-          {footerLinks.map((col) => (
-            <div key={col.heading}>
-              <p className="section-label text-bone/50 mb-4">{col.heading.toUpperCase()}</p>
-              <ul className="space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-bone/75 hover:text-bone transition-colors font-sans"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+  return (
+    <footer className="relative bg-cream text-ink-900">
+      <div className="mx-auto max-w-7xl px-6 pt-20 pb-10 sm:px-10 lg:px-16">
+        {/* Top strip — Daily Word capture */}
+        <div className="grid gap-10 pb-14 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-16">
+          <div>
+            <p
+              className="font-ui uppercase text-ink-600"
+              style={{ fontSize: 11, letterSpacing: "0.28em" }}
+            >
+              Daily Word
+            </p>
+            <h2
+              className="mt-3 font-display text-ink-900"
+              style={{
+                fontSize: "clamp(1.75rem, 3.4vw, 2.75rem)",
+                lineHeight: 1.05,
+                fontWeight: 300,
+              }}
+            >
+              One scripture. One reflection. <em className="italic">Every morning.</em>
+            </h2>
+            <p className="mt-4 max-w-[44ch] font-sans text-ink-600" style={{ fontSize: 15, lineHeight: 1.6 }}>
+              Join 300,000+ people around the world who start their day with Futures. Free, always.
+            </p>
+          </div>
+          <ValueExchangeForm
+            offer="One scripture. One reflection. One question. Delivered to your inbox at 5am your time."
+            proofPoints={["300,000+ subscribers", "Always free, always honest"]}
+            fields={["email", "timezone"]}
+            cta="Start tomorrow"
+            outcome="Tomorrow at 5am. Your inbox."
+            source="footer-daily-word"
+          />
         </div>
 
-        <div className="border-t border-bone/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-bone/50 font-sans">
-          <p>© {new Date().getFullYear()} Futures Church. All rights reserved.</p>
-          <p>
-            Founded 1922 · Adelaide, Australia ·{" "}
-            <a href="mailto:hello@futures.church" className="hover:text-lemon transition-colors">
-              hello@futures.church
-            </a>
+        {/* Columns */}
+        <div className="border-t border-ink-900/10 pt-14">
+          <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
+            <div className="col-span-2 md:col-span-1">
+              <Link
+                href="/"
+                prefetch={false}
+                className="font-display italic text-ink-900"
+                style={{ fontSize: 26, fontWeight: 300 }}
+              >
+                Futures
+              </Link>
+              <p className="mt-4 max-w-xs font-sans text-ink-600" style={{ fontSize: 14, lineHeight: 1.6 }}>
+                One family across 21 campuses in 4 countries. Since 1922.
+              </p>
+              <div className="mt-6 flex items-center gap-4">
+                <a
+                  href="https://instagram.com/futureschurch"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="text-ink-600 transition-colors hover:text-warm-500"
+                >
+                  <Instagram className="h-5 w-5" strokeWidth={1.6} />
+                </a>
+                <a
+                  href="https://youtube.com/futureschurch"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube"
+                  className="text-ink-600 transition-colors hover:text-warm-500"
+                >
+                  <Youtube className="h-5 w-5" strokeWidth={1.6} />
+                </a>
+                <a
+                  href="https://open.spotify.com/show/futureschurch"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Spotify podcast"
+                  className="text-ink-600 transition-colors hover:text-warm-500"
+                >
+                  <Music2 className="h-5 w-5" strokeWidth={1.6} />
+                </a>
+                <a
+                  href="https://facebook.com/futureschurch"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="text-ink-600 transition-colors hover:text-warm-500"
+                >
+                  <Facebook className="h-5 w-5" strokeWidth={1.6} />
+                </a>
+              </div>
+            </div>
+
+            {COLUMNS.map((col) => (
+              <div key={col.heading}>
+                <p
+                  className="font-ui uppercase text-ink-600"
+                  style={{ fontSize: 11, letterSpacing: "0.24em" }}
+                >
+                  {col.heading}
+                </p>
+                <ul className="mt-4 space-y-3">
+                  {col.links.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        className="font-sans text-ink-900/85 transition-colors hover:text-warm-500"
+                        style={{ fontSize: 14 }}
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Eyebrow + bottom strip */}
+        <div className="mt-14 border-t border-ink-900/10 pt-8">
+          <p
+            className="font-ui uppercase text-ink-600"
+            style={{ fontSize: 10.5, letterSpacing: "0.3em" }}
+          >
+            21 campuses · 4 countries · 1 family · since 1922
           </p>
+
+          <div className="mt-6 flex flex-col gap-3 font-sans text-ink-600 sm:flex-row sm:items-center sm:justify-between" style={{ fontSize: 12 }}>
+            <p>© {year} Futures Church. Adelaide, Australia.</p>
+            <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <Link href="/privacy" className="transition-colors hover:text-warm-500">
+                Privacy
+              </Link>
+              <Link href="/accessibility" className="transition-colors hover:text-warm-500">
+                Accessibility
+              </Link>
+              <Link href="/sitemap.xml" className="transition-colors hover:text-warm-500">
+                Sitemap
+              </Link>
+              <a
+                href="mailto:hello@futures.church"
+                className="transition-colors hover:text-warm-500"
+              >
+                hello@futures.church
+              </a>
+            </nav>
+          </div>
         </div>
       </div>
     </footer>

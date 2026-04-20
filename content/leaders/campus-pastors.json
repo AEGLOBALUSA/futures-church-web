@@ -1,0 +1,440 @@
+[
+  {
+    "slug": "paradise",
+    "campusName": "Paradise",
+    "city": "Paradise, SA",
+    "country": "Australia",
+    "plantedYear": 1922,
+    "status": "active",
+    "oneLine": "Tony & Aste Corbridge lead Paradise — the original Futures campus, running since 1922.",
+    "pastors": [
+      {
+        "name": "Tony Corbridge",
+        "role": "Lead Pastor",
+        "photo": "/photos/pastors/tony.jpg",
+        "placeholder": false
+      },
+      {
+        "name": "Aste Corbridge",
+        "role": "Co-Pastor",
+        "photo": "/photos/pastors/aste.jpg",
+        "placeholder": false
+      }
+    ]
+  },
+  {
+    "slug": "adelaide-city",
+    "campusName": "Adelaide City",
+    "city": "Adelaide, SA",
+    "country": "Australia",
+    "plantedYear": 2005,
+    "status": "active",
+    "oneLine": "Adelaide City — our downtown campus, packed every Sunday night.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Adelaide City",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "south",
+    "campusName": "South (Reynella)",
+    "city": "Reynella, SA",
+    "country": "Australia",
+    "plantedYear": 2009,
+    "status": "active",
+    "oneLine": "South — the southern-suburbs family of Futures.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — South (Reynella)",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "clare-valley",
+    "campusName": "Clare Valley",
+    "city": "Clare, SA",
+    "country": "Australia",
+    "plantedYear": 2014,
+    "status": "active",
+    "oneLine": "Clare Valley — the only Futures in wine country.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Clare Valley",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "salisbury",
+    "campusName": "Salisbury",
+    "city": "Salisbury, SA",
+    "country": "Australia",
+    "plantedYear": 2011,
+    "status": "active",
+    "oneLine": "Janine Donato leads Salisbury — northern Adelaide’s Futures campus.",
+    "pastors": [
+      {
+        "name": "Steve Donato",
+        "role": "Pastor",
+        "photo": "/photos/pastors/steve-janine.jpg",
+        "placeholder": false
+      },
+      {
+        "name": "Janine Donato",
+        "role": "Lead Pastor",
+        "photo": "/photos/pastors/janine.jpg",
+        "placeholder": false
+      }
+    ]
+  },
+  {
+    "slug": "mount-barker",
+    "campusName": "Mount Barker",
+    "city": "Mount Barker, SA",
+    "country": "Australia",
+    "plantedYear": 2015,
+    "status": "active",
+    "oneLine": "Mount Barker — Adelaide Hills, growing fast.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Mount Barker",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "victor-harbor",
+    "campusName": "Victor Harbor",
+    "city": "Victor Harbor, SA",
+    "country": "Australia",
+    "plantedYear": 2016,
+    "status": "active",
+    "oneLine": "Victor Harbor — coastal South Australia.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Victor Harbor",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "copper-coast",
+    "campusName": "Copper Coast",
+    "city": "Kadina, SA",
+    "country": "Australia",
+    "plantedYear": 2018,
+    "status": "active",
+    "oneLine": "Copper Coast — Yorke Peninsula’s Futures.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Copper Coast",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "gwinnett",
+    "campusName": "Gwinnett",
+    "city": "Duluth, GA",
+    "country": "USA",
+    "plantedYear": 2000,
+    "status": "active",
+    "oneLine": "Gwinnett — the US flagship campus.",
+    "pastors": [
+      {
+        "name": "Nick Hindle",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      },
+      {
+        "name": "Danielle Hindle",
+        "role": "Co-Pastor",
+        "photo": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "kennesaw",
+    "campusName": "Kennesaw",
+    "city": "Kennesaw, GA",
+    "country": "USA",
+    "plantedYear": 2012,
+    "status": "active",
+    "oneLine": "Kennesaw — northwest Atlanta.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Kennesaw",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "alpharetta",
+    "campusName": "Alpharetta",
+    "city": "Alpharetta, GA",
+    "country": "USA",
+    "plantedYear": 2015,
+    "status": "active",
+    "oneLine": "Alpharetta — North Fulton’s Futures.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Alpharetta",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "franklin",
+    "campusName": "Franklin",
+    "city": "Franklin, TN",
+    "country": "USA",
+    "plantedYear": 2019,
+    "status": "active",
+    "oneLine": "Franklin — our first campus outside Georgia.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Franklin",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "cemani",
+    "campusName": "Cemani",
+    "city": "Cemani, Central Java",
+    "country": "Indonesia",
+    "plantedYear": 2008,
+    "status": "active",
+    "oneLine": "Cemani — Futures’ first Indonesian campus.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Cemani",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "solo",
+    "campusName": "Solo",
+    "city": "Surakarta, Central Java",
+    "country": "Indonesia",
+    "plantedYear": 2011,
+    "status": "active",
+    "oneLine": "Adi & Lala lead Solo — a young, Spirit-filled campus in Central Java.",
+    "pastors": [
+      {
+        "name": "Adi",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop",
+        "placeholder": false
+      },
+      {
+        "name": "Lala",
+        "role": "Co-Pastor",
+        "photo": "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=800&q=80&auto=format&fit=crop",
+        "placeholder": false
+      }
+    ]
+  },
+  {
+    "slug": "samarinda",
+    "campusName": "Samarinda",
+    "city": "Samarinda, East Kalimantan",
+    "country": "Indonesia",
+    "plantedYear": 2014,
+    "status": "active",
+    "oneLine": "Samarinda — East Kalimantan’s Futures family.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Samarinda",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "langowan",
+    "campusName": "Langowan",
+    "city": "Langowan, North Sulawesi",
+    "country": "Indonesia",
+    "plantedYear": 2016,
+    "status": "active",
+    "oneLine": "Langowan — North Sulawesi, mountain air, loud worship.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Langowan",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "bali",
+    "campusName": "Bali",
+    "city": "Denpasar, Bali",
+    "country": "Indonesia",
+    "plantedYear": 2017,
+    "status": "active",
+    "oneLine": "Bali — surfers, expats, Balinese family.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Bali",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "futuros-duluth",
+    "campusName": "Futuros Duluth",
+    "city": "Duluth, GA",
+    "country": "USA",
+    "plantedYear": 2017,
+    "status": "active",
+    "oneLine": "Alexis & Susana lead Futuros Duluth — our first Spanish-speaking campus.",
+    "pastors": [
+      {
+        "name": "Alexis Principal",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80&auto=format&fit=crop",
+        "placeholder": false
+      },
+      {
+        "name": "Susana Principal",
+        "role": "Co-Pastor",
+        "photo": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&q=80&auto=format&fit=crop",
+        "placeholder": false
+      }
+    ]
+  },
+  {
+    "slug": "futuros-kennesaw",
+    "campusName": "Futuros Kennesaw",
+    "city": "Kennesaw, GA",
+    "country": "USA",
+    "plantedYear": 2020,
+    "status": "active",
+    "oneLine": "Futuros Kennesaw — Spanish-speaking Futures, northwest Atlanta.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Futuros Kennesaw",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "futuros-grayson",
+    "campusName": "Futuros Grayson",
+    "city": "Grayson, GA",
+    "country": "USA",
+    "plantedYear": 2026,
+    "status": "launching",
+    "oneLine": "Futuros Grayson — launching in 2026.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Futuros Grayson",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "futuros-caracas",
+    "campusName": "Futuros Caracas",
+    "city": "Caracas",
+    "country": "Venezuela",
+    "plantedYear": 2026,
+    "status": "launching",
+    "oneLine": "Futuros Caracas — Venezuela’s first Futures, launching 2026.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Futuros Caracas",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "futuros-maracaibo",
+    "campusName": "Futuros Maracaibo",
+    "city": "Maracaibo",
+    "country": "Venezuela",
+    "plantedYear": 2026,
+    "status": "launching",
+    "oneLine": "Futuros Maracaibo — launching 2026.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Futuros Maracaibo",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "futuros-valencia",
+    "campusName": "Futuros Valencia",
+    "city": "Valencia",
+    "country": "Venezuela",
+    "plantedYear": 2026,
+    "status": "launching",
+    "oneLine": "Futuros Valencia — launching 2026.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Futuros Valencia",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  },
+  {
+    "slug": "futuros-barquisimeto",
+    "campusName": "Futuros Barquisimeto",
+    "city": "Barquisimeto",
+    "country": "Venezuela",
+    "plantedYear": 2026,
+    "status": "launching",
+    "oneLine": "Futuros Barquisimeto — launching 2026.",
+    "pastors": [
+      {
+        "name": "Lead Pastor — Futuros Barquisimeto",
+        "role": "Lead Pastor",
+        "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800&q=80&auto=format&fit=crop",
+        "placeholder": true
+      }
+    ]
+  }
+]

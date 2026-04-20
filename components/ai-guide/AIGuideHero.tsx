@@ -51,7 +51,7 @@ export function AIGuideHero() {
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2.5 text-bone/80 section-label">
           <span className="pulse-dot w-1.5 h-1.5 rounded-full bg-lemon" />
-          <span>FUTURES AI · ONLINE</span>
+          <span>EZRA · FUTURES AI · ONLINE</span>
         </div>
         <ModelPicker model={model} onChange={setModel} variant="glass" />
       </div>
@@ -82,8 +82,8 @@ export function AIGuideHero() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={hasMessages ? "Ask a follow-up…" : "Ask anything about Futures Church…"}
-            aria-label="Ask the Futures AI Guide"
+            placeholder={hasMessages ? "Ask Ezra a follow-up…" : "Ask Ezra anything about Futures Church…"}
+            aria-label="Ask Ezra — the Futures AI guide"
             disabled={streaming}
             className="flex-1 bg-transparent pl-3 pr-3 text-[17px] sm:text-[18px] font-sans text-bone placeholder:text-bone/40 outline-none disabled:opacity-60"
           />

@@ -11,7 +11,8 @@ const REGION_LABEL: Record<CampusRegion, string> = {
   australia: "Australia",
   usa: "United States",
   indonesia: "Indonesia",
-  venezuela: "Venezuela",
+  "south-america": "Venezuela",
+  brazil: "Brazil",
   global: "Online",
 };
 
@@ -19,7 +20,8 @@ const REGION_TONE: Record<CampusRegion, string> = {
   australia: "#C8906B",
   usa: "#AC9B25",
   indonesia: "#C45236",
-  venezuela: "#8A5A3C",
+  "south-america": "#8A5A3C",
+  brazil: "#4A7C59",
   global: "#D9B089",
 };
 
@@ -36,9 +38,13 @@ const REGION_COPY: Record<CampusRegion, { lede: string; sub: string }> = {
     lede: "Five campuses across Java, Sulawesi, Kalimantan, and Bali.",
     sub: "One family across the archipelago — worshipping in Indonesian, gathering in community.",
   },
-  venezuela: {
-    lede: "Four Futuros campuses launching through 2026.",
-    sub: "Campuses 22, 23, 24, and 25 — our next frontier, in partnership with local pastors on the ground.",
+  "south-america": {
+    lede: "Four Futuros campuses launching across Venezuela through 2026.",
+    sub: "Our next frontier. Colombia, Peru, Argentina coming \u2014 in partnership with local pastors on the ground.",
+  },
+  brazil: {
+    lede: "Brazil — launching. Scouting lead pastors now.",
+    sub: "A nation of 215 million. We are praying and preparing. Campuses will be announced as leaders are commissioned.",
   },
   global: {
     lede: "Futures Online Church — one congregation, every time zone.",

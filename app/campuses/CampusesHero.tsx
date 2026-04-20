@@ -4,17 +4,16 @@ import {
   useState,
   useRef,
   useEffect,
-  type FormEvent,
-  type KeyboardEvent,
   type MouseEvent as ReactMouseEvent,
 } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Bookmark } from "lucide-react";
 import { campuses, type CampusRegion } from "@/lib/content/campuses";
 import { CountryView } from "./CountryView";
+import { AIInput } from "@/components/ai/AIInput";
+import { useAIGuide } from "@/lib/ai/AIGuideContext";
 
 // Dynamic — cobe uses WebGL, skip server render. Placeholder keeps the slot warm.
 const Globe = dynamic(() => import("./Globe"), {
@@ -54,23 +53,16 @@ function GlobePlaceholder() {
 // Hero B-roll — human, warm, ambient. Swap these URLs for real Futures Sunday clips
 // when Hannah cuts them. Each still gets a 14s Ken-Burns zoom + cross-dissolves with its neighbours.
 // Sourced from Unsplash (free, hotlink-allowed).
+// Real Futures B-roll — a diverse spread across age, stage, and campus.
+// Curated from the full photo library. Different order than the home page so
+// the Campuses hero feels distinct.
 const HERO_FRAMES = [
-  {
-    url: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1800&q=75&auto=format&fit=crop",
-    alt: "Hands raised in warm sanctuary light",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1800&q=75&auto=format&fit=crop",
-    alt: "Friends laughing around a table",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=1800&q=75&auto=format&fit=crop",
-    alt: "Family walking together at golden hour",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=1800&q=75&auto=format&fit=crop",
-    alt: "Worship gathering at dusk",
-  },
+  { url: "/photos/hero/hero_5.jpg",    alt: "Futures Church — family" },
+  { url: "/photos/hero/hero_12.jpg",   alt: "Futures Church — hands raised" },
+  { url: "/photos/hero/hero_30.jpg",   alt: "Futures Church — community" },
+  { url: "/photos/hero/hero_31.jpg",   alt: "Futures Church — Sunday together" },
+  { url: "/photos/hero/hero_16.jpg",   alt: "Futures Church — worship moment" },
+  { url: "/photos/hero/hero_8.jpg",    alt: "Futures Church — every age & stage" },
 ];
 
 // Context-aware preset chips — the journey speaks differently at each level.
@@ -107,11 +99,11 @@ const CHIPS_BY_LEVEL: Record<string, string[]> = {
     "meet Ps Adi & Lala in Solo",
     "is there a kids program?",
   ],
-  venezuela: [
+  "south-america": [
     "when does Caracas launch?",
     "how can I get involved?",
     "which city launches first?",
-    "can I give toward Venezuela?",
+    "can I give toward South America?",
     "who are the launch pastors?",
     "tell me the story of these four campuses",
   ],
@@ -130,7 +122,8 @@ const COUNTRY_FOCUS: Record<CampusRegion, { lat: number; lng: number } | null> =
   australia: { lat: -34, lng: 138 },
   usa: { lat: 35, lng: -85 },
   indonesia: { lat: -4, lng: 116 },
-  venezuela: { lat: 9, lng: -68 },
+  "south-america": { lat: 9, lng: -68 },
+  brazil: { lat: -14, lng: -52 },
   global: null,
 };
 
@@ -138,7 +131,8 @@ const VALID_REGIONS: CampusRegion[] = [
   "australia",
   "usa",
   "indonesia",
-  "venezuela",
+  "south-america",
+  "brazil",
   "global",
 ];
 
@@ -150,14 +144,6 @@ const PEOPLE_ROW = [
   { name: "Sjhana", caption: "Australia Lead", hue: "#AC9B25" },
 ];
 
-type Msg = { id: string; role: "user" | "assistant"; content: string };
-
-function uuid() {
-  return typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : Math.random().toString(36).slice(2);
-}
-
 export function CampusesHero() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -168,12 +154,9 @@ export function CampusesHero() {
       : null;
   const level: keyof typeof CHIPS_BY_LEVEL = activeRegion ?? "globe";
 
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Msg[]>([]);
-  const [streaming, setStreaming] = useState(false);
-  const [showFollowUps, setShowFollowUps] = useState(false);
-  const sessionId = useRef(uuid());
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { setPageContext } = useAIGuide();
+  useEffect(() => setPageContext("campuses"), [setPageContext, activeRegion]);
+
   const cardRef = useRef<HTMLDivElement>(null);
 
   const globeFocus = activeRegion ? COUNTRY_FOCUS[activeRegion] : null;
@@ -204,104 +187,14 @@ export function CampusesHero() {
     my.set(0);
   }
 
-  async function sendMessage(text: string) {
-    const trimmed = text.trim();
-    if (!trimmed || streaming) return;
-
-    const userMsg: Msg = { id: uuid(), role: "user", content: trimmed };
-    const assistantId = uuid();
-    setMessages((prev) => [...prev, userMsg, { id: assistantId, role: "assistant", content: "" }]);
-    setInput("");
-    setStreaming(true);
-    setShowFollowUps(false);
-
-    try {
-      const history = [...messages, userMsg].map(({ role, content }) => ({ role, content }));
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history, model: "claude", sessionId: sessionId.current }),
-      });
-      if (!res.ok || !res.body) throw new Error("stream failed");
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() ?? "";
-
-        for (const line of lines) {
-          if (!line.startsWith("data: ")) continue;
-          const data = line.slice(6).trim();
-          if (data === "[DONE]") break;
-          try {
-            const parsed = JSON.parse(data) as { token?: string };
-            if (parsed.token) {
-              setMessages((prev) =>
-                prev.map((m) => (m.id === assistantId ? { ...m, content: m.content + parsed.token } : m))
-              );
-            }
-          } catch {
-            /* ignore partial-chunk parse errors */
-          }
-        }
-      }
-    } catch {
-      setMessages((prev) => prev.filter((m) => m.id !== assistantId));
-    } finally {
-      setStreaming(false);
-      setShowFollowUps(true);
-    }
-  }
-
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    sendMessage(input);
-  }
-
-  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      sendMessage(input);
-    }
-  }
-
-  function handleChip(text: string) {
-    // Type chip text into the input at ~22ms/char, then pause 300ms and submit.
-    if (streaming) return;
-    setInput("");
-    const step = 22;
-    let i = 0;
-    const id = window.setInterval(() => {
-      i += 1;
-      setInput(text.slice(0, i));
-      if (i >= text.length) {
-        window.clearInterval(id);
-        window.setTimeout(() => sendMessage(text), 300);
-      }
-    }, step);
-  }
-
-  // Auto-focus the input on mount so keyboarders can just start typing.
-  useEffect(() => {
-    inputRef.current?.focus({ preventScroll: true });
-  }, []);
-
-  // Hero B-roll rotation — cross-dissolve every ~7 seconds.
+  // Hero B-roll rotation — cross-dissolve every ~4.2 seconds for a livelier cadence.
   const [frameIndex, setFrameIndex] = useState(0);
   useEffect(() => {
     const id = window.setInterval(() => {
       setFrameIndex((i) => (i + 1) % HERO_FRAMES.length);
-    }, 7000);
+    }, 4200);
     return () => window.clearInterval(id);
   }, []);
-
-  const hasMessages = messages.length > 0;
 
   return (
     <section
@@ -317,7 +210,7 @@ export function CampusesHero() {
         {HERO_FRAMES.map((f, i) => (
           <div
             key={f.url}
-            className={`kb-frame absolute inset-0 transition-opacity duration-[1500ms] ease-in-out ${
+            className={`kb-frame absolute inset-0 transition-opacity duration-[1100ms] ease-in-out ${
               i === frameIndex ? "is-active" : ""
             }`}
             style={{
@@ -325,41 +218,34 @@ export function CampusesHero() {
               backgroundImage: `url(${f.url})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              filter: "saturate(0.85) brightness(0.95)",
             }}
           />
         ))}
-        {/* Warm wash — unifies colour story + ensures WCAG AA on every frame */}
+        {/* Soft warm wash — light enough that photos stay visible, strong enough
+            that the glass card on top still reads (backdrop-blur handles contrast). */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(115deg, rgba(247,241,230,0.82) 0%, rgba(242,230,209,0.62) 40%, rgba(232,201,166,0.45) 70%, rgba(200,150,117,0.35) 100%)",
+              "linear-gradient(115deg, rgba(247,241,230,0.32) 0%, rgba(242,230,209,0.22) 45%, rgba(200,150,117,0.18) 100%)",
           }}
         />
       </div>
 
-      {/* Ambient drifting warm blobs — add motion underneath the stills */}
+      {/* Ambient drifting warm blobs — dialed down so B-roll photos stay visible */}
       <motion.div
         aria-hidden
-        className="absolute rounded-full blur-3xl"
-        style={{ top: "-15%", left: "-10%", width: "70vw", height: "70vw", background: "#EAD0B1", opacity: 0.7 }}
+        className="absolute rounded-full blur-3xl mix-blend-soft-light"
+        style={{ top: "-15%", left: "-10%", width: "70vw", height: "70vw", background: "#EAD0B1", opacity: 0.2 }}
         animate={{ x: [0, 40, 0], y: [0, 20, 0], scale: [1, 1.05, 1] }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         aria-hidden
-        className="absolute rounded-full blur-3xl"
-        style={{ bottom: "-20%", right: "-10%", width: "60vw", height: "60vw", background: "#D9B089", opacity: 0.55 }}
+        className="absolute rounded-full blur-3xl mix-blend-soft-light"
+        style={{ bottom: "-20%", right: "-10%", width: "60vw", height: "60vw", background: "#D9B089", opacity: 0.18 }}
         animate={{ x: [0, -30, 0], y: [0, -20, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: -8 }}
-      />
-      <motion.div
-        aria-hidden
-        className="absolute rounded-full blur-3xl"
-        style={{ top: "40%", left: "55%", width: "35vw", height: "35vw", background: "#F6D9B8", opacity: 0.45 }}
-        animate={{ x: [0, 20, 0], y: [0, 30, 0] }}
-        transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: -14 }}
       />
 
       {/* Subtle grain overlay for analog warmth */}
@@ -369,7 +255,13 @@ export function CampusesHero() {
       <div className="absolute top-28 left-6 sm:left-10 z-10">
         <p
           className="text-[11px] font-sans"
-          style={{ letterSpacing: "0.28em", color: "#534D44", textTransform: "uppercase" }}
+          style={{
+            letterSpacing: "0.28em",
+            color: "#1C1A17",
+            textTransform: "uppercase",
+            fontWeight: 600,
+            textShadow: "0 1px 2px rgba(253,251,246,0.6)",
+          }}
         >
           Futures · Campuses
         </p>
@@ -379,7 +271,7 @@ export function CampusesHero() {
       <Link
         href="#tour"
         className="absolute bottom-10 right-6 sm:right-10 z-10 group flex items-center gap-2 text-[15px] italic font-display"
-        style={{ color: "#534D44" }}
+        style={{ color: "#1C1A17", textShadow: "0 1px 2px rgba(253,251,246,0.6)" }}
       >
         <span className="lowercase">or take the tour</span>
         <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -424,200 +316,24 @@ export function CampusesHero() {
                 fontWeight: 300,
               }}
             >
-              Find your <em className="italic">home</em>. Ask anything.
+              Find your <em className="italic">home</em>. Ask Ezra.
             </h1>
             <p
               className="mt-5 font-sans max-w-[44ch]"
               style={{ color: "#534D44", fontSize: "17px", lineHeight: 1.55 }}
             >
-              Twenty-one local churches across four countries — with four more launching in Venezuela. One Futures family. Ask our guide
+              Twenty-one local churches across four countries — with four more launching in Venezuela. One Futures family. Ask Ezra
               where you&rsquo;ll feel at home — a real pastor is never far away.
             </p>
 
-            {/* AI input */}
-            <form onSubmit={handleSubmit} className="mt-8">
-              <div
-                className={`ai-pill group relative flex items-center gap-2 rounded-[999px] transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-                  streaming ? "is-streaming" : ""
-                } ${input.trim() ? "has-input" : ""}`}
-                style={{
-                  height: 72,
-                  background: "rgba(255,255,255,0.85)",
-                  border: `1.5px solid ${input.trim() || streaming ? "#C8906B" : "#E8DFD3"}`,
-                  paddingLeft: 28,
-                  paddingRight: 10,
-                }}
-              >
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  disabled={streaming}
-                  placeholder={hasMessages ? "ask a follow-up…" : "ask anything — or type a city"}
-                  aria-label="Ask anything about Futures"
-                  className="warm-input flex-1 bg-transparent font-display italic outline-none disabled:opacity-60"
-                  style={{
-                    color: "#1C1A17",
-                    fontSize: 18,
-                  }}
-                />
-                <span
-                  aria-hidden
-                  className="hidden sm:inline-block mr-3 text-[11px] font-sans"
-                  style={{ color: "#8A8178", letterSpacing: "0.2em", textTransform: "uppercase" }}
-                >
-                  ⏎ to ask
-                </span>
-                <button
-                  type="submit"
-                  disabled={!input.trim() || streaming}
-                  aria-label="Send"
-                  className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40"
-                  style={{
-                    background: input.trim() ? "#C8906B" : "#F2E6D1",
-                    color: input.trim() ? "#FDFBF6" : "#8A8178",
-                    transform: input.trim() && !streaming ? "translateX(2px)" : "translateX(0)",
-                  }}
-                >
-                  <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2} />
-                </button>
-              </div>
-            </form>
-
-            {/* Response card — appears inside the same glass world */}
-            <AnimatePresence>
-              {hasMessages && (
-                <motion.div
-                  key="response"
-                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={{ opacity: 1, height: "auto", marginTop: 24 }}
-                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ type: "spring", stiffness: 120, damping: 18, mass: 1 }}
-                  className="overflow-hidden"
-                >
-                  <div
-                    className="relative"
-                    style={{
-                      background:
-                        "radial-gradient(circle at 1px 1px, rgba(28,26,23,0.04) 1px, transparent 0) 0 0 / 16px 16px, #FFFDF8",
-                      borderRadius: 20,
-                      padding: "22px 24px",
-                      boxShadow:
-                        "0 14px 34px -14px rgba(20,20,20,0.18), inset 0 0 0 1px rgba(20,20,20,0.04)",
-                    }}
-                    role="status"
-                    aria-live="polite"
-                    aria-atomic="false"
-                  >
-                    <div className="relative z-10 flex items-start gap-4">
-                      <div
-                        aria-hidden
-                        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full font-display text-[14px]"
-                        style={{ background: "#C8906B", color: "#FDFBF6" }}
-                      >
-                        f
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className="font-sans"
-                          style={{
-                            color: "#8A8178",
-                            fontSize: 11,
-                            letterSpacing: "0.22em",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          a note from the Futures team
-                        </p>
-                        <div className="mt-2 space-y-3">
-                          {messages.map((m) => (
-                            <div key={m.id}>
-                              {m.role === "user" ? (
-                                <p
-                                  className="font-display italic"
-                                  style={{ color: "#534D44", fontSize: 16 }}
-                                >
-                                  &ldquo;{m.content}&rdquo;
-                                </p>
-                              ) : (
-                                <p
-                                  className="font-sans whitespace-pre-wrap"
-                                  style={{ color: "#1C1A17", fontSize: 16.5, lineHeight: 1.62 }}
-                                >
-                                  {m.content}
-                                  {streaming && m.content === "" && (
-                                    <span
-                                      className="inline-block h-[1em] w-[2px] -mb-[2px] ml-[1px] align-middle animate-pulse"
-                                      style={{ background: "#C8906B" }}
-                                    />
-                                  )}
-                                </p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        aria-label="Save this answer"
-                        className="flex-shrink-0 p-1 transition-opacity hover:opacity-100"
-                        style={{ color: "#8A8178", opacity: 0.5 }}
-                      >
-                        <Bookmark className="h-[18px] w-[18px]" strokeWidth={1.5} />
-                      </button>
-                    </div>
-                  </div>
-
-                  {showFollowUps && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                      className="mt-4 flex flex-wrap items-center gap-2"
-                    >
-                      <span
-                        className="font-display italic pr-1"
-                        style={{ color: "#534D44", fontSize: 14 }}
-                      >
-                        want to keep going?
-                      </span>
-                      {["can someone pray for me this week?", "when are Sunday services?"].map((q) => (
-                        <button
-                          key={q}
-                          type="button"
-                          onClick={() => handleChip(q)}
-                          className="rounded-full px-3 py-1.5 font-sans transition-all hover:-translate-y-[1px]"
-                          style={{
-                            background: "rgba(255,255,255,0.7)",
-                            border: "1px solid rgba(20,20,20,0.08)",
-                            color: "#1C1A17",
-                            fontSize: 13,
-                          }}
-                        >
-                          {q}
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Preset chips — only visible before first message */}
-            {!hasMessages && (
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                className="mt-7 flex flex-wrap gap-2.5"
-              >
-                {CHIPS_BY_LEVEL[level].map((chip, i) => (
-                  <ChipButton key={chip} text={chip} delay={0.08 * i} onClick={() => handleChip(chip)} />
-                ))}
-              </motion.div>
-            )}
+            {/* AI input — shared primitive via AIGuideContext */}
+            <div className="mt-8">
+              <AIInput
+                placeholder="ask Ezra — or type a city"
+                chips={CHIPS_BY_LEVEL[level]}
+                compact
+              />
+            </div>
 
             {/* People row */}
             <div className="mt-10 flex items-center gap-3">
@@ -661,7 +377,7 @@ export function CampusesHero() {
       {/* Keyframes + reduced-motion handling, scoped to this section */}
       <style jsx>{`
         .kb-frame.is-active {
-          animation: kenburns 14s ease-out forwards;
+          animation: kenburns 8s ease-out forwards;
         }
         @keyframes kenburns {
           0%   { transform: scale(1.02) translate(0, 0); }
@@ -703,54 +419,3 @@ export function CampusesHero() {
   );
 }
 
-function ChipButton({
-  text,
-  delay,
-  onClick,
-}: {
-  text: string;
-  delay: number;
-  onClick: () => void;
-}) {
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const tx = useSpring(mx, { stiffness: 150, damping: 14 });
-  const ty = useSpring(my, { stiffness: 150, damping: 14 });
-
-  function handleMove(e: ReactMouseEvent<HTMLButtonElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mx.set(((e.clientX - rect.left) / rect.width - 0.5) * 3);
-    my.set(((e.clientY - rect.top) / rect.height - 0.5) * 3);
-  }
-
-  function handleLeave() {
-    mx.set(0);
-    my.set(0);
-  }
-
-  return (
-    <motion.button
-      type="button"
-      onClick={onClick}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      whileHover={{ y: -2, boxShadow: "0 8px 20px -8px rgba(20,20,20,0.18)" }}
-      style={{
-        x: tx,
-        y: ty,
-        background: "rgba(255,255,255,0.6)",
-        border: "1px solid rgba(20,20,20,0.08)",
-        borderRadius: 999,
-        padding: "10px 16px",
-        fontSize: 14,
-        color: "#1C1A17",
-      }}
-      className="font-display italic transition-[border-color] duration-300 hover:border-[#C8906B]"
-    >
-      {text}
-    </motion.button>
-  );
-}

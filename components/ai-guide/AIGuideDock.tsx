@@ -41,12 +41,12 @@ export function AIGuideDock() {
           type="button"
           onClick={() => setOpen(true)}
           className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-violet text-bone pl-4 pr-5 py-3 font-sans font-medium text-sm shadow-[0_12px_40px_-8px_rgba(93,31,236,0.7)] hover:scale-105 transition-transform ease-apple"
-          aria-label="Open AI Guide"
+          aria-label="Ask Ezra"
         >
           <span className="relative flex items-center justify-center w-6 h-6 rounded-full bg-lemon">
             <Sparkles className="w-3.5 h-3.5 text-obsidian-900" strokeWidth={2} />
           </span>
-          Ask AI
+          Ask Ezra
         </button>
       )}
 
@@ -55,7 +55,7 @@ export function AIGuideDock() {
           <div className="flex items-center justify-between px-5 py-4 border-b border-bone/10 bg-obsidian-900/70">
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-lemon pulse-dot" />
-              <span className="font-sans font-medium text-sm text-bone">Futures AI</span>
+              <span className="font-sans font-medium text-sm text-bone">Ezra · Futures AI</span>
             </div>
             <button
               type="button"
@@ -70,7 +70,7 @@ export function AIGuideDock() {
           <div className="flex-1 overflow-y-auto p-4 max-h-[360px]">
             {messages.length === 0 ? (
               <p className="text-sm text-bone/55 font-sans text-center mt-6">
-                Ask anything about Futures Church.
+                Ask Ezra anything about Futures Church.
               </p>
             ) : (
               <ChatPanel messages={messages} streaming={streaming} error={error} variant="night" />

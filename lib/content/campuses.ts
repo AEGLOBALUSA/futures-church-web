@@ -1,6 +1,20 @@
 export type CampusStatus = "active" | "launching" | "online";
 export type CampusBrand = "futures" | "futuros";
-export type CampusRegion = "australia" | "usa" | "indonesia" | "venezuela" | "global";
+export type CampusRegion = "australia" | "usa" | "indonesia" | "south-america" | "brazil" | "global";
+
+export type Region = {
+  slug: CampusRegion;
+  name: string;
+  status?: "active" | "launching";
+};
+
+export const regions: Region[] = [
+  { slug: "australia", name: "Australia", status: "active" },
+  { slug: "usa", name: "United States", status: "active" },
+  { slug: "indonesia", name: "Indonesia", status: "active" },
+  { slug: "south-america", name: "South America", status: "launching" },
+  { slug: "brazil", name: "Brazil", status: "launching" },
+];
 
 export interface Campus {
   slug: string;
@@ -21,20 +35,20 @@ export interface Campus {
 
 export const campuses: Campus[] = [
   // Australia (Futures)
-  { slug: "paradise", name: "Paradise", brand: "futures", region: "australia", country: "Australia", city: "Paradise, SA", leadPastors: "Josh & Sjhana Greenwood", status: "active", lat: -34.8709, lng: 138.6825, instagram: "https://instagram.com/futures.paradise" },
-  { slug: "adelaide-city", name: "Adelaide City", brand: "futures", region: "australia", country: "Australia", city: "Adelaide, SA", status: "active", lat: -34.9285, lng: 138.6007 },
-  { slug: "south", name: "South (Reynella)", brand: "futures", region: "australia", country: "Australia", city: "Reynella, SA", status: "active", lat: -35.0958, lng: 138.5356 },
+  { slug: "paradise", name: "Paradise", brand: "futures", region: "australia", country: "Australia", city: "Paradise, SA", leadPastors: "Tony & Aste Corbridge", status: "active", lat: -34.8709, lng: 138.6825, instagram: "https://instagram.com/futures.paradise" },
+  { slug: "adelaide-city", name: "Adelaide City", brand: "futures", region: "australia", country: "Australia", city: "Adelaide, SA", leadPastors: "Simon & Lauren", status: "active", lat: -34.9285, lng: 138.6007 },
+  { slug: "south", name: "South (Reynella)", brand: "futures", region: "australia", country: "Australia", city: "Reynella, SA", leadPastors: "Doran & Mel", status: "active", lat: -35.0958, lng: 138.5356 },
   { slug: "clare-valley", name: "Clare Valley", brand: "futures", region: "australia", country: "Australia", city: "Clare, SA", status: "active", lat: -33.8333, lng: 138.6 },
-  { slug: "salisbury", name: "Salisbury", brand: "futures", region: "australia", country: "Australia", city: "Salisbury, SA", status: "active", lat: -34.7592, lng: 138.6406 },
+  { slug: "salisbury", name: "Salisbury", brand: "futures", region: "australia", country: "Australia", city: "Salisbury, SA", leadPastors: "Steve & Janine Donato", status: "active", lat: -34.7592, lng: 138.6406 },
   { slug: "mount-barker", name: "Mount Barker", brand: "futures", region: "australia", country: "Australia", city: "Mount Barker, SA", status: "active", lat: -35.0674, lng: 138.859 },
-  { slug: "victor-harbor", name: "Victor Harbor", brand: "futures", region: "australia", country: "Australia", city: "Victor Harbor, SA", status: "active", lat: -35.5522, lng: 138.6221 },
-  { slug: "copper-coast", name: "Copper Coast", brand: "futures", region: "australia", country: "Australia", city: "Kadina, SA", status: "active", lat: -33.9617, lng: 137.7181 },
+  { slug: "victor-harbor", name: "Victor Harbor", brand: "futures", region: "australia", country: "Australia", city: "Victor Harbor, SA", leadPastors: "Stu Green", status: "active", lat: -35.5522, lng: 138.6221 },
+  { slug: "copper-coast", name: "Copper Coast", brand: "futures", region: "australia", country: "Australia", city: "Kadina, SA", leadPastors: "Shannon & Courtney", status: "active", lat: -33.9617, lng: 137.7181 },
   { slug: "online", name: "Online Church", brand: "futures", region: "global", country: "Worldwide", city: "Online", status: "online" },
   // USA (Futures English)
-  { slug: "gwinnett", name: "Gwinnett", brand: "futures", region: "usa", country: "USA", city: "Duluth, GA", leadPastors: "Ashley & Jane Evans", status: "active", lat: 34.0029, lng: -84.1446, instagram: "https://instagram.com/futuresgwinnett" },
-  { slug: "kennesaw", name: "Kennesaw", brand: "futures", region: "usa", country: "USA", city: "Kennesaw, GA", status: "active", lat: 34.0234, lng: -84.6155 },
-  { slug: "alpharetta", name: "Alpharetta", brand: "futures", region: "usa", country: "USA", city: "Alpharetta, GA", address: "12150 Morris Rd", status: "active", lat: 34.0754, lng: -84.2941, instagram: "https://instagram.com/futuresalpharetta" },
-  { slug: "franklin", name: "Franklin", brand: "futures", region: "usa", country: "USA", city: "Franklin, TN", status: "active", lat: 35.9251, lng: -86.8689 },
+  { slug: "gwinnett", name: "Gwinnett", brand: "futures", region: "usa", country: "USA", city: "Duluth, GA", leadPastors: "Nick & Danielle Hindle", status: "active", lat: 34.0029, lng: -84.1446, instagram: "https://instagram.com/futuresgwinnett" },
+  { slug: "kennesaw", name: "Kennesaw", brand: "futures", region: "usa", country: "USA", city: "Kennesaw, GA", leadPastors: "Andy Smith", status: "active", lat: 34.0234, lng: -84.6155 },
+  { slug: "alpharetta", name: "Alpharetta", brand: "futures", region: "usa", country: "USA", city: "Alpharetta, GA", address: "12150 Morris Rd", leadPastors: "Ryan Rolls", status: "active", lat: 34.0754, lng: -84.2941, instagram: "https://instagram.com/futuresalpharetta" },
+  { slug: "franklin", name: "Franklin", brand: "futures", region: "usa", country: "USA", city: "Franklin, TN", leadPastors: "Mark & Lauren Evans", status: "active", lat: 35.9251, lng: -86.8689 },
   // Indonesia — 5 campuses (Cemani, Solo, Samarinda, Langowan, Bali)
   { slug: "cemani", name: "Cemani", brand: "futures", region: "indonesia", country: "Indonesia", city: "Cemani, Central Java", status: "active", lat: -7.5833, lng: 110.8 },
   { slug: "solo", name: "Solo", brand: "futures", region: "indonesia", country: "Indonesia", city: "Surakarta, Central Java", leadPastors: "Adi & Lala", status: "active", lat: -7.5666, lng: 110.8317, instagram: "https://instagram.com/futuressolo" },
@@ -46,8 +60,8 @@ export const campuses: Campus[] = [
   { slug: "futuros-kennesaw", name: "Futuros Kennesaw", brand: "futuros", region: "usa", country: "USA", city: "Kennesaw, GA", status: "active", spanish: true, lat: 34.0234, lng: -84.6155 },
   { slug: "futuros-grayson", name: "Futuros Grayson", brand: "futuros", region: "usa", country: "USA", city: "Grayson, GA", status: "launching", spanish: true, lat: 33.8956, lng: -83.9527 },
   // Venezuela (4 launching — push total to 25)
-  { slug: "futuros-caracas", name: "Futuros Caracas", brand: "futuros", region: "venezuela", country: "Venezuela", city: "Caracas", status: "launching", spanish: true, lat: 10.4806, lng: -66.9036 },
-  { slug: "futuros-maracaibo", name: "Futuros Maracaibo", brand: "futuros", region: "venezuela", country: "Venezuela", city: "Maracaibo", status: "launching", spanish: true, lat: 10.6666, lng: -71.6124 },
-  { slug: "futuros-valencia", name: "Futuros Valencia", brand: "futuros", region: "venezuela", country: "Venezuela", city: "Valencia", status: "launching", spanish: true, lat: 10.1621, lng: -68.0077 },
-  { slug: "futuros-barquisimeto", name: "Futuros Barquisimeto", brand: "futuros", region: "venezuela", country: "Venezuela", city: "Barquisimeto", status: "launching", spanish: true, lat: 10.0647, lng: -69.3467 },
+  { slug: "futuros-caracas", name: "Futuros Caracas", brand: "futuros", region: "south-america", country: "Venezuela", city: "Caracas", status: "launching", spanish: true, lat: 10.4806, lng: -66.9036 },
+  { slug: "futuros-maracaibo", name: "Futuros Maracaibo", brand: "futuros", region: "south-america", country: "Venezuela", city: "Maracaibo", status: "launching", spanish: true, lat: 10.6666, lng: -71.6124 },
+  { slug: "futuros-valencia", name: "Futuros Valencia", brand: "futuros", region: "south-america", country: "Venezuela", city: "Valencia", status: "launching", spanish: true, lat: 10.1621, lng: -68.0077 },
+  { slug: "futuros-barquisimeto", name: "Futuros Barquisimeto", brand: "futuros", region: "south-america", country: "Venezuela", city: "Barquisimeto", status: "launching", spanish: true, lat: 10.0647, lng: -69.3467 },
 ];

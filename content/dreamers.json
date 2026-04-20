@@ -1,0 +1,27 @@
+{
+  "reel": [
+    "https://images.unsplash.com/photo-1521798552670-ea27f22a7b75?w=1600&q=75&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=75&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=1600&q=75&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=1600&q=75&auto=format&fit=crop"
+  ],
+  "tiles": [
+    { "slug": "weekly",   "title": "Weekly",   "when": "Friday nights, 7–9pm",          "photo": "https://images.unsplash.com/photo-1502230831726-fe5549140034?w=1200&q=75&auto=format&fit=crop", "blurb": "Worship, a message, and small groups that remember your name." },
+    { "slug": "camps",    "title": "Camps",    "when": "Next: July 8–12, 2026",         "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1200&q=75&auto=format&fit=crop",  "blurb": "Four days off-grid. Worship nights, wild games, real conversations." },
+    { "slug": "retreats", "title": "Retreats", "when": "Seasonal &middot; girls &amp; guys weekends", "photo": "https://images.unsplash.com/photo-1500043357865-c6b8827edf10?w=1200&q=75&auto=format&fit=crop", "blurb": "Smaller circles, deeper questions. Sign up with a friend." }
+  ],
+  "leaders": [
+    { "name": "Ben Mitchell",    "campus": "Paradise",       "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=75&auto=format&fit=crop", "oneLine": "Guitarist, mentor, dad of two." },
+    { "name": "Rosa Delgado",    "campus": "Adelaide City",  "photo": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=75&auto=format&fit=crop", "oneLine": "Runs girls' small groups. Teaches high school by day." },
+    { "name": "Tyrone Phillips", "campus": "Gwinnett",       "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=75&auto=format&fit=crop", "oneLine": "Youth pastor. Former college football coach." },
+    { "name": "Kat Oliveira",    "campus": "Futuros Duluth", "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=600&q=75&auto=format&fit=crop", "oneLine": "Bilingual youth lead &mdash; Spanish + English." },
+    { "name": "Made Wirawan",    "campus": "Bali",           "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=75&auto=format&fit=crop", "oneLine": "Surfer, drummer, worship leader." },
+    { "name": "Citra Utami",     "campus": "Solo",           "photo": "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=600&q=75&auto=format&fit=crop", "oneLine": "Solo youth pastor. Dancer. Reads too much." }
+  ],
+  "parentFacts": [
+    { "title": "Safety",         "body": "Every leader is trained and background-checked. We enforce ratios and a two-leader-minimum rule." },
+    { "title": "Content",        "body": "Teaching is age-appropriate, scripture-based, and theologically reviewed by the campus pastor." },
+    { "title": "Communication",  "body": "You hear from us before and after every major event. Questions go to youth@futures.church." },
+    { "title": "Transport",      "body": "For camps, we run chartered coaches with two drivers and a rolling head-count." }
+  ]
+}

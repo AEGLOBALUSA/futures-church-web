@@ -1,0 +1,87 @@
+{
+  "promise": [
+    { "title": "Safe", "body": "Background-checked team, ratio enforcement, secure check-in and check-out. Your kid is not handed off; they're signed out to you." },
+    { "title": "Biblical", "body": "Scripture-rooted curriculum. Every lesson grounded. Big idea, key verse, take-home question." },
+    { "title": "Genuinely great", "body": "Worship bands, science experiments, LEGO, games, quiet corners. Two hours kids ask to come back to." }
+  ],
+  "byAge": [
+    {
+      "slug": "0-2",
+      "label": "0&ndash;2 Nursery",
+      "photo": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1400&q=75&auto=format&fit=crop",
+      "what": "Warm rooms, trained carers, familiar routines. We know their name, their allergies, and the song that settles them.",
+      "timeline": [
+        { "t": "Check-in",    "d": "Digital wristband, parent gets a buzz-text code" },
+        { "t": "Free play",   "d": "Soft toys, music, carers on the floor" },
+        { "t": "Feeding",     "d": "Milk/snack as noted on check-in" },
+        { "t": "Rest",        "d": "Dimmed quiet corner for naps" },
+        { "t": "Check-out",   "d": "Buzz-text, signed release to the named adult" }
+      ],
+      "pastor": "Priya Sharma"
+    },
+    {
+      "slug": "3-5",
+      "label": "3&ndash;5 Pre-K",
+      "photo": "https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=1400&q=75&auto=format&fit=crop",
+      "what": "Big imaginations, small chairs. Story, song, craft &mdash; the basics of faith in colour.",
+      "timeline": [
+        { "t": "Check-in",     "d": "Wristband + name sticker" },
+        { "t": "Worship",      "d": "Three kid-sized songs with actions" },
+        { "t": "Bible story",  "d": "10 min, interactive" },
+        { "t": "Activity",     "d": "Craft or movement game tied to the story" },
+        { "t": "Check-out",    "d": "Parent-only wristband match" }
+      ],
+      "pastor": "Callum Hardy"
+    },
+    {
+      "slug": "6-11",
+      "label": "6&ndash;11 Elementary",
+      "photo": "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1400&q=75&auto=format&fit=crop",
+      "what": "Real questions, real answers. Loud worship, small-group conversations, experiments, deep laughs.",
+      "timeline": [
+        { "t": "Check-in",        "d": "Wristband, age-cohort room" },
+        { "t": "Worship band",    "d": "Full kid-led band, 3 songs" },
+        { "t": "Big lesson",      "d": "15 min scripture teaching" },
+        { "t": "Small groups",    "d": "By age, led by trained leader" },
+        { "t": "Experiment/game", "d": "Tied to the lesson" },
+        { "t": "Check-out",       "d": "Wristband match + take-home card" }
+      ],
+      "pastor": "Maya Okafor"
+    },
+    {
+      "slug": "tweens",
+      "label": "Tweens (11&ndash;12)",
+      "photo": "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=1400&q=75&auto=format&fit=crop",
+      "what": "The bridge year. A space that takes their questions seriously before they move to Dreamers.",
+      "timeline": [
+        { "t": "Arrival",         "d": "Coffee/hot choc, games" },
+        { "t": "Worship",         "d": "Tween band" },
+        { "t": "Talk",            "d": "20 min real-life-and-faith teaching" },
+        { "t": "Conversations",   "d": "Small circles, leaders who remember last week" },
+        { "t": "Check-out",       "d": "Signed release" }
+      ],
+      "pastor": "Ethan Reyes"
+    }
+  ],
+  "thisSunday": [
+    { "date": "2026-04-13", "scripture": "Matthew 14:22-33", "bigIdea": "Jesus walks on water. We can step out when He says come.", "question": "Where is Jesus asking me to step out this week?" },
+    { "date": "2026-04-06", "scripture": "John 15:5",        "bigIdea": "Staying close to Jesus is where good fruit comes from.",    "question": "What's one way I stay close to Jesus each day?" },
+    { "date": "2026-03-30", "scripture": "Luke 15:11-32",    "bigIdea": "The Father always runs to us.",                            "question": "How would I feel if the father ran to me?" },
+    { "date": "2026-03-23", "scripture": "Psalm 139:14",     "bigIdea": "God made me on purpose, with purpose.",                    "question": "One thing I like about how God made me?" }
+  ],
+  "team": [
+    { "name": "Priya Sharma",  "campus": "Paradise",       "photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=75&auto=format&fit=crop", "oneLine": "Runs nursery with two toddlers of her own." },
+    { "name": "Callum Hardy",  "campus": "Adelaide City",  "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=75&auto=format&fit=crop", "oneLine": "Pre-K lead. Also a part-time primary teacher." },
+    { "name": "Maya Okafor",   "campus": "Gwinnett",       "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=75&auto=format&fit=crop", "oneLine": "Elementary lead. Used to run after-school STEM." },
+    { "name": "Ethan Reyes",   "campus": "Futuros Duluth", "photo": "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=600&q=75&auto=format&fit=crop", "oneLine": "Tweens. Bilingual lessons, Spanish + English." },
+    { "name": "Ayu Wijaya",    "campus": "Bali",           "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=75&auto=format&fit=crop", "oneLine": "Kids pastor. Trained teacher, dancer, joy-carrier." },
+    { "name": "Josh Rivera",   "campus": "Solo",           "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=75&auto=format&fit=crop", "oneLine": "Kids band leader + elementary teaching pastor." }
+  ],
+  "faq": [
+    { "q": "Is the team background-checked?",      "a": "Yes &mdash; every volunteer has a current national background check on file. We also do a reference and trial period before anyone works with kids." },
+    { "q": "My kid has special needs. Can you help?","a": "Yes. Reach out before you visit and we'll match a buddy volunteer and prep the space. Email kids@futures.church." },
+    { "q": "What's your check-in and check-out?",  "a": "Digital wristband pairs parent and child with a matching code. No code, no pick-up. No exceptions." },
+    { "q": "Can I sit in for my first visit?",     "a": "Absolutely. Many parents do for the first Sunday. You're welcome." },
+    { "q": "What if my kid cries?",                "a": "We buzz-text you. No guilt. You come when you come." }
+  ]
+}
