@@ -1,0 +1,19 @@
+{
+  "campus_slug": "paradise",
+  "campus_name": "Paradise",
+  "subjects": ["Tony", "Aste"],
+  "solo": false,
+  "spanish": false,
+  "pastors": true,
+  "photographer": null,
+  "shoot_date": null,
+  "release_signed": true,
+  "hero": "/photos/pastors/tony-aste.jpg",
+  "hero_fallback": "/photos/pastors/tony-aste.jpg",
+  "hero_webp": null,
+  "square": "/photos/pastors/tony-aste.jpg",
+  "square_fallback": "/photos/pastors/tony-aste.jpg",
+  "alt": "Tony and Aste Corbridge, lead pastors of Futures Paradise",
+  "dominant_hex": "#9B7255",
+  "note_location_brief": "outside the Paradise campus, eucalyptus edge in late afternoon light"
+}

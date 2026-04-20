@@ -9,6 +9,11 @@ import campusPastorsData from "@/content/leaders/campus-pastors.json";
 import { EmailCapture } from "@/components/ui/EmailCapture";
 import { CampusAIPanel } from "./CampusAIPanel";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
+import { CampusPastorPortrait } from "@/components/CampusPastorPortrait";
+import {
+  getDisplayablePortrait,
+  getCampusPortrait,
+} from "@/lib/content/campus-portraits";
 
 const REGION_LABEL: Record<CampusRegion, string> = {
   australia: "Australia",
@@ -55,6 +60,10 @@ export async function generateMetadata({
   const { slug } = await params;
   const campus = campuses.find((c) => c.slug === slug);
   if (!campus) return {};
+  // Prefer the signed Round 7 pastor portrait for social sharing — it's the
+  // emotional center. Fall back to the venue photo if unsigned / unshot.
+  const portrait = getDisplayablePortrait(slug);
+  const ogImage = portrait?.square ?? portrait?.hero ?? portrait?.hero_fallback ?? CAMPUS_PHOTOS[campus.slug] ?? null;
   return {
     title: `${campus.name} · Futures Church`,
     description: `Futures Church ${campus.name} — ${campus.city}. ${
@@ -63,7 +72,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${campus.name} · Futures Church`,
       description: `${campus.city} · ${REGION_LABEL[campus.region]}`,
-      images: CAMPUS_PHOTOS[campus.slug] ? [CAMPUS_PHOTOS[campus.slug]] : undefined,
+      images: ogImage ? [ogImage] : undefined,
     },
   };
 }
@@ -89,6 +98,17 @@ export default async function CampusPage({
   const campusPastorEntry = (campusPastorsData as Array<{ slug: string; pastors: Array<{ name: string; role: string; photo: string; placeholder: boolean }> }>).find(c => c.slug === slug);
   const pastoralPhoto = campusPastorEntry?.pastors.find(p => !p.placeholder) ?? null;
 
+  // Round 7 — pastor portrait (new, signed-release-gated). If present, it takes
+  // the hero's right column and the legacy pastoralPhoto editorial block is
+  // skipped (otherwise we'd show the same portrait twice).
+  const pastorPortrait = getDisplayablePortrait(slug);
+  const pastorPortraitRecord = getCampusPortrait(slug);
+  const hasSignedSecondary = Boolean(
+    pastorPortraitRecord?.hero_secondary?.release_signed &&
+      (pastorPortraitRecord.hero_secondary.hero ||
+        pastorPortraitRecord.hero_secondary.hero_fallback),
+  );
+
   return (
     <main className="bg-[#FDFBF6] text-[#1C1A17] selection:bg-[#C8906B] selection:text-[#FDFBF6]">
       <section className="relative px-6 pt-28 pb-16 sm:px-10 lg:px-16">
@@ -106,7 +126,7 @@ export default async function CampusPage({
             <span>Futures · {REGION_LABEL[campus.region]}</span>
           </Link>
 
-          <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div className={`mt-8 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.1fr] ${pastorPortrait ? "lg:items-end" : "lg:items-center"}`}>
             <div>
               <div className="flex items-baseline gap-3">
                 <span
@@ -140,7 +160,7 @@ export default async function CampusPage({
                 {campus.name}
               </h1>
 
-              {campus.leadPastors && (
+              {campus.leadPastors && !pastorPortrait && (
                 <p
                   className="mt-6 font-sans"
                   style={{ color: "#534D44", fontSize: 16, lineHeight: 1.6 }}
@@ -217,7 +237,32 @@ export default async function CampusPage({
               </div>
             </div>
 
-            {photo && (
+            {pastorPortrait ? (
+              <div className="flex w-full items-end gap-4">
+                <CampusPastorPortrait campusSlug={slug} variant="hero" priority />
+                {hasSignedSecondary && (
+                  <div className="hidden w-[34%] lg:block">
+                    <CampusPastorPortrait
+                      campusSlug={slug}
+                      variant="hero"
+                      position="secondary"
+                    />
+                    <p
+                      className="mt-3 font-sans"
+                      style={{
+                        color: "#534D44",
+                        fontSize: 10,
+                        letterSpacing: "0.24em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Also on staff ·{" "}
+                      {pastorPortraitRecord?.hero_secondary?.subjects.join(" & ")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ) : photo ? (
               <div
                 className="relative aspect-[5/4] w-full overflow-hidden rounded-[22px]"
                 style={{
@@ -248,12 +293,12 @@ export default async function CampusPage({
                   }}
                 />
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </section>
 
-      {pastoralPhoto && (
+      {pastoralPhoto && !pastorPortrait && (
         <section className="px-6 py-20 sm:px-10 lg:px-16">
           <div className="mx-auto max-w-6xl">
             <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-[5fr_7fr]">

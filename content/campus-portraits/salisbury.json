@@ -1,0 +1,19 @@
+{
+  "campus_slug": "salisbury",
+  "campus_name": "Salisbury",
+  "subjects": ["Steve", "Janine"],
+  "solo": false,
+  "spanish": false,
+  "pastors": true,
+  "photographer": null,
+  "shoot_date": null,
+  "release_signed": true,
+  "hero": "/photos/pastors/steve-janine.jpg",
+  "hero_fallback": "/photos/pastors/steve-janine.jpg",
+  "hero_webp": null,
+  "square": "/photos/pastors/steve-janine.jpg",
+  "square_fallback": "/photos/pastors/steve-janine.jpg",
+  "alt": "Steve and Janine Donato, lead pastors of Futures Salisbury",
+  "dominant_hex": "#8B6A50",
+  "note_location_brief": "on the forecourt of Futures Salisbury, suburban-warm morning"
+}
