@@ -1,65 +1,79 @@
 import raw from "@/content/campus-faces.json";
+import { resolveCampusSlug } from "./slug-aliases";
 
-export type CampusFace = {
+export type Face = {
   id: string;
-  imageUrl: string;
-  alt: string;
-  /** Null when the face is drawn from the shared Futures pool (not yet tagged to a campus). */
-  campusSlug: string | null;
-  /** Optional — only present once comms has filled in a real name + signed release. */
-  firstName?: string;
-  /** Optional story snippet — 1 short sentence, never fabricated. */
-  story?: string;
-  /** Optional — e.g. "first Sunday: Mar '24". Honest, short. */
-  joinedWhen?: string;
+  first_name: string | null;
+  age_bracket: string | null;
+  headshot_url: string;
+  headshot_fallback: string | null;
+  alt_text: string;
+  one_liner: string | null;
+  longer_story: string | null;
+  release_signed: boolean;
+  is_placeholder: boolean;
+  date_added: string;
+};
+
+export type CampusFaceEntry = {
+  campus_name: string;
+  locale: "en" | "es";
+  campus_pastor_first_names: string[];
+  assistant_first_names?: string[];
+  brief_slug_alias?: string;
+  faces: Face[];
 };
 
 type RawShape = {
-  pool: CampusFace[];
-  byCampus: Record<string, CampusFace[]>;
+  campuses: Record<string, CampusFaceEntry>;
 };
 
 const data = raw as unknown as RawShape;
 
-export const facePool: CampusFace[] = data.pool;
-export const facesByCampus: Record<string, CampusFace[]> = data.byCampus;
-
-/**
- * Deterministic monthly rotation: same month = same faces, new month = reshuffle.
- * Keeps the page feeling alive without per-request churn. Works on server + client
- * because it only depends on campus slug + current YYYY-MM (no Math.random).
- */
-export function pickFacesForCampus(
-  campusSlug: string,
-  count = 6,
-  now: Date = new Date(),
-): { faces: CampusFace[]; mode: "per-campus" | "pool" } {
-  const perCampus = facesByCampus[campusSlug] ?? [];
-  if (perCampus.length >= count) {
-    return { faces: rotate(perCampus, seedFor(campusSlug, now)).slice(0, count), mode: "per-campus" };
-  }
-
-  // Fall back to the shared pool, seeded by campus+month so different campuses
-  // show different slices this month.
-  const pool = facePool;
-  if (pool.length === 0) return { faces: [], mode: "pool" };
-  const seed = seedFor(campusSlug, now);
-  return { faces: rotate(pool, seed).slice(0, count), mode: "pool" };
+export function getCampusFaceEntry(slug: string): CampusFaceEntry | null {
+  const resolved = resolveCampusSlug(slug);
+  return data.campuses[resolved] ?? null;
 }
 
-function seedFor(campusSlug: string, now: Date): number {
+/**
+ * Faces to render: applies rotation + gating rules.
+ *
+ * Gating (from JSON._meta.gatingRules):
+ *  - is_placeholder === true → render (photo + generic label, no click)
+ *  - is_placeholder === false && release_signed === true → render (full card with expand)
+ *  - any other combination → filtered out (never leak an unsigned real person)
+ *
+ * Rotation: deterministic monthly seed picks the window of `count` faces.
+ * Same month + same campus = same faces. New month = reshuffle.
+ */
+export function pickFacesForCampus(
+  slug: string,
+  count = 6,
+  now: Date = new Date(),
+): { faces: Face[]; entry: CampusFaceEntry | null } {
+  const entry = getCampusFaceEntry(slug);
+  if (!entry) return { faces: [], entry: null };
+
+  const visible = entry.faces.filter((f) => {
+    if (f.is_placeholder) return true;
+    return f.release_signed === true;
+  });
+
+  if (visible.length === 0) return { faces: [], entry };
+
+  const seed = seedFor(entry.campus_pastor_first_names.join("-") + ":" + slug, now);
+  const offset = seed % visible.length;
+  const rotated = [...visible.slice(offset), ...visible.slice(0, offset)];
+  return { faces: rotated.slice(0, count), entry };
+}
+
+function seedFor(key: string, now: Date): number {
   const ym = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
-  const key = `${campusSlug}:${ym}`;
+  const s = `${key}:${ym}`;
   let h = 2166136261; // FNV-1a
-  for (let i = 0; i < key.length; i++) {
-    h ^= key.charCodeAt(i);
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
     h = Math.imul(h, 16777619);
   }
   return h >>> 0;
-}
-
-function rotate<T>(arr: T[], seed: number): T[] {
-  if (arr.length === 0) return arr;
-  const offset = seed % arr.length;
-  return [...arr.slice(offset), ...arr.slice(0, offset)];
 }

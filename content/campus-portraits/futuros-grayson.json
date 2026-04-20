@@ -1,0 +1,21 @@
+{
+  "campus_slug": "futuros-grayson",
+  "campus_name": "Futuros Grayson",
+  "subjects": [
+    "Julio"
+  ],
+  "solo": true,
+  "spanish": true,
+  "pastors": true,
+  "photographer": null,
+  "shoot_date": null,
+  "release_signed": false,
+  "hero": null,
+  "hero_fallback": null,
+  "hero_webp": null,
+  "square": null,
+  "square_fallback": null,
+  "alt": "Julio, pastor of Futures Futuros Grayson, outdoor late afternoon, Grayson — solo portrait matches Andy / Ryan / Stu treatment",
+  "dominant_hex": null,
+  "note_location_brief": "outdoor late afternoon, Grayson — solo portrait matches Andy / Ryan / Stu treatment"
+}

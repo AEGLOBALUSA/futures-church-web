@@ -1,0 +1,22 @@
+{
+  "campus_slug": "south",
+  "campus_name": "South (Reynella)",
+  "subjects": [
+    "Doran",
+    "Mel"
+  ],
+  "solo": false,
+  "spanish": false,
+  "pastors": true,
+  "photographer": null,
+  "shoot_date": null,
+  "release_signed": false,
+  "hero": null,
+  "hero_fallback": null,
+  "hero_webp": null,
+  "square": null,
+  "square_fallback": null,
+  "alt": "Doran and Mel, pastors of Futures South (Reynella), just outside the South (Reynella) foyer",
+  "dominant_hex": null,
+  "note_location_brief": "just outside the South (Reynella) foyer"
+}

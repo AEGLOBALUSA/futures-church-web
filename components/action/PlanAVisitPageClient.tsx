@@ -11,6 +11,9 @@ import { useAIGuide } from "@/lib/ai/AIGuideContext";
 import { campuses, type Campus } from "@/lib/content/campuses";
 import { CampusFaces } from "@/components/action/plan-a-visit/CampusFaces";
 import { VisitFears } from "@/components/action/plan-a-visit/VisitFears";
+import { CampusPastorIntro } from "@/components/action/plan-a-visit/CampusPastorIntro";
+import { getCampusIntro } from "@/lib/content/campus-intros";
+import { getCampusFaceEntry } from "@/lib/content/campus-faces";
 
 const CHIPS = [
   "what's a first visit like?",
@@ -223,6 +226,12 @@ function ThreeStepForm() {
   }
 
   if (done) {
+    const faceEntry = getCampusFaceEntry(state.campusSlug);
+    const locale = faceEntry?.locale ?? "en";
+    const intro = getCampusIntro(state.campusSlug, locale);
+    const saturdayLine =
+      intro?.saturday_text_line ??
+      "Your campus pastor will text you Saturday morning.";
     return (
       <section className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
         <div className="mx-auto max-w-[720px] text-center">
@@ -234,7 +243,7 @@ function ThreeStepForm() {
             See you at <em className="italic">{done.campusName}</em>.
           </h2>
           <p className="mt-5 font-body text-[16px] leading-relaxed text-ink-600">
-            We&rsquo;ve sent you a confirmation. Your campus pastor will follow up twenty-four hours before you come.
+            {saturdayLine}
           </p>
         </div>
       </section>
@@ -310,11 +319,24 @@ function ThreeStepForm() {
                 </div>
                 {state.campusSlug && selectedCampus && (
                   <>
-                    <CampusFaces
+                    <CampusPastorIntro
                       campusSlug={state.campusSlug}
-                      campusName={selectedCampus.name}
+                      campusName={
+                        getCampusFaceEntry(state.campusSlug)?.campus_name ??
+                        selectedCampus.name
+                      }
+                      locale={
+                        getCampusFaceEntry(state.campusSlug)?.locale ?? "en"
+                      }
                     />
+                    <CampusFaces campusSlug={state.campusSlug} />
                     <VisitFears />
+                    <p
+                      className="mt-16 max-w-[46ch] font-display italic text-ink-700"
+                      style={{ fontSize: "clamp(1.1rem, 2vw, 1.25rem)", fontWeight: 300, lineHeight: 1.3 }}
+                    >
+                      If you&rsquo;re still reading, you&rsquo;re probably coming. Let&rsquo;s make it easy.
+                    </p>
                   </>
                 )}
 

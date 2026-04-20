@@ -1,0 +1,23 @@
+{
+  "campus_slug": "adelaide-city",
+  "campus_name": "Adelaide City",
+  "subjects": [
+    "Simon",
+    "Lauren"
+  ],
+  "solo": false,
+  "spanish": false,
+  "pastors": true,
+  "photographer": null,
+  "shoot_date": null,
+  "release_signed": false,
+  "hero": null,
+  "hero_fallback": null,
+  "hero_webp": null,
+  "square": null,
+  "square_fallback": null,
+  "alt": "Simon and Lauren, pastors of Futures Adelaide City, on a brick wall in the Adelaide CBD near the City campus",
+  "dominant_hex": null,
+  "note_location_brief": "on a brick wall in the Adelaide CBD near the City campus",
+  "brief_slug_alias": "city"
+}

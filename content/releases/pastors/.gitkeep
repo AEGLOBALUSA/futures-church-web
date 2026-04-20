@@ -1,0 +1,18 @@
+# Pastor photo releases
+
+Signed model-release forms go here, one PDF per subject. Naming convention:
+
+    YYYY-MM-DD_<campus-slug>_<first-name>.pdf
+
+Example:
+
+    2026-05-04_paradise_tony.pdf
+    2026-05-04_paradise_aste.pdf
+    2026-05-04_gwinnett_nick.pdf
+    2026-05-04_gwinnett_danielle.pdf
+    2026-05-04_gwinnett_nate.pdf   (secondary)
+    2026-05-04_gwinnett_chloe.pdf  (secondary)
+
+Spanish-language release form for Futuros pastors — translator handoff coordinated via Round 7D (multilingual).
+
+Only once every subject for a campus has a release file here should the corresponding entry in `content/campus-portraits/<slug>.json` be flipped to `release_signed: true`. The `<CampusPastorPortrait />` component returns `null` silently until that flag is true, so it's safe to ship the JSON early — nothing renders without the release.

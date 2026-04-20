@@ -1,0 +1,22 @@
+{
+  "campus_slug": "franklin",
+  "campus_name": "Franklin",
+  "subjects": [
+    "Mark",
+    "Lauren"
+  ],
+  "solo": false,
+  "spanish": false,
+  "pastors": true,
+  "photographer": null,
+  "shoot_date": null,
+  "release_signed": false,
+  "hero": null,
+  "hero_fallback": null,
+  "hero_webp": null,
+  "square": null,
+  "square_fallback": null,
+  "alt": "Mark and Lauren, pastors of Futures Franklin, on a characteristically-Tennessee street, wood and warm brick, golden hour",
+  "dominant_hex": null,
+  "note_location_brief": "on a characteristically-Tennessee street, wood and warm brick, golden hour"
+}

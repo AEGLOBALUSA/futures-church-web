@@ -1,0 +1,119 @@
+{
+  "_meta": {
+    "purpose": "Per-campus pastor intro line + blurb rendered on /plan-a-visit above the face grid (and reused on /campuses/[slug] hero). Intro line is the emotional opener — first names, hand-written cadence, never 'Meet Pastor So-and-so'. Blurb is two to three sentences in Ashley's voice.",
+    "editableWithoutDeploy": "comms can change these strings without touching code",
+    "locales": "Every campus has an en and an es entry. Futuros campuses render es by default (see Round 7D for locale resolution). English-speaking visitor landing on a Futuros page still sees something warm via the en fallback.",
+    "slugAliases": {
+      "city": "adelaide-city",
+      "kadina": "copper-coast"
+    }
+  },
+  "campuses": {
+    "paradise": {
+      "en": {
+        "intro_line": "Tony and Aste will meet you at the door.",
+        "blurb": "Tony and Aste planted Paradise in 2008 from a living room. It's now the biggest campus in the network, and on Sunday morning you'll still find Tony personally setting up chairs. If you come for the first time, text them. They will answer.",
+        "saturday_text_line": "Tony will text you Saturday morning."
+      }
+    },
+    "salisbury": {
+      "en": {
+        "intro_line": "Janine and Steve have been doing this for twenty years.",
+        "blurb": "Salisbury is a warm, suburban room that feels like a big family kitchen. Janine and Steve know almost everyone by name. Visit once and they'll be looking out for you the following week.",
+        "saturday_text_line": "Janine will text you Saturday morning."
+      }
+    },
+    "south": {
+      "en": {
+        "intro_line": "Doran and Mel are probably the same age as you.",
+        "blurb": "South is the youngest room at Futures — couples, young families, twenty-somethings. Doran and Mel lead it the way they live: unpolished, honest, fun. Bring coffee and come as you are.",
+        "saturday_text_line": "Doran will text you Saturday morning."
+      }
+    },
+    "adelaide-city": {
+      "en": {
+        "intro_line": "Simon and Lauren run the room. You'll find them.",
+        "blurb": "City sits in the middle of Adelaide's CBD. Simon and Lauren pastor a room that includes students, professionals, artists, and every kind of weekday grinder. After the service they're at the back, handing out coffees — that's where to find them.",
+        "saturday_text_line": "Simon will text you Saturday morning."
+      }
+    },
+    "victor-harbor": {
+      "en": {
+        "intro_line": "Stu knows every name at Victor Harbor. He'll know yours by week three.",
+        "blurb": "Victor Harbor is small, coastal, and close. Stu pastors the room solo and gives it everything — you won't walk in and out unnoticed, and that's the point. A Sunday here feels like a long lunch with friends.",
+        "saturday_text_line": "Stu will text you Saturday morning."
+      }
+    },
+    "copper-coast": {
+      "en": {
+        "intro_line": "Shannon and Courtney drive the country mile to be there. So do most of their people.",
+        "blurb": "Kadina is regional Futures — farmers, tradies, families, country-town warmth. Shannon and Courtney pastor a room where you'll get a cup of tea before you get a handshake. Nothing is fast here. It's on purpose.",
+        "saturday_text_line": "Shannon will text you Saturday morning."
+      }
+    },
+    "gwinnett": {
+      "en": {
+        "intro_line": "Nick and Danielle lead Gwinnett. Nate and Chloe are there most Sundays too.",
+        "blurb": "Gwinnett is the flagship US campus — full, loud, warm, multigenerational. Nick and Danielle pastor it; Nate and Chloe are on staff and you'll meet them in the foyer most weeks. First Sunday? Tell a host. They'll walk you in.",
+        "saturday_text_line": "Nick will text you Saturday morning."
+      }
+    },
+    "kennesaw": {
+      "en": {
+        "intro_line": "Andy will probably remember your coffee order before your name.",
+        "blurb": "Kennesaw is smaller than Gwinnett and that's the gift of it — Andy pastors a room where there's nowhere to hide if you're willing to be seen. Honest, Atlanta-warm, unhurried.",
+        "saturday_text_line": "Andy will text you Saturday morning."
+      }
+    },
+    "alpharetta": {
+      "en": {
+        "intro_line": "Ryan is the one at the door. He means the handshake.",
+        "blurb": "Alpharetta is the newest of the Georgia rooms. Ryan pastors it with a kind of quiet conviction — the handshake at the door is not a marketing move. If you come, he'll actually want to know your week.",
+        "saturday_text_line": "Ryan will text you Saturday morning."
+      }
+    },
+    "franklin": {
+      "en": {
+        "intro_line": "Mark and Lauren moved to Franklin for this. It shows.",
+        "blurb": "Franklin is our Tennessee room — Mark and Lauren relocated from Adelaide to plant it, and every Sunday carries that kind of sent-on-purpose energy. Warm brick, honest worship, the good kind of southern hospitality.",
+        "saturday_text_line": "Mark will text you Saturday morning."
+      }
+    },
+    "futuros-duluth": {
+      "en": {
+        "intro_line": "Alexis and Susanna will be waiting at the door.",
+        "blurb": "Futuros Duluth is a Spanish-speaking Futures campus in the heart of Duluth, GA. Alexis and Susanna pastor a warm multigenerational room — abuelas, kids, young couples, everyone. First visit, traigan su corazón — bring your heart, that's all you need.",
+        "saturday_text_line": "Alexis will text you Saturday morning."
+      },
+      "es": {
+        "intro_line": "Alexis y Susanna te estarán esperando en la puerta.",
+        "blurb": "Futuros Duluth es una iglesia Futures en español en el corazón de Duluth, GA. Alexis y Susanna pastorean una sala cálida y multigeneracional — abuelas, niños, parejas jóvenes, todos. La primera visita, traigan su corazón. Es lo único que necesitan.",
+        "saturday_text_line": "Alexis te enviará un mensaje el sábado."
+      }
+    },
+    "futuros-grayson": {
+      "en": {
+        "intro_line": "Julio knows every family by name. Soon yours too.",
+        "blurb": "Futuros Grayson is small, tight, and personal. Julio pastors solo and takes it seriously — you won't be a stranger for long. Worship in Spanish, a few English-speaking friends in the room, kids welcome.",
+        "saturday_text_line": "Julio will text you Saturday morning."
+      },
+      "es": {
+        "intro_line": "Julio conoce a cada familia por nombre. Pronto también al tuyo.",
+        "blurb": "Futuros Grayson es pequeña, unida y personal. Julio pastorea solo y lo hace con el corazón — no serás un extraño por mucho tiempo. Alabanza en español, algunos amigos que hablan inglés, y los niños son bienvenidos.",
+        "saturday_text_line": "Julio te enviará un mensaje el sábado."
+      }
+    },
+    "futuros-kennesaw": {
+      "en": {
+        "intro_line": "Maleka and Yohan are the reason Futuros Kennesaw feels like home.",
+        "blurb": "Futuros Kennesaw is a distinct Spanish-speaking Futures community in Kennesaw, GA — different room, different family from the English-speaking Kennesaw campus. Maleka and Yohan pastor it with tenderness and fire in equal measure.",
+        "saturday_text_line": "Maleka will text you Saturday morning."
+      },
+      "es": {
+        "intro_line": "Maleka y Yohan son la razón por la que Futuros Kennesaw se siente como casa.",
+        "blurb": "Futuros Kennesaw es una comunidad Futures distinta en español en Kennesaw, GA — otra sala, otra familia, separada del Kennesaw en inglés. Maleka y Yohan la pastorean con ternura y fuego en partes iguales.",
+        "saturday_text_line": "Maleka te enviará un mensaje el sábado."
+      }
+    }
+  }
+}

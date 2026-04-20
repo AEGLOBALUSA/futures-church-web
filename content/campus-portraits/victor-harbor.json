@@ -1,0 +1,21 @@
+{
+  "campus_slug": "victor-harbor",
+  "campus_name": "Victor Harbor",
+  "subjects": [
+    "Stu"
+  ],
+  "solo": true,
+  "spanish": false,
+  "pastors": true,
+  "photographer": null,
+  "shoot_date": null,
+  "release_signed": false,
+  "hero": null,
+  "hero_fallback": null,
+  "hero_webp": null,
+  "square": null,
+  "square_fallback": null,
+  "alt": "Stu, pastor of Futures Victor Harbor, on the Victor Harbor coast at late afternoon with the horizon soft behind him",
+  "dominant_hex": null,
+  "note_location_brief": "on the Victor Harbor coast at late afternoon with the horizon soft behind him"
+}

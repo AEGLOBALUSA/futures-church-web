@@ -1,0 +1,23 @@
+{
+  "campus_slug": "copper-coast",
+  "campus_name": "Copper Coast",
+  "subjects": [
+    "Shannon",
+    "Courtney"
+  ],
+  "solo": false,
+  "spanish": false,
+  "pastors": true,
+  "photographer": null,
+  "shoot_date": null,
+  "release_signed": false,
+  "hero": null,
+  "hero_fallback": null,
+  "hero_webp": null,
+  "square": null,
+  "square_fallback": null,
+  "alt": "Shannon and Courtney, pastors of Futures Copper Coast, regional wheat-country warmth near Kadina, golden hour",
+  "dominant_hex": null,
+  "note_location_brief": "regional wheat-country warmth near Kadina, golden hour",
+  "brief_slug_alias": "kadina"
+}

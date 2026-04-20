@@ -1,69 +1,1168 @@
 {
   "_meta": {
-    "purpose": "Faces shown on /plan-a-visit after a visitor picks a campus — 'Find someone like me'. Component reads via lib/content/campus-faces.ts.",
-    "status": "pool-mode",
-    "poolMode": "Until real per-campus photography is captured for every campus, we draw from a shared pool of real Futures portraits (captured across Paradise, Gwinnett, Franklin, Solo, Bali). The UI label is honest: 'Faces from the Futures family' rather than implying every face is from the selected campus. Swap to per-campus rows as real photography arrives — one campus at a time.",
-    "swapInstructions": "When {campus} has ≥6 real captured portraits with signed releases, move those entries from 'pool' into byCampus['{campus-slug}'] and the component will flip that campus into per-campus mode automatically.",
-    "noFabrication": "No invented names, no invented stories. If a person's name/story fields are empty, the card renders photo + generic 'a member of the Futures family' alt. When comms fills in name + firstSunday, the card unlocks story mode.",
-    "rotation": "A deterministic monthly seed (YYYY-MM) selects which 6 of the pool show per campus per month. Same month = same faces. New month = reshuffle. Keeps the page feeling alive without per-request churn.",
-    "releases": "Any entry with source='futures-comms' must have a signed model release in /ops/releases/ before shipping name/story fields. Photo-only (no name) is allowed without a release only if the photo is already published on a Futures public surface (existing /photos/voices/)."
+    "purpose": "Real people from every Futures campus shown on /plan-a-visit below the pastor intro. Click a face to expand their story (once filled in by comms).",
+    "schemaVersion": 2,
+    "placeholderStrategy": "Until campus comms captures real congregation portraits with signed releases, each campus is seeded with 6 placeholder entries pointing at real Futures photography from /photos/voices/. Placeholders render photo-only (no fabricated name/age/story). When comms swaps a placeholder to a real person, they fill first_name / age_bracket / alt_text / one_liner / longer_story and flip release_signed: true + is_placeholder: false. The card auto-unlocks full story mode.",
+    "gatingRules": "Render rules in <FaceCard />: (a) if is_placeholder === true, render photo + generic 'member of Futures X family' label, no click, no age, no story; (b) if is_placeholder === false AND release_signed === true, render full card with expand; (c) any other combination → component returns null silently (never leak an unsigned real person).",
+    "noFabrication": "No invented names. No invented ages. No invented stories. Placeholders stay blank on those fields until a real person signs the release.",
+    "rotation": "Deterministic monthly — FNV seed on (campus_slug + YYYY-MM) picks which 6 of the available pool show per campus. Repeat visitors see different faces month to month. Server-side; no client bundle cost.",
+    "targets": {
+      "launch": "6 faces per campus × 13 campuses = 78 faces total",
+      "month1": "12 faces per campus × 13 campuses = 156 faces",
+      "fullRoster": "~252 faces once Indonesia + South America ~8 campuses are added"
+    },
+    "futurosLocale": "Faces under futuros-* campuses render one_liner and longer_story in Spanish. Component reads locale from campus record, not face record.",
+    "slugAliases": {
+      "city": "adelaide-city — routing uses 'adelaide-city'; 'city' is the brief's preferred short name, supported via alias in the loader",
+      "kadina": "copper-coast — routing uses 'copper-coast'; 'kadina' is the brief's preferred short name, supported via alias in the loader"
+    }
   },
-  "pool": [
-    { "id": "fx-01", "imageUrl": "/photos/voices/voice_1.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-02", "imageUrl": "/photos/voices/voice_2.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-03", "imageUrl": "/photos/voices/voice_3.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-04", "imageUrl": "/photos/voices/voice_4.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-05", "imageUrl": "/photos/voices/voice_5.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-06", "imageUrl": "/photos/voices/voice_6.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-07", "imageUrl": "/photos/voices/voice_7.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-08", "imageUrl": "/photos/voices/voice_8.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-09", "imageUrl": "/photos/voices/voice_9.jpg",  "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-10", "imageUrl": "/photos/voices/voice_10.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-11", "imageUrl": "/photos/voices/voice_11.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-12", "imageUrl": "/photos/voices/voice_12.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-13", "imageUrl": "/photos/voices/voice_13.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-14", "imageUrl": "/photos/voices/voice_14.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-15", "imageUrl": "/photos/voices/voice_15.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-16", "imageUrl": "/photos/voices/voice_16.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-17", "imageUrl": "/photos/voices/voice_17.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-18", "imageUrl": "/photos/voices/voice_18.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-19", "imageUrl": "/photos/voices/voice_19.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-20", "imageUrl": "/photos/voices/voice_20.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-21", "imageUrl": "/photos/voices/voice_21.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-22", "imageUrl": "/photos/voices/voice_22.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-23", "imageUrl": "/photos/voices/voice_23.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-24", "imageUrl": "/photos/voices/voice_24.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-25", "imageUrl": "/photos/voices/voice_25.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-26", "imageUrl": "/photos/voices/voice_26.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-27", "imageUrl": "/photos/voices/voice_27.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-28", "imageUrl": "/photos/voices/voice_28.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-29", "imageUrl": "/photos/voices/voice_29.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-30", "imageUrl": "/photos/voices/voice_30.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-31", "imageUrl": "/photos/voices/voice_31.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-32", "imageUrl": "/photos/voices/voice_32.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-33", "imageUrl": "/photos/voices/voice_33.jpg", "alt": "a member of the Futures family", "campusSlug": null },
-    { "id": "fx-34", "imageUrl": "/photos/voices/voice_34.jpg", "alt": "a member of the Futures family", "campusSlug": null }
-  ],
-  "byCampus": {
-    "paradise": [],
-    "adelaide-city": [],
-    "south": [],
-    "clare-valley": [],
-    "salisbury": [],
-    "mount-barker": [],
-    "victor-harbor": [],
-    "copper-coast": [],
-    "gwinnett": [],
-    "kennesaw": [],
-    "alpharetta": [],
-    "franklin": [],
-    "cemani": [],
-    "solo": [],
-    "samarinda": [],
-    "langowan": [],
-    "bali": [],
-    "futuros-duluth": [],
-    "futuros-kennesaw": [],
-    "futuros-grayson": []
+  "campuses": {
+    "paradise": {
+      "campus_name": "Paradise",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Tony",
+        "Aste"
+      ],
+      "faces": [
+        {
+          "id": "paradise-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_3.jpg",
+          "headshot_fallback": "/photos/voices/voice_3.jpg",
+          "alt_text": "A member of the Futures Paradise family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "paradise-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_8.jpg",
+          "headshot_fallback": "/photos/voices/voice_8.jpg",
+          "alt_text": "A member of the Futures Paradise family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "paradise-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_13.jpg",
+          "headshot_fallback": "/photos/voices/voice_13.jpg",
+          "alt_text": "A member of the Futures Paradise family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "paradise-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_18.jpg",
+          "headshot_fallback": "/photos/voices/voice_18.jpg",
+          "alt_text": "A member of the Futures Paradise family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "paradise-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_23.jpg",
+          "headshot_fallback": "/photos/voices/voice_23.jpg",
+          "alt_text": "A member of the Futures Paradise family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "paradise-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_28.jpg",
+          "headshot_fallback": "/photos/voices/voice_28.jpg",
+          "alt_text": "A member of the Futures Paradise family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "salisbury": {
+      "campus_name": "Salisbury",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Janine",
+        "Steve"
+      ],
+      "faces": [
+        {
+          "id": "salisbury-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_16.jpg",
+          "headshot_fallback": "/photos/voices/voice_16.jpg",
+          "alt_text": "A member of the Futures Salisbury family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "salisbury-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_21.jpg",
+          "headshot_fallback": "/photos/voices/voice_21.jpg",
+          "alt_text": "A member of the Futures Salisbury family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "salisbury-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_26.jpg",
+          "headshot_fallback": "/photos/voices/voice_26.jpg",
+          "alt_text": "A member of the Futures Salisbury family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "salisbury-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_31.jpg",
+          "headshot_fallback": "/photos/voices/voice_31.jpg",
+          "alt_text": "A member of the Futures Salisbury family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "salisbury-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_2.jpg",
+          "headshot_fallback": "/photos/voices/voice_2.jpg",
+          "alt_text": "A member of the Futures Salisbury family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "salisbury-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_7.jpg",
+          "headshot_fallback": "/photos/voices/voice_7.jpg",
+          "alt_text": "A member of the Futures Salisbury family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "south": {
+      "campus_name": "South",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Doran",
+        "Mel"
+      ],
+      "faces": [
+        {
+          "id": "south-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_17.jpg",
+          "headshot_fallback": "/photos/voices/voice_17.jpg",
+          "alt_text": "A member of the Futures South family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "south-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_22.jpg",
+          "headshot_fallback": "/photos/voices/voice_22.jpg",
+          "alt_text": "A member of the Futures South family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "south-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_27.jpg",
+          "headshot_fallback": "/photos/voices/voice_27.jpg",
+          "alt_text": "A member of the Futures South family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "south-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_32.jpg",
+          "headshot_fallback": "/photos/voices/voice_32.jpg",
+          "alt_text": "A member of the Futures South family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "south-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_3.jpg",
+          "headshot_fallback": "/photos/voices/voice_3.jpg",
+          "alt_text": "A member of the Futures South family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "south-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_8.jpg",
+          "headshot_fallback": "/photos/voices/voice_8.jpg",
+          "alt_text": "A member of the Futures South family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "adelaide-city": {
+      "campus_name": "City",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Simon",
+        "Lauren"
+      ],
+      "faces": [
+        {
+          "id": "adelaide-city-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_15.jpg",
+          "headshot_fallback": "/photos/voices/voice_15.jpg",
+          "alt_text": "A member of the Futures City family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "adelaide-city-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_20.jpg",
+          "headshot_fallback": "/photos/voices/voice_20.jpg",
+          "alt_text": "A member of the Futures City family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "adelaide-city-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_25.jpg",
+          "headshot_fallback": "/photos/voices/voice_25.jpg",
+          "alt_text": "A member of the Futures City family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "adelaide-city-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_30.jpg",
+          "headshot_fallback": "/photos/voices/voice_30.jpg",
+          "alt_text": "A member of the Futures City family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "adelaide-city-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_1.jpg",
+          "headshot_fallback": "/photos/voices/voice_1.jpg",
+          "alt_text": "A member of the Futures City family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "adelaide-city-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_6.jpg",
+          "headshot_fallback": "/photos/voices/voice_6.jpg",
+          "alt_text": "A member of the Futures City family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ],
+      "brief_slug_alias": "city"
+    },
+    "victor-harbor": {
+      "campus_name": "Victor Harbor",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Stu"
+      ],
+      "faces": [
+        {
+          "id": "victor-harbor-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_6.jpg",
+          "headshot_fallback": "/photos/voices/voice_6.jpg",
+          "alt_text": "A member of the Futures Victor Harbor family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "victor-harbor-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_11.jpg",
+          "headshot_fallback": "/photos/voices/voice_11.jpg",
+          "alt_text": "A member of the Futures Victor Harbor family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "victor-harbor-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_16.jpg",
+          "headshot_fallback": "/photos/voices/voice_16.jpg",
+          "alt_text": "A member of the Futures Victor Harbor family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "victor-harbor-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_21.jpg",
+          "headshot_fallback": "/photos/voices/voice_21.jpg",
+          "alt_text": "A member of the Futures Victor Harbor family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "victor-harbor-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_26.jpg",
+          "headshot_fallback": "/photos/voices/voice_26.jpg",
+          "alt_text": "A member of the Futures Victor Harbor family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "victor-harbor-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_31.jpg",
+          "headshot_fallback": "/photos/voices/voice_31.jpg",
+          "alt_text": "A member of the Futures Victor Harbor family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "copper-coast": {
+      "campus_name": "Kadina",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Shannon",
+        "Courtney"
+      ],
+      "faces": [
+        {
+          "id": "copper-coast-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_14.jpg",
+          "headshot_fallback": "/photos/voices/voice_14.jpg",
+          "alt_text": "A member of the Futures Kadina family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "copper-coast-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_19.jpg",
+          "headshot_fallback": "/photos/voices/voice_19.jpg",
+          "alt_text": "A member of the Futures Kadina family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "copper-coast-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_24.jpg",
+          "headshot_fallback": "/photos/voices/voice_24.jpg",
+          "alt_text": "A member of the Futures Kadina family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "copper-coast-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_29.jpg",
+          "headshot_fallback": "/photos/voices/voice_29.jpg",
+          "alt_text": "A member of the Futures Kadina family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "copper-coast-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_34.jpg",
+          "headshot_fallback": "/photos/voices/voice_34.jpg",
+          "alt_text": "A member of the Futures Kadina family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "copper-coast-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_5.jpg",
+          "headshot_fallback": "/photos/voices/voice_5.jpg",
+          "alt_text": "A member of the Futures Kadina family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ],
+      "brief_slug_alias": "kadina"
+    },
+    "gwinnett": {
+      "campus_name": "Gwinnett",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Nick",
+        "Danielle"
+      ],
+      "faces": [
+        {
+          "id": "gwinnett-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_8.jpg",
+          "headshot_fallback": "/photos/voices/voice_8.jpg",
+          "alt_text": "A member of the Futures Gwinnett family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "gwinnett-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_13.jpg",
+          "headshot_fallback": "/photos/voices/voice_13.jpg",
+          "alt_text": "A member of the Futures Gwinnett family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "gwinnett-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_18.jpg",
+          "headshot_fallback": "/photos/voices/voice_18.jpg",
+          "alt_text": "A member of the Futures Gwinnett family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "gwinnett-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_23.jpg",
+          "headshot_fallback": "/photos/voices/voice_23.jpg",
+          "alt_text": "A member of the Futures Gwinnett family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "gwinnett-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_28.jpg",
+          "headshot_fallback": "/photos/voices/voice_28.jpg",
+          "alt_text": "A member of the Futures Gwinnett family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "gwinnett-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_33.jpg",
+          "headshot_fallback": "/photos/voices/voice_33.jpg",
+          "alt_text": "A member of the Futures Gwinnett family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ],
+      "assistant_first_names": [
+        "Nate",
+        "Chloe"
+      ]
+    },
+    "kennesaw": {
+      "campus_name": "Kennesaw",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Andy"
+      ],
+      "faces": [
+        {
+          "id": "kennesaw-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_10.jpg",
+          "headshot_fallback": "/photos/voices/voice_10.jpg",
+          "alt_text": "A member of the Futures Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "kennesaw-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_15.jpg",
+          "headshot_fallback": "/photos/voices/voice_15.jpg",
+          "alt_text": "A member of the Futures Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "kennesaw-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_20.jpg",
+          "headshot_fallback": "/photos/voices/voice_20.jpg",
+          "alt_text": "A member of the Futures Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "kennesaw-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_25.jpg",
+          "headshot_fallback": "/photos/voices/voice_25.jpg",
+          "alt_text": "A member of the Futures Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "kennesaw-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_30.jpg",
+          "headshot_fallback": "/photos/voices/voice_30.jpg",
+          "alt_text": "A member of the Futures Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "kennesaw-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_1.jpg",
+          "headshot_fallback": "/photos/voices/voice_1.jpg",
+          "alt_text": "A member of the Futures Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "alpharetta": {
+      "campus_name": "Alpharetta",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Ryan"
+      ],
+      "faces": [
+        {
+          "id": "alpharetta-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_8.jpg",
+          "headshot_fallback": "/photos/voices/voice_8.jpg",
+          "alt_text": "A member of the Futures Alpharetta family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "alpharetta-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_13.jpg",
+          "headshot_fallback": "/photos/voices/voice_13.jpg",
+          "alt_text": "A member of the Futures Alpharetta family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "alpharetta-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_18.jpg",
+          "headshot_fallback": "/photos/voices/voice_18.jpg",
+          "alt_text": "A member of the Futures Alpharetta family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "alpharetta-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_23.jpg",
+          "headshot_fallback": "/photos/voices/voice_23.jpg",
+          "alt_text": "A member of the Futures Alpharetta family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "alpharetta-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_28.jpg",
+          "headshot_fallback": "/photos/voices/voice_28.jpg",
+          "alt_text": "A member of the Futures Alpharetta family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "alpharetta-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_33.jpg",
+          "headshot_fallback": "/photos/voices/voice_33.jpg",
+          "alt_text": "A member of the Futures Alpharetta family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "franklin": {
+      "campus_name": "Franklin, TN",
+      "locale": "en",
+      "campus_pastor_first_names": [
+        "Mark",
+        "Lauren"
+      ],
+      "faces": [
+        {
+          "id": "franklin-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_27.jpg",
+          "headshot_fallback": "/photos/voices/voice_27.jpg",
+          "alt_text": "A member of the Futures Franklin, TN family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "franklin-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_32.jpg",
+          "headshot_fallback": "/photos/voices/voice_32.jpg",
+          "alt_text": "A member of the Futures Franklin, TN family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "franklin-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_3.jpg",
+          "headshot_fallback": "/photos/voices/voice_3.jpg",
+          "alt_text": "A member of the Futures Franklin, TN family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "franklin-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_8.jpg",
+          "headshot_fallback": "/photos/voices/voice_8.jpg",
+          "alt_text": "A member of the Futures Franklin, TN family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "franklin-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_13.jpg",
+          "headshot_fallback": "/photos/voices/voice_13.jpg",
+          "alt_text": "A member of the Futures Franklin, TN family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "franklin-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_18.jpg",
+          "headshot_fallback": "/photos/voices/voice_18.jpg",
+          "alt_text": "A member of the Futures Franklin, TN family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "futuros-duluth": {
+      "campus_name": "Futuros Duluth",
+      "locale": "es",
+      "campus_pastor_first_names": [
+        "Alexis",
+        "Susanna"
+      ],
+      "faces": [
+        {
+          "id": "futuros-duluth-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_33.jpg",
+          "headshot_fallback": "/photos/voices/voice_33.jpg",
+          "alt_text": "A member of the Futures Futuros Duluth family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-duluth-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_4.jpg",
+          "headshot_fallback": "/photos/voices/voice_4.jpg",
+          "alt_text": "A member of the Futures Futuros Duluth family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-duluth-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_9.jpg",
+          "headshot_fallback": "/photos/voices/voice_9.jpg",
+          "alt_text": "A member of the Futures Futuros Duluth family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-duluth-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_14.jpg",
+          "headshot_fallback": "/photos/voices/voice_14.jpg",
+          "alt_text": "A member of the Futures Futuros Duluth family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-duluth-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_19.jpg",
+          "headshot_fallback": "/photos/voices/voice_19.jpg",
+          "alt_text": "A member of the Futures Futuros Duluth family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-duluth-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_24.jpg",
+          "headshot_fallback": "/photos/voices/voice_24.jpg",
+          "alt_text": "A member of the Futures Futuros Duluth family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "futuros-grayson": {
+      "campus_name": "Futuros Grayson",
+      "locale": "es",
+      "campus_pastor_first_names": [
+        "Julio"
+      ],
+      "faces": [
+        {
+          "id": "futuros-grayson-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_32.jpg",
+          "headshot_fallback": "/photos/voices/voice_32.jpg",
+          "alt_text": "A member of the Futures Futuros Grayson family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-grayson-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_3.jpg",
+          "headshot_fallback": "/photos/voices/voice_3.jpg",
+          "alt_text": "A member of the Futures Futuros Grayson family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-grayson-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_8.jpg",
+          "headshot_fallback": "/photos/voices/voice_8.jpg",
+          "alt_text": "A member of the Futures Futuros Grayson family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-grayson-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_13.jpg",
+          "headshot_fallback": "/photos/voices/voice_13.jpg",
+          "alt_text": "A member of the Futures Futuros Grayson family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-grayson-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_18.jpg",
+          "headshot_fallback": "/photos/voices/voice_18.jpg",
+          "alt_text": "A member of the Futures Futuros Grayson family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-grayson-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_23.jpg",
+          "headshot_fallback": "/photos/voices/voice_23.jpg",
+          "alt_text": "A member of the Futures Futuros Grayson family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    },
+    "futuros-kennesaw": {
+      "campus_name": "Futuros Kennesaw",
+      "locale": "es",
+      "campus_pastor_first_names": [
+        "Maleka",
+        "Yohan"
+      ],
+      "faces": [
+        {
+          "id": "futuros-kennesaw-p1",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_19.jpg",
+          "headshot_fallback": "/photos/voices/voice_19.jpg",
+          "alt_text": "A member of the Futures Futuros Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-kennesaw-p2",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_24.jpg",
+          "headshot_fallback": "/photos/voices/voice_24.jpg",
+          "alt_text": "A member of the Futures Futuros Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-kennesaw-p3",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_29.jpg",
+          "headshot_fallback": "/photos/voices/voice_29.jpg",
+          "alt_text": "A member of the Futures Futuros Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-kennesaw-p4",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_34.jpg",
+          "headshot_fallback": "/photos/voices/voice_34.jpg",
+          "alt_text": "A member of the Futures Futuros Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-kennesaw-p5",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_5.jpg",
+          "headshot_fallback": "/photos/voices/voice_5.jpg",
+          "alt_text": "A member of the Futures Futuros Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        },
+        {
+          "id": "futuros-kennesaw-p6",
+          "first_name": null,
+          "age_bracket": null,
+          "headshot_url": "/photos/voices/voice_10.jpg",
+          "headshot_fallback": "/photos/voices/voice_10.jpg",
+          "alt_text": "A member of the Futures Futuros Kennesaw family",
+          "one_liner": null,
+          "longer_story": null,
+          "release_signed": false,
+          "is_placeholder": true,
+          "date_added": "2026-04-20"
+        }
+      ]
+    }
   }
 }

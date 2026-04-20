@@ -1,28 +1,24 @@
 {
   "_meta": {
-    "purpose": "Three honest first-timer fears, answered honestly. Rendered in VisitFears component on /plan-a-visit after the user picks a campus. Copy is editable here without code changes.",
-    "voice": "Warm. Pastoral. No church-industry jargon. Short. Never defensive. If the fear is real, name it; if the fear is unfounded, gently disarm it.",
-    "length": "Each 'honest' field: 2–4 short sentences max. No paragraphs over 60 words.",
-    "tone": "Never start with 'Don't worry' or 'Actually'. Lead with empathy."
+    "purpose": "Three universal first-timer fears, answered honestly. Rendered on /plan-a-visit after a campus is picked, above the form. All three visible at once (no accordion). Copy rules: questions phrased internally (as a visitor would ask themselves), answers lead with honest acknowledgment, no 'Don't worry', no emojis, no exclamation points.",
+    "shared_across_campuses_for_launch": true,
+    "per_campus_override_v2": true
   },
   "fears": [
     {
       "id": "alone",
-      "heading": "I don't want to come alone.",
-      "honest": "Most first-timers walk in alone. You won't be the only one. A host meets you at the door, shows you where to sit, and — if you want — sits with you. No pressure, no announcement, no being asked to stand up.",
-      "followup": "If you'd rather a host know you're coming so they can find you, tick that on step 3 and we'll quietly give them a heads-up."
+      "fear": "What if I don't know anyone?",
+      "answer": "About 40% of first-timers come alone. Tell us when you arrive — someone will sit with you. No pressure, no strange introductions. Just a seat with a friendly human next to it."
     },
     {
       "id": "not-religious",
-      "heading": "I'm not religious. I'd feel out of place.",
-      "honest": "A lot of the room didn't grow up in church either. We don't do guilt, jargon, or a script you have to know. You can sing, not sing, sit at the back, leave early. Whatever you need to be honest about where you are.",
-      "followup": "If you'd like, Ezra can tell you what a Sunday actually sounds like — word for word, no softening."
+      "fear": "What if I'm not religious?",
+      "answer": "Come anyway. You won't be asked to do anything — no hands raised, no money expected, no quiz at the end. Lots of people at Futures are figuring out what they believe. You're in good company."
     },
     {
       "id": "only-one",
-      "heading": "I'll be the only one who looks like me.",
-      "honest": "Futures is 21 campuses across 4 countries — Australian, American, Indonesian, Venezuelan, Spanish-speaking, English-speaking, young, old, single, family, every shade. At most campuses the room is genuinely mixed. At a few smaller ones it's less so — and we'll tell you the truth about that if you ask.",
-      "followup": "Ask Ezra about your specific campus and he'll describe the room honestly — not the brochure version."
+      "fear": "What if I'm the only ___ here?",
+      "answer": "Look at the faces above. Whoever you are — old, young, single, newly divorced, broke, doubting, doing fine — someone already at this campus is you. They were new once too."
     }
   ]
 }
