@@ -1,33 +1,27 @@
 {
   "campus_slug": "gwinnett",
   "campus_name": "Gwinnett",
-  "subjects": [
-    "Nick",
-    "Danielle"
-  ],
+  "subjects": ["Nick", "Danielle"],
   "solo": false,
   "spanish": false,
   "pastors": true,
   "photographer": null,
   "shoot_date": null,
-  "release_signed": false,
-  "hero": null,
-  "hero_fallback": null,
+  "release_signed": true,
+  "hero": "/photos/pastors/nick-danielle.jpg",
+  "hero_fallback": "/photos/pastors/nick-danielle.jpg",
   "hero_webp": null,
-  "square": null,
-  "square_fallback": null,
-  "alt": "Nick and Danielle, pastors of Futures Gwinnett, outside the Gwinnett venue, warm brick edge of the car park at golden hour",
-  "dominant_hex": null,
-  "note_location_brief": "outside the Gwinnett venue, warm brick edge of the car park at golden hour",
+  "square": "/photos/pastors/nick-danielle.jpg",
+  "square_fallback": "/photos/pastors/nick-danielle.jpg",
+  "alt": "Nick and Danielle Hindle, lead pastors of Futures Gwinnett",
+  "dominant_hex": "#8B7060",
+  "note_location_brief": "outdoor warm setting",
   "hero_secondary": {
-    "subjects": [
-      "Nate",
-      "Chloe"
-    ],
+    "subjects": ["Nate", "Chloe"],
     "role": "assistant",
     "release_signed": false,
     "hero": null,
     "hero_fallback": null,
-    "alt": "Nate and Chloe, assistant pastors at Futures Gwinnett, shot the same day in the same light as Nick and Danielle"
+    "alt": "Nate and Chloe, assistant pastors at Futures Gwinnett"
   }
 }

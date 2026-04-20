@@ -128,10 +128,10 @@
     "oneLine": "Copper Coast — Yorke Peninsula’s Futures.",
     "pastors": [
       {
-        "name": "Lead Pastor — Copper Coast",
-        "role": "Lead Pastor",
-        "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800&q=80&auto=format&fit=crop",
-        "placeholder": true
+        "name": "Shannon & Courtney",
+        "role": "Lead Pastors",
+        "photo": "/photos/pastors/shannon-courtney.jpg",
+        "placeholder": false
       }
     ]
   },
@@ -145,16 +145,10 @@
     "oneLine": "Gwinnett — the US flagship campus.",
     "pastors": [
       {
-        "name": "Nick Hindle",
-        "role": "Lead Pastor",
-        "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&q=80&auto=format&fit=crop",
-        "placeholder": true
-      },
-      {
-        "name": "Danielle Hindle",
-        "role": "Co-Pastor",
-        "photo": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&q=80&auto=format&fit=crop",
-        "placeholder": true
+        "name": "Nick & Danielle Hindle",
+        "role": "Lead Pastors",
+        "photo": "/photos/pastors/nick-danielle.jpg",
+        "placeholder": false
       }
     ]
   },
@@ -185,10 +179,10 @@
     "oneLine": "Alpharetta — North Fulton’s Futures.",
     "pastors": [
       {
-        "name": "Lead Pastor — Alpharetta",
-        "role": "Lead Pastor",
-        "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80&auto=format&fit=crop",
-        "placeholder": true
+        "name": "Ryan & Lindsay",
+        "role": "Lead Pastors",
+        "photo": "/photos/pastors/ryan-lindsay.jpg",
+        "placeholder": false
       }
     ]
   },

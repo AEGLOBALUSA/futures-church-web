@@ -1,21 +1,19 @@
 {
   "campus_slug": "alpharetta",
   "campus_name": "Alpharetta",
-  "subjects": [
-    "Ryan"
-  ],
-  "solo": true,
+  "subjects": ["Ryan", "Lindsay"],
+  "solo": false,
   "spanish": false,
   "pastors": true,
   "photographer": null,
   "shoot_date": null,
-  "release_signed": false,
-  "hero": null,
-  "hero_fallback": null,
+  "release_signed": true,
+  "hero": "/photos/pastors/ryan-lindsay.jpg",
+  "hero_fallback": "/photos/pastors/ryan-lindsay.jpg",
   "hero_webp": null,
-  "square": null,
-  "square_fallback": null,
-  "alt": "Ryan, pastor of Futures Alpharetta, outdoor near the Alpharetta venue, late afternoon",
-  "dominant_hex": null,
-  "note_location_brief": "outdoor near the Alpharetta venue, late afternoon"
+  "square": "/photos/pastors/ryan-lindsay.jpg",
+  "square_fallback": "/photos/pastors/ryan-lindsay.jpg",
+  "alt": "Ryan and Lindsay, lead pastors of Futures Alpharetta",
+  "dominant_hex": "#8B7050",
+  "note_location_brief": "outdoor terrace, Alpharetta"
 }
