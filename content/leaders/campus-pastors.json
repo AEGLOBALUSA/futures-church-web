@@ -26,16 +26,16 @@
     "oneLine": "Adelaide City — our downtown campus, packed every Sunday night.",
     "pastors": [
       {
-        "name": "Lead Pastor — Adelaide City",
-        "role": "Lead Pastor",
-        "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80&auto=format&fit=crop",
-        "placeholder": true
+        "name": "Simon & Lauren",
+        "role": "Lead Pastors",
+        "photo": "/photos/pastors/simon-lauren.jpg",
+        "placeholder": false
       }
     ]
   },
   {
     "slug": "south",
-    "campusName": "South (Reynella)",
+    "campusName": "South",
     "city": "Reynella, SA",
     "country": "Australia",
     "plantedYear": 2009,
@@ -43,10 +43,10 @@
     "oneLine": "South — the southern-suburbs family of Futures.",
     "pastors": [
       {
-        "name": "Lead Pastor — South (Reynella)",
-        "role": "Lead Pastor",
-        "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80&auto=format&fit=crop",
-        "placeholder": true
+        "name": "Doran & Mel",
+        "role": "Lead Pastors",
+        "photo": "/photos/pastors/doran-mel.jpg",
+        "placeholder": false
       }
     ]
   },

@@ -1,23 +1,20 @@
 {
   "campus_slug": "adelaide-city",
   "campus_name": "Adelaide City",
-  "subjects": [
-    "Simon",
-    "Lauren"
-  ],
+  "subjects": ["Simon", "Lauren"],
   "solo": false,
   "spanish": false,
   "pastors": true,
   "photographer": null,
   "shoot_date": null,
-  "release_signed": false,
-  "hero": null,
-  "hero_fallback": null,
+  "release_signed": true,
+  "hero": "/photos/pastors/simon-lauren.jpg",
+  "hero_fallback": "/photos/pastors/simon-lauren.jpg",
   "hero_webp": null,
-  "square": null,
-  "square_fallback": null,
-  "alt": "Simon and Lauren, pastors of Futures Adelaide City, on a brick wall in the Adelaide CBD near the City campus",
-  "dominant_hex": null,
+  "square": "/photos/pastors/simon-lauren.jpg",
+  "square_fallback": "/photos/pastors/simon-lauren.jpg",
+  "alt": "Simon and Lauren, lead pastors of Futures Adelaide City",
+  "dominant_hex": "#8B7A65",
   "note_location_brief": "on a brick wall in the Adelaide CBD near the City campus",
   "brief_slug_alias": "city"
 }

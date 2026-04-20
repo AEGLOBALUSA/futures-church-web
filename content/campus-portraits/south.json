@@ -1,22 +1,19 @@
 {
   "campus_slug": "south",
-  "campus_name": "South (Reynella)",
-  "subjects": [
-    "Doran",
-    "Mel"
-  ],
+  "campus_name": "South",
+  "subjects": ["Doran", "Mel"],
   "solo": false,
   "spanish": false,
   "pastors": true,
   "photographer": null,
   "shoot_date": null,
-  "release_signed": false,
-  "hero": null,
-  "hero_fallback": null,
+  "release_signed": true,
+  "hero": "/photos/pastors/doran-mel.jpg",
+  "hero_fallback": "/photos/pastors/doran-mel.jpg",
   "hero_webp": null,
-  "square": null,
-  "square_fallback": null,
-  "alt": "Doran and Mel, pastors of Futures South (Reynella), just outside the South (Reynella) foyer",
-  "dominant_hex": null,
+  "square": "/photos/pastors/doran-mel.jpg",
+  "square_fallback": "/photos/pastors/doran-mel.jpg",
+  "alt": "Doran and Mel, lead pastors of Futures South",
+  "dominant_hex": "#7A6050",
   "note_location_brief": "just outside the South (Reynella) foyer"
 }
