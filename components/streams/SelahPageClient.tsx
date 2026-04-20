@@ -376,7 +376,7 @@ function TryAQuestion() {
         <GlassCard dark breathe className="mt-8 p-6">
           <div
             ref={scrollerRef}
-            className="max-h-[360px] min-h-[120px] space-y-4 overflow-y-auto pr-2"
+            className="max-h-[calc(100vh-220px)] min-h-[120px] space-y-4 overflow-y-auto overscroll-contain scroll-smooth pr-2"
           >
             {messages.length === 0 && (
               <div className="flex flex-wrap gap-2">
