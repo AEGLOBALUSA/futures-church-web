@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, ArrowRight } from "lucide-react";
 import { campuses } from "@/lib/content/campuses";
-import { CAMPUS_PHOTOS } from "./CampusesMap";
+import { CAMPUS_PHOTOS, PASTOR_PHOTOS } from "./CampusesMap";
 
 // Countries, in the order Ashley asked for: USA, Australia, Venezuela, Indonesia, Brazil.
 // Each portal is a doorway — country image, campus count, tone. Click → smooth-scroll
@@ -493,7 +493,7 @@ function CountrySection({
         <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {list.map((campus) => {
             const launching = campus.status === "launching";
-            const photo = CAMPUS_PHOTOS[campus.slug];
+            const photo = PASTOR_PHOTOS[campus.slug] ?? CAMPUS_PHOTOS[campus.slug];
             return (
               <Link
                 key={campus.slug}

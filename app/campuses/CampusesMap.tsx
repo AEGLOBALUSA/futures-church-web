@@ -15,6 +15,19 @@ const REGIONS: { key: CampusRegion; label: string; tone: string }[] = [
   { key: "global", label: "Online", tone: "#D9B089" },
 ];
 
+// Pastor couple portraits — shown as primary tile photo where available.
+// Fall back to CAMPUS_PHOTOS (venue shot) when no portrait exists.
+export const PASTOR_PHOTOS: Record<string, string> = {
+  paradise:        "/photos/pastors/tony-aste.jpg",
+  salisbury:       "/photos/pastors/steve-janine.jpg",
+  south:           "/photos/pastors/doran-mel.jpg",
+  "adelaide-city": "/photos/pastors/simon-lauren.jpg",
+  "copper-coast":  "/photos/pastors/shannon-courtney.jpg",
+  gwinnett:        "/photos/pastors/nick-danielle.jpg",
+  alpharetta:      "/photos/pastors/ryan-lindsay.jpg",
+  franklin:        "/photos/pastors/mark-lauren.jpg",
+};
+
 // City photo library — real Futures photography, resized & served from /public/photos.
 // One curated hero per campus. Indonesian campuses without dedicated coverage reuse
 // the Cemani/Solo pool; Venezuelan launching campuses reuse the Futuros pool.
