@@ -74,7 +74,7 @@ function renderPrimary(
   return (
     <figure
       className={[
-        "group relative overflow-hidden",
+        "group relative w-full overflow-hidden",
         variant === "hero" ? "rounded-[28px]" : "rounded-[18px]",
         aspect,
         className ?? "",
@@ -96,6 +96,7 @@ function renderPrimary(
         priority={shouldPrioritize}
         sizes={sizes}
         className="object-cover object-top transition-transform duration-[3500ms] ease-out group-hover:scale-[1.03]"
+        unoptimized
       />
 
       {/* Tone wash */}
