@@ -196,10 +196,10 @@
     "oneLine": "Franklin — our first campus outside Georgia.",
     "pastors": [
       {
-        "name": "Lead Pastor — Franklin",
-        "role": "Lead Pastor",
-        "photo": "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800&q=80&auto=format&fit=crop",
-        "placeholder": true
+        "name": "Mark & Lauren",
+        "role": "Lead Pastors",
+        "photo": "/photos/pastors/mark-lauren.jpg",
+        "placeholder": false
       }
     ]
   },

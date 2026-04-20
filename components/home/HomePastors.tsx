@@ -28,8 +28,7 @@ const AUSTRALIA: Pastor[] = [
   {
     name: "Josh & Sjhana Greenwood",
     role: "Australia Lead Pastors",
-    image:
-      "https://res.cloudinary.com/thechurchcoproduction/image/fetch/f_auto,q_80,w_1200/https://thechurchco-production.s3.amazonaws.com/uploads/sites/3091/2023/06/josh-and-sjhana-greenwood-800x800.png",
+    image: "/photos/pastors/josh-sjhana.jpg",
     tone: "#C8906B",
   },
 ];

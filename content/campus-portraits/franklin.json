@@ -1,22 +1,19 @@
 {
   "campus_slug": "franklin",
   "campus_name": "Franklin",
-  "subjects": [
-    "Mark",
-    "Lauren"
-  ],
+  "subjects": ["Mark", "Lauren"],
   "solo": false,
   "spanish": false,
   "pastors": true,
   "photographer": null,
   "shoot_date": null,
-  "release_signed": false,
-  "hero": null,
-  "hero_fallback": null,
+  "release_signed": true,
+  "hero": "/photos/pastors/mark-lauren.jpg",
+  "hero_fallback": "/photos/pastors/mark-lauren.jpg",
   "hero_webp": null,
-  "square": null,
-  "square_fallback": null,
-  "alt": "Mark and Lauren, pastors of Futures Franklin, on a characteristically-Tennessee street, wood and warm brick, golden hour",
-  "dominant_hex": null,
-  "note_location_brief": "on a characteristically-Tennessee street, wood and warm brick, golden hour"
+  "square": "/photos/pastors/mark-lauren.jpg",
+  "square_fallback": "/photos/pastors/mark-lauren.jpg",
+  "alt": "Mark and Lauren, lead pastors of Futures Franklin",
+  "dominant_hex": "#A08870",
+  "note_location_brief": "outdoor rustic setting, Franklin TN"
 }
