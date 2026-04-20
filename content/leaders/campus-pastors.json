@@ -9,15 +9,9 @@
     "oneLine": "Tony & Aste Corbridge lead Paradise — the original Futures campus, running since 1922.",
     "pastors": [
       {
-        "name": "Tony Corbridge",
-        "role": "Lead Pastor",
-        "photo": "/photos/pastors/tony.jpg",
-        "placeholder": false
-      },
-      {
-        "name": "Aste Corbridge",
-        "role": "Co-Pastor",
-        "photo": "/photos/pastors/aste.jpg",
+        "name": "Tony & Aste Corbridge",
+        "role": "Lead Pastors",
+        "photo": "/photos/pastors/tony-aste.jpg",
         "placeholder": false
       }
     ]
@@ -80,18 +74,12 @@
     "country": "Australia",
     "plantedYear": 2011,
     "status": "active",
-    "oneLine": "Janine Donato leads Salisbury — northern Adelaide’s Futures campus.",
+    "oneLine": "Steve & Janine Donato lead Salisbury — northern Adelaide’s Futures campus.",
     "pastors": [
       {
-        "name": "Steve Donato",
-        "role": "Pastor",
+        "name": "Steve & Janine Donato",
+        "role": "Lead Pastors",
         "photo": "/photos/pastors/steve-janine.jpg",
-        "placeholder": false
-      },
-      {
-        "name": "Janine Donato",
-        "role": "Lead Pastor",
-        "photo": "/photos/pastors/janine.jpg",
         "placeholder": false
       }
     ]

@@ -87,7 +87,7 @@ export default async function CampusPage({
     .slice(0, 4);
 
   const campusPastorEntry = (campusPastorsData as Array<{ slug: string; pastors: Array<{ name: string; role: string; photo: string; placeholder: boolean }> }>).find(c => c.slug === slug);
-  const realPastors = campusPastorEntry?.pastors.filter(p => !p.placeholder) ?? [];
+  const pastoralPhoto = campusPastorEntry?.pastors.find(p => !p.placeholder) ?? null;
 
   return (
     <main className="bg-[#FDFBF6] text-[#1C1A17] selection:bg-[#C8906B] selection:text-[#FDFBF6]">
@@ -253,89 +253,83 @@ export default async function CampusPage({
         </div>
       </section>
 
-      {realPastors.length > 0 && (
-        <section className="px-6 py-16 sm:px-10 lg:px-16">
+      {pastoralPhoto && (
+        <section className="px-6 py-20 sm:px-10 lg:px-16">
           <div className="mx-auto max-w-6xl">
-            <div className="flex items-baseline gap-3">
-              <span
-                aria-hidden
-                className="inline-block h-2 w-2 rounded-full"
-                style={{ background: tone }}
-              />
-              <p
-                className="font-sans"
+            <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-[5fr_7fr]">
+
+              {/* Portrait photo — natural 2:3, full quality */}
+              <div
+                className="group relative w-full overflow-hidden rounded-[28px]"
                 style={{
-                  color: "#534D44",
-                  fontSize: 11,
-                  letterSpacing: "0.28em",
-                  textTransform: "uppercase",
+                  aspectRatio: "2/3",
+                  background: tone,
+                  boxShadow: "0 48px 96px -32px rgba(18,16,13,0.52)",
                 }}
               >
-                Led by
-              </p>
-            </div>
-
-            <div
-              className={`mt-8 grid grid-cols-1 gap-4 ${
-                realPastors.length > 1 ? "sm:grid-cols-2" : "sm:max-w-sm"
-              }`}
-            >
-              {realPastors.map((p) => (
+                <Image
+                  src={pastoralPhoto.photo}
+                  alt={pastoralPhoto.name}
+                  fill
+                  priority
+                  className="object-cover object-top transition-transform duration-[3500ms] ease-out group-hover:scale-[1.03]"
+                  unoptimized
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                />
                 <div
-                  key={p.name}
-                  className="group relative overflow-hidden rounded-[22px]"
+                  aria-hidden
+                  className="absolute inset-0"
+                  style={{ background: tone, mixBlendMode: "soft-light", opacity: 0.1 }}
+                />
+              </div>
+
+              {/* Name + role — large editorial type */}
+              <div className="lg:pb-14">
+                <div className="flex items-baseline gap-3">
+                  <span
+                    aria-hidden
+                    className="inline-block h-2 w-2 rounded-full"
+                    style={{ background: tone }}
+                  />
+                  <p
+                    className="font-sans"
+                    style={{
+                      color: "#534D44",
+                      fontSize: 11,
+                      letterSpacing: "0.28em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Led by
+                  </p>
+                </div>
+
+                <h2
+                  className="mt-6 font-display italic"
                   style={{
-                    aspectRatio: "3/4",
-                    background: tone,
-                    boxShadow: "0 32px 64px -28px rgba(20,18,15,0.38)",
+                    color: "#1C1A17",
+                    fontSize: "clamp(2.75rem, 5.5vw, 5rem)",
+                    fontWeight: 300,
+                    lineHeight: 1.0,
+                    letterSpacing: "-0.015em",
                   }}
                 >
-                  <Image
-                    src={p.photo}
-                    alt={p.name}
-                    fill
-                    className="object-cover object-center transition-transform duration-[2000ms] ease-out group-hover:scale-[1.04]"
-                    unoptimized
-                    sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 40vw"
-                  />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0"
-                    style={{ background: tone, mixBlendMode: "soft-light", opacity: 0.16 }}
-                  />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, transparent 38%, rgba(18,16,13,0.92) 100%)",
-                    }}
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-8">
-                    <p
-                      className="font-display italic text-[#FDFBF6]"
-                      style={{
-                        fontSize: "clamp(1.6rem, 3.5vw, 2.25rem)",
-                        fontWeight: 300,
-                        lineHeight: 1.1,
-                      }}
-                    >
-                      {p.name}
-                    </p>
-                    <p
-                      className="mt-2 font-sans"
-                      style={{
-                        color: "rgba(253,251,246,0.6)",
-                        fontSize: 11,
-                        letterSpacing: "0.26em",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {p.role}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                  {pastoralPhoto.name}
+                </h2>
+
+                <p
+                  className="mt-5 font-sans"
+                  style={{
+                    color: "#534D44",
+                    fontSize: 11,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {pastoralPhoto.role} · {campus.name}
+                </p>
+              </div>
+
             </div>
           </div>
         </section>
