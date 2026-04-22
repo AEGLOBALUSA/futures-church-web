@@ -12,42 +12,37 @@ type Moment = {
   accent: string;
 };
 
-// Moment tiles. Each image is deliberately chosen so the grid reads as
-// globally diverse — Aboriginal Australian, African-American, Venezuelan,
-// Indonesian (Javanese, Balinese, Minahasan), South Asian, Brazilian
-// representation. When swapping placeholders for real Futures photography,
-// keep the ethnic spread of the row intact.
 const MOMENTS: Moment[] = [
   {
     id: "paradise-sunday",
     title: "Sunday morning, Paradise",
     caption: "The doors open. The coffee starts. The family arrives.",
     campus: "Paradise · Adelaide",
-    image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600&q=75&auto=format&fit=crop",
+    image: "/photos/mosaic/mosaic_au_5.jpg",
     accent: "#C8906B",
   },
   {
-    id: "la-worship",
-    title: "Hands up, Los Angeles",
+    id: "gwinnett-worship",
+    title: "Hands up, Gwinnett",
     caption: "Mid-worship, a few hundred voices holding one note.",
-    campus: "Los Angeles · California",
-    image: "https://images.unsplash.com/photo-1519058082700-08a0b56da9b4?w=1600&q=75&auto=format&fit=crop",
+    campus: "Gwinnett · Georgia",
+    image: "/photos/mosaic/mosaic_us_11.jpg",
     accent: "#AC9B25",
   },
   {
-    id: "futuros-caracas",
-    title: "La familia",
+    id: "futuros-duluth",
+    title: "La familia, Futuros",
     caption: "Spanish, laughter, three generations at one table.",
-    campus: "Caracas · Venezuela (launching)",
-    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1600&q=75&auto=format&fit=crop",
+    campus: "Futuros Duluth · Georgia",
+    image: "/photos/mosaic/mosaic_au_12.jpg",
     accent: "#C45236",
   },
   {
-    id: "bali-sunrise",
-    title: "Sunrise prayer, Bali",
-    caption: "Denpasar, 5:40am — young Balinese leaders before the sun.",
+    id: "bali-sunday",
+    title: "Sunday morning, Bali",
+    caption: "Denpasar — young Balinese believers filling the room.",
     campus: "Bali · Indonesia",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=75&auto=format&fit=crop",
+    image: "/photos/mosaic/mosaic_au_15.jpg",
     accent: "#8A5A3C",
   },
   {
@@ -55,7 +50,7 @@ const MOMENTS: Moment[] = [
     title: "Kids church, Mount Barker",
     caption: "Loud, bright, safe. Two hours no parent wants to miss.",
     campus: "Mount Barker · Adelaide Hills",
-    image: "https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=1600&q=75&auto=format&fit=crop",
+    image: "/photos/mosaic/mosaic_au_20.jpg",
     accent: "#D9B089",
   },
   {
@@ -63,7 +58,7 @@ const MOMENTS: Moment[] = [
     title: "Youth night, Solo",
     caption: "Surakarta's teenagers pack out the hall on Fridays.",
     campus: "Solo · Central Java",
-    image: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=1600&q=75&auto=format&fit=crop",
+    image: "/photos/mosaic/mosaic_au_30.jpg",
     accent: "#C8906B",
   },
   {
@@ -71,7 +66,7 @@ const MOMENTS: Moment[] = [
     title: "Online church, everywhere",
     caption: "Three time zones, one service. São Paulo, Nairobi, Kansas.",
     campus: "Online · Worldwide",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=75&auto=format&fit=crop",
+    image: "/photos/mosaic/mosaic_us_2.jpg",
     accent: "#765020",
   },
   {
@@ -79,7 +74,7 @@ const MOMENTS: Moment[] = [
     title: "Harvest Sunday, Langowan",
     caption: "Minahasan North Sulawesi fills the church with what it grows.",
     campus: "Langowan · North Sulawesi",
-    image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1600&q=75&auto=format&fit=crop",
+    image: "/photos/mosaic/mosaic_au_50.jpg",
     accent: "#AC9B25",
   },
 ];

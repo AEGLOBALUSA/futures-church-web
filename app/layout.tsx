@@ -39,15 +39,22 @@ export const metadata: Metadata = {
     siteName: "Futures Church",
     locale: "en_AU",
     type: "website",
-    images: [{ url: "/og-default.png", width: 1200, height: 630 }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Futures Church",
     description: "One family across 21 campuses in 4 countries.",
-    images: ["/og-default.png"],
+    images: ["/opengraph-image"],
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon", type: "image/png", sizes: "32x32" },
+    ],
+    apple: { url: "/apple-icon", type: "image/png", sizes: "180x180" },
+  },
 };
 
 export const viewport: Viewport = {
@@ -60,7 +67,7 @@ const ORGANIZATION_JSON_LD = {
   name: "Futures Church",
   alternateName: "Futures",
   url: "https://futures.church",
-  logo: "https://futures.church/og-default.png",
+  logo: "https://futures.church/opengraph-image",
   foundingDate: "1922",
   address: {
     "@type": "PostalAddress",

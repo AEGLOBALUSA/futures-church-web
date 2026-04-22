@@ -107,7 +107,6 @@ export function HomeVoices() {
                 fill
                 sizes="260px"
                 className="object-cover"
-                unoptimized
                 loading="lazy"
               />
               {/* Gentle warm wash for cohesion */}

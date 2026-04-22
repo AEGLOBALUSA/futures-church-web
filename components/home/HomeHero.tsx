@@ -9,6 +9,7 @@ import {
   type MouseEvent as ReactMouseEvent,
 } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Bookmark } from "lucide-react";
 import { heroPortraits } from "@/lib/content/faces";
@@ -185,14 +186,19 @@ export function HomeHero() {
             className={`kb-frame absolute inset-0 transition-opacity duration-[1100ms] ease-in-out ${
               i === frameIndex ? "is-active" : ""
             }`}
-            style={{
-              opacity: i === frameIndex ? 1 : 0,
-              backgroundImage: `url(${f.url})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              filter: "saturate(0.85) brightness(0.95)",
-            }}
-          />
+            style={{ opacity: i === frameIndex ? 1 : 0 }}
+          >
+            <Image
+              src={f.url}
+              alt={f.alt}
+              fill
+              sizes="100vw"
+              className="object-cover object-center"
+              style={{ filter: "saturate(0.85) brightness(0.95)" }}
+              priority={i === 0}
+              unoptimized
+            />
+          </div>
         ))}
         <div
           className="absolute inset-0"
