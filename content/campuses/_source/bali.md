@@ -3,31 +3,36 @@ slug: bali
 campus_name: Bali
 city: Denpasar, Bali
 lead_pastors:
-status: pending
-submitted_by:
+status: draft
+submitted_by: content-team (editorial draft)
 submitted_at:
 ---
 
 # Bali — Campus Voice Questionnaire
 
+> **DRAFT · pending Bali pastoral team review.** Copy below is editor-drafted
+> scaffolding that mirrors `lib/content/campus-voices.ts`. Replace each block
+> with the team's own words; once confirmed, remove this notice and set
+> `status: confirmed`.
+
 ## 1. What to expect (≤ 60 words)
 
 ```
-[insert answer — 60-word paragraph in the Bali pastors' voice, what Sunday at Futures Bali actually feels like. Tell us about the room, the languages, the energy]
+Futures Bali gathers in Denpasar — a room of Balinese and Indonesian believers, with plenty of expats and visitors in the mix. Worship leans into both Indonesian and English across our services. The pace is warm, unhurried, and generous with time. Sundays here feel like family you didn't know you had.
 ```
 
 ## 2. Only at Bali (2–3 bullets)
 
 ```
-- [insert specific 1 — something only Bali could claim: Indonesian worship, a specific food, the walk up the street, a tradition]
-- [insert specific 2]
-- [insert specific 3 — optional]
+- Services run in Bahasa Indonesia, with English threaded through — nobody is left outside the room.
+- The island runs on different time — we start when we start, and we finish when the stories do.
+- Expect to meet someone from three different countries before you leave.
 ```
 
 ## 3. First-time visitor line (1 sentence)
 
 ```
-[insert answer — one honest sentence about walking into Futures Bali for the first time]
+Come as you are — in the Bali heat, that usually means sandals and a smile. Someone will greet you in whichever language works.
 ```
 
 ## 4. From the Bali pastoral team (~80 words, first-person)
@@ -39,5 +44,5 @@ submitted_at:
 ## 5. Kids at Bali (≤ 80 words)
 
 ```
-[insert answer — check-in, age groups, Sunday energy in the kids rooms at Bali. Language, leaders, what the kids actually do for the hour]
+Kids check in at the entrance when you arrive — a parent signs them in, and the same parent signs them out. Age groups run from toddlers through pre-teens, in Bahasa Indonesia with English support where needed. The rooms are bright, energetic, and safe. Parents can expect to enjoy the service without interruption.
 ```

@@ -93,6 +93,11 @@ export default async function CampusPage({
   const pastorFirstNames = campus.leadPastors
     ? campus.leadPastors.split(" & ").map((n) => n.split(" ")[0]).join(" & ")
     : "the pastoral team";
+  const voiceHasAnyCopy = Boolean(
+    voice.whatToExpect || (voice.specifics && voice.specifics.length > 0) ||
+      voice.firstTimeLine || voice.pastorBio || voice.kidsBlock,
+  );
+  const showDraftRibbon = voiceHasAnyCopy && voice.isDraft === true;
 
   // Round 7 — pastor portrait (new, signed-release-gated). If present, it takes
   // the hero's right column and the legacy pastoralPhoto editorial block is
@@ -442,6 +447,34 @@ export default async function CampusPage({
             >
               What to expect at {campus.name}.
             </h2>
+
+            {showDraftRibbon && (
+              <div
+                className="mt-6 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
+                style={{
+                  background: "rgba(253,251,246,0.9)",
+                  border: `1px dashed ${tone}`,
+                  color: tone,
+                }}
+              >
+                <span
+                  aria-hidden
+                  className="inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ background: tone }}
+                />
+                <span
+                  className="font-sans"
+                  style={{
+                    fontSize: 10,
+                    letterSpacing: "0.24em",
+                    textTransform: "uppercase",
+                    fontWeight: 600,
+                  }}
+                >
+                  Draft · pending {pastorFirstNames}&rsquo;s review
+                </span>
+              </div>
+            )}
 
             <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.4fr_1fr]">
               {/* Left — the pastor's own paragraph, or a visible pending note */}

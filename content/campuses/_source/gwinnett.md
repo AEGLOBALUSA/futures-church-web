@@ -3,31 +3,36 @@ slug: gwinnett
 campus_name: Gwinnett
 city: Duluth, GA
 lead_pastors: Nick & Danielle Hindle
-status: pending
-submitted_by:
+status: draft
+submitted_by: content-team (editorial draft)
 submitted_at:
 ---
 
 # Gwinnett — Campus Voice Questionnaire
 
+> **DRAFT · pending Nick & Danielle's review.** Copy below is editor-drafted
+> scaffolding that mirrors `lib/content/campus-voices.ts`. Replace each block
+> with Nick & Danielle's own words; once confirmed, remove this notice and set
+> `status: confirmed`.
+
 ## 1. What to expect (≤ 60 words)
 
 ```
-[insert answer — 60-word paragraph in Nick & Danielle's voice, what a Sunday morning in Duluth actually feels like]
+Futures Gwinnett meets in Duluth, and the room carries the whole of suburban Atlanta — every age, every background, genuinely every walk. Worship is direct, the teaching is practical, and the coffee is strong. If you've been turned off by church before, come anyway. This room tends to surprise people.
 ```
 
 ## 2. Only at Gwinnett (2–3 bullets)
 
 ```
-- [insert specific 1 — something only Gwinnett could claim]
-- [insert specific 2]
-- [insert specific 3 — optional]
+- The parking lot tells the whole story — every state plate, every age of car, every decade of life.
+- Kids ministry is one of the loudest, warmest rooms on the entire property.
+- Southern warmth without Southern performance — people actually mean it when they ask how you are.
 ```
 
 ## 3. First-time visitor line (1 sentence)
 
 ```
-[insert answer — one honest sentence about walking into Futures Gwinnett for the first time]
+Pull in, grab a cup at the café, let someone hold the door. Nobody's going to make a big deal of you being new, but they will notice you.
 ```
 
 ## 4. From Nick & Danielle (~80 words, first-person)
@@ -39,5 +44,5 @@ submitted_at:
 ## 5. Kids at Gwinnett (≤ 80 words)
 
 ```
-[insert answer — check-in, age groups, Sunday energy in the kids rooms at Gwinnett]
+Kids check in at the main entrance the first time, and after that you scan a tag to drop off and pick up. Age groups run from nursery through 5th grade, each with their own room and their own leaders. Sundays in the kids wing are loud, bright, and air-conditioned within an inch of their life.
 ```
