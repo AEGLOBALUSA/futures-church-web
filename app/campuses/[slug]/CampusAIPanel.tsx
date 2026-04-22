@@ -54,7 +54,7 @@ export function CampusAIPanel({
             textTransform: "uppercase",
           }}
         >
-          Ask Ezra about {city}
+          Ask Milo about {city}
         </p>
         <h2
           className="mt-3 font-display"

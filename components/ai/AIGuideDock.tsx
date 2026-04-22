@@ -50,8 +50,8 @@ export function AIGuideDock() {
             onClick={openDock}
             aria-label={
               unreadCount > 0
-                ? `Ask Ezra (${unreadCount} new message${unreadCount === 1 ? "" : "s"})`
-                : "Ask Ezra"
+                ? `Ask Milo (${unreadCount} new message${unreadCount === 1 ? "" : "s"})`
+                : "Ask Milo"
             }
             className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-full border px-5 py-3 font-ui shadow-[0_20px_48px_-24px_rgba(20,20,20,0.35)] backdrop-blur-glass transition-transform hover:-translate-y-0.5 ${launcherClass}`}
             style={{
@@ -68,7 +68,7 @@ export function AIGuideDock() {
             >
               <Sparkles className="h-4 w-4" strokeWidth={1.6} />
             </span>
-            <span className="text-sm">Ask Ezra</span>
+            <span className="text-sm">Ask Milo</span>
             {unreadCount > 0 && (
               <span className="ml-1 rounded-full bg-warm-500 px-2 py-0.5 text-xs text-cream">
                 {unreadCount}
@@ -87,7 +87,7 @@ export function AIGuideDock() {
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
             role="dialog"
-            aria-label="Ezra — Futures guide"
+            aria-label="Milo — Futures guide"
             className={`fixed bottom-6 right-6 z-50 flex w-[min(460px,calc(100vw-2rem))] flex-col overflow-hidden rounded-[28px] border backdrop-blur-glass ${dockClass}`}
             style={{
               WebkitBackdropFilter: "blur(24px) saturate(180%)",
@@ -107,7 +107,7 @@ export function AIGuideDock() {
                     className={`font-display italic ${headerTitleColor}`}
                     style={{ fontSize: 17, fontWeight: 300 }}
                   >
-                    Ezra
+                    Milo
                   </p>
                   <p className={`font-ui ${headerSubColor}`} style={{ fontSize: 11 }}>
                     {isStreaming ? "typing…" : "here when you need"}
@@ -117,7 +117,7 @@ export function AIGuideDock() {
               <button
                 type="button"
                 onClick={closeDock}
-                aria-label="Close Ezra"
+                aria-label="Close Milo"
                 className={`flex h-8 w-8 items-center justify-center rounded-full transition ${closeBtn}`}
               >
                 <X className="h-4 w-4" />
@@ -137,7 +137,7 @@ export function AIGuideDock() {
                     className={`max-w-[28ch] text-center font-display italic ${emptyText}`}
                     style={{ fontSize: 18, fontWeight: 300, lineHeight: 1.4 }}
                   >
-                    Hey, I&rsquo;m Ezra. What brought you here today?
+                    I&rsquo;m Milo. Ask me anything — I&rsquo;ll take it seriously.
                   </p>
                 </div>
               ) : (

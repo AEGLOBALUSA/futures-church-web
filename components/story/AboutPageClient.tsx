@@ -87,7 +87,7 @@ function AboutHero() {
         </p>
         <div className="mt-10 max-w-[620px]">
           <GlassCard breathe className="p-5">
-            <AIInput placeholder="Ask Ezra anything about Futures&hellip;" chips={CHIPS} compact />
+            <AIInput placeholder="Ask Milo anything about Futures&hellip;" chips={CHIPS} compact />
           </GlassCard>
         </div>
       </div>

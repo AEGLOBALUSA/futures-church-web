@@ -316,20 +316,20 @@ export function CampusesHero() {
                 fontWeight: 300,
               }}
             >
-              Find your <em className="italic">home</em>. Ask Ezra.
+              Find your <em className="italic">home</em>. Ask Milo.
             </h1>
             <p
               className="mt-5 font-sans max-w-[44ch]"
               style={{ color: "#534D44", fontSize: "17px", lineHeight: 1.55 }}
             >
-              Twenty-one local churches across four countries — with four more launching in Venezuela. One Futures family. Ask Ezra
+              Twenty-one local churches across four countries — with four more launching in Venezuela. One Futures family. Ask Milo
               where you&rsquo;ll feel at home — a real pastor is never far away.
             </p>
 
             {/* AI input — shared primitive via AIGuideContext */}
             <div className="mt-8">
               <AIInput
-                placeholder="ask Ezra — or type a city"
+                placeholder="ask Milo — or type a city"
                 chips={CHIPS_BY_LEVEL[level]}
                 compact
               />

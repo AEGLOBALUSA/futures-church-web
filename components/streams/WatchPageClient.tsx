@@ -155,7 +155,7 @@ function WatchHero({ latest, onPlay }: { latest: Sermon; onPlay: () => void }) {
         <div className="mt-12 grid grid-cols-1 items-center gap-6 lg:grid-cols-[1fr_auto]">
           <GlassCard breathe className="p-6 sm:p-8">
             <AIInput
-              placeholder="Ask Ezra anything about the teaching&hellip;"
+              placeholder="Ask Milo anything about the teaching&hellip;"
               chips={WATCH_CHIPS}
               compact
             />

@@ -343,7 +343,7 @@ export function CampusesMap() {
         <div className="mt-10 space-y-14">
           {totalMatches === 0 && (
             <p className="font-display italic" style={{ color: "#534D44", fontSize: 18 }}>
-              Nothing matched &ldquo;{query}&rdquo; — try a city, a country, or ask Ezra above.
+              Nothing matched &ldquo;{query}&rdquo; — try a city, a country, or ask Milo above.
             </p>
           )}
           {REGIONS.map((r) => {

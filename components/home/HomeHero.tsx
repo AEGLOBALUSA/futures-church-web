@@ -305,7 +305,7 @@ export function HomeHero() {
                 fontWeight: 300,
               }}
             >
-              Come <em className="italic">home</em>. Ask Ezra.
+              Come <em className="italic">home</em>. Ask Milo.
             </h1>
             <p
               className="mt-5 font-sans max-w-[46ch]"
@@ -313,7 +313,7 @@ export function HomeHero() {
             >
               One Futures family across four countries — twenty-one local churches and four more
               launching in Venezuela. A home for everyone. Every race. Every age. Every stage.
-              Ask Ezra anything — our always-on guide. A real pastor is never far away.
+              Ask Milo anything — our always-on guide. A real pastor is never far away.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-8">
@@ -336,8 +336,8 @@ export function HomeHero() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   disabled={streaming}
-                  placeholder={hasMessages ? "ask Ezra a follow-up…" : "ask Ezra anything about Futures"}
-                  aria-label="Ask Ezra anything about Futures"
+                  placeholder={hasMessages ? "ask Milo a follow-up…" : "ask Milo anything about Futures"}
+                  aria-label="Ask Milo anything about Futures"
                   className="warm-input flex-1 bg-transparent font-display italic outline-none disabled:opacity-60"
                   style={{ color: "#1C1A17", fontSize: 18 }}
                 />
@@ -346,7 +346,7 @@ export function HomeHero() {
                   className="hidden sm:inline-block mr-3 text-[11px] font-sans"
                   style={{ color: "#8A8178", letterSpacing: "0.2em", textTransform: "uppercase" }}
                 >
-                  ⏎ to ask Ezra
+                  ⏎ to ask Milo
                 </span>
                 <button
                   type="submit"

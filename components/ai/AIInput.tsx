@@ -17,7 +17,7 @@ const TYPE_INTERVAL_MS = 22;
 const PAUSE_BEFORE_SUBMIT_MS = 300;
 
 export function AIInput({
-  placeholder = "Ask Ezra anything about Futures…",
+  placeholder = "Ask Milo anything about Futures…",
   chips = [],
   className,
   onSubmit,

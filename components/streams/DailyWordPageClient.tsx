@@ -94,7 +94,7 @@ function DailyWordHero() {
         </Sub>
         <div className="mt-10 max-w-[620px]">
           <GlassCard breathe className="p-6">
-            <AIInput placeholder="Ask Ezra anything about today's word&hellip;" chips={CHIPS} compact />
+            <AIInput placeholder="Ask Milo anything about today's word&hellip;" chips={CHIPS} compact />
           </GlassCard>
         </div>
       </div>
