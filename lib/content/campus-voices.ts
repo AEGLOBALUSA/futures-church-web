@@ -57,6 +57,8 @@ export const campusVoices: Record<string, CampusVoice> = {
     ],
     firstTimeLine:
       "Come as you are, park out front, say hello to whoever's at the door — then take a seat and get your bearings. No one will chase you.",
+    pastorBio:
+      "We planted Paradise in 2008 — though this congregation has been gathering on these hills since 1922. There's a history here that holds you. Aste and I raised our kids in this community; they grew up calling these people family. What I notice every Sunday is that people stay. After the service, out on the lawn with a coffee — nobody's in a rush to leave. That tells you everything you need to know about this place.",
     kidsBlock:
       "Kids check in at the welcome desk on the way through — we'll need a parent's phone and anything we should know about allergies or pickup. Age groups run from nursery through Year 6. Rooms are bright, appropriately loud, always safe. Pickup is through the same door you came in — same card, same lanyard.",
   },
@@ -71,6 +73,8 @@ export const campusVoices: Record<string, CampusVoice> = {
     ],
     firstTimeLine:
       "Come as you are — in the Bali heat, that usually means sandals and a smile. Someone will greet you in whichever language works.",
+    pastorBio:
+      "We planted this church in Denpasar in 2017 with a clear conviction: Bali is not just a destination for the rest of the world — it's a home, and people here deserve a church that belongs to them. Sunday here runs at a pace the rest of the week doesn't match. You'll hear Bahasa Indonesia and English in the same sentence, meet someone from three countries before morning tea, and leave feeling less alone than when you arrived.",
     kidsBlock:
       "Kids check in at the entrance when you arrive — a parent signs them in, and the same parent signs them out. Age groups run from toddlers through pre-teens, in Bahasa Indonesia with English support where needed. The rooms are bright, energetic, and safe. Parents can expect to enjoy the service without interruption.",
   },
@@ -85,6 +89,8 @@ export const campusVoices: Record<string, CampusVoice> = {
     ],
     firstTimeLine:
       "Pull in, grab a cup at the café, let someone hold the door. Nobody's going to make a big deal of you being new, but they will notice you.",
+    pastorBio:
+      "Danielle and I came to Gwinnett because we believed suburban Atlanta needed a room where genuinely different kinds of people could sit next to each other. That bet's paid off in ways we never expected. This campus runs people from forty-plus countries, every age, every decade of faith — and it still feels like a neighbourhood church. Come on a Sunday. If you leave wondering what just happened, that's the right response.",
     kidsBlock:
       "Kids check in at the main entrance the first time, and after that you scan a tag to drop off and pick up. Age groups run from nursery through 5th grade, each with their own room and their own leaders. Sundays in the kids wing are loud, bright, and air-conditioned within an inch of their life.",
   },
