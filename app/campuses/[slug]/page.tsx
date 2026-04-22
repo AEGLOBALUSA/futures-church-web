@@ -14,6 +14,8 @@ import {
   getDisplayablePortrait,
   getCampusPortrait,
 } from "@/lib/content/campus-portraits";
+import { getCampusVoice } from "@/lib/content/campus-voices";
+import { PendingNote } from "@/components/campus/PendingNote";
 
 const REGION_LABEL: Record<CampusRegion, string> = {
   australia: "Australia",
@@ -33,20 +35,9 @@ const REGION_TONE: Record<CampusRegion, string> = {
   global: "#D9B089",
 };
 
-const EXPECT_CARDS: { title: string; body: string }[] = [
-  {
-    title: "People",
-    body: "You'll be greeted at the door — for real. No pressure, no awkwardness. Just people glad you're there.",
-  },
-  {
-    title: "Worship",
-    body: "Live, contemporary worship. Whether it's your first Sunday or your thousandth, the room makes space for you.",
-  },
-  {
-    title: "Kids",
-    body: "Safe, accredited kids ministry for every age. Your kids will love it — and you'll actually get to be present in the service.",
-  },
-];
+// Deliberately no shared "What to expect" copy here. Each campus speaks for
+// itself via lib/content/campus-voices.ts. Until a campus returns answers,
+// the page renders a visible <PendingNote /> placeholder — never generic fill.
 
 export async function generateStaticParams() {
   return campuses.map((c) => ({ slug: c.slug }));
@@ -97,6 +88,11 @@ export default async function CampusPage({
 
   const campusPastorEntry = (campusPastorsData as Array<{ slug: string; pastors: Array<{ name: string; role: string; photo: string; placeholder: boolean }> }>).find(c => c.slug === slug);
   const pastoralPhoto = campusPastorEntry?.pastors.find(p => !p.placeholder) ?? null;
+
+  const voice = getCampusVoice(slug);
+  const pastorFirstNames = campus.leadPastors
+    ? campus.leadPastors.split(" & ").map((n) => n.split(" ")[0]).join(" & ")
+    : "the pastoral team";
 
   // Round 7 — pastor portrait (new, signed-release-gated). If present, it takes
   // the hero's right column and the legacy pastoralPhoto editorial block is
@@ -447,25 +443,176 @@ export default async function CampusPage({
               What to expect at {campus.name}.
             </h2>
 
-            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
-              {EXPECT_CARDS.map((card) => (
-                <div
-                  key={card.title}
-                  className="rounded-[18px] p-7"
+            <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.4fr_1fr]">
+              {/* Left — the pastor's own paragraph, or a visible pending note */}
+              <div>
+                {voice.whatToExpect ? (
+                  <p
+                    className="font-display"
+                    style={{
+                      color: "#1C1A17",
+                      fontSize: "clamp(1.25rem, 1.8vw, 1.5rem)",
+                      lineHeight: 1.45,
+                      fontWeight: 300,
+                    }}
+                  >
+                    {voice.whatToExpect}
+                  </p>
+                ) : (
+                  <PendingNote
+                    label="What to expect"
+                    heading={`A note from ${pastorFirstNames}, coming soon.`}
+                    prompt={`60-word paragraph in ${pastorFirstNames}'s voice — what a Sunday at ${campus.name} actually feels like.`}
+                    tone={tone}
+                  />
+                )}
+
+                {voice.firstTimeLine && (
+                  <p
+                    className="mt-6 font-sans italic"
+                    style={{ color: "#534D44", fontSize: 15, lineHeight: 1.6 }}
+                  >
+                    &ldquo;{voice.firstTimeLine}&rdquo;
+                  </p>
+                )}
+              </div>
+
+              {/* Right — the two or three specifics no other campus could claim */}
+              <div>
+                <p
+                  className="font-sans"
                   style={{
-                    background: "#FFFDF8",
-                    border: "1px solid rgba(28,26,23,0.08)",
+                    color: tone,
+                    fontSize: 10,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    fontWeight: 600,
                   }}
                 >
-                  <p className="font-display italic" style={{ color: tone, fontSize: 22, fontWeight: 300 }}>
-                    {card.title}
-                  </p>
-                  <p className="mt-3 font-sans" style={{ color: "#534D44", fontSize: 14, lineHeight: 1.6 }}>
-                    {card.body}
-                  </p>
-                </div>
-              ))}
+                  Only at {campus.name}
+                </p>
+                {voice.specifics && voice.specifics.length > 0 ? (
+                  <ul className="mt-4 space-y-3">
+                    {voice.specifics.map((s, i) => (
+                      <li key={i} className="flex gap-3">
+                        <span
+                          aria-hidden
+                          className="mt-2.5 inline-block h-1 w-3 flex-shrink-0 rounded-full"
+                          style={{ background: tone }}
+                        />
+                        <span
+                          className="font-sans"
+                          style={{ color: "#1C1A17", fontSize: 15, lineHeight: 1.55 }}
+                        >
+                          {s}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="mt-4">
+                    <PendingNote
+                      label="Specifics"
+                      heading="Two or three things that are uniquely us."
+                      prompt={`Two or three specifics no other campus could claim — e.g. coffee van, language, the walk up the hill, an after-service tradition at ${campus.name}.`}
+                      tone={tone}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Kids at this campus — per-campus specifics (check-in, age groups, energy) */}
+      {!isLaunching && !isOnline && (
+        <section className="px-6 pb-20 sm:px-10 lg:px-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start">
+              <div>
+                <p
+                  className="font-sans"
+                  style={{
+                    color: "#534D44",
+                    fontSize: 11,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Kids · {campus.name}
+                </p>
+                <h3
+                  className="mt-3 font-display"
+                  style={{
+                    color: "#1C1A17",
+                    fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                    lineHeight: 1.1,
+                    fontWeight: 300,
+                  }}
+                >
+                  Bring the kids. They&rsquo;ll love it.
+                </h3>
+              </div>
+              <div>
+                {voice.kidsBlock ? (
+                  <p
+                    className="font-sans"
+                    style={{ color: "#1C1A17", fontSize: 16, lineHeight: 1.7 }}
+                  >
+                    {voice.kidsBlock}
+                  </p>
+                ) : (
+                  <PendingNote
+                    label="Kids ministry"
+                    heading={`A parent\u2019s-eye view of Sunday at ${campus.name}.`}
+                    prompt={`Under 80 words — what check-in looks like, age groups, and the energy of the kids rooms at ${campus.name}.`}
+                    tone={tone}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* From the pastor — first-person bio, voice not résumé */}
+      {!isLaunching && !isOnline && campus.leadPastors && (
+        <section className="px-6 pb-20 sm:px-10 lg:px-16">
+          <div className="mx-auto max-w-4xl">
+            <p
+              className="font-sans"
+              style={{
+                color: "#534D44",
+                fontSize: 11,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+              }}
+            >
+              From {pastorFirstNames}
+            </p>
+            {voice.pastorBio ? (
+              <p
+                className="mt-4 font-display"
+                style={{
+                  color: "#1C1A17",
+                  fontSize: "clamp(1.25rem, 1.9vw, 1.65rem)",
+                  lineHeight: 1.5,
+                  fontWeight: 300,
+                }}
+              >
+                {voice.pastorBio}
+              </p>
+            ) : (
+              <div className="mt-4">
+                <PendingNote
+                  label="Pastor bio"
+                  heading={`One paragraph in ${pastorFirstNames}\u2019s own voice.`}
+                  prompt={`~80 words in first-person — where ${pastorFirstNames} grew up, how they ended up at ${campus.name}, what they love about this room on a Sunday.`}
+                  tone={tone}
+                />
+              </div>
+            )}
           </div>
         </section>
       )}
