@@ -357,9 +357,13 @@ function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
               </p>
               <a
                 href={s.cta.href}
-                className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-warm-500 px-5 py-2.5 font-ui text-[13px] text-cream transition hover:bg-warm-600"
+                className="mt-8 inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px] text-cream transition-all duration-300 hover:-translate-y-0.5"
+                style={{
+                  background: "linear-gradient(160deg, #D4987A 0%, #B87248 100%)",
+                  boxShadow: "0 16px 36px -10px rgba(180,100,55,0.45), inset 0 1.5px 0 rgba(255,255,255,0.38), inset 0 0 0 1px rgba(255,255,255,0.12)",
+                }}
               >
-                {s.cta.label} &rarr;
+                {s.cta.label} →
               </a>
             </motion.article>
           ))}
