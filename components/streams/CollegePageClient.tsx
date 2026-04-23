@@ -193,7 +193,7 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
 
 function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
   return (
-    <section className="px-6 py-28 sm:px-10">
+    <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1200px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">{hook.eyebrow}</p>
         <h2
@@ -321,7 +321,7 @@ function WhyNow({ whyNow }: { whyNow: CollegeData["whyNow"] }) {
 
 function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
   return (
-    <section id="streams" className="px-6 py-28 sm:px-10">
+    <section id="streams" className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1200px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Three streams</p>
         <h2
@@ -479,7 +479,7 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
 function FacultyWall({ faculty }: { faculty: CollegeData["faculty"] }) {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <section className="px-6 py-28 sm:px-10">
+    <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1200px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Faculty</p>
         <h2
@@ -613,7 +613,7 @@ function CampusExperience({ experience }: { experience: CollegeData["experience"
 
 function CollegeOutcomes({ outcomes }: { outcomes: CollegeData["outcomes"] }) {
   return (
-    <section className="px-6 py-28 sm:px-10">
+    <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1100px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">In their words</p>
         <h2
@@ -775,7 +775,7 @@ function EnrollmentWindow({ enrollment }: { enrollment: CollegeData["enrollment"
 
 function FuturesOnline({ online }: { online: CollegeData["online"] }) {
   return (
-    <section id="online-waitlist" className="px-6 py-28 sm:px-10">
+    <section id="online-waitlist" className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1100px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
           {online.eyebrow}
@@ -890,7 +890,7 @@ function CollegeFAQ({ faq }: { faq: CollegeData["faq"] }) {
 
 function CollegeApplyStageOne({ onSubmit }: { onSubmit: () => void }) {
   return (
-    <section className="px-6 py-24 sm:px-10">
+    <section className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[560px]">
         <ValueExchangeForm
           source="college-interest"
