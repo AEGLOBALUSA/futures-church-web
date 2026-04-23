@@ -2,7 +2,7 @@
   "hero": {
     "eyebrow": "FUTURES LEADERSHIP COLLEGE",
     "headline": "Outthink. Outbuild. Outlead.",
-    "sub": "One year that changes everything. Three streams. Eight subjects. Three electives.",
+    "sub": "One year. Three streams. A family already waiting.",
     "facts": [
       { "value": "25", "label": "Churches" },
       { "value": "5",  "label": "Countries" },
@@ -16,7 +16,7 @@
     }
   },
   "hook": {
-    "eyebrow": "FREE SESSIONS",
+    "eyebrow": "Free sessions",
     "headline": "Once you see the next step, you can&rsquo;t unsee it.",
     "sub": "Three teachings from the College faculty. Free. No commitment.",
     "sessions": [
@@ -41,13 +41,13 @@
     ]
   },
   "whyNow": {
-    "eyebrow": "WHY NOW",
+    "eyebrow": "Why now",
     "headline": "The Church must lead the change &mdash; not react to it.",
     "stat": {
       "value": "70% &rarr; 47%",
       "label": "U.S. church attendance (Gallup, 2024)"
     },
-    "image": "https://futures.college/wp-content/uploads/2025/11/brown-person-wearing-glasses-outdoor-looking-at-sky.jpg",
+    "image": "/photos/mosaic/mosaic_au_5.jpg",
     "body": "A generation is searching for something real. This is not a moment to shrink back. It is a moment to outthink, outbuild, and outlead &mdash; with theology that holds and skill that ships."
   },
   "streams": [
@@ -55,29 +55,29 @@
       "slug": "audit",
       "title": "Audit",
       "hours": "~96 hrs / year",
-      "pitch": "Learn without assessment. Sit under every lecture, every subject, no exams.",
+      "pitch": "Come just to learn. Sit under every lecture, every subject. No exams.",
       "for": "The curious believer. The working professional. The parent back for a second chapter.",
-      "cta": { "label": "Enquire", "href": "#apply" }
+      "cta": { "label": "Ask about it", "href": "#apply" }
     },
     {
       "slug": "academic",
       "title": "Academic",
       "hours": "~192 hrs / year",
-      "pitch": "Degree-level credit. Accredited through our partnership with Alphacrucis College.",
+      "pitch": "For the degree. Alphacrucis-accredited. The long walk.",
       "for": "The student who wants the paper, the rigour, and the lifelong qualification.",
-      "cta": { "label": "Apply", "href": "#apply" }
+      "cta": { "label": "Come for the degree", "href": "#apply" }
     },
     {
       "slug": "internship",
       "title": "Internship",
       "hours": "~480 hrs / year",
-      "pitch": "Hands-on placement alongside a senior pastor. The classroom is the campus.",
+      "pitch": "Come live it. Hands-on placement alongside a senior pastor. The year that changes everything.",
       "for": "The called leader. Already sure. Wants to be sharpened, sent, and surrounded.",
-      "cta": { "label": "Connect", "href": "#apply" }
+      "cta": { "label": "Come live it", "href": "#apply" }
     }
   ],
   "programme": {
-    "eyebrow": "YEAR ONE PROGRAMME",
+    "eyebrow": "The year ahead",
     "headline": "Eight subjects. Three electives. One sending.",
     "core": [
       { "n": "01", "title": "What&rsquo;s Wrong with the Church",               "tagline": "Diagnose clearly. Build honestly." },
@@ -174,14 +174,14 @@
     ]
   },
   "enrollment": {
-    "eyebrow": "THE CLOCK IS TICKING",
-    "headline": "Enrollment closes July 15, 2026.",
+    "eyebrow": "2026 cohort",
+    "headline": "Starts <em>September</em> 2026.",
     "earlyBird": "2026-05-29",
     "close": "2026-07-15",
-    "sub": "Early-bird tuition locks in before May 29. Final enrollment closes July 15."
+    "sub": "Early-bird pricing closes May\u00a029. Enrollment closes July\u00a015."
   },
   "online": {
-    "eyebrow": "CAN&rsquo;T MAKE IT IN PERSON?",
+    "eyebrow": "From anywhere",
     "headline": "Futures Online &mdash; the full programme, self-paced.",
     "includes": [
       "All 8 subject video lectures",
@@ -195,7 +195,7 @@
       "No live campus"
     ],
     "launch": "Launching 2026",
-    "cta": { "label": "Join the waitlist", "href": "#online-waitlist" }
+    "cta": { "label": "Save my seat", "href": "#online-waitlist" }
   },
   "faq": [
     { "q": "How long is the programme?",                       "a": "One year for the core programme. Year Two is optional for students pursuing deeper study or specialisation." },

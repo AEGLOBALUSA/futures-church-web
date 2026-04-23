@@ -111,7 +111,7 @@ export function CollegePageClient({ data }: { data: CollegeData }) {
       <CampusExperience experience={data.experience} />
       <CollegeOutcomes outcomes={data.outcomes} />
       <TuitionAndAid tuition={data.tuition} />
-      <EnrollmentClock enrollment={data.enrollment} />
+      <EnrollmentWindow enrollment={data.enrollment} />
       <FuturesOnline online={data.online} />
       <CollegeFAQ faq={data.faq} />
       <CollegeApplyStageOne onSubmit={markStageOne} />
@@ -142,37 +142,28 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
           className="mt-4 max-w-[20ch]"
         >
           <Hero>
-            Outthink. Outbuild. <em className="italic">Outlead</em>.
+            Come <em className="italic">build</em>.
           </Hero>
         </motion.div>
         <Sub className="mt-6 max-w-[56ch]">{hero.sub}</Sub>
 
-        {/* Stats row */}
-        <div className="mt-10 grid max-w-[760px] grid-cols-2 gap-4 sm:grid-cols-4">
-          {hero.facts.map((f) => (
-            <div
-              key={f.label}
-              className="rounded-2xl bg-white/70 px-5 py-4 backdrop-blur-sm"
-              style={{ border: "1px solid rgba(20,20,20,0.06)" }}
-            >
-              <p className="font-display text-ink-900" style={{ fontSize: 34, fontWeight: 300, lineHeight: 1 }}>
-                {f.value}
-              </p>
-              <p className="mt-1 font-ui text-[11px] uppercase tracking-[0.22em] text-warm-700">
-                {f.label}
-              </p>
-            </div>
-          ))}
-        </div>
+        <p className="mt-6 max-w-[60ch] font-body text-[15px]" style={{ color: "#8A7A6A" }}>
+          An Alphacrucis-accredited year &mdash; built for leaders the world isn&rsquo;t ready for yet.
+        </p>
 
-        {/* AI input */}
+        {/* Ask Milo */}
         <div className="mt-10 max-w-[620px]">
+          <p className="mb-3 font-ui text-[12px] tracking-[0.06em] text-ink-600">Ask Milo</p>
           <GlassCard breathe className="p-6">
-            <AIInput placeholder="Ask a college question&hellip;" chips={CHIPS} compact />
+            <AIInput
+              placeholder="Ask Milo anything about the college — streams, cost, a day in the life."
+              chips={CHIPS}
+              compact
+            />
           </GlassCard>
         </div>
 
-        {/* Accreditation */}
+        {/* Accreditation lock-up */}
         <div className="mt-10 flex items-center gap-4">
           <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">
             {hero.accreditation.label}
@@ -199,7 +190,7 @@ function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
   return (
     <section className="px-6 py-28 sm:px-10">
       <div className="mx-auto max-w-[1200px]">
-        <Eyebrow>{hook.eyebrow}</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">{hook.eyebrow}</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
@@ -276,7 +267,7 @@ function WhyNow({ whyNow }: { whyNow: CollegeData["whyNow"] }) {
     <section className="px-6 py-28 sm:px-10" style={{ background: "#1C1A17", color: "#FDFBF6" }}>
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div>
-          <p className="font-ui text-[11px] uppercase tracking-[0.28em]" style={{ color: "#D9B089" }}>
+          <p className="font-ui text-[11px] tracking-[0.06em]" style={{ color: "#D9B089" }}>
             {whyNow.eyebrow}
           </p>
           <h2
@@ -304,7 +295,7 @@ function WhyNow({ whyNow }: { whyNow: CollegeData["whyNow"] }) {
         >
           <Image
             src={whyNow.image}
-            alt="A person looking up toward an open sky"
+            alt="A conversation at the campus café"
             fill
             unoptimized
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -327,15 +318,15 @@ function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
   return (
     <section id="streams" className="px-6 py-28 sm:px-10">
       <div className="mx-auto max-w-[1200px]">
-        <Eyebrow>THREE STREAMS</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Three streams</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
         >
-          Audit &middot; Academic &middot; <em className="italic">Internship</em>.
+          Three <em className="italic">streams</em>.
         </h2>
         <p className="mt-5 max-w-[54ch] font-body text-[16px] text-ink-600">
-          Three ways in. Same cohort. Pick the depth that matches where you are in your calling.
+          Three ways in. Pick the depth that matches where you are in your calling.
         </p>
 
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -384,7 +375,7 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
   return (
     <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1200px]">
-        <Eyebrow>{programme.eyebrow}</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">{programme.eyebrow}</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
@@ -443,8 +434,8 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
 
         <div className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr,1fr]">
           <div>
-            <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">
-              Outcomes
+            <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
+              What you&rsquo;ll carry out
             </p>
             <ul className="mt-4 space-y-3">
               {programme.outcomes.map((o) => (
@@ -459,8 +450,8 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
             className="rounded-[20px] p-6"
             style={{ background: "rgba(253,251,246,0.7)", border: "1px solid rgba(20,20,20,0.08)" }}
           >
-            <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">
-              Year Two
+            <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
+              Year two
             </p>
             <p
               className="mt-3 font-display italic text-ink-900"
@@ -481,12 +472,12 @@ function FacultyWall({ faculty }: { faculty: CollegeData["faculty"] }) {
   return (
     <section className="px-6 py-28 sm:px-10">
       <div className="mx-auto max-w-[1200px]">
-        <Eyebrow>FACULTY</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Faculty</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
         >
-          Teachers who&rsquo;ve <em className="italic">done the work</em>.
+          The <em className="italic">family</em> teaching.
         </h2>
         <p className="mt-5 max-w-[54ch] font-body text-[16px] text-ink-600">
           Pastors, practitioners, and scholars. Additional subject lecturers announced through 2026.
@@ -579,7 +570,7 @@ function CampusExperience({ experience }: { experience: CollegeData["experience"
   return (
     <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[900px]">
-        <Eyebrow>CAMPUS EXPERIENCE</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Campus experience</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
@@ -615,12 +606,12 @@ function CollegeOutcomes({ outcomes }: { outcomes: CollegeData["outcomes"] }) {
   return (
     <section className="px-6 py-28 sm:px-10">
       <div className="mx-auto max-w-[1100px]">
-        <Eyebrow>STORIES</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">In their words</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
         >
-          Where graduates <em className="italic">go</em>.
+          In their <em className="italic">words</em>.
         </h2>
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
           {outcomes.stats.map((s) => (
@@ -663,12 +654,12 @@ function TuitionAndAid({ tuition }: { tuition: CollegeData["tuition"] }) {
   return (
     <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[900px]">
-        <Eyebrow>TUITION &amp; AID</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Tuition &amp; aid</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
         >
-          Honest <em className="italic">numbers</em>.
+          The <em className="italic">cost</em>, honestly.
         </h2>
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
           <GlassCard className="p-8">
@@ -699,21 +690,11 @@ function TuitionAndAid({ tuition }: { tuition: CollegeData["tuition"] }) {
   );
 }
 
-/* --------------------------- ENROLLMENT CLOCK --------------------------- */
+/* --------------------------- ENROLLMENT WINDOW -------------------------- */
 
-function EnrollmentClock({ enrollment }: { enrollment: CollegeData["enrollment"] }) {
-  const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => {
-    setNow(new Date());
-    const id = setInterval(() => setNow(new Date()), 60_000);
-    return () => clearInterval(id);
-  }, []);
-
+function EnrollmentWindow({ enrollment }: { enrollment: CollegeData["enrollment"] }) {
   const closeDate = new Date(`${enrollment.close}T23:59:59`);
   const earlyDate = new Date(`${enrollment.earlyBird}T23:59:59`);
-  const daysRemaining = now
-    ? Math.max(0, Math.ceil((closeDate.getTime() - now.getTime()) / 86_400_000))
-    : null;
 
   function fmt(d: Date) {
     return d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
@@ -722,31 +703,22 @@ function EnrollmentClock({ enrollment }: { enrollment: CollegeData["enrollment"]
   return (
     <section className="px-6 py-28 sm:px-10" style={{ background: "#1C1A17", color: "#FDFBF6" }}>
       <div className="mx-auto max-w-[1100px]">
-        <p className="font-ui text-[11px] uppercase tracking-[0.28em]" style={{ color: "#D9B089" }}>
+        <p className="font-ui text-[11px] tracking-[0.06em]" style={{ color: "#D9B089" }}>
           {enrollment.eyebrow}
         </p>
         <h2
-          className="mt-4 font-display"
+          className="mt-4 font-display italic"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
           dangerouslySetInnerHTML={{ __html: enrollment.headline }}
         />
         <p className="mt-5 max-w-[54ch] font-body text-[16px] opacity-85">{enrollment.sub}</p>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div className="mt-10 grid max-w-[520px] grid-cols-1 gap-5 sm:grid-cols-2">
           <div
             className="rounded-2xl p-6"
             style={{ background: "rgba(253,251,246,0.06)", border: "1px solid rgba(253,251,246,0.14)" }}
           >
-            <p className="font-ui text-[11px] uppercase tracking-[0.22em] opacity-70">Days remaining</p>
-            <p className="mt-3 font-display" style={{ fontSize: 56, fontWeight: 300, lineHeight: 1, color: "#E8C9A6" }}>
-              {daysRemaining ?? "--"}
-            </p>
-          </div>
-          <div
-            className="rounded-2xl p-6"
-            style={{ background: "rgba(253,251,246,0.06)", border: "1px solid rgba(253,251,246,0.14)" }}
-          >
-            <p className="font-ui text-[11px] uppercase tracking-[0.22em] opacity-70">Early-bird</p>
+            <p className="font-ui text-[11px] uppercase tracking-[0.22em] opacity-70">Early-bird closes</p>
             <p className="mt-3 font-display italic" style={{ fontSize: 24, fontWeight: 300, lineHeight: 1.15 }}>
               {fmt(earlyDate)}
             </p>
@@ -755,7 +727,7 @@ function EnrollmentClock({ enrollment }: { enrollment: CollegeData["enrollment"]
             className="rounded-2xl p-6"
             style={{ background: "rgba(253,251,246,0.06)", border: "1px solid rgba(253,251,246,0.14)" }}
           >
-            <p className="font-ui text-[11px] uppercase tracking-[0.22em] opacity-70">Final enrollment</p>
+            <p className="font-ui text-[11px] uppercase tracking-[0.22em] opacity-70">Enrollment closes</p>
             <p className="mt-3 font-display italic" style={{ fontSize: 24, fontWeight: 300, lineHeight: 1.15 }}>
               {fmt(closeDate)}
             </p>
@@ -768,21 +740,21 @@ function EnrollmentClock({ enrollment }: { enrollment: CollegeData["enrollment"]
             className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
             style={{ background: "#FDFBF6", color: "#1C1A17" }}
           >
-            Apply Academic &rarr;
+            Come for the degree &rarr;
           </a>
           <a
             href="#apply"
             className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
             style={{ border: "1px solid rgba(253,251,246,0.4)", color: "#FDFBF6" }}
           >
-            Enquire Audit
+            Come just to learn
           </a>
           <a
             href="#apply"
             className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
             style={{ border: "1px solid rgba(253,251,246,0.4)", color: "#FDFBF6" }}
           >
-            Connect Internship
+            Come live it
           </a>
         </div>
       </div>
@@ -796,10 +768,9 @@ function FuturesOnline({ online }: { online: CollegeData["online"] }) {
   return (
     <section id="online-waitlist" className="px-6 py-28 sm:px-10">
       <div className="mx-auto max-w-[1100px]">
-        <p
-          className="font-ui text-[11px] uppercase tracking-[0.28em] text-warm-700"
-          dangerouslySetInnerHTML={{ __html: online.eyebrow }}
-        />
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
+          {online.eyebrow}
+        </p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
@@ -860,12 +831,12 @@ function CollegeFAQ({ faq }: { faq: CollegeData["faq"] }) {
   return (
     <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[900px]">
-        <Eyebrow>FAQ</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Good questions</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
         >
-          The questions we <em className="italic">actually</em> get asked.
+          Here&rsquo;s what people ask before they say <em className="italic">yes</em>.
         </h2>
         <ul className="mt-10 divide-y divide-ink-900/10">
           {faq.map((f, i) => {
@@ -914,15 +885,15 @@ function CollegeApplyStageOne({ onSubmit }: { onSubmit: () => void }) {
       <div className="mx-auto max-w-[560px]">
         <ValueExchangeForm
           source="college-interest"
-          offer="Get the full course catalog + an invite to the next virtual open house."
+          offer="Get the full course book + an invite to the next virtual open house."
           proofPoints={[
             "Everything you need before you apply",
             "Zero commitment",
-            "Catalog + open house calendar",
+            "Book + open house calendar",
           ]}
           fields={["email", "lifeStage"]}
-          cta="Send me the catalog"
-          outcome="Catalog lands in your inbox within 90 seconds. Open house invite follows."
+          cta="Send me the book"
+          outcome="The book lands in your inbox within 90 seconds. Open house invite follows."
           onSuccess={onSubmit}
         />
       </div>
@@ -942,7 +913,7 @@ function VisitBooking() {
   return (
     <section className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[900px]">
-        <Eyebrow>VISIT THE CAMPUS</Eyebrow>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Come see it</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
@@ -1002,19 +973,19 @@ function CollegeApplyStageTwo() {
     <section className="px-6 py-24 sm:px-10" style={{ background: "#F2E6D1" }}>
       <div className="mx-auto max-w-[560px]">
         <p className="mb-4 font-ui text-[11px] uppercase tracking-[0.22em] text-warm-700">
-          Stage 2 &middot; unlocked because you&rsquo;ve got the catalog
+          Stage 2 &middot; unlocked because you&rsquo;ve got the book
         </p>
         <ValueExchangeForm
           source="college-applicant"
-          offer="Ready to apply? Start your application and get paired with an admissions mentor."
+          offer="Ready to apply? Start your application and get paired with an admissions advisor."
           proofPoints={[
-            "A real admissions mentor, not a bot",
+            "A real admissions advisor, not a bot",
             "Weekly check-ins until you submit",
             "Interview prep included",
           ]}
           fields={["email", "name"]}
           cta="Start my application"
-          outcome="Your admissions mentor will reach out within 48 hours."
+          outcome="Your admissions advisor will reach out within 48 hours."
         />
       </div>
     </section>
