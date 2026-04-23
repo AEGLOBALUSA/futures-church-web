@@ -357,7 +357,7 @@ function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
               </p>
               <a
                 href={s.cta.href}
-                className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-ink-900 px-5 py-2.5 font-ui text-[13px] text-cream transition hover:bg-warm-700"
+                className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-warm-500 px-5 py-2.5 font-ui text-[13px] text-cream transition hover:bg-warm-600"
               >
                 {s.cta.label} &rarr;
               </a>
@@ -410,8 +410,8 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
         </div>
 
         <div className="mt-16">
-          <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">
-            Electives &mdash; pick one
+          <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
+            Electives — pick one
           </p>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {programme.electives.map((e) => (
