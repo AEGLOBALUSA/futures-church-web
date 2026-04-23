@@ -130,10 +130,15 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
       className="relative overflow-hidden"
       style={{
         background:
-          "radial-gradient(ellipse at 80% 20%, #F2E6D1 0%, #E8C9A6 35%, #FDFBF6 85%)",
+          "radial-gradient(ellipse at 20% 30%, #F7F1E6 0%, #F2E6D1 38%, #E8C9A6 72%, #C89675 100%)",
       }}
     >
-      <div className="mx-auto max-w-[1440px] px-6 pb-28 pt-32 sm:px-10 sm:pt-40">
+      {/* warm orbs — match homepage depth */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute rounded-full blur-3xl" style={{ top: "-15%", left: "-10%", width: "70vw", height: "70vw", background: "#EAD0B1", opacity: 0.7 }} />
+        <div className="absolute rounded-full blur-3xl" style={{ bottom: "-20%", right: "-10%", width: "60vw", height: "60vw", background: "#D9B089", opacity: 0.55 }} />
+      </div>
+      <div className="relative mx-auto max-w-[1440px] px-6 pb-28 pt-32 sm:px-10 sm:pt-40">
         <Eyebrow>{hero.eyebrow}</Eyebrow>
         <motion.div
           initial={{ opacity: 0, y: 14 }}
