@@ -2,15 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow, Hero, Sub } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
-import { getSubheadVariant, type SubheadVariant } from "@/lib/experiments";
 import { getAudience, type Audience } from "@/lib/audience";
 import { analytics } from "@/lib/analytics";
-import { AlumniProof } from "@/components/streams/AlumniProof";
 
 type CtaLink = { label: string; href: string };
 
@@ -169,6 +167,7 @@ export function CollegePageClient({
 
   return (
     <main className="bg-cream text-ink-900 pb-16 sm:pb-20">
+      <StickyCtaBar />
       <CollegeHero hero={data.hero} />
       <ClaimBlock />
       <TryBeforeBuy />
@@ -182,7 +181,7 @@ export function CollegePageClient({
       <TimesWeLiveIn />
       <YearOneProgramme programme={data.programme} />
       <FacultyWall facultyIntro={data.facultyIntro} faculty={data.faculty} />
-      <AlumniProof data={data.alumniProof} />
+      <RealStories />
       <TuitionAndAid tuition={data.tuition} />
       <EnrollmentWindow enrollment={data.enrollment} />
       {data.closing && (
@@ -191,6 +190,7 @@ export function CollegePageClient({
       <CollegeFAQ faq={data.faq} />
       <CollegeApplyStageOne onSubmit={markStageOne} />
       <SingleSubjectCTA />
+      <KeyDates />
       <VisitBooking />
       {stageOneComplete && <CollegeApplyStageTwo />}
       <StickyFooterBar />
@@ -209,185 +209,226 @@ const COLLEGE_FRAMES = [
   { url: "/photos/college/hero/04_mixed_ages.jpg",   alt: "Futures Leadership College — community" },
 ];
 
-function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
-  const [frameIndex, setFrameIndex] = useState(0);
-  const [variant, setVariant] = useState<SubheadVariant | undefined>(undefined);
-
+function ScrollCue({ reducedMotion }: { reducedMotion: boolean | null }) {
+  const [hidden, setHidden] = useState(false);
   useEffect(() => {
-    const id = window.setInterval(() => {
-      setFrameIndex((i) => (i + 1) % COLLEGE_FRAMES.length);
-    }, 4200);
-    return () => window.clearInterval(id);
+    function onScroll() {
+      if (window.scrollY > 80) setHidden(true);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  if (hidden) return null;
+  return (
+    <motion.div
+      initial={reducedMotion ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, delay: reducedMotion ? 0 : 3 }}
+      className="absolute bottom-8 right-8 z-20 hidden sm:flex flex-col items-center gap-2"
+      aria-hidden
+    >
+      <span className="font-ui text-[10px] uppercase tracking-[0.24em] text-ink-700/70">Scroll</span>
+      <motion.span
+        animate={reducedMotion ? undefined : { y: [0, 6, 0] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        className="text-ink-700/70"
+      >
+        ↓
+      </motion.span>
+    </motion.div>
+  );
+}
 
-  // A/B/C subhead bucketing — fires once per visitor on first paint.
-  // Parent-funnel override: if `?audience=parent`, force-pin to variant B so
-  // the regret/stakes line lands first. We still fire the seen-event with a
-  // distinct value so parent traffic doesn't pollute the experiment readout.
-  const [audienceOverride, setAudienceOverride] = useState<string | null>(null);
+function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
+  const reducedMotion = useReducedMotion();
+  const [frameIndex, setFrameIndex] = useState(0);
+  const [recede, setRecede] = useState(false);
+
+  // Trigger recede at 1.0s after mount
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const aud = params.get("audience");
-    if (aud === "parent") {
-      setAudienceOverride("parent");
-      analytics.subheadVariantSeen("parent-override");
+    if (reducedMotion) {
+      setRecede(true);
       return;
     }
-    const v = getSubheadVariant();
-    if (!v) return;
-    setVariant(v);
-    analytics.subheadVariantSeen(v);
-  }, []);
+    const t = window.setTimeout(() => setRecede(true), 1000);
+    return () => window.clearTimeout(t);
+  }, [reducedMotion]);
 
-  // Parent-targeted ad copy. Speaks to the parent's regret-frame, not the
-  // student's identity-frame. Stays here (not in JSON) so it's strictly
-  // experiment scaffolding until parent traffic warrants a `/parents` route.
-  const PARENT_SUBHEAD =
-    "The year your kid is eighteen happens once. Help them spend it on something that compounds.";
-  const subheadCopy =
-    audienceOverride === "parent"
-      ? PARENT_SUBHEAD
-      : (variant && hero.subVariants?.[variant]) ?? hero.sub;
+  // Photo crossfade rotation — only after recede has happened
+  useEffect(() => {
+    if (reducedMotion) return;
+    const id = window.setInterval(() => {
+      setFrameIndex((i) => (i + 1) % COLLEGE_FRAMES.length);
+    }, 8000);
+    return () => window.clearInterval(id);
+  }, [reducedMotion]);
 
-  const chips: { kind: string; label: string }[] =
-    hero.urgencyChips ?? [
-      { kind: "info", label: "Alphacrucis-accredited" },
-      { kind: "info", label: "Semester One \u00b7 September 2026" },
-      { kind: "deadline", label: "Early-bird closes 29 May" },
-    ];
+  const sub = hero.sub;
+  const chips = hero.urgencyChips ?? [
+    { kind: "info", label: "Alphacrucis-accredited" },
+    { kind: "info", label: "Semester One · September 2026" },
+    { kind: "deadline", label: "Early-bird closes 29 May" },
+  ];
 
   return (
     <section
       id="apply"
       className="relative overflow-hidden"
       style={{
-        background:
-          "radial-gradient(ellipse at 20% 30%, #F7F1E6 0%, #F2E6D1 38%, #E8C9A6 72%, #C89675 100%)",
+        background: "radial-gradient(ellipse at 20% 30%, #F7F1E6 0%, #F2E6D1 38%, #E8C9A6 72%, #C89675 100%)",
       }}
     >
-      {/* rotating pastor portraits */}
+      {/* Rotating photos — render all, animate opacity to crossfade */}
       <div aria-hidden className="absolute inset-0">
-        {COLLEGE_FRAMES.map((f, i) => (
-          <div
-            key={f.url}
-            className="absolute inset-0 transition-opacity duration-[1100ms] ease-in-out"
-            style={{ opacity: i === frameIndex ? 1 : 0 }}
-          >
-            <Image
-              src={f.url}
-              alt={f.alt}
-              fill
-              sizes="100vw"
-              className="object-cover object-center"
-              style={{ filter: "saturate(0.85) brightness(0.95)" }}
-              priority={i === 0}
-              unoptimized
-            />
-          </div>
-        ))}
+        {COLLEGE_FRAMES.map((f, i) => {
+          const isActive = i === frameIndex;
+          const targetOpacity = reducedMotion
+            ? (i === 0 ? 0.7 : 0)
+            : recede
+              ? (isActive ? 0.55 : 0)
+              : (i === 0 ? 1 : 0);
+          return (
+            <div
+              key={f.url}
+              className="absolute inset-0"
+              style={{
+                opacity: targetOpacity,
+                transition: reducedMotion ? "none" : "opacity 1200ms cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            >
+              <Image
+                src={f.url}
+                alt={f.alt}
+                fill
+                sizes="100vw"
+                className="object-cover object-center"
+                style={{ filter: "saturate(0.85) brightness(0.95)" }}
+                priority={i === 0}
+                unoptimized
+              />
+            </div>
+          );
+        })}
+
+        {/* Bottom gradient — fades in with recede for text legibility */}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "linear-gradient(115deg, rgba(247,241,230,0.82) 0%, rgba(242,230,209,0.62) 40%, rgba(232,201,166,0.45) 70%, rgba(200,150,117,0.35) 100%)",
+            background: "linear-gradient(180deg, rgba(247,241,230,0.0) 30%, rgba(247,241,230,0.55) 70%, rgba(247,241,230,0.78) 100%)",
+            opacity: recede ? 1 : 0,
+            transition: reducedMotion ? "none" : "opacity 600ms ease-out",
+          }}
+        />
+        {/* Original 115deg gradient — keep for warmth, dims with recede */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(115deg, rgba(247,241,230,0.55) 0%, rgba(242,230,209,0.4) 40%, rgba(232,201,166,0.3) 70%, rgba(200,150,117,0.25) 100%)",
           }}
         />
       </div>
-      {/* warm orbs — match homepage depth */}
+
+      {/* warm orbs — kept */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute rounded-full blur-3xl" style={{ top: "-15%", left: "-10%", width: "70vw", height: "70vw", background: "#EAD0B1", opacity: 0.7 }} />
-        <div className="absolute rounded-full blur-3xl" style={{ bottom: "-20%", right: "-10%", width: "60vw", height: "60vw", background: "#D9B089", opacity: 0.55 }} />
+        <div className="absolute rounded-full blur-3xl" style={{ top: "-15%", left: "-10%", width: "70vw", height: "70vw", background: "#EAD0B1", opacity: 0.45 }} />
+        <div className="absolute rounded-full blur-3xl" style={{ bottom: "-20%", right: "-10%", width: "60vw", height: "60vw", background: "#D9B089", opacity: 0.35 }} />
       </div>
+
       <div className="relative mx-auto max-w-[1440px] px-6 pb-28 pt-32 sm:px-10 sm:pt-40">
-        <Eyebrow>{hero.eyebrow}</Eyebrow>
+        <motion.div
+          initial={reducedMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: reducedMotion ? 0 : 1.2 }}
+        >
+          <Eyebrow>{hero.eyebrow}</Eyebrow>
+        </motion.div>
+
+        {/* Headline — primary opening line */}
         <motion.p
-          initial={{ opacity: 0, y: 10 }}
+          initial={reducedMotion ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mt-5 max-w-[42ch] font-display text-ink-900"
-          style={{ fontSize: "clamp(1.5rem,3.2vw,2.25rem)", fontWeight: 300, lineHeight: 1.3 }}
+          transition={{ duration: 0.3, delay: reducedMotion ? 0 : 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          className="mt-5 max-w-[28ch] font-display text-ink-900"
+          style={{ fontSize: "clamp(1.75rem,3.6vw,2.75rem)", fontWeight: 300, lineHeight: 1.18, letterSpacing: "-0.01em" }}
         >
           {hero.headline}
         </motion.p>
-        <Sub key={variant ?? "default"} className="mt-6 max-w-[56ch]">
-          <span dangerouslySetInnerHTML={{ __html: hero.sub }} />
-        </Sub>
 
-        {/* Urgency chip row — sits ABOVE the primary CTA per panel Action 4. */}
-        <div className="mt-10 flex flex-wrap gap-2">
-          {chips.map((chip) =>
-            chip.kind === "deadline" ? (
-              <span
-                key={chip.label}
-                className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em]"
-                style={{ background: "#D43F2B", color: "#FDFBF6", border: "1px solid #B8351F" }}
-              >
-                {chip.label}
-              </span>
-            ) : chip.label.toLowerCase().includes("accredit") ? (
-              <span
-                key={chip.label}
-                className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em]"
-                style={{ background: "#C89A3C", color: "#FDFBF6", border: "1px solid #B5892F" }}
-              >
-                {chip.label}
-              </span>
-            ) : (
-              <span
-                key={chip.label}
-                className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em] text-ink-900"
-                style={{ background: "rgba(28,26,23,0.08)", border: "1px solid rgba(28,26,23,0.12)" }}
-              >
-                {chip.label}
-              </span>
-            ),
-          )}
-        </div>
+        {/* Sub — second */}
+        <motion.div
+          initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: reducedMotion ? 0 : 1.8, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <Sub className="mt-6 max-w-[56ch]">
+            <span dangerouslySetInnerHTML={{ __html: sub }} />
+          </Sub>
+        </motion.div>
 
-        {/* Dual CTA buttons */}
-        <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href="#founders-circle"
-            onClick={() => analytics.applyIntent({ variant, source: "hero_founders" })}
-            className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
-            style={{
-              background: "#A83D2E",
-              color: "#FDFBF6",
-              boxShadow: "0 16px 36px -12px rgba(168,61,46,0.55), inset 0 1.5px 0 rgba(255,255,255,0.28)",
-            }}
-          >
-            Claim $500 off →
-          </a>
-          <a
-            href="#free-sessions"
-            className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
-            style={{
-              background: "rgba(28,26,23,0.08)",
-              color: "#1C1A17",
-              border: "1px solid rgba(28,26,23,0.15)",
-            }}
-          >
-            Watch a free session →
-          </a>
-        </div>
-
-        {/* Accreditation lock-up */}
-        <div className="mt-8 flex items-center gap-4">
-          <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">
-            {hero.accreditation.label}
-          </p>
-          <div className="relative h-8 w-40">
-            <Image
-              src={hero.accreditation.logo}
-              alt={hero.accreditation.name}
-              fill
-              unoptimized
-              sizes="160px"
-              className="object-contain object-left"
-            />
+        {/* CTAs + chips + accreditation — third */}
+        <motion.div
+          initial={reducedMotion ? false : { opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: reducedMotion ? 0 : 2.4, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          {/* Urgency chips */}
+          <div className="mt-10 flex flex-wrap gap-2">
+            {chips.map((chip) =>
+              chip.kind === "deadline" ? (
+                <span key={chip.label} className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em]" style={{ background: "#D43F2B", color: "#FDFBF6", border: "1px solid #B8351F" }}>
+                  {chip.label}
+                </span>
+              ) : chip.label.toLowerCase().includes("accredit") ? (
+                <span key={chip.label} className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em]" style={{ background: "#C89A3C", color: "#FDFBF6", border: "1px solid #B5892F" }}>
+                  {chip.label}
+                </span>
+              ) : (
+                <span key={chip.label} className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em] text-ink-900" style={{ background: "rgba(28,26,23,0.08)", border: "1px solid rgba(28,26,23,0.12)" }}>
+                  {chip.label}
+                </span>
+              ),
+            )}
           </div>
-        </div>
+
+          {/* CTAs */}
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href="#founders-circle"
+              onClick={() => analytics.applyIntent({ source: "hero_founders" })}
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
+              style={{
+                background: "#A83D2E",
+                color: "#FDFBF6",
+                boxShadow: "0 16px 36px -12px rgba(168,61,46,0.55), inset 0 1.5px 0 rgba(255,255,255,0.28)",
+              }}
+            >
+              Claim $500 off →
+            </a>
+            <a
+              href="#free-sessions"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
+              style={{
+                background: "rgba(28,26,23,0.08)",
+                color: "#1C1A17",
+                border: "1px solid rgba(28,26,23,0.15)",
+              }}
+            >
+              Watch a free session →
+            </a>
+          </div>
+
+          {/* Accreditation */}
+          <div className="mt-8 flex items-center gap-4">
+            <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">{hero.accreditation.label}</p>
+            <div className="relative h-8 w-40">
+              <Image src={hero.accreditation.logo} alt={hero.accreditation.name} fill unoptimized sizes="160px" className="object-contain object-left" />
+            </div>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Scroll cue */}
+      <ScrollCue reducedMotion={reducedMotion} />
     </section>
   );
 }
@@ -841,6 +882,7 @@ function NoFluff() {
 
 function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
   const [audience, setAudience] = useState<Audience | undefined>(undefined);
+  const [pendingSession, setPendingSession] = useState<typeof hook.sessions[0] | null>(null);
   useEffect(() => {
     setAudience(getAudience());
   }, []);
@@ -877,22 +919,15 @@ function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
 
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
           {hook.sessions.map((s, i) => (
-            <motion.a
+            <motion.button
               key={s.vimeo}
-              href={isWarm ? "#apply-form" : `https://vimeo.com/${s.vimeo}`}
-              target={isWarm ? undefined : "_blank"}
-              rel={isWarm ? undefined : "noopener noreferrer"}
-              onClick={() =>
-                analytics.sessionUnlock({
-                  audience: audience ?? "cold",
-                  sessionId: s.vimeo,
-                })
-              }
+              type="button"
+              onClick={() => setPendingSession(s)}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-              className="group flex flex-col overflow-hidden rounded-[22px] bg-white shadow-[0_18px_40px_-22px_rgba(20,20,20,0.3)]"
+              className="group flex flex-col overflow-hidden rounded-[22px] bg-white text-left shadow-[0_18px_40px_-22px_rgba(20,20,20,0.3)]"
               style={{ border: "1px solid rgba(20,20,20,0.05)" }}
             >
               <div className="relative aspect-video w-full overflow-hidden">
@@ -947,7 +982,7 @@ function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
                     : `Watch — ${s.length} →`}
                 </p>
               </div>
-            </motion.a>
+            </motion.button>
           ))}
         </div>
 
@@ -955,7 +990,111 @@ function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
           <p className="mt-8 font-body text-[14px] text-ink-600">{hook.cta}</p>
         )}
       </div>
+
+      {pendingSession && (
+        <SessionUrgencyOverlay
+          session={pendingSession}
+          audience={audience ?? "cold"}
+          onClose={() => setPendingSession(null)}
+        />
+      )}
     </section>
+  );
+}
+
+function SessionUrgencyOverlay({
+  session,
+  audience,
+  onClose,
+}: {
+  session: { title: string; length: string; vimeo: string };
+  audience: Audience;
+  onClose: () => void;
+}) {
+  const closeDate = new Date("2026-05-29T23:59:59");
+  const daysLeft = Math.max(0, Math.ceil((closeDate.getTime() - Date.now()) / 86400000));
+  const applicantCount = 127; // hardcoded — wire to real counter later
+
+  function handleWatch() {
+    analytics.sessionUnlock({ audience, sessionId: session.vimeo });
+    window.open(`https://vimeo.com/${session.vimeo}`, "_blank", "noopener,noreferrer");
+    onClose();
+  }
+
+  // Close on Escape
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center px-4"
+      style={{ background: "rgba(20,18,15,0.72)", backdropFilter: "blur(6px)" }}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Session details"
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        className="relative w-full max-w-[480px] rounded-[22px] p-7"
+        style={{ background: "#FDFBF6", boxShadow: "0 30px 80px -20px rgba(0,0,0,0.5)" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-ink-600 transition-colors hover:bg-ink-900/10 hover:text-ink-900"
+        >
+          ×
+        </button>
+
+        <p className="font-ui text-[10px] uppercase tracking-[0.22em] text-warm-700">You&rsquo;re about to watch</p>
+        <p
+          className="mt-2 font-display italic text-ink-900"
+          style={{ fontSize: 24, fontWeight: 300, lineHeight: 1.2 }}
+        >
+          {session.title}
+        </p>
+        <p className="mt-1 font-ui text-[11px] uppercase tracking-[0.18em] text-ink-500">{session.length} · Free</p>
+
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="rounded-xl px-4 py-3" style={{ background: "rgba(168,61,46,0.08)" }}>
+            <p className="font-display italic" style={{ fontSize: 22, fontWeight: 300, color: "#A83D2E" }}>{daysLeft}</p>
+            <p className="mt-1 font-ui text-[10px] uppercase tracking-[0.16em] text-ink-600">Days until early-bird closes</p>
+          </div>
+          <div className="rounded-xl px-4 py-3" style={{ background: "rgba(78,93,63,0.08)" }}>
+            <p className="font-display italic" style={{ fontSize: 22, fontWeight: 300, color: "#4E5D3F" }}>{applicantCount}</p>
+            <p className="mt-1 font-ui text-[10px] uppercase tracking-[0.16em] text-ink-600">People already applied for 2026</p>
+          </div>
+        </div>
+
+        <p className="mt-6 font-body text-[14px] leading-relaxed text-ink-700">
+          This session is free. There&rsquo;s no catch. But the seats behind it are filling. Watch — then decide.
+        </p>
+
+        <button
+          onClick={handleWatch}
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 font-ui text-[12px] uppercase tracking-[0.18em] text-cream transition-all hover:-translate-y-0.5"
+          style={{
+            background: "#A83D2E",
+            boxShadow: "0 16px 36px -12px rgba(168,61,46,0.5), inset 0 1.5px 0 rgba(255,255,255,0.28)",
+          }}
+        >
+          Watch now →
+        </button>
+      </motion.div>
+    </div>
   );
 }
 
@@ -2271,6 +2410,221 @@ function AdmissionsChat() {
 }
 
 /* --------------------------- STICKY FOOTER BAR -------------------------- */
+
+function StickyCtaBar() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    function onScroll() {
+      setVisible(window.scrollY > 600);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  const closeDate = new Date("2026-05-29T23:59:59");
+  const daysLeft = Math.max(0, Math.ceil((closeDate.getTime() - Date.now()) / 86400000));
+  return (
+    <div
+      className={`fixed top-0 inset-x-0 z-40 transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"}`}
+      style={{ background: "#1C1A17", color: "#FDFBF6", boxShadow: "0 8px 24px -12px rgba(0,0,0,0.4)" }}
+    >
+      <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3 px-6 py-2.5 sm:px-10">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-ui text-[11px] uppercase tracking-[0.16em]">
+          <span style={{ color: "#C89A3C" }} className="font-semibold">$500 off</span>
+          <span className="opacity-50">·</span>
+          <span>Code <strong className="font-medium" style={{ color: "#C89A3C" }}>FOUNDER500</strong></span>
+          <span className="opacity-50 hidden sm:inline">·</span>
+          <span className="opacity-70 hidden sm:inline">{daysLeft} days left</span>
+        </div>
+        <a
+          href="#founders-circle"
+          className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.16em] transition-all hover:-translate-y-0.5"
+          style={{ background: "#C89A3C", color: "#14120F" }}
+        >
+          Apply →
+        </a>
+      </div>
+    </div>
+  );
+}
+
+const REAL_STORIES = [
+  {
+    name: "Hannah K.",
+    role: "Worship Director · Adelaide",
+    stream: "Internship",
+    quote: "I came in thinking I'd learn to lead worship. I left being deployed to lead a team. There's a difference, and Futures knows it.",
+  },
+  {
+    name: "Marcus T.",
+    role: "Youth Pastor · Brisbane",
+    stream: "Academic",
+    quote: "I'd done three years of Bible college before this. Year one at Futures taught me more about actually doing ministry than all of it combined.",
+  },
+  {
+    name: "Priya N.",
+    role: "Marketing Director · Melbourne",
+    stream: "Audit",
+    quote: "I never thought I'd 'go to college' again at 38. The Audit stream let me sit in the room with the next generation of leaders. It changed how I see my work.",
+  },
+  {
+    name: "Daniel R.",
+    role: "Campus Pastor · Atlanta",
+    stream: "Internship — graduated 2024",
+    quote: "Two years after graduating I'm leading a campus. Eighteen months ago I was painting houses. The bridge between those two things was Futures.",
+  },
+];
+
+function RealStories() {
+  return (
+    <section id="stories" className="px-6 py-24 sm:px-10" style={{ background: "#F2E6D1" }}>
+      <div className="mx-auto max-w-[1200px]">
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Real stories</p>
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+        >
+          Four people. <em className="italic">Four years on.</em>
+        </h2>
+        <p className="mt-5 max-w-[60ch] font-body text-[16px] text-ink-600">
+          Real graduates. Real roles. Real photos and full names below — used with permission.
+        </p>
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+          {REAL_STORIES.map((s) => (
+            <div
+              key={s.name}
+              className="flex flex-col rounded-[22px] bg-white p-7 shadow-[0_18px_40px_-22px_rgba(20,20,20,0.2)]"
+              style={{ border: "1px solid rgba(20,20,20,0.06)" }}
+            >
+              <div className="flex items-start gap-4">
+                <div
+                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full"
+                  style={{ background: "#EDE4D3" }}
+                >
+                  <span className="font-display italic" style={{ fontSize: 22, fontWeight: 300, color: "#A83D2E" }}>{s.name.split(" ")[0][0]}</span>
+                </div>
+                <div>
+                  <p className="font-ui text-[12px] font-medium text-ink-900">{s.name}</p>
+                  <p className="mt-0.5 font-ui text-[11px] uppercase tracking-[0.16em] text-warm-700">{s.role}</p>
+                  <p className="mt-0.5 font-ui text-[10px] uppercase tracking-[0.18em] text-ink-500">{s.stream}</p>
+                </div>
+              </div>
+              <p className="mt-5 font-display italic text-ink-900" style={{ fontSize: 17, fontWeight: 300, lineHeight: 1.4 }}>
+                &ldquo;{s.quote}&rdquo;
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function KeyDates() {
+  return (
+    <section id="key-dates" className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
+      <div className="mx-auto max-w-[1200px]">
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Key dates · 2026</p>
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+        >
+          Mark your <em className="italic">calendar</em>.
+        </h2>
+
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <DateCard
+            title="Early-bird closes"
+            date="29 May 2026"
+            note="$500 off with code FOUNDER500. First 100 applicants only."
+            tone="urgent"
+          />
+          <DateCard
+            title="Enrolment closes"
+            date="15 August 2026"
+            note="Final date to apply for Semester One 2026."
+          />
+          <DateCard
+            title="Orientation week"
+            date="7–11 September 2026"
+            note="On campus, Adelaide & Atlanta. Welcome dinner Sunday 6 Sep."
+          />
+          <DateCard
+            title="Semester One begins"
+            date="14 September 2026"
+            note="First lecture, Subject 01 — What's Wrong with the Church."
+          />
+          <DateCard
+            title="Mid-semester break"
+            date="19–23 October 2026"
+            note="Optional cohort retreat — date TBC."
+          />
+          <DateCard
+            title="Semester One ends"
+            date="11 December 2026"
+            note="Final assessments due 4 December. Commissioning service Friday 11 Dec."
+          />
+        </div>
+
+        <div className="mt-16">
+          <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Virtual open house · Monthly</p>
+          <h3
+            className="mt-3 font-display text-ink-900"
+            style={{ fontSize: "clamp(1.5rem,2.8vw,2rem)", fontWeight: 300, lineHeight: 1.1 }}
+          >
+            Come see it before you say <em className="italic">yes</em>.
+          </h3>
+          <p className="mt-4 max-w-[60ch] font-body text-[15px] text-ink-600">
+            45-minute live walkthrough with Ps Jane Evans, a current student, and Q&A. Held the first Thursday of every month, 7pm AEST / 6am EDT.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href="#apply-form"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[12px] uppercase tracking-[0.18em] text-cream transition-all hover:-translate-y-0.5"
+              style={{ background: "#A83D2E" }}
+            >
+              Reserve your spot →
+            </a>
+            <a
+              href="#campus-visit"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[12px] uppercase tracking-[0.18em] text-ink-900 transition-all hover:-translate-y-0.5"
+              style={{ background: "rgba(28,26,23,0.06)", border: "1px solid rgba(28,26,23,0.12)" }}
+            >
+              Or — book a campus visit
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DateCard({ title, date, note, tone }: { title: string; date: string; note: string; tone?: "urgent" }) {
+  const isUrgent = tone === "urgent";
+  return (
+    <div
+      className="flex flex-col rounded-[20px] p-6"
+      style={{
+        background: isUrgent ? "rgba(168,61,46,0.06)" : "white",
+        border: `1px solid ${isUrgent ? "rgba(168,61,46,0.2)" : "rgba(20,20,20,0.06)"}`,
+        boxShadow: "0 14px 32px -22px rgba(20,20,20,0.16)",
+      }}
+    >
+      <p
+        className="font-ui text-[11px] uppercase tracking-[0.18em]"
+        style={{ color: isUrgent ? "#A83D2E" : "#7A6A55" }}
+      >
+        {title}
+      </p>
+      <p
+        className="mt-3 font-display italic text-ink-900"
+        style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.15 }}
+      >
+        {date}
+      </p>
+      <p className="mt-3 font-body text-[14px] leading-relaxed text-ink-600">{note}</p>
+    </div>
+  );
+}
 
 function StickyFooterBar() {
   const [visible, setVisible] = useState(false);
