@@ -176,29 +176,26 @@ export function CollegePageClient({
           {usAccreditationSlot}
         </section>
       )}
-      <TwoPathBar />
-      <AlumniProof data={data.alumniProof} />
+      <ClaimBlock />
+      <FindYourPathIntro />
       <PersonaSection personas={data.personas} />
-      <WhyNowCompact />
-      <WhyNow whyNow={data.whyNow} />
       <FreeSessions hook={data.hook} />
+      <WhyNowCompact />
+      <WhyNowRetirementCliff />
       <ThreeStreams streams={data.streams} />
+      <FacultyFeatured />
+      <TimesWeLiveIn />
       <YearOneProgramme programme={data.programme} />
       <FacultyWall facultyIntro={data.facultyIntro} faculty={data.faculty} />
-      <CollegeOutcomes outcomes={data.outcomes} />
-      <CampusExperience experience={data.experience} />
+      <AlumniProof data={data.alumniProof} />
       <TuitionAndAid tuition={data.tuition} />
       <EnrollmentWindow enrollment={data.enrollment} />
-      <AcademicCalendar />
-      <StudentHandbook />
-      <VirtualOpenHouse />
-      <AdmissionsChat />
-      <FuturesOnline online={data.online} />
       {data.closing && (
         <ClosingStatement closing={data.closing} cta={data.closingCta} />
       )}
       <CollegeFAQ faq={data.faq} />
       <CollegeApplyStageOne onSubmit={markStageOne} />
+      <SingleSubjectCTA />
       <VisitBooking />
       {stageOneComplete && <CollegeApplyStageTwo />}
       <StickyFooterBar />
@@ -246,13 +243,6 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
     setVariant(v);
     analytics.subheadVariantSeen(v);
   }, []);
-
-  // Until quiz ships, use the pre-quiz CTA. Falls back to the legacy hard-coded
-  // copy if the JSON hasn't been migrated yet.
-  const primaryCta =
-    hero.primaryCtaPreQuiz ??
-    hero.primaryCta ??
-    { label: "Apply before 29 May \u2192", href: "#apply-form" };
 
   // Parent-targeted ad copy. Speaks to the parent's regret-frame, not the
   // student's identity-frame. Stays here (not in JSON) so it's strictly
@@ -332,13 +322,11 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
           transition={{ duration: 0.9, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
           className="mt-4 max-w-[24ch]"
         >
-          <Hero>
-            Out<em className="italic">think</em>.
-            <br />
-            Out<em className="italic">build</em>.
-            <br />
-            Out<em className="italic">lead</em>.
-          </Hero>
+          <h1
+            className="font-display text-ink-900"
+            style={{ fontSize: "clamp(2.8rem,6vw,5rem)", fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.02em" }}
+            dangerouslySetInnerHTML={{ __html: hero.headline }}
+          />
         </motion.div>
         <Sub key={variant ?? "default"} className="mt-6 max-w-[56ch]">
           <span dangerouslySetInnerHTML={{ __html: subheadCopy }} />
@@ -387,22 +375,31 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
           )}
         </div>
 
-        {/* Single primary CTA per panel Action 5/6 — attention ratio = 1. */}
-        <div className="mt-6">
+        {/* Dual CTA buttons */}
+        <div className="mt-6 flex flex-wrap gap-3">
           <a
-            href={primaryCta.href}
-            onClick={() =>
-              analytics.applyIntent({ variant, source: "hero_primary" })
-            }
+            href="#free-sessions"
+            onClick={() => analytics.applyIntent({ variant, source: "hero_watch" })}
             className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
             style={{
               background: "#A83D2E",
               color: "#FDFBF6",
-              boxShadow:
-                "0 16px 36px -12px rgba(168,61,46,0.55), inset 0 1.5px 0 rgba(255,255,255,0.28)",
+              boxShadow: "0 16px 36px -12px rgba(168,61,46,0.55), inset 0 1.5px 0 rgba(255,255,255,0.28)",
             }}
-            dangerouslySetInnerHTML={{ __html: primaryCta.label }}
-          />
+          >
+            Watch a free session →
+          </a>
+          <a
+            href="#personas"
+            className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
+            style={{
+              background: "rgba(28,26,23,0.08)",
+              color: "#1C1A17",
+              border: "1px solid rgba(28,26,23,0.15)",
+            }}
+          >
+            Find your path →
+          </a>
         </div>
 
         {/* Accreditation lock-up */}
@@ -426,7 +423,174 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
   );
 }
 
-/* ------------------------------ FAMILY SECTION -------------------------- */
+/* ------------------------------ CLAIM BLOCK (B) ------------------------- */
+
+function ClaimBlock() {
+  const [emailInputs, setEmailInputs] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState<Record<string, boolean>>({});
+
+  function handleClaim(tileId: string, e: React.FormEvent) {
+    e.preventDefault();
+    // In production this would POST to an email service. For now, mark as submitted.
+    setSubmitted((s) => ({ ...s, [tileId]: true }));
+    analytics.applyIntent({ source: `claim_${tileId}` });
+  }
+
+  const EARLY_BIRD_CLOSE = new Date("2026-05-29T23:59:59");
+  const daysLeft = Math.max(0, Math.ceil((EARLY_BIRD_CLOSE.getTime() - Date.now()) / 86400000));
+  const spotsLeft = 47; // Static — update when real tracking is in place.
+
+  return (
+    <section id="claim-block" className="px-6 py-16 sm:px-10" style={{ background: "#F7F0E4" }}>
+      <div className="mx-auto max-w-[1200px]">
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Claim something today</p>
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(1.75rem,3.2vw,2.5rem)", fontWeight: 300, lineHeight: 1.08 }}
+        >
+          You don&rsquo;t have to apply to get something <em className="italic">real</em>.
+        </h2>
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {/* Tile 1 — Free first subject */}
+          <div
+            className="flex flex-col rounded-[22px] p-7"
+            style={{ background: "#EDE4D3", border: "1px solid rgba(20,20,20,0.07)" }}
+          >
+            <p className="font-ui text-[10px] uppercase tracking-[0.22em]" style={{ color: "#A83D2E" }}>
+              Free · No commitment
+            </p>
+            <p className="mt-3 font-display italic text-ink-900" style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.2 }}>
+              Claim your free first subject
+            </p>
+            <p className="mt-3 font-body text-[14px] leading-relaxed text-ink-600">
+              Take Subject 01 — <em>What&rsquo;s Wrong with the Church</em> — on us. One full lecture. Yours to keep, no strings attached.
+            </p>
+            {submitted["free-subject"] ? (
+              <p className="mt-6 font-ui text-[13px]" style={{ color: "#4E5D3F" }}>
+                ✓ Check your inbox — it&rsquo;s on its way.
+              </p>
+            ) : (
+              <form onSubmit={(e) => handleClaim("free-subject", e)} className="mt-6 flex flex-col gap-3">
+                <input
+                  type="email"
+                  required
+                  placeholder="your@email.com"
+                  value={emailInputs["free-subject"] ?? ""}
+                  onChange={(ev) => setEmailInputs((s) => ({ ...s, "free-subject": ev.target.value }))}
+                  className="w-full rounded-xl border border-ink-900/15 bg-white px-4 py-2.5 font-body text-[14px] text-ink-900 outline-none focus:border-ink-900/40"
+                />
+                <button
+                  type="submit"
+                  className="rounded-full px-5 py-2.5 font-ui text-[12px] uppercase tracking-[0.18em] text-cream transition-all hover:-translate-y-0.5"
+                  style={{ background: "#A83D2E" }}
+                >
+                  Send it to me →
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* Tile 2 — Gift a subject */}
+          <div
+            className="flex flex-col rounded-[22px] p-7"
+            style={{ background: "#EDE4D3", border: "1px solid rgba(20,20,20,0.07)" }}
+          >
+            <p className="font-ui text-[10px] uppercase tracking-[0.22em]" style={{ color: "#4E5D3F" }}>
+              Gift · Pay it forward
+            </p>
+            <p className="mt-3 font-display italic text-ink-900" style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.2 }}>
+              Gift a subject to someone you love
+            </p>
+            <p className="mt-3 font-body text-[14px] leading-relaxed text-ink-600">
+              Know someone who&rsquo;s been quietly searching? Send them Subject 01, free, with a personal note from you. Takes 30 seconds.
+            </p>
+            {submitted["gift-subject"] ? (
+              <p className="mt-6 font-ui text-[13px]" style={{ color: "#4E5D3F" }}>
+                ✓ Gift sent. They&rsquo;ll receive it with your name on it.
+              </p>
+            ) : (
+              <form onSubmit={(e) => handleClaim("gift-subject", e)} className="mt-6 flex flex-col gap-3">
+                <input
+                  type="email"
+                  required
+                  placeholder="their@email.com"
+                  value={emailInputs["gift-subject"] ?? ""}
+                  onChange={(ev) => setEmailInputs((s) => ({ ...s, "gift-subject": ev.target.value }))}
+                  className="w-full rounded-xl border border-ink-900/15 bg-white px-4 py-2.5 font-body text-[14px] text-ink-900 outline-none focus:border-ink-900/40"
+                />
+                <button
+                  type="submit"
+                  className="rounded-full px-5 py-2.5 font-ui text-[12px] uppercase tracking-[0.18em] text-cream transition-all hover:-translate-y-0.5"
+                  style={{ background: "#4E5D3F" }}
+                >
+                  Send the gift →
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* Tile 3 — Founder's Circle */}
+          <div
+            className="relative flex flex-col overflow-hidden rounded-[22px] p-7"
+            style={{ background: "#1C1A17", border: "1px solid rgba(200,154,60,0.35)" }}
+          >
+            <p className="font-ui text-[10px] uppercase tracking-[0.22em]" style={{ color: "#C89A3C" }}>
+              Founder&rsquo;s Circle · First 100 only
+            </p>
+            <p className="mt-3 font-display italic" style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.2, color: "#FDFBF6" }}>
+              $100 off the 2026 intake
+            </p>
+            <p className="mt-3 font-body text-[14px] leading-relaxed" style={{ color: "rgba(253,251,246,0.72)" }}>
+              Apply before 29 May with code <strong className="font-ui font-semibold" style={{ color: "#C89A3C" }}>FOUNDER100</strong>. {spotsLeft} of 100 spots remaining.
+            </p>
+            <div className="mt-6 space-y-2">
+              <div className="flex items-center justify-between font-ui text-[11px] uppercase tracking-[0.18em]" style={{ color: "rgba(253,251,246,0.5)" }}>
+                <span>{spotsLeft} remaining</span>
+                <span>{daysLeft} days left</span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full" style={{ background: "rgba(253,251,246,0.15)" }}>
+                <div
+                  className="h-full rounded-full"
+                  style={{ width: `${((100 - spotsLeft) / 100) * 100}%`, background: "#C89A3C" }}
+                />
+              </div>
+            </div>
+            <a
+              href="#apply-form"
+              onClick={() => analytics.applyIntent({ source: "founders_circle" })}
+              className="mt-8 inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[12px] uppercase tracking-[0.18em] transition-all hover:-translate-y-0.5"
+              style={{ background: "#C89A3C", color: "#14120F" }}
+            >
+              Apply now →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------- FIND YOUR PATH INTRO (C) ----------------------- */
+
+function FindYourPathIntro() {
+  return (
+    <section className="px-6 py-14 sm:px-10" style={{ background: "#F7F0E4" }}>
+      <div className="mx-auto max-w-[900px]">
+        <h2
+          className="font-display text-ink-900"
+          style={{ fontSize: "clamp(1.75rem,3.4vw,2.5rem)", fontWeight: 300, lineHeight: 1.1 }}
+        >
+          You don&rsquo;t have to commit to <em className="italic">find out</em>.
+        </h2>
+        <p className="mt-4 font-body text-[16px] leading-relaxed text-ink-600" style={{ maxWidth: "54ch" }}>
+          Five hundred people landed on this page this month carrying a different question. Find yours below — we&rsquo;ll meet you there.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ FAMILY SECTION (kept, not rendered) ----- */
 
 function FamilySection({ family }: { family: CollegeData["family"] }) {
   return (
@@ -450,7 +614,7 @@ function FamilySection({ family }: { family: CollegeData["family"] }) {
   );
 }
 
-/* ------------------------------ PERSONA SECTION ------------------------- */
+/* ------------------------------ PERSONA SECTION (D) --------------------- */
 
 function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
   return (
@@ -466,11 +630,10 @@ function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
           {personas.headline}
         </h2>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {personas.items.map((p, i) => {
             const href = p.ctaOverride?.href ?? "#apply-form";
             const ctaLabel = p.ctaOverride?.label ?? "This sounds like me \u2192";
-            const isQuizTile = p.slug === "not-sure";
             return (
               <motion.a
                 key={p.slug}
@@ -485,12 +648,9 @@ function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
                 }}
                 className="group flex flex-col overflow-hidden rounded-[20px] transition-transform hover:-translate-y-1"
                 style={{
-                  background: isQuizTile ? "#1C1A17" : "#EDE4D3",
-                  border: isQuizTile
-                    ? "1px solid rgba(200,154,60,0.45)"
-                    : "1px solid rgba(20,20,20,0.06)",
+                  background: "#EDE4D3",
+                  border: "1px solid rgba(20,20,20,0.06)",
                   boxShadow: "0 14px 32px -22px rgba(20,20,20,0.25)",
-                  color: isQuizTile ? "#FDFBF6" : undefined,
                 }}
               >
                 {p.photo && p.photo !== "placeholder" ? (
@@ -500,37 +660,17 @@ function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
                       alt={p.label}
                       fill
                       unoptimized
-                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 14vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
                       className="object-cover"
                       style={{ objectPosition: "center 30%" }}
                     />
-                  </div>
-                ) : isQuizTile ? (
-                  <div
-                    className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden"
-                    style={{
-                      background:
-                        "radial-gradient(ellipse at 30% 25%, #2A2620 0%, #14120F 70%)",
-                    }}
-                  >
-                    <span
-                      className="font-display italic"
-                      style={{
-                        fontSize: 64,
-                        fontWeight: 300,
-                        color: "#C89A3C",
-                        letterSpacing: "-0.02em",
-                      }}
-                    >
-                      ?
-                    </span>
                   </div>
                 ) : null}
                 <div className="flex flex-1 flex-col p-4 sm:p-6">
                   <p
                     className="font-ui text-[10px] uppercase"
                     style={{
-                      color: isQuizTile ? "#C89A3C" : "#A83D2E",
+                      color: "#A83D2E",
                       letterSpacing: "0.06em",
                       fontWeight: 600,
                     }}
@@ -542,13 +682,13 @@ function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
                       fontSize: 15,
                       fontWeight: 300,
                       lineHeight: 1.4,
-                      color: isQuizTile ? "#FDFBF6" : "#14120F",
+                      color: "#14120F",
                     }}
                     dangerouslySetInnerHTML={{ __html: p.copy }}
                   />
                   <p
                     className="mt-auto pt-5 font-ui text-[11px]"
-                    style={{ color: isQuizTile ? "#C89A3C" : "#A83D2E" }}
+                    style={{ color: "#A83D2E" }}
                   >
                     <span
                       className="group-hover:underline underline-offset-4"
@@ -565,7 +705,7 @@ function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
   );
 }
 
-/* ----------------------- WHY NOW — COMPACT PULL QUOTE ------------------- */
+/* ----------------------- WHY NOW — COMPACT PULL QUOTE (G) --------------- */
 
 function WhyNowCompact() {
   return (
@@ -584,7 +724,55 @@ function WhyNowCompact() {
   );
 }
 
-/* ----------------------------- FREE SESSIONS ---------------------------- */
+/* ----------------------- WHY NOW RETIREMENT CLIFF (G) ------------------- */
+
+function WhyNowRetirementCliff() {
+  return (
+    <section className="px-6 py-28 sm:px-10" style={{ background: "#1C1A17", color: "#FDFBF6" }}>
+      <div className="mx-auto max-w-[1200px]">
+        <p className="font-ui text-[11px] tracking-[0.06em]" style={{ color: "#C89A3C" }}>
+          Why now
+        </p>
+        <h2
+          className="mt-4 font-display"
+          style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
+        >
+          A generation of pastors is leaving the field.
+        </h2>
+
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="rounded-[20px] p-7" style={{ background: "rgba(253,251,246,0.06)", border: "1px solid rgba(253,251,246,0.1)" }}>
+            <p className="font-display italic" style={{ fontSize: 52, fontWeight: 300, color: "#C89A3C", lineHeight: 1 }}>50%</p>
+            <p className="mt-3 font-ui text-[12px] uppercase tracking-[0.18em] opacity-70">of US pastors are 55 or older</p>
+            <p className="mt-4 font-body text-[14px] leading-relaxed opacity-60">The retirement cliff is real. Barna and Lifeway have both tracked it. The pipeline behind them is thin.</p>
+          </div>
+          <div className="rounded-[20px] p-7" style={{ background: "rgba(253,251,246,0.06)", border: "1px solid rgba(253,251,246,0.1)" }}>
+            <p className="font-display italic" style={{ fontSize: 52, fontWeight: 300, color: "#C89A3C", lineHeight: 1 }}>10 yr</p>
+            <p className="mt-3 font-ui text-[12px] uppercase tracking-[0.18em] opacity-70">window — the roles that need filling, now</p>
+            <p className="mt-4 font-body text-[14px] leading-relaxed opacity-60">Senior pastors. Campus pastors. Youth leaders. Kids directors. Board members. Communicators. Builders. Not in a decade. Now.</p>
+          </div>
+          <div className="rounded-[20px] p-7" style={{ background: "rgba(253,251,246,0.06)", border: "1px solid rgba(253,251,246,0.1)" }}>
+            <p className="font-display italic" style={{ fontSize: 52, fontWeight: 300, color: "#C89A3C", lineHeight: 1 }}>1,200+</p>
+            <p className="mt-3 font-ui text-[12px] uppercase tracking-[0.18em] opacity-70">leaders raised by Futures so far</p>
+            <p className="mt-4 font-body text-[14px] leading-relaxed opacity-60">Futures&rsquo; answer: not by accident. On purpose. One year at a time. Building the next generation of every one of those roles.</p>
+          </div>
+        </div>
+
+        <p
+          className="mt-14 font-display italic"
+          style={{ fontSize: "clamp(1.3rem,2.4vw,1.75rem)", fontWeight: 300, lineHeight: 1.3, color: "#E8C9A6", maxWidth: "58ch" }}
+        >
+          &ldquo;The Church that leads the next decade will be the one that started training its leaders this one.&rdquo;
+        </p>
+        <p className="mt-3 font-ui text-[11px] uppercase tracking-[0.18em] opacity-50">
+          Sources: Barna Group, Lifeway Research, Hartford Institute for Religion Research
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------------- FREE SESSIONS (E) ------------------------ */
 
 function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
   const [audience, setAudience] = useState<Audience | undefined>(undefined);
@@ -706,7 +894,7 @@ function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
   );
 }
 
-/* ------------------------------- WHY NOW -------------------------------- */
+/* ------------------------------- WHY NOW (kept for data, not rendered) --- */
 
 function WhyNow({ whyNow }: { whyNow: CollegeData["whyNow"] }) {
   return (
@@ -761,7 +949,7 @@ function WhyNow({ whyNow }: { whyNow: CollegeData["whyNow"] }) {
   );
 }
 
-/* ----------------------------- THREE STREAMS ---------------------------- */
+/* ----------------------------- THREE STREAMS (H) ------------------------ */
 
 function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
   return (
@@ -778,7 +966,7 @@ function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
           Three ways in. Pick the depth that matches where you are in your calling.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {streams.map((s, i) => (
             <motion.article
               key={s.slug}
@@ -830,7 +1018,99 @@ function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
   );
 }
 
-/* --------------------------- YEAR ONE PROGRAMME ------------------------- */
+/* --------------------------- FACULTY FEATURED (I) ----------------------- */
+
+function FacultyFeatured() {
+  return (
+    <section className="px-6 py-24 sm:px-10" style={{ background: "#F2E6D1" }}>
+      <div className="mx-auto max-w-[1100px]">
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Faculty</p>
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+        >
+          Taught by people who&rsquo;ve <em className="italic">built it</em>.
+        </h2>
+        <p className="mt-5 max-w-[62ch] font-body text-[16px] leading-relaxed text-ink-600">
+          Futures College isn&rsquo;t theology taught by career academics. It&rsquo;s leadership formation built by the people who planted twenty-one campuses across four countries — and are still planting more. You&rsquo;ll learn from practitioners. You&rsquo;ll be mentored by pastors whose churches are alive and growing. You&rsquo;ll build your framework alongside people who are actually doing the work today.
+        </p>
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div
+            className="flex flex-col rounded-[22px] bg-white p-8 shadow-[0_18px_40px_-22px_rgba(20,20,20,0.2)]"
+            style={{ border: "1px solid rgba(20,20,20,0.06)" }}
+          >
+            <div className="flex items-start gap-5">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full" style={{ background: "#EDE4D3" }}>
+                <div className="flex h-full w-full items-center justify-center">
+                  <span className="font-display italic" style={{ fontSize: 24, fontWeight: 300, color: "#A83D2E" }}>J</span>
+                </div>
+              </div>
+              <div>
+                <p className="font-ui text-[12px] font-medium text-ink-900">Ps Jane Evans</p>
+                <p className="mt-0.5 font-ui text-[11px] uppercase tracking-[0.18em] text-warm-700">College President</p>
+              </div>
+            </div>
+            <p className="mt-5 font-body text-[15px] leading-relaxed text-ink-600">
+              Thirty-five years building churches, releasing leaders, and watching people step into the calling they were made for. Jane doesn&rsquo;t teach theory. She teaches what she&rsquo;s lived.
+            </p>
+          </div>
+          <div
+            className="flex flex-col rounded-[22px] bg-white p-8 shadow-[0_18px_40px_-22px_rgba(20,20,20,0.2)]"
+            style={{ border: "1px solid rgba(20,20,20,0.06)" }}
+          >
+            <div className="flex items-start gap-5">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full" style={{ background: "#EDE4D3" }}>
+                <div className="flex h-full w-full items-center justify-center">
+                  <span className="font-display italic" style={{ fontSize: 24, fontWeight: 300, color: "#A83D2E" }}>A</span>
+                </div>
+              </div>
+              <div>
+                <p className="font-ui text-[12px] font-medium text-ink-900">Ps Ashley Evans</p>
+                <p className="mt-0.5 font-ui text-[11px] uppercase tracking-[0.18em] text-warm-700">Global Senior Pastor</p>
+              </div>
+            </div>
+            <p className="mt-5 font-body text-[15px] leading-relaxed text-ink-600">
+              The calling they were made for. Thirty-five years of actually building — and releasing people into the life they were built for. The Futures family is his life&rsquo;s work.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------- TIMES WE LIVE IN (J) --------------------- */
+
+function TimesWeLiveIn() {
+  return (
+    <section className="px-6 py-20 sm:px-10" style={{ background: "#14120F", color: "#FDFBF6" }}>
+      <div className="mx-auto max-w-[900px]">
+        <p className="font-ui text-[11px] tracking-[0.06em]" style={{ color: "#C89A3C" }}>
+          The times we live in
+        </p>
+        <div className="mt-8 space-y-5 font-body text-[17px] leading-relaxed" style={{ color: "rgba(253,251,246,0.82)" }}>
+          <p>AI is rewriting every institution. The Church included. The question isn&rsquo;t whether it changes — it&rsquo;s whether you&rsquo;ll lead the change or be swept up by it.</p>
+          <p>Trust in institutions is collapsing. Authority is decentralising. Cultural fragmentation is the water we&rsquo;re all swimming in. The leaders who hold theology and skill in the same hand will define what comes next.</p>
+          <p>The next ten years will be defined by leaders who act first. Not loudest. First.</p>
+        </div>
+        <p
+          className="mt-10 font-display italic"
+          style={{ fontSize: "clamp(1.3rem,2.2vw,1.6rem)", fontWeight: 300, color: "#E8C9A6", lineHeight: 1.3 }}
+        >
+          Out<em>think</em>. Out<em>build</em>. Out<em>lead</em>.
+        </p>
+        <p
+          className="mt-2 font-display italic"
+          style={{ fontSize: "clamp(1.1rem,1.8vw,1.3rem)", fontWeight: 300, opacity: 0.55, lineHeight: 1.3 }}
+        >
+          Those who act first will lead what comes next.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------- YEAR ONE PROGRAMME (K) --------------------- */
 
 function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }) {
   return (
@@ -972,7 +1252,7 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
   );
 }
 
-/* ------------------------------- FACULTY -------------------------------- */
+/* ------------------------------- FACULTY (L) ---------------------------- */
 
 function FacultyWall({
   facultyIntro,
@@ -1113,7 +1393,7 @@ function FacultyWall({
   );
 }
 
-/* --------------------------- CAMPUS EXPERIENCE -------------------------- */
+/* --------------------------- CAMPUS EXPERIENCE (kept, not rendered) ----- */
 
 function CampusExperience({ experience }: { experience: CollegeData["experience"] }) {
   return (
@@ -1149,7 +1429,7 @@ function CampusExperience({ experience }: { experience: CollegeData["experience"
   );
 }
 
-/* ------------------------------- OUTCOMES ------------------------------- */
+/* ------------------------------- OUTCOMES (kept, not rendered) ----------- */
 
 function CollegeOutcomes({ outcomes }: { outcomes: CollegeData["outcomes"] }) {
   return (
@@ -1197,7 +1477,7 @@ function CollegeOutcomes({ outcomes }: { outcomes: CollegeData["outcomes"] }) {
   );
 }
 
-/* ---------------------------- TUITION & AID ----------------------------- */
+/* ---------------------------- TUITION & AID (N) ------------------------- */
 
 function TuitionAndAid({ tuition }: { tuition: CollegeData["tuition"] }) {
   return (
@@ -1267,7 +1547,7 @@ function TuitionAndAid({ tuition }: { tuition: CollegeData["tuition"] }) {
   );
 }
 
-/* --------------------------- ENROLLMENT WINDOW -------------------------- */
+/* --------------------------- ENROLLMENT WINDOW (O) ---------------------- */
 
 function EnrollmentWindow({ enrollment }: { enrollment: CollegeData["enrollment"] }) {
   const closeDate = new Date(`${enrollment.close}T23:59:59`);
@@ -1399,7 +1679,7 @@ function EnrollmentWindow({ enrollment }: { enrollment: CollegeData["enrollment"
   );
 }
 
-/* ----------------------------- FUTURES ONLINE --------------------------- */
+/* ----------------------------- FUTURES ONLINE (kept, not rendered) ------ */
 
 function FuturesOnline({ online }: { online: CollegeData["online"] }) {
   return (
@@ -1518,7 +1798,7 @@ function ClosingStatement({
   );
 }
 
-/* ---------------------------------- FAQ --------------------------------- */
+/* ---------------------------------- FAQ (P) ----------------------------- */
 
 function CollegeFAQ({ faq }: { faq: CollegeData["faq"] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
@@ -1571,7 +1851,7 @@ function CollegeFAQ({ faq }: { faq: CollegeData["faq"] }) {
   );
 }
 
-/* ------------------------------ APPLY FORMS ----------------------------- */
+/* ------------------------------ APPLY FORMS (Q) ------------------------- */
 
 function CollegeApplyStageOne({ onSubmit }: { onSubmit: () => void }) {
   return (
@@ -1590,6 +1870,33 @@ function CollegeApplyStageOne({ onSubmit }: { onSubmit: () => void }) {
           outcome="The book lands in your inbox within 90 seconds. Open house invite follows."
           onSuccess={onSubmit}
         />
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------- SINGLE SUBJECT CTA (Q) --------------------- */
+
+function SingleSubjectCTA() {
+  return (
+    <section className="px-6 py-10 sm:px-10" style={{ background: "#F7F1E6" }}>
+      <div className="mx-auto max-w-[560px] text-center">
+        <p className="font-body text-[15px] text-ink-600">
+          Not ready for a full year?{" "}
+          <a href="#apply-form" className="font-medium text-warm-700 underline underline-offset-4 hover:text-ink-900">
+            Start with one subject →
+          </a>
+          {"  "}Or{" "}
+          <button
+            className="font-medium text-warm-700 underline underline-offset-4 hover:text-ink-900"
+            onClick={() => {
+              document.getElementById("claim-block")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            gift a subject to someone you love
+          </button>
+          .
+        </p>
       </div>
     </section>
   );
@@ -1662,7 +1969,7 @@ function VisitBooking() {
   );
 }
 
-/* ---------------------------- TWO-PATH BAR ------------------------------ */
+/* ---------------------------- TWO-PATH BAR (kept, not rendered) --------- */
 
 function TwoPathBar() {
   const [path, setPath] = useState<"prospective" | "current" | null>(null);
@@ -1712,7 +2019,7 @@ function TwoPathBar() {
   );
 }
 
-/* --------------------------- ACADEMIC CALENDAR -------------------------- */
+/* --------------------------- ACADEMIC CALENDAR (kept, not rendered) ------ */
 
 function AcademicCalendar() {
   return (
@@ -1764,7 +2071,7 @@ function AcademicCalendar() {
   );
 }
 
-/* --------------------------- STUDENT HANDBOOK --------------------------- */
+/* --------------------------- STUDENT HANDBOOK (kept, not rendered) ------- */
 
 function StudentHandbook() {
   return (
@@ -1799,7 +2106,7 @@ function StudentHandbook() {
   );
 }
 
-/* --------------------------- VIRTUAL OPEN HOUSE ------------------------- */
+/* --------------------------- VIRTUAL OPEN HOUSE (kept, not rendered) ---- */
 
 function VirtualOpenHouse() {
   return (
@@ -1847,7 +2154,7 @@ function VirtualOpenHouse() {
   );
 }
 
-/* --------------------------- ADMISSIONS CHAT --------------------------- */
+/* --------------------------- ADMISSIONS CHAT (kept, not rendered) -------- */
 
 function AdmissionsChat() {
   return (

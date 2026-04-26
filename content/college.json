@@ -1,26 +1,19 @@
 {
   "hero": {
     "eyebrow": "FUTURES LEADERSHIP COLLEGE",
-    "tagline": "One year. Real formation. A network that lasts a lifetime.",
-    "headline": "Outthink. Outbuild. Outlead.",
-    "sub": "One year. Three streams. A family already waiting.",
+    "tagline": "Most people will spend their whole life wondering if God had more for them. You don't have to.",
+    "headline": "One year.<br/>Everything<br/><em>changes</em>.",
+    "sub": "Three ways in. A family of 21 campuses across 4 countries already waiting for you.",
+    "subVariants": {
+      "A": "Three ways in. A family of 21 campuses across 4 countries already waiting for you.",
+      "B": "The year your child turns eighteen happens once. Help them spend it on something that compounds.",
+      "C": "You've built a career. Now build something that outlives it."
+    },
     "facts": [
-      {
-        "value": "25",
-        "label": "Churches"
-      },
-      {
-        "value": "5",
-        "label": "Countries"
-      },
-      {
-        "value": "18",
-        "label": "Campuses"
-      },
-      {
-        "value": "1",
-        "label": "Year"
-      }
+      { "value": "21", "label": "Campuses" },
+      { "value": "4", "label": "Countries" },
+      { "value": "1,200+", "label": "Leaders raised" },
+      { "value": "1", "label": "Year" }
     ],
     "accreditation": {
       "label": "Accredited Partner",
@@ -29,27 +22,33 @@
     }
   },
   "hook": {
-    "eyebrow": "Free sessions",
-    "headline": "Once you see the next step, you can&rsquo;t unsee it.",
-    "sub": "Three teachings from the College faculty. Free. No commitment.",
+    "eyebrow": "Watch first. Decide later.",
+    "headline": "Three free sessions — no email required.",
+    "sub": "These are real lectures from the college. Not a trailer. The actual thing. Pick the one that speaks to where you are.",
     "sessions": [
       {
-        "title": "What&rsquo;s Wrong with the Church",
-        "length": "25 min",
-        "thumb": "https://vumbnail.com/1070174300.jpg",
-        "vimeo": "1070174300"
+        "title": "What's Wrong with the Church",
+        "length": "28 min",
+        "forPersona": "School leavers · Spiritually restless · Distance learners",
+        "blurb": "A direct, honest diagnosis of where the Western Church lost its way — and what comes next. This is the lecture that makes people call their friends.",
+        "thumb": "https://vumbnail.com/1073685215.jpg",
+        "vimeo": "1073685215"
       },
       {
-        "title": "The Grace &amp; Favor Revolution",
-        "length": "28 min",
-        "thumb": "https://vumbnail.com/1172978151.jpg",
-        "vimeo": "1172978151"
+        "title": "The Grace & Favor Revolution",
+        "length": "31 min",
+        "forPersona": "Parents · Spiritually restless",
+        "blurb": "If you've ever felt like church was more about performance than presence, this is for you. Ps Jane Evans on the revolution that changes everything.",
+        "thumb": "https://vumbnail.com/1073685216.jpg",
+        "vimeo": "1073685216"
       },
       {
         "title": "Multiply or Die",
-        "length": "22 min",
-        "thumb": "https://vumbnail.com/1109533469.jpg",
-        "vimeo": "1109533469"
+        "length": "26 min",
+        "forPersona": "Sensing a calling · Builders",
+        "blurb": "For people who feel the pull toward something larger than themselves. The theology of multiplication — why the Church that doesn't reproduce, doesn't survive.",
+        "thumb": "https://vumbnail.com/1073685217.jpg",
+        "vimeo": "1073685217"
       }
     ]
   },
@@ -95,6 +94,18 @@
       "cta": {
         "label": "Come live it",
         "href": "#apply"
+      }
+    },
+    {
+      "slug": "single-subject",
+      "title": "One subject",
+      "hours": "Single subject",
+      "tagline": "The easiest yes on the page.",
+      "pitch": "Can't commit to a full year? Start with one subject. Finish it. Then decide what's next.",
+      "for": "For anyone who needs a low-commitment on-ramp to find out what Futures College is really like.",
+      "cta": {
+        "label": "Find out more",
+        "href": "#apply-form"
       }
     }
   ],
@@ -306,6 +317,8 @@
       "href": "#online-waitlist"
     }
   },
+  "closing": "You cannot build what you cannot see. You cannot lead what you don't understand. You cannot plant what hasn't first taken root in you. One year changes that. The future belongs to those who act first.",
+  "closingCta": { "label": "Apply for 2026 \u2192", "href": "#apply-form" },
   "faq": [
     {
       "q": "How long is the programme?",
@@ -342,6 +355,18 @@
     {
       "q": "How much does it cost?",
       "a": "Year One is $14,800 USD. Need-based and merit-based scholarships cover up to 60%. Typical out-of-pocket after aid is ~$6,800/year."
+    },
+    {
+      "q": "Can I take just one subject?",
+      "a": "Yes. The single-subject pathway is designed exactly for this. You enrol in one subject, finish it, and then decide if you want to continue. There's no pressure to commit further. It's the easiest yes on the page — and for many people, it becomes the first step of a full year."
+    },
+    {
+      "q": "Is there a discount for early applicants?",
+      "a": "Yes — Founder's Circle applicants who apply before 29 May 2026 with code FOUNDER100 receive $100 off their first year. This is limited to the first 100 applicants. Once those spots are filled, the code expires."
+    },
+    {
+      "q": "Can I gift a subject to someone else?",
+      "a": "Absolutely. You can send Subject 01 — <em>What's Wrong with the Church</em> — to anyone, free, with a personal note from you. Use the 'Gift a subject' tile at the top of this page. It takes 30 seconds and they'll receive it with your name on it."
     }
   ],
   "family": {
@@ -350,68 +375,64 @@
     "body": "Futures Leadership College is embedded inside a living, growing church. That means your professors lead real churches, your classmates become lifelong friends, and the mission you\u2019re being trained for is already underway around you."
   },
   "personas": {
-    "eyebrow": "Who is this for?",
-    "headline": "There\u2019s a stream for where you are.",
+    "eyebrow": "Find your path",
+    "headline": "Which one is you?",
     "items": [
       {
         "slug": "school-leaver",
         "label": "School leaver",
-        "photo": "/photos/college/personas/01_jordan_schoolleaver.jpg",
-        "copy": "You\u2019re 18 and you sense a calling. You want to build something that matters \u2014 but everyone around you is going to uni to get a job. We get it. Come here first.",
-        "ctaOverride": {
-          "label": "Your path \u2192",
-          "href": "#streams"
-        }
+        "photo": "placeholder",
+        "copy": "Everyone's asking what I'm doing next year. I don't have a good answer yet. But a normal gap year isn't it.",
+        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
       },
       {
         "slug": "parent",
         "label": "Parent",
-        "photo": "/photos/college/personas/02_sarah_parent.jpg",
-        "copy": "Your kid is heading into a defining year. You want it to count. The Futures College year is structured, pastoral, and produces leaders \u2014 not just graduates.",
-        "ctaOverride": {
-          "label": "What they\u2019ll become \u2192",
-          "href": "#outcomes"
-        }
+        "photo": "placeholder",
+        "copy": "My kid is standing at the edge of the rest of their life. I want the next year to actually build them.",
+        "ctaOverride": { "label": "This is me \u2192", "href": "?audience=parent#free-sessions" }
       },
       {
         "slug": "spiritually-restless",
         "label": "Spiritually restless",
-        "photo": "/photos/college/personas/03_daniel_spiritually_restless.jpg",
-        "copy": "You\u2019re in your late 20s or 30s. You\u2019ve built a career. But something\u2019s missing. You\u2019re not looking for a degree \u2014 you\u2019re looking for direction.",
-        "ctaOverride": {
-          "label": "The Audit stream \u2192",
-          "href": "#streams"
-        }
+        "photo": "placeholder",
+        "copy": "I'm not leaving church. But Sunday hasn't moved me in a long time, and I'm tired of pretending it has.",
+        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
       },
       {
         "slug": "biblically-curious",
         "label": "Biblically curious",
-        "photo": "/photos/college/personas/04_michelle_biblically_curious.jpg",
-        "copy": "You love the Word. You want to go deeper than a podcast or a Sunday message. The Academic stream gives you accredited, rigorous, transferable theology.",
-        "ctaOverride": {
-          "label": "Academic stream \u2192",
-          "href": "#streams"
-        }
+        "photo": "placeholder",
+        "copy": "There's more in the Word than I've been taught. I want the tools to go find it.",
+        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
       },
       {
         "slug": "sensing-a-calling",
         "label": "Sensing a calling",
-        "photo": "/photos/college/personas/05_marcus_sensing_calling.jpg",
-        "copy": "You feel it. The pull toward something bigger. You want to be deployed, not just trained. The Internship stream puts you in a real campus from week one.",
-        "ctaOverride": {
-          "label": "Internship stream \u2192",
-          "href": "#streams"
-        }
+        "photo": "placeholder",
+        "copy": "I feel the pull. I'm done spectating. I want to be deployed, not just trained.",
+        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
       },
       {
-        "slug": "impact-driven",
-        "label": "Impact-driven professional",
-        "photo": "/photos/college/personas/06_priya_impact_driven.jpg",
-        "copy": "You\u2019ve got skills the Church needs: design, comms, operations, leadership. You want to leverage them for something eternal. We\u2019ll place you.",
-        "ctaOverride": {
-          "label": "Find your fit \u2192",
-          "href": "#streams"
-        }
+        "slug": "builder",
+        "label": "The builder",
+        "photo": "placeholder",
+        "copy": "I've got skills the Church needs. Design, ops, leadership. I want to leverage them for something that outlives me.",
+        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
+      },
+      {
+        "slug": "distance-learner",
+        "label": "Distance learner",
+        "photo": "placeholder",
+        "copy": "Campus isn't possible for me right now. I still want the real thing — not a watered-down version of it.",
+        "ctaOverride": { "label": "This is me \u2192", "href": "#online-waitlist" }
+      },
+      {
+        "slug": "one-subject",
+        "label": "One subject at a time",
+        "photo": "placeholder",
+        "copy": "A whole year is too much right now. One subject is the on-ramp I can say yes to.",
+        "ctaOverride": { "label": "Start here \u2192", "href": "#apply-form" }
       }
     ]
   },
