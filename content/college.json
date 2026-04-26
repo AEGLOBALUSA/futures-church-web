@@ -180,25 +180,13 @@
       "name": "Ashley Evans",
       "discipline": "Senior Pastor \u00b7 Founder",
       "bio": "Global Senior Pastor of Futures Church. 26 years of pastoral leadership across 4 countries.",
-      "photo": "https://res.cloudinary.com/thechurchcoproduction/image/fetch/f_auto,q_80,w_1200/https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/03/Ps-A-J.png"
+      "photo": "/photos/college/faculty/ashley.jpg"
     },
     {
       "name": "Jane Evans",
       "discipline": "College President",
       "bio": "Founder of bU Women. 20 years mentoring emerging female leaders across the globe.",
-      "photo": "https://res.cloudinary.com/thechurchcoproduction/image/fetch/f_auto,q_80,w_1200/https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/03/Ps-A-J.png"
-    },
-    {
-      "name": "Andy Smith",
-      "discipline": "Campus Pastor \u00b7 Atlanta",
-      "bio": "Pastoral leader and teacher. Anchors the Atlanta campus and the Internship stream.",
-      "photo": "https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/04/Ps-Andy-800x800.png"
-    },
-    {
-      "name": "Alexis Principal",
-      "discipline": "Campus Director \u00b7 Atlanta",
-      "bio": "Leads campus operations, student life, and internship placement in Atlanta.",
-      "photo": "https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2024/04/ps-alexis-800x800.png"
+      "photo": "/photos/college/faculty/jane.jpg"
     }
   ],
   "experience": [

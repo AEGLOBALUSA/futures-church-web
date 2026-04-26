@@ -200,17 +200,16 @@ export function CollegePageClient({
 
 /* --------------------------------- HERO --------------------------------- */
 
-// Photo paths follow the brief's 5-photo hero rotation slots (§2 of punch-list).
-// Slot 0 holds an existing real portrait so a face lands at 0.0s on first paint
-// even before the /photos/college/hero/ assets are uploaded.
-// When real assets land at the paths below they will appear automatically.
+// Hero rotation. Brief specifies 5 identity-question slots:
+// 01 formation, 02 cohort hallway, 03 lecture intensity, 04 mentor moment, 05 deployment.
+// Only the founder face (slot 0) and a deployment shot (slot 5) currently match the brief
+// AND pass the casting standard ("reasonably good looking, in shape, on their way").
+// Slots 1-4 intentionally absent — placing non-aligned photos there would betray the brief.
+// Add files at /photos/college/hero/0[1-4]_<slot>.jpg and re-introduce here when shot.
+// See docs/college-photo-casting-brief.md
 const COLLEGE_FRAMES = [
-  { url: "/photos/pastors/ashley.jpg",                   alt: "Ashley Evans — Global Senior Pastor" },
-  { url: "/photos/college/hero/01_student_formation.jpg", alt: "Student mid-formation — am I the right age?" },
-  { url: "/photos/college/hero/02_cohort_hallway.jpg",    alt: "Cohort in a hallway, mid-laugh — will I belong?" },
-  { url: "/photos/college/hero/03_lecture_intensity.jpg", alt: "Lecture in session — will I be challenged?" },
-  { url: "/photos/college/hero/04_mentor_moment.jpg",     alt: "Mentor moment — will I be loved?" },
-  { url: "/photos/college/hero/05_deployment.jpg",        alt: "Graduate deployed — on a stage, in a youth room, on a worship platform" },
+  { url: "/photos/college/faculty/ashley.jpg",     alt: "Ashley Evans — Global Senior Pastor & Founder" },
+  { url: "/photos/college/hero/05_deployment.jpg", alt: "Graduate deployed — leading from the front" },
 ];
 
 function ScrollCue({ reducedMotion }: { reducedMotion: boolean | null }) {
