@@ -8,20 +8,55 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow, Hero, Sub } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { getSubheadVariant, type SubheadVariant } from "@/lib/experiments";
+import { getAudience, type Audience } from "@/lib/audience";
+import { analytics } from "@/lib/analytics";
+import { AlumniProof } from "@/components/streams/AlumniProof";
+
+type CtaLink = { label: string; href: string };
 
 type CollegeData = {
   hero: {
     eyebrow: string;
+    tagline: string;
     headline: string;
     sub: string;
+    subVariants?: { A: string; B: string; C: string };
+    detail?: string;
+    primaryCta?: CtaLink;
+    primaryCtaPreQuiz?: CtaLink;
+    urgencyChips?: { kind: string; label: string }[];
+    secondaryActions?: CtaLink[];
     facts: { value: string; label: string }[];
     accreditation: { label: string; name: string; logo: string };
+  };
+  family: {
+    eyebrow: string;
+    headline: string;
+    body: string;
+  };
+  personas: {
+    eyebrow: string;
+    headline: string;
+    items: {
+      slug: string;
+      label: string;
+      photo?: string;
+      copy: string;
+      ctaOverride?: CtaLink;
+    }[];
   };
   hook: {
     eyebrow: string;
     headline: string;
     sub: string;
-    sessions: { title: string; length: string; thumb: string; vimeo: string }[];
+    cta?: string;
+    sessions: { title: string; length: string; forPersona?: string; blurb?: string; thumb: string; vimeo: string }[];
+  };
+  facultyIntro: {
+    eyebrow: string;
+    headline: string;
+    body: string;
   };
   whyNow: {
     eyebrow: string;
@@ -33,7 +68,9 @@ type CollegeData = {
   streams: {
     slug: string;
     title: string;
+    tagline?: string;
     hours: string;
+    commitment?: string;
     pitch: string;
     for: string;
     cta: { label: string; href: string };
@@ -41,9 +78,14 @@ type CollegeData = {
   programme: {
     eyebrow: string;
     headline: string;
-    core: { n: string; title: string; tagline: string }[];
+    sub?: string;
+    core: { n: string; title: string; tagline: string; isNew?: boolean }[];
     electives: { title: string; blurb: string }[];
     outcomes: string[];
+    outcomesEyebrow?: string;
+    outcomesHeadline?: string;
+    outcomesStrip?: string;
+    credentialNote?: string;
     yearTwoNote: string;
   };
   faculty: { name: string; discipline: string; bio: string; photo: string }[];
@@ -56,9 +98,13 @@ type CollegeData = {
   enrollment: {
     eyebrow: string;
     headline: string;
+    infoNights?: { label: string; date: string }[];
     earlyBird: string;
     close: string;
     sub: string;
+    paths?: { stream: string; heading: string; copy: string; cta: string }[];
+    onlineNote?: string;
+    infoNightNote?: string;
   };
   online: {
     eyebrow: string;
@@ -67,6 +113,22 @@ type CollegeData = {
     excludes: string[];
     launch: string;
     cta: { label: string; href: string };
+  };
+  closing?: string;
+  closingCta?: CtaLink;
+  alumniProof?: {
+    published: boolean;
+    name: string;
+    cohort: string;
+    role: string;
+    photo: string;
+    quote: string;
+    outcome: string;
+  };
+  scarcity?: {
+    enabled: boolean;
+    capacityPerCampus: number;
+    remaining: { adelaide: number | null; atlanta: number | null };
   };
   faq: { q: string; a: string }[];
 };
@@ -82,7 +144,13 @@ const CHIPS = [
   "can I visit the campus?",
 ];
 
-export function CollegePageClient({ data }: { data: CollegeData }) {
+export function CollegePageClient({
+  data,
+  usAccreditationSlot,
+}: {
+  data: CollegeData;
+  usAccreditationSlot?: React.ReactNode;
+}) {
   const { setPageContext } = useAIGuide();
   useEffect(() => setPageContext("college"), [setPageContext]);
 
@@ -101,29 +169,108 @@ export function CollegePageClient({ data }: { data: CollegeData }) {
   }
 
   return (
-    <main className="bg-cream text-ink-900">
+    <main className="bg-cream text-ink-900 pb-16 sm:pb-20">
       <CollegeHero hero={data.hero} />
-      <FreeSessions hook={data.hook} />
+      {usAccreditationSlot && (
+        <section className="px-6 sm:px-10" style={{ background: "#F7F0E4" }}>
+          {usAccreditationSlot}
+        </section>
+      )}
+      <TwoPathBar />
+      <AlumniProof data={data.alumniProof} />
+      <PersonaSection personas={data.personas} />
+      <WhyNowCompact />
       <WhyNow whyNow={data.whyNow} />
+      <FreeSessions hook={data.hook} />
       <ThreeStreams streams={data.streams} />
       <YearOneProgramme programme={data.programme} />
-      <FacultyWall faculty={data.faculty} />
-      <CampusExperience experience={data.experience} />
+      <FacultyWall facultyIntro={data.facultyIntro} faculty={data.faculty} />
       <CollegeOutcomes outcomes={data.outcomes} />
+      <CampusExperience experience={data.experience} />
       <TuitionAndAid tuition={data.tuition} />
       <EnrollmentWindow enrollment={data.enrollment} />
+      <AcademicCalendar />
+      <StudentHandbook />
+      <VirtualOpenHouse />
+      <AdmissionsChat />
       <FuturesOnline online={data.online} />
+      {data.closing && (
+        <ClosingStatement closing={data.closing} cta={data.closingCta} />
+      )}
       <CollegeFAQ faq={data.faq} />
       <CollegeApplyStageOne onSubmit={markStageOne} />
       <VisitBooking />
       {stageOneComplete && <CollegeApplyStageTwo />}
+      <StickyFooterBar />
     </main>
   );
 }
 
 /* --------------------------------- HERO --------------------------------- */
 
+const COLLEGE_FRAMES = [
+  { url: "/photos/pastors/ashley-evans.jpg",       alt: "Ashley Evans — Global Senior Pastor" },
+  { url: "/photos/college/hero/01_classroom_feel.jpg", alt: "Futures Leadership College — lecture" },
+  { url: "/photos/pastors/jane.jpg",               alt: "Jane Evans — College President" },
+  { url: "/photos/college/hero/02_leaders_laughing.jpg", alt: "Futures Leadership College — cohort" },
+  { url: "/photos/college/hero/03_group_young.jpg",  alt: "Futures Leadership College — students" },
+  { url: "/photos/college/hero/04_mixed_ages.jpg",   alt: "Futures Leadership College — community" },
+];
+
 function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
+  const [frameIndex, setFrameIndex] = useState(0);
+  const [variant, setVariant] = useState<SubheadVariant | undefined>(undefined);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setFrameIndex((i) => (i + 1) % COLLEGE_FRAMES.length);
+    }, 4200);
+    return () => window.clearInterval(id);
+  }, []);
+
+  // A/B/C subhead bucketing — fires once per visitor on first paint.
+  // Parent-funnel override: if `?audience=parent`, force-pin to variant B so
+  // the regret/stakes line lands first. We still fire the seen-event with a
+  // distinct value so parent traffic doesn't pollute the experiment readout.
+  const [audienceOverride, setAudienceOverride] = useState<string | null>(null);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const aud = params.get("audience");
+    if (aud === "parent") {
+      setAudienceOverride("parent");
+      analytics.subheadVariantSeen("parent-override");
+      return;
+    }
+    const v = getSubheadVariant();
+    if (!v) return;
+    setVariant(v);
+    analytics.subheadVariantSeen(v);
+  }, []);
+
+  // Until quiz ships, use the pre-quiz CTA. Falls back to the legacy hard-coded
+  // copy if the JSON hasn't been migrated yet.
+  const primaryCta =
+    hero.primaryCtaPreQuiz ??
+    hero.primaryCta ??
+    { label: "Apply before 29 May \u2192", href: "#apply-form" };
+
+  // Parent-targeted ad copy. Speaks to the parent's regret-frame, not the
+  // student's identity-frame. Stays here (not in JSON) so it's strictly
+  // experiment scaffolding until parent traffic warrants a `/parents` route.
+  const PARENT_SUBHEAD =
+    "The year your kid is eighteen happens once. Help them spend it on something that compounds.";
+  const subheadCopy =
+    audienceOverride === "parent"
+      ? PARENT_SUBHEAD
+      : (variant && hero.subVariants?.[variant]) ?? hero.sub;
+
+  const chips: { kind: string; label: string }[] =
+    hero.urgencyChips ?? [
+      { kind: "info", label: "Alphacrucis-accredited" },
+      { kind: "info", label: "Semester One \u00b7 September 2026" },
+      { kind: "deadline", label: "Early-bird closes 29 May" },
+    ];
+
   return (
     <section
       id="apply"
@@ -133,6 +280,34 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
           "radial-gradient(ellipse at 20% 30%, #F7F1E6 0%, #F2E6D1 38%, #E8C9A6 72%, #C89675 100%)",
       }}
     >
+      {/* rotating pastor portraits */}
+      <div aria-hidden className="absolute inset-0">
+        {COLLEGE_FRAMES.map((f, i) => (
+          <div
+            key={f.url}
+            className="absolute inset-0 transition-opacity duration-[1100ms] ease-in-out"
+            style={{ opacity: i === frameIndex ? 1 : 0 }}
+          >
+            <Image
+              src={f.url}
+              alt={f.alt}
+              fill
+              sizes="100vw"
+              className="object-cover object-center"
+              style={{ filter: "saturate(0.85) brightness(0.95)" }}
+              priority={i === 0}
+              unoptimized
+            />
+          </div>
+        ))}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(115deg, rgba(247,241,230,0.82) 0%, rgba(242,230,209,0.62) 40%, rgba(232,201,166,0.45) 70%, rgba(200,150,117,0.35) 100%)",
+          }}
+        />
+      </div>
       {/* warm orbs — match homepage depth */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute rounded-full blur-3xl" style={{ top: "-15%", left: "-10%", width: "70vw", height: "70vw", background: "#EAD0B1", opacity: 0.7 }} />
@@ -140,21 +315,34 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
       </div>
       <div className="relative mx-auto max-w-[1440px] px-6 pb-28 pt-32 sm:px-10 sm:pt-40">
         <Eyebrow>{hero.eyebrow}</Eyebrow>
+        {hero.tagline && (
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-5 max-w-[42ch] font-display italic text-ink-900"
+            style={{ fontSize: "clamp(1.25rem,2.6vw,1.75rem)", fontWeight: 300, lineHeight: 1.3 }}
+          >
+            {hero.tagline}
+          </motion.p>
+        )}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mt-4 max-w-[20ch]"
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+          className="mt-4 max-w-[24ch]"
         >
           <Hero>
-            Come <em className="italic">build</em>.
+            Out<em className="italic">think</em>.
+            <br />
+            Out<em className="italic">build</em>.
+            <br />
+            Out<em className="italic">lead</em>.
           </Hero>
         </motion.div>
-        <Sub className="mt-6 max-w-[56ch]">{hero.sub}</Sub>
-
-        <p className="mt-6 max-w-[60ch] font-body text-[15px]" style={{ color: "#8A7A6A" }}>
-          An Alphacrucis-accredited year &mdash; built for leaders the world isn&rsquo;t ready for yet.
-        </p>
+        <Sub key={variant ?? "default"} className="mt-6 max-w-[56ch]">
+          <span dangerouslySetInnerHTML={{ __html: subheadCopy }} />
+        </Sub>
 
         {/* Ask Milo */}
         <div className="mt-10 max-w-[620px]">
@@ -168,8 +356,57 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
           </GlassCard>
         </div>
 
+        {/* Urgency chip row — sits ABOVE the primary CTA per panel Action 4. */}
+        <div className="mt-10 flex flex-wrap gap-2">
+          {chips.map((chip) =>
+            chip.kind === "deadline" ? (
+              <span
+                key={chip.label}
+                className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em]"
+                style={{ background: "#D43F2B", color: "#FDFBF6", border: "1px solid #B8351F" }}
+              >
+                {chip.label}
+              </span>
+            ) : chip.label.toLowerCase().includes("accredit") ? (
+              <span
+                key={chip.label}
+                className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em]"
+                style={{ background: "#C89A3C", color: "#FDFBF6", border: "1px solid #B5892F" }}
+              >
+                {chip.label}
+              </span>
+            ) : (
+              <span
+                key={chip.label}
+                className="rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em] text-ink-900"
+                style={{ background: "rgba(28,26,23,0.08)", border: "1px solid rgba(28,26,23,0.12)" }}
+              >
+                {chip.label}
+              </span>
+            ),
+          )}
+        </div>
+
+        {/* Single primary CTA per panel Action 5/6 — attention ratio = 1. */}
+        <div className="mt-6">
+          <a
+            href={primaryCta.href}
+            onClick={() =>
+              analytics.applyIntent({ variant, source: "hero_primary" })
+            }
+            className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
+            style={{
+              background: "#A83D2E",
+              color: "#FDFBF6",
+              boxShadow:
+                "0 16px 36px -12px rgba(168,61,46,0.55), inset 0 1.5px 0 rgba(255,255,255,0.28)",
+            }}
+            dangerouslySetInnerHTML={{ __html: primaryCta.label }}
+          />
+        </div>
+
         {/* Accreditation lock-up */}
-        <div className="mt-10 flex items-center gap-4">
+        <div className="mt-8 flex items-center gap-4">
           <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">
             {hero.accreditation.label}
           </p>
@@ -189,13 +426,195 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
   );
 }
 
+/* ------------------------------ FAMILY SECTION -------------------------- */
+
+function FamilySection({ family }: { family: CollegeData["family"] }) {
+  return (
+    <section className="px-6 py-20 sm:px-10" style={{ background: "#F2E6D1" }}>
+      <div className="mx-auto max-w-[900px] text-center">
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700"
+          dangerouslySetInnerHTML={{ __html: family.eyebrow }}
+        />
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(1.75rem,3.6vw,2.75rem)", fontWeight: 300, lineHeight: 1.1 }}
+        >
+          {family.headline}
+        </h2>
+        <p
+          className="mx-auto mt-5 max-w-[54ch] font-body text-[16px] leading-relaxed text-ink-600"
+          dangerouslySetInnerHTML={{ __html: family.body }}
+        />
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ PERSONA SECTION ------------------------- */
+
+function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
+  return (
+    <section id="personas" className="px-6 py-24 sm:px-10" style={{ background: "#F7F0E4" }}>
+      <div className="mx-auto max-w-[1200px]">
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700"
+          dangerouslySetInnerHTML={{ __html: personas.eyebrow }}
+        />
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
+        >
+          {personas.headline}
+        </h2>
+
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7">
+          {personas.items.map((p, i) => {
+            const href = p.ctaOverride?.href ?? "#apply-form";
+            const ctaLabel = p.ctaOverride?.label ?? "This sounds like me \u2192";
+            const isQuizTile = p.slug === "not-sure";
+            return (
+              <motion.a
+                key={p.slug}
+                href={href}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{
+                  duration: 0.65,
+                  delay: i * 0.06,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
+                className="group flex flex-col overflow-hidden rounded-[20px] transition-transform hover:-translate-y-1"
+                style={{
+                  background: isQuizTile ? "#1C1A17" : "#EDE4D3",
+                  border: isQuizTile
+                    ? "1px solid rgba(200,154,60,0.45)"
+                    : "1px solid rgba(20,20,20,0.06)",
+                  boxShadow: "0 14px 32px -22px rgba(20,20,20,0.25)",
+                  color: isQuizTile ? "#FDFBF6" : undefined,
+                }}
+              >
+                {p.photo && p.photo !== "placeholder" ? (
+                  <div className="relative aspect-[4/5] w-full overflow-hidden">
+                    <Image
+                      src={p.photo}
+                      alt={p.label}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 14vw"
+                      className="object-cover"
+                      style={{ objectPosition: "center 30%" }}
+                    />
+                  </div>
+                ) : isQuizTile ? (
+                  <div
+                    className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse at 30% 25%, #2A2620 0%, #14120F 70%)",
+                    }}
+                  >
+                    <span
+                      className="font-display italic"
+                      style={{
+                        fontSize: 64,
+                        fontWeight: 300,
+                        color: "#C89A3C",
+                        letterSpacing: "-0.02em",
+                      }}
+                    >
+                      ?
+                    </span>
+                  </div>
+                ) : null}
+                <div className="flex flex-1 flex-col p-4 sm:p-6">
+                  <p
+                    className="font-ui text-[10px] uppercase"
+                    style={{
+                      color: isQuizTile ? "#C89A3C" : "#A83D2E",
+                      letterSpacing: "0.06em",
+                      fontWeight: 600,
+                    }}
+                    dangerouslySetInnerHTML={{ __html: p.label }}
+                  />
+                  <p
+                    className="mt-3 font-display italic"
+                    style={{
+                      fontSize: 15,
+                      fontWeight: 300,
+                      lineHeight: 1.4,
+                      color: isQuizTile ? "#FDFBF6" : "#14120F",
+                    }}
+                    dangerouslySetInnerHTML={{ __html: p.copy }}
+                  />
+                  <p
+                    className="mt-auto pt-5 font-ui text-[11px]"
+                    style={{ color: isQuizTile ? "#C89A3C" : "#A83D2E" }}
+                  >
+                    <span
+                      className="group-hover:underline underline-offset-4"
+                      dangerouslySetInnerHTML={{ __html: ctaLabel }}
+                    />
+                  </p>
+                </div>
+              </motion.a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------- WHY NOW — COMPACT PULL QUOTE ------------------- */
+
+function WhyNowCompact() {
+  return (
+    <section className="px-6 py-20 sm:px-10" style={{ background: "#14120F", color: "#FDFBF6" }}>
+      <div className="mx-auto max-w-[900px]">
+        <p className="font-ui text-[11px] tracking-[0.06em]" style={{ color: "#C89A3C" }}>
+          Why now
+        </p>
+        <div className="mt-6 space-y-3 font-display italic" style={{ fontSize: "clamp(1.4rem,2.8vw,2rem)", fontWeight: 300, lineHeight: 1.2 }}>
+          <p>The next ten years will reshape every institution on the planet.</p>
+          <p style={{ color: "#E8C9A6" }}>Those who act first will lead what comes next.</p>
+          <p>For the Church, that window is now.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ----------------------------- FREE SESSIONS ---------------------------- */
 
 function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
+  const [audience, setAudience] = useState<Audience | undefined>(undefined);
+  useEffect(() => {
+    setAudience(getAudience());
+  }, []);
+
+  // Per panel Action 14: cold = ungated inline play; warm = email wall.
+  // Until ESP-modal lands, warm visitors are nudged to the apply form (which
+  // already collects email + course book) instead of straight-to-Vimeo.
+  const isWarm = audience === "warm";
+
   return (
-    <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
+    <section id="free-sessions" className="px-6 py-28 sm:px-10" style={{ background: "#F7F0E4" }}>
       <div className="mx-auto max-w-[1200px]">
-        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">{hook.eyebrow}</p>
+        <div className="flex flex-wrap items-baseline gap-3">
+          <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">{hook.eyebrow}</p>
+          {isWarm && (
+            <span
+              className="rounded-full px-3 py-1 font-ui text-[10px] uppercase tracking-[0.18em]"
+              style={{
+                background: "rgba(168,61,46,0.08)",
+                color: "#A83D2E",
+                border: "1px solid rgba(168,61,46,0.2)",
+              }}
+            >
+              Welcome back
+            </span>
+          )}
+        </div>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
@@ -207,9 +626,15 @@ function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
           {hook.sessions.map((s, i) => (
             <motion.a
               key={s.vimeo}
-              href={`https://vimeo.com/${s.vimeo}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={isWarm ? "#apply-form" : `https://vimeo.com/${s.vimeo}`}
+              target={isWarm ? undefined : "_blank"}
+              rel={isWarm ? undefined : "noopener noreferrer"}
+              onClick={() =>
+                analytics.sessionUnlock({
+                  audience: audience ?? "cold",
+                  sessionId: s.vimeo,
+                })
+              }
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
@@ -253,13 +678,29 @@ function FreeSessions({ hook }: { hook: CollegeData["hook"] }) {
                   style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.2 }}
                   dangerouslySetInnerHTML={{ __html: s.title }}
                 />
+                {s.forPersona && (
+                  <p className="mt-2 font-ui text-[11px] uppercase tracking-[0.2em]" style={{ color: "#A83D2E" }}>
+                    {s.forPersona}
+                  </p>
+                )}
+                {s.blurb && (
+                  <p className="mt-3 font-body text-[14px] leading-relaxed text-ink-600">
+                    {s.blurb}
+                  </p>
+                )}
                 <p className="mt-5 font-ui text-[12px] uppercase tracking-[0.22em] text-warm-700">
-                  Unlock free session &rarr;
+                  {isWarm
+                    ? `Unlock by email — ${s.length} →`
+                    : `Watch — ${s.length} →`}
                 </p>
               </div>
             </motion.a>
           ))}
         </div>
+
+        {hook.cta && (
+          <p className="mt-8 font-body text-[14px] text-ink-600">{hook.cta}</p>
+        )}
       </div>
     </section>
   );
@@ -280,19 +721,22 @@ function WhyNow({ whyNow }: { whyNow: CollegeData["whyNow"] }) {
             style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
             dangerouslySetInnerHTML={{ __html: whyNow.headline }}
           />
-          <div className="mt-10 flex items-baseline gap-5">
-            <p
-              className="font-display"
-              style={{ fontSize: "clamp(3rem,6vw,5rem)", fontWeight: 300, lineHeight: 1, color: "#E8C9A6" }}
-              dangerouslySetInnerHTML={{ __html: whyNow.stat.value }}
-            />
-            <p className="max-w-[22ch] font-ui text-[12px] uppercase tracking-[0.22em] opacity-75">
-              {whyNow.stat.label}
-            </p>
-          </div>
           <p className="mt-8 max-w-[54ch] font-body text-[16px] leading-relaxed opacity-85">
             {whyNow.body}
           </p>
+          {whyNow.stat && (
+            <div className="mt-10 flex items-baseline gap-5 border-t pt-6" style={{ borderColor: "rgba(253,251,246,0.15)" }}>
+              <p
+                className="font-display"
+                style={{ fontSize: "clamp(2.2rem,3.8vw,3rem)", fontWeight: 300, color: "#C89A3C", lineHeight: 1 }}
+                dangerouslySetInnerHTML={{ __html: whyNow.stat.value }}
+              />
+              <p
+                className="max-w-[36ch] font-ui text-[12px] uppercase tracking-[0.18em] opacity-70"
+                dangerouslySetInnerHTML={{ __html: whyNow.stat.label }}
+              />
+            </div>
+          )}
         </div>
         <div
           className="relative aspect-[4/5] w-full overflow-hidden rounded-[22px]"
@@ -354,12 +798,20 @@ function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
               >
                 {s.title}
               </p>
-              <p className="mt-5 font-body text-[15px] leading-relaxed text-ink-900">
+              {s.tagline && (
+                <p className="mt-1 font-body text-[15px] text-warm-700">{s.tagline}</p>
+              )}
+              <p className="mt-4 font-body text-[15px] leading-relaxed text-ink-900">
                 {s.pitch}
               </p>
-              <p className="mt-4 font-body text-[14px] leading-relaxed text-ink-600">
+              <p className="mt-3 font-body text-[14px] leading-relaxed text-ink-600">
                 {s.for}
               </p>
+              {s.commitment && (
+                <p className="mt-4 font-ui text-[11px] uppercase tracking-[0.18em] text-ink-600 opacity-75"
+                  dangerouslySetInnerHTML={{ __html: s.commitment }}
+                />
+              )}
               <a
                 href={s.cta.href}
                 className="mt-8 inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px] text-cream transition-all duration-300 hover:-translate-y-0.5"
@@ -382,15 +834,17 @@ function ThreeStreams({ streams }: { streams: CollegeData["streams"] }) {
 
 function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }) {
   return (
-    <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
+    <section id="programme" className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1200px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">{programme.eyebrow}</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
-        >
-          Eight subjects. Three electives. One <em className="italic">sending</em>.
-        </h2>
+          dangerouslySetInnerHTML={{ __html: programme.headline }}
+        />
+        {programme.sub && (
+          <p className="mt-5 max-w-[60ch] font-body text-[16px] text-ink-600">{programme.sub}</p>
+        )}
 
         <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {programme.core.map((c, i) => (
@@ -403,9 +857,19 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
               className="rounded-[20px] bg-white p-6 shadow-[0_14px_32px_-22px_rgba(20,20,20,0.25)]"
               style={{ border: "1px solid rgba(20,20,20,0.05)" }}
             >
-              <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">
-                Subject {c.n}
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-warm-700">
+                  Subject {c.n}
+                </p>
+                {c.isNew && (
+                  <span
+                    className="rounded-full px-2.5 py-0.5 font-ui text-[9px] uppercase tracking-[0.18em]"
+                    style={{ background: "#4E5D3F", color: "#FDFBF6" }}
+                  >
+                    New
+                  </span>
+                )}
+              </div>
               <p
                 className="mt-3 font-display italic text-ink-900"
                 style={{ fontSize: 20, fontWeight: 300, lineHeight: 1.15 }}
@@ -417,6 +881,19 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
             </motion.div>
           ))}
         </div>
+
+        {programme.outcomesStrip && (
+          <div
+            className="mt-10 rounded-[18px] px-6 py-5"
+            style={{ background: "#14120F", color: "#FDFBF6" }}
+          >
+            <p
+              className="font-display italic"
+              style={{ fontSize: "clamp(1rem,1.8vw,1.25rem)", fontWeight: 300, lineHeight: 1.35 }}
+              dangerouslySetInnerHTML={{ __html: `After year one, ${programme.outcomesStrip}` }}
+            />
+          </div>
+        )}
 
         <div className="mt-16">
           <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
@@ -444,8 +921,16 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
         <div className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr,1fr]">
           <div>
             <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
-              What you&rsquo;ll carry out
+              {programme.outcomesEyebrow ?? "What you\u2019ll carry out"}
             </p>
+            {programme.outcomesHeadline && (
+              <p
+                className="mt-2 font-display italic text-ink-900"
+                style={{ fontSize: 22, fontWeight: 300 }}
+              >
+                {programme.outcomesHeadline}
+              </p>
+            )}
             <ul className="mt-4 space-y-3">
               {programme.outcomes.map((o) => (
                 <li key={o} className="flex gap-3 font-body text-[15px] text-ink-900">
@@ -455,18 +940,31 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
               ))}
             </ul>
           </div>
-          <div
-            className="rounded-[20px] p-6"
-            style={{ background: "rgba(253,251,246,0.7)", border: "1px solid rgba(20,20,20,0.08)" }}
-          >
-            <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
-              Year two
-            </p>
-            <p
-              className="mt-3 font-display italic text-ink-900"
-              style={{ fontSize: 20, fontWeight: 300, lineHeight: 1.25 }}
-              dangerouslySetInnerHTML={{ __html: programme.yearTwoNote }}
-            />
+          <div className="flex flex-col gap-5">
+            <div
+              className="rounded-[20px] p-6"
+              style={{ background: "rgba(253,251,246,0.7)", border: "1px solid rgba(20,20,20,0.08)" }}
+            >
+              <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">
+                Year two
+              </p>
+              <p
+                className="mt-3 font-display italic text-ink-900"
+                style={{ fontSize: 20, fontWeight: 300, lineHeight: 1.25 }}
+                dangerouslySetInnerHTML={{ __html: programme.yearTwoNote }}
+              />
+            </div>
+            {programme.credentialNote && (
+              <div
+                className="rounded-[20px] p-6"
+                style={{ background: "rgba(253,251,246,0.7)", border: "1px solid rgba(20,20,20,0.08)" }}
+              >
+                <p
+                  className="font-body text-[14px] leading-relaxed text-ink-600"
+                  dangerouslySetInnerHTML={{ __html: programme.credentialNote }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -476,55 +974,86 @@ function YearOneProgramme({ programme }: { programme: CollegeData["programme"] }
 
 /* ------------------------------- FACULTY -------------------------------- */
 
-function FacultyWall({ faculty }: { faculty: CollegeData["faculty"] }) {
+function FacultyWall({
+  facultyIntro,
+  faculty,
+}: {
+  facultyIntro: CollegeData["facultyIntro"];
+  faculty: CollegeData["faculty"];
+}) {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
+    <section id="faculty" className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1200px]">
-        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Faculty</p>
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">{facultyIntro.eyebrow}</p>
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
-        >
-          The <em className="italic">family</em> teaching.
-        </h2>
-        <p className="mt-5 max-w-[54ch] font-body text-[16px] text-ink-600">
-          Pastors, practitioners, and scholars. Additional subject lecturers announced through 2026.
+          dangerouslySetInnerHTML={{ __html: facultyIntro.headline }}
+        />
+        <p className="mt-5 max-w-[60ch] font-body text-[16px] text-ink-600">
+          {facultyIntro.body}
         </p>
-        <div className="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
-          {faculty.map((f, i) => (
-            <button
-              key={f.name}
-              type="button"
-              onClick={() => setOpen(i)}
-              className="group overflow-hidden rounded-[18px] bg-white text-left shadow-[0_14px_30px_-20px_rgba(20,20,20,0.25)]"
-              style={{ border: "1px solid rgba(20,20,20,0.05)" }}
-            >
-              <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <Image
-                  src={f.photo}
-                  alt={f.name}
-                  fill
-                  unoptimized
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-              </div>
-              <div className="p-4">
-                <p
-                  className="font-display italic text-ink-900"
-                  style={{ fontSize: 17, fontWeight: 300, lineHeight: 1.2 }}
+        <div className="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-6" style={{ maxWidth: "1080px" }}>
+          {faculty.map((f, i) => {
+            const initials = f.name
+              .split(/\s+/)
+              .map((w) => w[0])
+              .slice(0, 2)
+              .join("")
+              .toUpperCase();
+            const hasPhoto = !!f.photo && !f.photo.endsWith("placeholder");
+            return (
+              <button
+                key={f.name}
+                type="button"
+                onClick={() => setOpen(i)}
+                className="group overflow-hidden rounded-[18px] bg-white text-left shadow-[0_14px_30px_-20px_rgba(20,20,20,0.25)]"
+                style={{ border: "1px solid rgba(20,20,20,0.05)" }}
+              >
+                <div
+                  className="relative aspect-[3/4] w-full overflow-hidden"
+                  style={!hasPhoto ? { background: "#EDE4D3" } : undefined}
                 >
-                  {f.name}
-                </p>
-                <p
-                  className="mt-1 font-ui text-[11px] uppercase tracking-[0.2em] text-warm-700"
-                  dangerouslySetInnerHTML={{ __html: f.discipline }}
-                />
-              </div>
-            </button>
-          ))}
+                  {hasPhoto ? (
+                    <Image
+                      src={f.photo}
+                      alt={f.name}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 768px) 50vw, 17vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <span
+                        className="font-display"
+                        style={{ color: "#A83D2E", fontSize: "clamp(48px,8vw,96px)", fontWeight: 300, letterSpacing: "-0.02em" }}
+                      >
+                        {initials}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="p-4">
+                  <p
+                    className="font-display italic text-ink-900"
+                    style={{ fontSize: 17, fontWeight: 300, lineHeight: 1.2 }}
+                  >
+                    {f.name}
+                  </p>
+                  <p
+                    className="mt-1 font-ui text-[11px] uppercase tracking-[0.2em] text-warm-700"
+                    dangerouslySetInnerHTML={{ __html: f.discipline }}
+                  />
+                </div>
+              </button>
+            );
+          })}
         </div>
+        <p className="mt-6 font-body text-[14px] text-ink-600">
+          Subject lecturers announced through 2026.
+        </p>
       </div>
       {open !== null && (
         <div
@@ -537,15 +1066,26 @@ function FacultyWall({ faculty }: { faculty: CollegeData["faculty"] }) {
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-[520px] overflow-hidden rounded-[22px] bg-cream"
           >
-            <div className="relative aspect-[4/3] w-full">
-              <Image
-                src={faculty[open].photo}
-                alt={faculty[open].name}
-                fill
-                unoptimized
-                sizes="100vw"
-                className="object-cover"
-              />
+            <div className="relative aspect-[4/3] w-full" style={!faculty[open].photo || faculty[open].photo.endsWith("placeholder") ? { background: "#EDE4D3" } : undefined}>
+              {faculty[open].photo && !faculty[open].photo.endsWith("placeholder") ? (
+                <Image
+                  src={faculty[open].photo}
+                  alt={faculty[open].name}
+                  fill
+                  unoptimized
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <span
+                    className="font-display"
+                    style={{ color: "#A83D2E", fontSize: 140, fontWeight: 300 }}
+                  >
+                    {faculty[open].name.split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase()}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="p-6">
               <p className="font-display italic text-ink-900" style={{ fontSize: 26, fontWeight: 300 }}>
@@ -661,8 +1201,36 @@ function CollegeOutcomes({ outcomes }: { outcomes: CollegeData["outcomes"] }) {
 
 function TuitionAndAid({ tuition }: { tuition: CollegeData["tuition"] }) {
   return (
-    <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
-      <div className="mx-auto max-w-[900px]">
+    <section id="tuition" className="px-6 py-28 sm:px-10" style={{ background: "#F7F0E4" }}>
+      <div className="mx-auto max-w-[1100px]">
+        {/* Compact fee strip */}
+        <div
+          className="mb-12 flex flex-wrap items-center justify-between gap-4 rounded-[18px] px-6 py-5"
+          style={{ background: "#EDE4D3", border: "1px solid rgba(20,20,20,0.08)" }}
+        >
+          <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
+            <span className="font-display italic text-ink-900" style={{ fontSize: 22, fontWeight: 300 }}>
+              ${tuition.year1.toLocaleString()}
+              <span className="ml-2 font-ui text-[11px] uppercase tracking-[0.2em] text-warm-700">Year one</span>
+            </span>
+            <span className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-600">
+              Need-based aid up to 60%
+            </span>
+            <span className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-600">
+              Merit up to 40%
+            </span>
+            <span className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-600">
+              Sponsored: 25–100%
+            </span>
+          </div>
+          <span
+            className="font-ui text-[11px] uppercase tracking-[0.2em]"
+            style={{ color: "#A83D2E" }}
+          >
+            Typical out-of-pocket · $6,800 / year
+          </span>
+        </div>
+
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Tuition &amp; aid</p>
         <h2
           className="mt-3 font-display text-ink-900"
@@ -720,7 +1288,9 @@ function EnrollmentWindow({ enrollment }: { enrollment: CollegeData["enrollment"
           style={{ fontSize: "clamp(2rem,4.4vw,3.25rem)", fontWeight: 300, lineHeight: 1.02 }}
           dangerouslySetInnerHTML={{ __html: enrollment.headline }}
         />
-        <p className="mt-5 max-w-[54ch] font-body text-[16px] opacity-85">{enrollment.sub}</p>
+        <p className="mt-5 max-w-[54ch] font-body text-[16px] opacity-85"
+          dangerouslySetInnerHTML={{ __html: enrollment.sub }}
+        />
 
         <div className="mt-10 grid max-w-[520px] grid-cols-1 gap-5 sm:grid-cols-2">
           <div
@@ -743,29 +1313,87 @@ function EnrollmentWindow({ enrollment }: { enrollment: CollegeData["enrollment"
           </div>
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-3">
-          <a
-            href="#apply"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
-            style={{ background: "#FDFBF6", color: "#1C1A17" }}
-          >
-            Come for the degree &rarr;
-          </a>
-          <a
-            href="#apply"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
-            style={{ border: "1px solid rgba(253,251,246,0.4)", color: "#FDFBF6" }}
-          >
-            Come just to learn
-          </a>
-          <a
-            href="#apply"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
-            style={{ border: "1px solid rgba(253,251,246,0.4)", color: "#FDFBF6" }}
-          >
-            Come live it
-          </a>
-        </div>
+        {enrollment.infoNights && enrollment.infoNights.length > 0 && (
+          <div className="mt-8 flex flex-wrap gap-3">
+            {enrollment.infoNights.map((n) => (
+              <div
+                key={n.label}
+                className="rounded-xl px-5 py-3"
+                style={{ background: "rgba(253,251,246,0.06)", border: "1px solid rgba(253,251,246,0.14)" }}
+              >
+                <p className="font-ui text-[11px] uppercase tracking-[0.22em] opacity-70">{n.label}</p>
+                <p className="mt-1 font-display italic" style={{ fontSize: 18, fontWeight: 300 }}>{n.date}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {enrollment.paths && enrollment.paths.length > 0 ? (
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {enrollment.paths.map((p) => (
+              <div
+                key={p.stream}
+                className="flex flex-col rounded-[20px] p-6"
+                style={{ background: "rgba(253,251,246,0.06)", border: "1px solid rgba(253,251,246,0.14)" }}
+              >
+                <p className="font-ui text-[11px] uppercase tracking-[0.22em] opacity-70">{p.stream}</p>
+                <p
+                  className="mt-2 font-display italic"
+                  style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.1 }}
+                >
+                  {p.heading}
+                </p>
+                <p className="mt-3 font-body text-[14px] leading-relaxed opacity-75">{p.copy}</p>
+                <a
+                  href="#apply-form"
+                  className="mt-6 inline-flex w-fit items-center gap-1 rounded-full px-4 py-2 font-ui text-[12px] transition-all hover:-translate-y-0.5"
+                  style={{ background: "#FDFBF6", color: "#1C1A17" }}
+                >
+                  {p.cta} →
+                </a>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-10 flex flex-wrap gap-3">
+            <a
+              href="#apply-form"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
+              style={{ background: "#FDFBF6", color: "#1C1A17" }}
+            >
+              Come for the degree &rarr;
+            </a>
+            <a
+              href="#apply-form"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
+              style={{ border: "1px solid rgba(253,251,246,0.4)", color: "#FDFBF6" }}
+            >
+              Come just to learn
+            </a>
+            <a
+              href="#apply-form"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[13px]"
+              style={{ border: "1px solid rgba(253,251,246,0.4)", color: "#FDFBF6" }}
+            >
+              Come live it
+            </a>
+          </div>
+        )}
+
+        {(enrollment.onlineNote || enrollment.infoNightNote) && (
+          <div className="mt-8 flex flex-wrap gap-6">
+            {enrollment.onlineNote && (
+              <a href="#online-waitlist" className="font-body text-[14px] opacity-60 hover:opacity-100 transition-opacity"
+                dangerouslySetInnerHTML={{ __html: enrollment.onlineNote + " →" }}
+              />
+            )}
+            {enrollment.infoNightNote && (
+              <a href="#apply" className="font-body text-[14px] opacity-60 hover:opacity-100 transition-opacity"
+                dangerouslySetInnerHTML={{ __html: enrollment.infoNightNote + " →" }}
+              />
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -833,12 +1461,69 @@ function FuturesOnline({ online }: { online: CollegeData["online"] }) {
   );
 }
 
+/* ---------------------------- CLOSING STATEMENT ------------------------- */
+
+function ClosingStatement({
+  closing,
+  cta,
+}: {
+  closing: string;
+  cta?: CtaLink;
+}) {
+  // Pre-quiz, route to apply form. Post-quiz, route to /quiz. JSON drives.
+  const action =
+    cta ?? { label: "Apply before 29 May \u2192", href: "#apply-form" };
+
+  return (
+    <section className="px-6 py-28 sm:px-10" style={{ background: "#1C1A17" }}>
+      <div className="mx-auto max-w-[860px] text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+          className="font-display italic"
+          style={{
+            fontSize: "clamp(1.5rem,3.4vw,2.5rem)",
+            fontWeight: 300,
+            lineHeight: 1.35,
+            color: "#E8C9A6",
+          }}
+          dangerouslySetInnerHTML={{ __html: closing }}
+        />
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.9, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+          className="mt-10 flex justify-center"
+        >
+          <a
+            href={action.href}
+            onClick={() =>
+              analytics.applyIntent({ source: "closing_manifesto" })
+            }
+            className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
+            style={{
+              background: "#A83D2E",
+              color: "#FDFBF6",
+              boxShadow:
+                "0 16px 36px -12px rgba(168,61,46,0.55), inset 0 1.5px 0 rgba(255,255,255,0.28)",
+            }}
+            dangerouslySetInnerHTML={{ __html: action.label }}
+          />
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------------------------- FAQ --------------------------------- */
 
 function CollegeFAQ({ faq }: { faq: CollegeData["faq"] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
   return (
-    <section className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
+    <section id="faq" className="px-6 py-28 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[900px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Good questions</p>
         <h2
@@ -890,7 +1575,7 @@ function CollegeFAQ({ faq }: { faq: CollegeData["faq"] }) {
 
 function CollegeApplyStageOne({ onSubmit }: { onSubmit: () => void }) {
   return (
-    <section className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
+    <section id="apply-form" className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[560px]">
         <ValueExchangeForm
           source="college-interest"
@@ -920,7 +1605,7 @@ function VisitBooking() {
   const [selected, setSelected] = useState<string | null>(null);
   const days = useMemo(() => VISIT_DAYS, []);
   return (
-    <section className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
+    <section id="campus-visit" className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[900px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Come see it</p>
         <h2
@@ -974,6 +1659,282 @@ function VisitBooking() {
         )}
       </div>
     </section>
+  );
+}
+
+/* ---------------------------- TWO-PATH BAR ------------------------------ */
+
+function TwoPathBar() {
+  const [path, setPath] = useState<"prospective" | "current" | null>(null);
+
+  return (
+    <div
+      className="border-b border-ink-900/10 px-6 py-4 sm:px-10"
+      style={{ background: "#F7F1E6" }}
+    >
+      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-3">
+        <span className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-500">I am</span>
+        <button
+          onClick={() => setPath("prospective")}
+          className={`rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em] transition-colors ${
+            path === "prospective"
+              ? "bg-ink-900 text-cream"
+              : "border border-ink-900/15 text-ink-600 hover:border-ink-900/30"
+          }`}
+        >
+          Prospective student
+        </button>
+        <button
+          onClick={() => setPath("current")}
+          className={`rounded-full px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em] transition-colors ${
+            path === "current"
+              ? "bg-ink-900 text-cream"
+              : "border border-ink-900/15 text-ink-600 hover:border-ink-900/30"
+          }`}
+        >
+          Current student
+        </button>
+        {path === "current" && (
+          <span className="ml-2 rounded-xl border border-dashed border-warm-400/60 bg-warm-50/60 px-4 py-1.5 font-ui text-[11px] text-warm-600">
+            ⚠ Student portal coming — complete <strong>Section L</strong> of staff questionnaire for portal URL.
+          </span>
+        )}
+        {path === "prospective" && (
+          <a
+            href="#apply-form"
+            className="ml-2 rounded-full bg-warm-600 px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-warm-700"
+          >
+            Get the course book →
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------- ACADEMIC CALENDAR -------------------------- */
+
+function AcademicCalendar() {
+  return (
+    <section className="border-t border-ink-900/10 px-6 py-16 sm:px-10" style={{ background: "#F7F1E6" }}>
+      <div className="mx-auto max-w-[900px]">
+        <p className="font-ui text-[11px] uppercase tracking-[0.28em] text-warm-600">Academic calendar</p>
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(1.75rem,3.4vw,2.5rem)", fontWeight: 300, lineHeight: 1.1 }}
+        >
+          Key dates.
+        </h2>
+
+        <div className="mt-6 rounded-xl border border-dashed border-warm-400/60 bg-warm-50/50 px-5 py-4">
+          <p className="font-ui text-[11px] uppercase tracking-[0.2em] text-warm-600">⚠ Staff action required</p>
+          <p className="mt-1 font-sans text-ink-500" style={{ fontSize: 13 }}>
+            Add term dates, assessment deadlines, orientation day, and chapel schedule — complete <strong>Section L</strong> of the staff questionnaire.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { label: "Orientation", date: "PLACEHOLDER — Week of Sept 2026", tag: "Semester 1" },
+            { label: "Term 1 begins", date: "PLACEHOLDER — exact date needed", tag: "Semester 1" },
+            { label: "Assessment 1 due", date: "PLACEHOLDER — exact date needed", tag: "Semester 1" },
+            { label: "Mid-semester break", date: "PLACEHOLDER — exact date needed", tag: "Semester 1" },
+            { label: "Term 2 begins", date: "PLACEHOLDER — exact date needed", tag: "Semester 2" },
+            { label: "Graduation & commissioning", date: "PLACEHOLDER — Month 2027", tag: "End of year" },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="rounded-2xl border border-dashed border-warm-400/50 bg-warm-50/40 p-5"
+            >
+              <span
+                className="rounded-full px-2.5 py-0.5 font-ui text-[10px] uppercase tracking-[0.16em]"
+                style={{ background: "rgba(28,26,23,0.07)", color: "#6B5E4E" }}
+              >
+                {item.tag}
+              </span>
+              <p className="mt-2 font-display text-ink-900" style={{ fontSize: 16, fontWeight: 400 }}>
+                {item.label}
+              </p>
+              <p className="mt-1 font-ui text-[11px] italic text-warm-600">{item.date}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------- STUDENT HANDBOOK --------------------------- */
+
+function StudentHandbook() {
+  return (
+    <section className="border-t border-ink-900/10 px-6 py-16 sm:px-10" style={{ background: "#F7F0E4" }}>
+      <div className="mx-auto max-w-[640px]">
+        <p className="font-ui text-[11px] uppercase tracking-[0.28em] text-warm-600">Student handbook</p>
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(1.75rem,3.4vw,2.5rem)", fontWeight: 300, lineHeight: 1.1 }}
+        >
+          Everything you need to know.
+        </h2>
+        <p className="mt-4 font-sans text-ink-600" style={{ fontSize: 16, lineHeight: 1.65 }}>
+          Policies, expectations, schedules, pastoral support structures, assessment rubrics —
+          all in one place. Download before your first day.
+        </p>
+        <div className="mt-8">
+          <ValueExchangeForm
+            offer="Enter your details and we'll send the 2026 student handbook directly to your inbox."
+            proofPoints={["Updated for 2026 cohort", "Includes assessment guides + pastoral support contacts"]}
+            fields={["name", "email"]}
+            cta="Download the handbook"
+            outcome="The handbook PDF will arrive in your inbox within a few minutes."
+            source="college-handbook"
+          />
+        </div>
+        <p className="mt-3 font-ui text-[11px] text-warm-600">
+          ⚠ Handbook PDF pending — complete <strong>Section L</strong> of the staff questionnaire.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------- VIRTUAL OPEN HOUSE ------------------------- */
+
+function VirtualOpenHouse() {
+  return (
+    <section className="border-t border-ink-900/10 px-6 py-16 sm:px-10" style={{ background: "#F7F1E6" }}>
+      <div className="mx-auto max-w-[900px]">
+        <p className="font-ui text-[11px] uppercase tracking-[0.28em] text-warm-600">Virtual open house</p>
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(1.75rem,3.4vw,2.5rem)", fontWeight: 300, lineHeight: 1.1 }}
+        >
+          Join us online.
+          <br />
+          <em className="italic">No travel required.</em>
+        </h2>
+        <p className="mt-4 max-w-[52ch] font-sans text-ink-600" style={{ fontSize: 16, lineHeight: 1.65 }}>
+          60 minutes. Hear from Ashley and Jane. Meet current students. Ask anything.
+          We run these monthly — pick a session that works for you.
+        </p>
+
+        <div className="mt-6 rounded-xl border border-dashed border-warm-400/60 bg-warm-50/50 px-5 py-4">
+          <p className="font-ui text-[11px] uppercase tracking-[0.2em] text-warm-600">⚠ Staff action required</p>
+          <p className="mt-1 font-sans text-ink-500" style={{ fontSize: 13 }}>
+            Add Calendly (or equivalent) booking link for virtual open house sessions — complete <strong>Section L</strong> of the staff questionnaire.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          {["Session 1 · May 2026", "Session 2 · June 2026", "Session 3 · July 2026"].map((label) => (
+            <div
+              key={label}
+              className="rounded-2xl border border-dashed border-warm-400/50 bg-warm-50/40 p-6"
+            >
+              <p className="font-display text-ink-900" style={{ fontSize: 16, fontWeight: 400 }}>
+                {label}
+              </p>
+              <p className="mt-2 font-ui text-[11px] italic text-warm-600">Date & time — PLACEHOLDER</p>
+              <span className="mt-4 inline-block font-ui text-[11px] uppercase tracking-[0.16em] text-warm-500">
+                ⚠ Booking link pending
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------- ADMISSIONS CHAT --------------------------- */
+
+function AdmissionsChat() {
+  return (
+    <section className="border-t border-ink-900/10 px-6 py-12 sm:px-10" style={{ background: "#F7F0E4" }}>
+      <div className="mx-auto max-w-[900px]">
+        <div className="flex flex-col gap-6 rounded-2xl border border-ink-900/10 bg-white/60 p-8 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-ui text-[11px] uppercase tracking-[0.2em] text-warm-600">Admissions</p>
+            <h3
+              className="mt-2 font-display text-ink-900"
+              style={{ fontSize: "clamp(1.25rem,2.4vw,1.75rem)", fontWeight: 300 }}
+            >
+              Talk to a real person.
+            </h3>
+            <p className="mt-2 max-w-[44ch] font-sans text-ink-600" style={{ fontSize: 15, lineHeight: 1.6 }}>
+              Our admissions team is available Monday–Friday, 9am–5pm ACST.
+              Typical response time: under 2 hours.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:shrink-0 sm:items-end">
+            <a
+              href="mailto:college@futures.church"
+              className="inline-flex items-center gap-2 rounded-full bg-ink-900 px-6 py-2.5 font-ui text-[12px] tracking-[0.02em] text-cream transition-colors hover:bg-warm-600"
+            >
+              Email admissions →
+            </a>
+            <span className="rounded-xl border border-dashed border-warm-400/60 bg-warm-50/60 px-4 py-2 text-center font-ui text-[11px] text-warm-600">
+              ⚠ Live chat widget pending — complete <strong>Section L</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------- STICKY FOOTER BAR -------------------------- */
+
+function StickyFooterBar() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    function onScroll() {
+      setVisible(window.scrollY > 600);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div
+      className={`fixed inset-x-0 bottom-0 z-40 transition-transform duration-300 ${
+        visible ? "translate-y-0" : "translate-y-full"
+      }`}
+      style={{
+        background: "rgba(20,18,15,0.96)",
+        backdropFilter: "blur(10px)",
+        borderTop: "1px solid rgba(253,251,246,0.12)",
+        color: "#FDFBF6",
+      }}
+    >
+      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-8">
+        <div className="flex flex-wrap items-center gap-2">
+          <span
+            className="rounded-full px-3 py-1 font-ui text-[10px] uppercase tracking-[0.18em]"
+            style={{ background: "#D43F2B", color: "#FDFBF6" }}
+          >
+            Early-bird closes 29 May
+          </span>
+          <span className="hidden font-ui text-[11px] uppercase tracking-[0.18em] opacity-80 sm:inline">
+            Starts Sept 2026 · Alphacrucis-accredited
+          </span>
+        </div>
+        <a
+          href="#apply-form"
+          onClick={() => analytics.applyIntent({ source: "sticky_footer" })}
+          className="inline-flex items-center gap-2 rounded-full px-5 py-2 font-ui text-[12px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
+          style={{
+            background: "#A83D2E",
+            color: "#FDFBF6",
+            boxShadow: "0 12px 28px -10px rgba(168,61,46,0.55)",
+          }}
+        >
+          Apply before 29 May →
+        </a>
+      </div>
+    </div>
   );
 }
 

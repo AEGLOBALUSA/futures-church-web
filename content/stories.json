@@ -1,0 +1,68 @@
+[
+  {
+    "id": "placeholder-story-1",
+    "name": "PLACEHOLDER — Person's name (or Anonymous)",
+    "campus": "PLACEHOLDER — Campus",
+    "theme": "Salvation",
+    "headline": "PLACEHOLDER — One-line headline for this story",
+    "story": "PLACEHOLDER — Full testimony (300–500 words). Complete Section H of the staff questionnaire.",
+    "photo": null,
+    "year": 2026,
+    "placeholder": true
+  },
+  {
+    "id": "placeholder-story-2",
+    "name": "PLACEHOLDER — Person's name",
+    "campus": "PLACEHOLDER — Campus",
+    "theme": "Baptism",
+    "headline": "PLACEHOLDER — One-line headline",
+    "story": "PLACEHOLDER — Full testimony. Complete Section H of the staff questionnaire.",
+    "photo": null,
+    "year": 2026,
+    "placeholder": true
+  },
+  {
+    "id": "placeholder-story-3",
+    "name": "PLACEHOLDER — Person's name",
+    "campus": "PLACEHOLDER — Campus",
+    "theme": "Marriage Restored",
+    "headline": "PLACEHOLDER — One-line headline",
+    "story": "PLACEHOLDER — Full testimony. Complete Section H of the staff questionnaire.",
+    "photo": null,
+    "year": 2025,
+    "placeholder": true
+  },
+  {
+    "id": "placeholder-story-4",
+    "name": "PLACEHOLDER — Person's name",
+    "campus": "PLACEHOLDER — Campus",
+    "theme": "Addiction Broken",
+    "headline": "PLACEHOLDER — One-line headline",
+    "story": "PLACEHOLDER — Full testimony. Complete Section H of the staff questionnaire.",
+    "photo": null,
+    "year": 2025,
+    "placeholder": true
+  },
+  {
+    "id": "placeholder-story-5",
+    "name": "PLACEHOLDER — Person's name",
+    "campus": "PLACEHOLDER — Campus",
+    "theme": "Leadership",
+    "headline": "PLACEHOLDER — One-line headline",
+    "story": "PLACEHOLDER — Full testimony. Complete Section H of the staff questionnaire.",
+    "photo": null,
+    "year": 2026,
+    "placeholder": true
+  },
+  {
+    "id": "placeholder-story-6",
+    "name": "PLACEHOLDER — Person's name",
+    "campus": "PLACEHOLDER — Campus",
+    "theme": "Healing",
+    "headline": "PLACEHOLDER — One-line headline",
+    "story": "PLACEHOLDER — Full testimony. Complete Section H of the staff questionnaire.",
+    "photo": null,
+    "year": 2026,
+    "placeholder": true
+  }
+]

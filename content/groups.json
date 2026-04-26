@@ -1,0 +1,44 @@
+[
+  {
+    "id": "placeholder-group-1",
+    "name": "PLACEHOLDER — Group name",
+    "leader": "PLACEHOLDER — Leader name",
+    "leaderPhoto": null,
+    "day": "PLACEHOLDER",
+    "time": "PLACEHOLDER",
+    "city": "Adelaide",
+    "suburb": "PLACEHOLDER — Suburb",
+    "demographic": "Mixed",
+    "description": "PLACEHOLDER — One sentence describing this group's vibe and focus.",
+    "howToJoin": "PLACEHOLDER — How to join (email, attend, online form?)",
+    "placeholder": true
+  },
+  {
+    "id": "placeholder-group-2",
+    "name": "PLACEHOLDER — Group name",
+    "leader": "PLACEHOLDER — Leader name",
+    "leaderPhoto": null,
+    "day": "PLACEHOLDER",
+    "time": "PLACEHOLDER",
+    "city": "Atlanta",
+    "suburb": "PLACEHOLDER — Area",
+    "demographic": "Young Marrieds",
+    "description": "PLACEHOLDER — One sentence describing this group.",
+    "howToJoin": "PLACEHOLDER — How to join",
+    "placeholder": true
+  },
+  {
+    "id": "placeholder-group-3",
+    "name": "PLACEHOLDER — Group name",
+    "leader": "PLACEHOLDER — Leader name",
+    "leaderPhoto": null,
+    "day": "PLACEHOLDER",
+    "time": "PLACEHOLDER",
+    "city": "Solo",
+    "suburb": "PLACEHOLDER — Area",
+    "demographic": "Mixed",
+    "description": "PLACEHOLDER — One sentence describing this group.",
+    "howToJoin": "PLACEHOLDER — How to join",
+    "placeholder": true
+  }
+]

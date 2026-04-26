@@ -1,0 +1,16 @@
+[
+  {
+    "id": "placeholder-role-1",
+    "title": "PLACEHOLDER — Role title",
+    "campus": "PLACEHOLDER — Campus / location",
+    "team": "PLACEHOLDER — Team (Pastoral / Kids / Youth / Worship / Production / Admin / College)",
+    "type": "PLACEHOLDER — Full-time / Part-time / Volunteer-paid",
+    "salaryDisclosed": false,
+    "salaryRange": null,
+    "description": "PLACEHOLDER — Full role description. Complete Section I of the staff questionnaire.",
+    "reportsTo": "PLACEHOLDER — Reports to (name / role)",
+    "applyEmail": "PLACEHOLDER — Apply email or link",
+    "closingDate": "PLACEHOLDER — Closing date",
+    "placeholder": true
+  }
+]

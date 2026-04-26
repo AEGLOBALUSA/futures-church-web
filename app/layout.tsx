@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter_Tight } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
+import { CollegeNav } from "@/components/layout/CollegeNav";
+import { CollegeFooter } from "@/components/layout/CollegeFooter";
 import { AIGuideProvider } from "@/lib/ai/AIGuideContext";
 import { AIGuideDock } from "@/components/ai/AIGuideDock";
+import { ServiceTimeBanner } from "@/components/layout/ServiceTimeBanner";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -96,11 +100,15 @@ const WEBSITE_JSON_LD = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const h = await headers();
+  const host = (h.get("x-forwarded-host") ?? h.get("host") ?? "").toLowerCase();
+  const isCollegeDomain = host.endsWith("futuresglobal.college");
+
   return (
     <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
       <head>
@@ -122,9 +130,10 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-cream font-sans text-ink-900 antialiased">
         <AIGuideProvider>
-          <Nav />
+          {isCollegeDomain ? <CollegeNav /> : <Nav />}
+          {!isCollegeDomain && <ServiceTimeBanner />}
           <main className="relative">{children}</main>
-          <Footer />
+          {isCollegeDomain ? <CollegeFooter /> : <Footer />}
           <AIGuideDock />
         </AIGuideProvider>
       </body>

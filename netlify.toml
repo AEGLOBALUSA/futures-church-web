@@ -15,3 +15,13 @@ X-Frame-Options = "DENY"
 X-Content-Type-Options = "nosniff"
 Referrer-Policy = "strict-origin-when-cross-origin"
 Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# --- futuresglobal.college standalone: rewrite root to /college ---
+[[redirects]]
+  from = "/"
+  to = "/college"
+  status = 200
+  force = true
+  conditions = {Host = ["futuresglobal.college", "www.futuresglobal.college"]}
+
+# /college is now served directly on futures.church — no redirect needed.

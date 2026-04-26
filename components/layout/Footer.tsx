@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Instagram, Facebook, Youtube, Music2 } from "lucide-react";
-import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
+import progress from "@/content/vision/progress.json";
 
 const COLUMNS: { heading: string; links: { href: string; label: string }[] }[] = [
   {
@@ -46,42 +46,9 @@ export function Footer() {
 
   return (
     <footer className="relative bg-cream text-ink-900">
-      <div className="mx-auto max-w-7xl px-6 pt-20 pb-10 sm:px-10 lg:px-16">
-        {/* Top strip — Daily Word capture */}
-        <div className="grid gap-10 pb-14 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-16">
-          <div>
-            <p
-              className="font-ui uppercase text-ink-600"
-              style={{ fontSize: 11, letterSpacing: "0.28em" }}
-            >
-              Daily Word
-            </p>
-            <h2
-              className="mt-3 font-display text-ink-900"
-              style={{
-                fontSize: "clamp(1.75rem, 3.4vw, 2.75rem)",
-                lineHeight: 1.05,
-                fontWeight: 300,
-              }}
-            >
-              One scripture. One reflection. <em className="italic">Every morning.</em>
-            </h2>
-            <p className="mt-4 max-w-[44ch] font-sans text-ink-600" style={{ fontSize: 15, lineHeight: 1.6 }}>
-              Join 300,000+ people around the world who start their day with Futures. Free, always.
-            </p>
-          </div>
-          <ValueExchangeForm
-            offer="One scripture. One reflection. One question. Delivered to your inbox at 5am your time."
-            proofPoints={["300,000+ subscribers", "Always free, always honest"]}
-            fields={["email", "timezone"]}
-            cta="Start tomorrow"
-            outcome="Tomorrow at 5am. Your inbox."
-            source="footer-daily-word"
-          />
-        </div>
-
+      <div className="mx-auto max-w-7xl px-6 pt-16 pb-10 sm:px-10 lg:px-16">
         {/* Columns */}
-        <div className="border-t border-ink-900/10 pt-14">
+        <div className="pb-14">
           <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
             <div className="col-span-2 md:col-span-1">
               <Link
@@ -161,13 +128,13 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Eyebrow + bottom strip */}
-        <div className="mt-14 border-t border-ink-900/10 pt-8">
+        {/* Vision ticker + bottom strip */}
+        <div className="mt-10 border-t border-ink-900/10 pt-8">
           <p
             className="font-ui uppercase text-ink-600"
             style={{ fontSize: 10.5, letterSpacing: "0.3em" }}
           >
-            21 campuses · 4 countries · 1 family · since 1922
+            {progress.campuses.current} campuses · 4 countries · {progress.leaders.current.toLocaleString()} leaders raised · {progress.souls.current.toLocaleString()} souls · since 1922
           </p>
 
           <div className="mt-6 flex flex-col gap-3 font-sans text-ink-600 sm:flex-row sm:items-center sm:justify-between" style={{ fontSize: 12 }}>

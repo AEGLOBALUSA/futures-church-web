@@ -1,0 +1,72 @@
+[
+  {
+    "id": "sermon-notes-latest",
+    "title": "This Week's Sermon Notes",
+    "category": "Sermon Notes",
+    "description": "Key scriptures, reflection questions, and space to write. Download before Sunday.",
+    "fileHref": "PLACEHOLDER — Add PDF link",
+    "fileType": "PDF",
+    "free": true,
+    "placeholder": true
+  },
+  {
+    "id": "reading-plan-30",
+    "title": "30-Day Reading Plan",
+    "category": "Reading Plan",
+    "description": "One chapter a day. One theme a month. Start any time.",
+    "fileHref": "PLACEHOLDER — Add PDF link",
+    "fileType": "PDF",
+    "free": true,
+    "placeholder": true
+  },
+  {
+    "id": "reading-plan-bible-year",
+    "title": "Read the Bible in a Year",
+    "category": "Reading Plan",
+    "description": "The full Bible, sequentially, in 365 days. Includes daily check-in prompts.",
+    "fileHref": "PLACEHOLDER — Add PDF link",
+    "fileType": "PDF",
+    "free": true,
+    "placeholder": true
+  },
+  {
+    "id": "small-group-guide",
+    "title": "Small Group Leader Guide",
+    "category": "Study Guide",
+    "description": "Four-week study guide for life group leaders. Includes discussion questions, facilitation notes, and pastoral tips.",
+    "fileHref": "PLACEHOLDER — Add PDF link",
+    "fileType": "PDF",
+    "free": true,
+    "placeholder": true
+  },
+  {
+    "id": "parent-dinner-guide",
+    "title": "Parent Dinner-Table Guide",
+    "category": "Parent Guide",
+    "description": "What we taught the kids this Sunday — and five questions to keep the conversation going at home.",
+    "fileHref": "PLACEHOLDER — Add PDF link (auto-generated from Kids curriculum)",
+    "fileType": "PDF",
+    "free": true,
+    "placeholder": true
+  },
+  {
+    "id": "marriage-toolkit",
+    "title": "Marriage Toolkit",
+    "category": "Marriage",
+    "description": "Practical conversations, scripture, and exercises for couples at every stage.",
+    "fileHref": "PLACEHOLDER — Add PDF link",
+    "fileType": "PDF",
+    "free": true,
+    "placeholder": true
+  },
+  {
+    "id": "grief-guide",
+    "title": "Walking Through Grief",
+    "category": "Support",
+    "description": "A gentle guide through loss — with scripture, reflection, and pastoral care contacts.",
+    "fileHref": "PLACEHOLDER — Add PDF link",
+    "fileType": "PDF",
+    "free": true,
+    "placeholder": true
+  }
+]
