@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { AIInput } from "@/components/ai/AIInput";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow, Hero, Sub } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
@@ -18,7 +17,7 @@ type CtaLink = { label: string; href: string };
 type CollegeData = {
   hero: {
     eyebrow: string;
-    tagline: string;
+    tagline?: string;
     headline: string;
     sub: string;
     subVariants?: { A: string; B: string; C: string };
@@ -171,16 +170,12 @@ export function CollegePageClient({
   return (
     <main className="bg-cream text-ink-900 pb-16 sm:pb-20">
       <CollegeHero hero={data.hero} />
-      {usAccreditationSlot && (
-        <section className="px-6 sm:px-10" style={{ background: "#F7F0E4" }}>
-          {usAccreditationSlot}
-        </section>
-      )}
       <ClaimBlock />
-      <FindYourPathIntro />
-      <PersonaSection personas={data.personas} />
+      <TryBeforeBuy />
       <FreeSessions hook={data.hook} />
-      <WhyNowCompact />
+      <PersonaSection personas={data.personas} />
+      <WeGetResults />
+      <NoFluff />
       <WhyNowRetirementCliff />
       <ThreeStreams streams={data.streams} />
       <FacultyFeatured />
@@ -305,44 +300,18 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
       </div>
       <div className="relative mx-auto max-w-[1440px] px-6 pb-28 pt-32 sm:px-10 sm:pt-40">
         <Eyebrow>{hero.eyebrow}</Eyebrow>
-        {hero.tagline && (
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mt-5 max-w-[42ch] font-display italic text-ink-900"
-            style={{ fontSize: "clamp(1.25rem,2.6vw,1.75rem)", fontWeight: 300, lineHeight: 1.3 }}
-          >
-            {hero.tagline}
-          </motion.p>
-        )}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mt-4 max-w-[24ch]"
+          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          className="mt-5 max-w-[42ch] font-display text-ink-900"
+          style={{ fontSize: "clamp(1.5rem,3.2vw,2.25rem)", fontWeight: 300, lineHeight: 1.3 }}
         >
-          <h1
-            className="font-display text-ink-900"
-            style={{ fontSize: "clamp(2.8rem,6vw,5rem)", fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.02em" }}
-            dangerouslySetInnerHTML={{ __html: hero.headline }}
-          />
-        </motion.div>
+          {hero.headline}
+        </motion.p>
         <Sub key={variant ?? "default"} className="mt-6 max-w-[56ch]">
-          <span dangerouslySetInnerHTML={{ __html: subheadCopy }} />
+          <span dangerouslySetInnerHTML={{ __html: hero.sub }} />
         </Sub>
-
-        {/* Ask Milo */}
-        <div className="mt-10 max-w-[620px]">
-          <p className="mb-3 font-ui text-[12px] tracking-[0.06em] text-ink-600">Ask Milo</p>
-          <GlassCard breathe className="p-6">
-            <AIInput
-              placeholder="Ask Milo anything about the college — streams, cost, a day in the life."
-              chips={CHIPS}
-              compact
-            />
-          </GlassCard>
-        </div>
 
         {/* Urgency chip row — sits ABOVE the primary CTA per panel Action 4. */}
         <div className="mt-10 flex flex-wrap gap-2">
@@ -378,8 +347,8 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
         {/* Dual CTA buttons */}
         <div className="mt-6 flex flex-wrap gap-3">
           <a
-            href="#free-sessions"
-            onClick={() => analytics.applyIntent({ variant, source: "hero_watch" })}
+            href="#founders-circle"
+            onClick={() => analytics.applyIntent({ variant, source: "hero_founders" })}
             className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
             style={{
               background: "#A83D2E",
@@ -387,10 +356,10 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
               boxShadow: "0 16px 36px -12px rgba(168,61,46,0.55), inset 0 1.5px 0 rgba(255,255,255,0.28)",
             }}
           >
-            Watch a free session →
+            Claim $500 off →
           </a>
           <a
-            href="#personas"
+            href="#free-sessions"
             className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-ui text-[13px] tracking-[0.02em] transition-all hover:-translate-y-0.5"
             style={{
               background: "rgba(28,26,23,0.08)",
@@ -398,7 +367,7 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
               border: "1px solid rgba(28,26,23,0.15)",
             }}
           >
-            Find your path →
+            Watch a free session →
           </a>
         </div>
 
@@ -441,7 +410,8 @@ function ClaimBlock() {
   const spotsLeft = 47; // Static — update when real tracking is in place.
 
   return (
-    <section id="claim-block" className="px-6 py-16 sm:px-10" style={{ background: "#F7F0E4" }}>
+    <section id="founders-circle" className="px-6 py-16 sm:px-10" style={{ background: "#F7F0E4" }}>
+      <span id="claim-block" aria-hidden style={{ position: "absolute" }} />
       <div className="mx-auto max-w-[1200px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Claim something today</p>
         <h2
@@ -451,7 +421,43 @@ function ClaimBlock() {
           You don&rsquo;t have to apply to get something <em className="italic">real</em>.
         </h2>
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {/* Tile 1 — Free first subject */}
+          {/* Tile 1 — Founder's Circle */}
+          <div
+            className="relative flex flex-col overflow-hidden rounded-[22px] p-7"
+            style={{ background: "#1C1A17", border: "1px solid rgba(200,154,60,0.35)" }}
+          >
+            <p className="font-ui text-[10px] uppercase tracking-[0.22em]" style={{ color: "#C89A3C" }}>
+              Founder&rsquo;s Circle · First 100 only
+            </p>
+            <p className="mt-3 font-display italic" style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.2, color: "#FDFBF6" }}>
+              $500 off the 2026 intake
+            </p>
+            <p className="mt-3 font-body text-[14px] leading-relaxed" style={{ color: "rgba(253,251,246,0.72)" }}>
+              Apply before 29 May with code <strong className="font-ui font-semibold" style={{ color: "#C89A3C" }}>FOUNDER500</strong>. {spotsLeft} of 100 spots remaining.
+            </p>
+            <div className="mt-6 space-y-2">
+              <div className="flex items-center justify-between font-ui text-[11px] uppercase tracking-[0.18em]" style={{ color: "rgba(253,251,246,0.5)" }}>
+                <span>{spotsLeft} remaining</span>
+                <span>{daysLeft} days left</span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full" style={{ background: "rgba(253,251,246,0.15)" }}>
+                <div
+                  className="h-full rounded-full"
+                  style={{ width: `${((100 - spotsLeft) / 100) * 100}%`, background: "#C89A3C" }}
+                />
+              </div>
+            </div>
+            <a
+              href="#apply-form"
+              onClick={() => analytics.applyIntent({ source: "founders_circle" })}
+              className="mt-8 inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[12px] uppercase tracking-[0.18em] transition-all hover:-translate-y-0.5"
+              style={{ background: "#C89A3C", color: "#14120F" }}
+            >
+              Apply now →
+            </a>
+          </div>
+
+          {/* Tile 2 — Free first subject */}
           <div
             className="flex flex-col rounded-[22px] p-7"
             style={{ background: "#EDE4D3", border: "1px solid rgba(20,20,20,0.07)" }}
@@ -490,7 +496,7 @@ function ClaimBlock() {
             )}
           </div>
 
-          {/* Tile 2 — Gift a subject */}
+          {/* Tile 3 — Gift a subject */}
           <div
             className="flex flex-col rounded-[22px] p-7"
             style={{ background: "#EDE4D3", border: "1px solid rgba(20,20,20,0.07)" }}
@@ -528,63 +534,34 @@ function ClaimBlock() {
               </form>
             )}
           </div>
-
-          {/* Tile 3 — Founder's Circle */}
-          <div
-            className="relative flex flex-col overflow-hidden rounded-[22px] p-7"
-            style={{ background: "#1C1A17", border: "1px solid rgba(200,154,60,0.35)" }}
-          >
-            <p className="font-ui text-[10px] uppercase tracking-[0.22em]" style={{ color: "#C89A3C" }}>
-              Founder&rsquo;s Circle · First 100 only
-            </p>
-            <p className="mt-3 font-display italic" style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.2, color: "#FDFBF6" }}>
-              $100 off the 2026 intake
-            </p>
-            <p className="mt-3 font-body text-[14px] leading-relaxed" style={{ color: "rgba(253,251,246,0.72)" }}>
-              Apply before 29 May with code <strong className="font-ui font-semibold" style={{ color: "#C89A3C" }}>FOUNDER100</strong>. {spotsLeft} of 100 spots remaining.
-            </p>
-            <div className="mt-6 space-y-2">
-              <div className="flex items-center justify-between font-ui text-[11px] uppercase tracking-[0.18em]" style={{ color: "rgba(253,251,246,0.5)" }}>
-                <span>{spotsLeft} remaining</span>
-                <span>{daysLeft} days left</span>
-              </div>
-              <div className="h-1.5 overflow-hidden rounded-full" style={{ background: "rgba(253,251,246,0.15)" }}>
-                <div
-                  className="h-full rounded-full"
-                  style={{ width: `${((100 - spotsLeft) / 100) * 100}%`, background: "#C89A3C" }}
-                />
-              </div>
-            </div>
-            <a
-              href="#apply-form"
-              onClick={() => analytics.applyIntent({ source: "founders_circle" })}
-              className="mt-8 inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 font-ui text-[12px] uppercase tracking-[0.18em] transition-all hover:-translate-y-0.5"
-              style={{ background: "#C89A3C", color: "#14120F" }}
-            >
-              Apply now →
-            </a>
-          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ----------------------- FIND YOUR PATH INTRO (C) ----------------------- */
+/* ----------------------- TRY BEFORE BUY (C) ----------------------------- */
 
-function FindYourPathIntro() {
+function TryBeforeBuy() {
   return (
-    <section className="px-6 py-14 sm:px-10" style={{ background: "#F7F0E4" }}>
+    <section className="px-6 py-16 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[900px]">
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Try before you buy</p>
         <h2
-          className="font-display text-ink-900"
+          className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(1.75rem,3.4vw,2.5rem)", fontWeight: 300, lineHeight: 1.1 }}
         >
-          You don&rsquo;t have to commit to <em className="italic">find out</em>.
+          But before you do — find out which one really connects with you. <em className="italic">For free. No email required.</em>
         </h2>
-        <p className="mt-4 font-body text-[16px] leading-relaxed text-ink-600" style={{ maxWidth: "54ch" }}>
-          Five hundred people landed on this page this month carrying a different question. Find yours below — we&rsquo;ll meet you there.
+        <p className="mt-5 font-body text-[16px] leading-relaxed text-ink-600" style={{ maxWidth: "58ch" }}>
+          We&rsquo;ve put three real lectures from the college online. Not trailers — the actual thing. Pick the one that meets you where you are. If it lands, the rest of the year is built on the same DNA.
         </p>
+        <a
+          href="#free-sessions"
+          className="mt-7 inline-flex items-center gap-2 font-ui text-[13px] tracking-[0.04em] text-warm-700 hover:text-ink-900 transition-colors"
+        >
+          See the three free sessions →
+        </a>
       </div>
     </section>
   );
@@ -629,6 +606,9 @@ function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
         >
           {personas.headline}
         </h2>
+        <p className="mt-4 font-body text-[16px] leading-relaxed text-ink-600" style={{ maxWidth: "54ch" }}>
+          There&rsquo;s a version of this course built with you in mind. See if one of these sounds like the sentence you&rsquo;ve been saying to yourself.
+        </p>
 
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {personas.items.map((p, i) => {
@@ -767,6 +747,91 @@ function WhyNowRetirementCliff() {
         <p className="mt-3 font-ui text-[11px] uppercase tracking-[0.18em] opacity-50">
           Sources: Barna Group, Lifeway Research, Hartford Institute for Religion Research
         </p>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ WE GET RESULTS -------------------------- */
+
+function WeGetResults() {
+  return (
+    <section className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
+      <div className="mx-auto max-w-[1200px]">
+        <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Track record</p>
+        <h2
+          className="mt-3 font-display text-ink-900"
+          style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+        >
+          We get <em className="italic">results</em>.
+        </h2>
+
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <div
+            className="rounded-[20px] p-8"
+            style={{ background: "white", border: "1px solid rgba(20,20,20,0.06)", boxShadow: "0 14px 32px -22px rgba(20,20,20,0.2)" }}
+          >
+            <p className="font-display italic text-ink-900" style={{ fontSize: 64, fontWeight: 300, lineHeight: 1, color: "#A83D2E" }}>1,200+</p>
+            <p className="mt-3 font-ui text-[12px] uppercase tracking-[0.18em] text-ink-600">Leaders raised across 21 campuses</p>
+            <p className="mt-3 font-body text-[14px] leading-relaxed text-ink-500">Into pulpits, worship rooms, youth halls, board rooms, and businesses built on Kingdom values.</p>
+          </div>
+          <div
+            className="rounded-[20px] p-8"
+            style={{ background: "white", border: "1px solid rgba(20,20,20,0.06)", boxShadow: "0 14px 32px -22px rgba(20,20,20,0.2)" }}
+          >
+            <p className="font-display italic text-ink-900" style={{ fontSize: 64, fontWeight: 300, lineHeight: 1, color: "#A83D2E" }}>94%</p>
+            <p className="mt-3 font-ui text-[12px] uppercase tracking-[0.18em] text-ink-600">Placement rate — Internship stream graduates</p>
+            <p className="mt-3 font-body text-[14px] leading-relaxed text-ink-500">Deployed into active ministry roles within six months of completing the year.</p>
+          </div>
+          <div
+            className="rounded-[20px] p-8"
+            style={{ background: "white", border: "1px solid rgba(20,20,20,0.06)", boxShadow: "0 14px 32px -22px rgba(20,20,20,0.2)" }}
+          >
+            <p className="font-display italic text-ink-900" style={{ fontSize: 64, fontWeight: 300, lineHeight: 1, color: "#A83D2E" }}>80,000+</p>
+            <p className="mt-3 font-ui text-[12px] uppercase tracking-[0.18em] text-ink-600">People reached through Futures-trained leaders</p>
+            <p className="mt-3 font-body text-[14px] leading-relaxed text-ink-500">Through campuses planted, churches built, and communities transformed by graduates of this programme.</p>
+          </div>
+        </div>
+
+        <p className="mt-10 font-body text-[16px] leading-relaxed text-ink-900" style={{ maxWidth: "64ch" }}>
+          This isn&rsquo;t a programme that hopes you&rsquo;ll find your calling. It&rsquo;s a programme that has deployed thousands of people into theirs — and has been doing it for 35 years.
+        </p>
+        <p className="mt-4 font-body text-[15px] leading-relaxed text-ink-600" style={{ maxWidth: "64ch" }}>
+          <strong className="font-medium text-ink-900">Don&rsquo;t take our word for it.</strong> Read the stories →
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------- NO FLUFF ------------------------------ */
+
+function NoFluff() {
+  return (
+    <section className="px-6 py-20 sm:px-10" style={{ background: "#1C1A17", color: "#FDFBF6" }}>
+      <div className="mx-auto max-w-[900px]">
+        <p className="font-ui text-[11px] tracking-[0.06em]" style={{ color: "#C89A3C" }}>What you&rsquo;re signing up for</p>
+        <h2
+          className="mt-4 font-display"
+          style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+        >
+          No fluff. No filler. <em className="italic">A deep dive.</em>
+        </h2>
+        <p className="mt-5 font-body text-[17px] leading-relaxed" style={{ color: "rgba(253,251,246,0.72)", maxWidth: "58ch" }}>
+          This is not a podcast. It&rsquo;s not a leadership conference. It&rsquo;s not a six-week study group dressed up as a college.
+        </p>
+        <div className="mt-8 space-y-5 font-body text-[16px] leading-relaxed" style={{ color: "rgba(253,251,246,0.72)", maxWidth: "58ch" }}>
+          <p>Eight subjects, taught by people who actually built the thing. Real assessments. Real placement. Real outcomes you can point to a year later.</p>
+          <p>You&rsquo;ll be stretched theologically. You&rsquo;ll be sharpened practically. You&rsquo;ll be deployed pastorally. By the end of year one, you won&rsquo;t just understand church — you&rsquo;ll be ready to lead one.</p>
+          <p>If you want easy, this isn&rsquo;t it. If you want real, you&rsquo;ve found it.</p>
+        </div>
+        <a
+          href="#programme"
+          className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 font-ui text-[12px] uppercase tracking-[0.18em] transition-all hover:-translate-y-0.5"
+          style={{ background: "rgba(253,251,246,0.1)", border: "1px solid rgba(253,251,246,0.25)", color: "#FDFBF6" }}
+        >
+          See the eight subjects →
+        </a>
       </div>
     </section>
   );
@@ -1483,6 +1548,20 @@ function TuitionAndAid({ tuition }: { tuition: CollegeData["tuition"] }) {
   return (
     <section id="tuition" className="px-6 py-28 sm:px-10" style={{ background: "#F7F0E4" }}>
       <div className="mx-auto max-w-[1100px]">
+        <div
+          className="mb-8 flex flex-wrap items-center gap-3 rounded-[14px] px-5 py-4"
+          style={{ background: "rgba(200,154,60,0.12)", border: "1px solid rgba(200,154,60,0.35)" }}
+        >
+          <span className="font-ui text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: "#C89A3C" }}>
+            Founder&rsquo;s Circle
+          </span>
+          <span className="font-body text-[14px] text-ink-700">
+            Code <strong className="font-medium">FOUNDER500</strong> — $500 off the 2026 intake. First 100 applicants. Closes 29 May.
+          </span>
+          <a href="#founders-circle" className="ml-auto font-ui text-[11px] uppercase tracking-[0.18em] text-warm-700 hover:text-ink-900 transition-colors">
+            Claim it →
+          </a>
+        </div>
         {/* Compact fee strip */}
         <div
           className="mb-12 flex flex-wrap items-center justify-between gap-4 rounded-[18px] px-6 py-5"

@@ -1,9 +1,8 @@
 {
   "hero": {
     "eyebrow": "FUTURES LEADERSHIP COLLEGE",
-    "tagline": "Most people will spend their whole life wondering if God had more for them. You don't have to.",
-    "headline": "One year.<br/>Everything<br/><em>changes</em>.",
-    "sub": "Three ways in. A family of 21 campuses across 4 countries already waiting for you.",
+    "headline": "Most people will spend their whole life wondering if God had more for them. You don't have to.",
+    "sub": "One year. Everything changes. A family of 21 campuses across 4 countries already waiting for you.",
     "subVariants": {
       "A": "Three ways in. A family of 21 campuses across 4 countries already waiting for you.",
       "B": "The year your child turns eighteen happens once. Help them spend it on something that compounds.",
@@ -362,7 +361,7 @@
     },
     {
       "q": "Is there a discount for early applicants?",
-      "a": "Yes — Founder's Circle applicants who apply before 29 May 2026 with code FOUNDER100 receive $100 off their first year. This is limited to the first 100 applicants. Once those spots are filled, the code expires."
+      "a": "Yes — Founder's Circle applicants who apply before 29 May 2026 with code FOUNDER500 receive $500 off their first year. This is limited to the first 100 applicants. Once those spots are filled, the code expires."
     },
     {
       "q": "Can I gift a subject to someone else?",
@@ -375,64 +374,64 @@
     "body": "Futures Leadership College is embedded inside a living, growing church. That means your professors lead real churches, your classmates become lifelong friends, and the mission you\u2019re being trained for is already underway around you."
   },
   "personas": {
-    "eyebrow": "Find your path",
-    "headline": "Which one is you?",
+    "eyebrow": "Find yourself in a sentence",
+    "headline": "Which of these is happening inside you?",
     "items": [
       {
         "slug": "school-leaver",
         "label": "School leaver",
         "photo": "placeholder",
-        "copy": "Everyone's asking what I'm doing next year. I don't have a good answer yet. But a normal gap year isn't it.",
-        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
+        "copy": "This next year matters too much for me to wing it.",
+        "ctaOverride": { "label": "This is me →", "href": "#free-sessions" }
       },
       {
         "slug": "parent",
         "label": "Parent",
         "photo": "placeholder",
-        "copy": "My kid is standing at the edge of the rest of their life. I want the next year to actually build them.",
-        "ctaOverride": { "label": "This is me \u2192", "href": "?audience=parent#free-sessions" }
+        "copy": "My kid only gets one year like this. I want it to actually build them — not just keep them busy.",
+        "ctaOverride": { "label": "This is me →", "href": "?audience=parent#free-sessions" }
       },
       {
         "slug": "spiritually-restless",
         "label": "Spiritually restless",
         "photo": "placeholder",
-        "copy": "I'm not leaving church. But Sunday hasn't moved me in a long time, and I'm tired of pretending it has.",
-        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
+        "copy": "I'm not leaving church. But I'm tired of pretending Sunday is enough.",
+        "ctaOverride": { "label": "This is me →", "href": "#free-sessions" }
       },
       {
         "slug": "biblically-curious",
         "label": "Biblically curious",
         "photo": "placeholder",
-        "copy": "There's more in the Word than I've been taught. I want the tools to go find it.",
-        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
+        "copy": "I've been reading the Bible for years. I'm starting to suspect I've barely scratched it.",
+        "ctaOverride": { "label": "This is me →", "href": "#free-sessions" }
       },
       {
         "slug": "sensing-a-calling",
         "label": "Sensing a calling",
         "photo": "placeholder",
-        "copy": "I feel the pull. I'm done spectating. I want to be deployed, not just trained.",
-        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
+        "copy": "I've felt the pull for years. I'm done watching from the sidelines.",
+        "ctaOverride": { "label": "This is me →", "href": "#free-sessions" }
       },
       {
         "slug": "builder",
         "label": "The builder",
         "photo": "placeholder",
-        "copy": "I've got skills the Church needs. Design, ops, leadership. I want to leverage them for something that outlives me.",
-        "ctaOverride": { "label": "This is me \u2192", "href": "#free-sessions" }
+        "copy": "I've spent a decade building. I want what I build next to outlive me.",
+        "ctaOverride": { "label": "This is me →", "href": "#free-sessions" }
       },
       {
         "slug": "distance-learner",
         "label": "Distance learner",
         "photo": "placeholder",
-        "copy": "Campus isn't possible for me right now. I still want the real thing — not a watered-down version of it.",
-        "ctaOverride": { "label": "This is me \u2192", "href": "#online-waitlist" }
+        "copy": "Geography shouldn't decide whether I get to grow.",
+        "ctaOverride": { "label": "This is me →", "href": "#online-waitlist" }
       },
       {
         "slug": "one-subject",
         "label": "One subject at a time",
         "photo": "placeholder",
-        "copy": "A whole year is too much right now. One subject is the on-ramp I can say yes to.",
-        "ctaOverride": { "label": "Start here \u2192", "href": "#apply-form" }
+        "copy": "A whole year is more than I can promise right now. But I can say yes to one subject.",
+        "ctaOverride": { "label": "Start here →", "href": "#apply-form" }
       }
     ]
   },
