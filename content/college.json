@@ -187,6 +187,18 @@
       "discipline": "College President",
       "bio": "Founder of bU Women. 20 years mentoring emerging female leaders across the globe.",
       "photo": "/photos/college/faculty/jane.jpg"
+    },
+    {
+      "name": "Andy Smith",
+      "discipline": "Campus Pastor \u00b7 Atlanta",
+      "bio": "Pastoral leader and teacher. Anchors the Atlanta campus and the Internship stream.",
+      "photo": "https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/04/Ps-Andy-800x800.png"
+    },
+    {
+      "name": "Alexis Principal",
+      "discipline": "Campus Director \u00b7 Atlanta",
+      "bio": "Leads campus operations, student life, and internship placement in Atlanta.",
+      "photo": "https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2024/04/ps-alexis-800x800.png"
     }
   ],
   "experience": [

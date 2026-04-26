@@ -173,19 +173,28 @@ export function CollegePageClient({
       <TryBeforeBuy />
       <FreeSessions hook={data.hook} />
       <PersonaSection personas={data.personas} />
+      <DividerBand src="/photos/college/hero/03_group_young.jpg" alt="Receiving from the front — cohort moment" position="center 30%" />
       <WeGetResults />
+      <DividerBand src="/photos/college/hero/01_classroom_feel.jpg" alt="Lecture in session" position="center 25%" />
       <NoFluff />
+      <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="" position="center 40%" height="clamp(220px, 30vw, 360px)" />
       <WhyNowRetirementCliff />
+      <DividerBand src="/photos/college/hero/02_leaders_laughing.jpg" alt="Cohort moment" position="center 25%" />
       <ThreeStreams streams={data.streams} />
       <FacultyFeatured />
       <TimesWeLiveIn />
+      <DividerBand src="/photos/college/hero/06_worship_crowd.jpg" alt="Worship leader on platform" position="center 20%" />
       <YearOneProgramme programme={data.programme} />
       <FacultyWall facultyIntro={data.facultyIntro} faculty={data.faculty} />
       <RealStories />
+      <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="" position="center 60%" height="clamp(220px, 30vw, 360px)" />
       <TuitionAndAid tuition={data.tuition} />
       <EnrollmentWindow enrollment={data.enrollment} />
       {data.closing && (
-        <ClosingStatement closing={data.closing} cta={data.closingCta} />
+        <>
+          <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="Hands raised — graduating cohort" position="center 30%" height="clamp(360px, 50vw, 600px)" />
+          <ClosingStatement closing={data.closing} cta={data.closingCta} />
+        </>
       )}
       <CollegeFAQ faq={data.faq} />
       <CollegeApplyStageOne onSubmit={markStageOne} />
@@ -200,16 +209,19 @@ export function CollegePageClient({
 
 /* --------------------------------- HERO --------------------------------- */
 
-// Hero rotation. Brief specifies 5 identity-question slots:
-// 01 formation, 02 cohort hallway, 03 lecture intensity, 04 mentor moment, 05 deployment.
-// Only the founder face (slot 0) and a deployment shot (slot 5) currently match the brief
-// AND pass the casting standard ("reasonably good looking, in shape, on their way").
-// Slots 1-4 intentionally absent — placing non-aligned photos there would betray the brief.
-// Add files at /photos/college/hero/0[1-4]_<slot>.jpg and re-introduce here when shot.
+// Hero rotation. Brief specifies 5 identity-question slots — all 5 now wired:
+// 01 classroom feel, 02 cohort/leaders laughing, 03 receiving from the front,
+// 04 pastoral leadership (mixed ages), 05 deployment.
+// NOTE: Slot 4 (04_mixed_ages.jpg) requires Ashley vs Tony portrait-specialist
+// sign-off (per punch-list P0-5) before final launch.
+// Choreography: priority on slot 0, 8s dwell, 1.2s crossfade — DO NOT change.
 // See docs/college-photo-casting-brief.md
 const COLLEGE_FRAMES = [
-  { url: "/photos/college/faculty/ashley.jpg",     alt: "Ashley Evans — Global Senior Pastor & Founder" },
-  { url: "/photos/college/hero/05_deployment.jpg", alt: "Graduate deployed — leading from the front" },
+  { url: "/photos/college/hero/01_classroom_feel.jpg",   alt: "Lecture in session — Futures Leadership College" },
+  { url: "/photos/college/hero/02_leaders_laughing.jpg", alt: "Cohort moment — Futures Leadership College" },
+  { url: "/photos/college/hero/03_group_young.jpg",      alt: "Receiving from the front — Futures Leadership College" },
+  { url: "/photos/college/hero/04_mixed_ages.jpg",       alt: "Pastoral leadership — Futures Leadership College" },
+  { url: "/photos/college/hero/05_deployment.jpg",       alt: "Graduate deployed on a worship platform — Futures Leadership College" },
 ];
 
 function ScrollCue({ reducedMotion }: { reducedMotion: boolean | null }) {
@@ -239,6 +251,47 @@ function ScrollCue({ reducedMotion }: { reducedMotion: boolean | null }) {
         ↓
       </motion.span>
     </motion.div>
+  );
+}
+
+/* ------------------------- DIVIDER BAND (P0-0) -------------------------- */
+// Full-bleed photo band used between text-heavy sections to satisfy the
+// visual-rhythm rule: no more than 8s of scroll without a photograph.
+// Top + bottom cream gradient lets the band breathe into surrounding sections.
+function DividerBand({
+  src,
+  alt,
+  height = "clamp(280px, 38vw, 480px)",
+  position = "center",
+}: {
+  src: string;
+  alt: string;
+  height?: string;
+  position?: string;
+}) {
+  return (
+    <div
+      aria-hidden={alt === ""}
+      className="relative w-full overflow-hidden"
+      style={{ height }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="100vw"
+        unoptimized
+        className="object-cover"
+        style={{ objectPosition: position }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(247,241,230,0.4) 0%, rgba(247,241,230,0) 18%, rgba(247,241,230,0) 82%, rgba(247,241,230,0.4) 100%)",
+        }}
+      />
+    </div>
   );
 }
 
@@ -1290,25 +1343,47 @@ function FacultyFeatured() {
 
 function TimesWeLiveIn() {
   return (
-    <section className="px-6 py-20 sm:px-10" style={{ background: "#14120F", color: "#FDFBF6" }}>
-      <div className="mx-auto max-w-[900px]">
-        <p className="font-ui text-[11px] tracking-[0.06em]" style={{ color: "#C89A3C" }}>
+    <section
+      className="relative overflow-hidden px-6 py-20 sm:px-10"
+      style={{ background: "#F7F1E6", color: "#14120F" }}
+    >
+      {/* Background photograph (P0-0): Ashley preaching candidate, pending P0-5 sign-off */}
+      <div aria-hidden className="absolute inset-0">
+        <Image
+          src="/photos/college/hero/04_mixed_ages.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          unoptimized
+          className="object-cover"
+          style={{ objectPosition: "center 20%", opacity: 0.22 }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(247,241,230,0.85) 0%, rgba(247,241,230,0.7) 50%, rgba(247,241,230,0.92) 100%)",
+          }}
+        />
+      </div>
+      <div className="relative mx-auto max-w-[900px]">
+        <p className="font-ui text-[11px] tracking-[0.06em]" style={{ color: "#8A6A1F" }}>
           The times we live in
         </p>
-        <div className="mt-8 space-y-5 font-body text-[17px] leading-relaxed" style={{ color: "rgba(253,251,246,0.82)" }}>
+        <div className="mt-8 space-y-5 font-body text-[17px] leading-relaxed" style={{ color: "rgba(20,18,15,0.86)" }}>
           <p>AI is rewriting every institution. The Church included. The question isn&rsquo;t whether it changes — it&rsquo;s whether you&rsquo;ll lead the change or be swept up by it.</p>
           <p>Trust in institutions is collapsing. Authority is decentralising. Cultural fragmentation is the water we&rsquo;re all swimming in. The leaders who hold theology and skill in the same hand will define what comes next.</p>
           <p>The next ten years will be defined by leaders who act first. Not loudest. First.</p>
         </div>
         <p
           className="mt-10 font-display italic"
-          style={{ fontSize: "clamp(1.3rem,2.2vw,1.6rem)", fontWeight: 300, color: "#E8C9A6", lineHeight: 1.3 }}
+          style={{ fontSize: "clamp(1.3rem,2.2vw,1.6rem)", fontWeight: 300, color: "#6B4A12", lineHeight: 1.3 }}
         >
           Out<em>think</em>. Out<em>build</em>. Out<em>lead</em>.
         </p>
         <p
           className="mt-2 font-display italic"
-          style={{ fontSize: "clamp(1.1rem,1.8vw,1.3rem)", fontWeight: 300, opacity: 0.55, lineHeight: 1.3 }}
+          style={{ fontSize: "clamp(1.1rem,1.8vw,1.3rem)", fontWeight: 300, opacity: 0.6, lineHeight: 1.3 }}
         >
           Those who act first will lead what comes next.
         </p>
