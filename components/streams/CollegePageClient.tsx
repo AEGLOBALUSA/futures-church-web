@@ -190,26 +190,26 @@ export function CollegePageClient({
       <TryBeforeBuy />
       <FreeSessions hook={data.hook} />
       <PersonaSection personas={data.personas} />
-      <DividerBand src="/photos/college/hero/03_group_young.jpg" alt="Receiving from the front — cohort moment" position="center 30%" />
+      <DividerBand src="/photos/college/hero/03_group_young.jpg" alt="Receiving from the front — cohort moment" />
       <WeGetResults />
-      <DividerBand src="/photos/college/hero/01_classroom_feel.jpg" alt="Lecture in session" position="center 25%" />
+      <DividerBand src="/photos/college/hero/01_classroom_feel.jpg" alt="Lecture in session" />
       <NoFluff />
-      <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="" position="center 40%" height="clamp(220px, 30vw, 360px)" />
+      <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="" height="clamp(220px, 30vw, 360px)" />
       <WhyNowRetirementCliff />
-      <DividerBand src="/photos/college/hero/02_leaders_laughing.jpg" alt="Cohort moment" position="center 25%" />
+      <DividerBand src="/photos/college/hero/02_leaders_laughing.jpg" alt="Cohort moment" />
       <ThreeStreams streams={data.streams} />
       <FacultyFeatured />
       <TimesWeLiveIn />
-      <DividerBand src="/photos/college/hero/06_worship_crowd.jpg" alt="Worship leader on platform" position="center 20%" />
+      <DividerBand src="/photos/college/hero/06_worship_crowd.jpg" alt="Worship leader on platform" />
       <YearOneProgramme programme={data.programme} />
       <FacultyWall facultyIntro={data.facultyIntro} faculty={data.faculty} />
       <RealStories />
-      <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="" position="center 60%" height="clamp(220px, 30vw, 360px)" />
+      <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="" height="clamp(220px, 30vw, 360px)" />
       <TuitionAndAid tuition={data.tuition} />
       <EnrollmentWindow enrollment={data.enrollment} />
       {data.closing && (
         <>
-          <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="Hands raised — graduating cohort" position="center 30%" height="clamp(360px, 50vw, 600px)" />
+          <DividerBand src="/photos/college/hero/05_community_wide.jpg" alt="Hands raised — graduating cohort" height="clamp(360px, 50vw, 600px)" />
           <ClosingStatement closing={data.closing} cta={data.closingCta} />
         </>
       )}
@@ -226,20 +226,68 @@ export function CollegePageClient({
 
 /* --------------------------------- HERO --------------------------------- */
 
-// Hero rotation. Brief specifies 5 identity-question slots — all 5 now wired:
-// 01 classroom feel, 02 cohort/leaders laughing, 03 receiving from the front,
-// 04 pastoral leadership (mixed ages), 05 deployment.
-// NOTE: Slot 4 (04_mixed_ages.jpg) requires Ashley vs Tony portrait-specialist
-// sign-off (per punch-list P0-5) before final launch.
+// Hero rotation. Round 4 directive: this is the senior leadership team —
+// the people students will actually be taught and pastored by — not anonymous
+// student stock. 5 slots, one per leader:
+//   1. Ps Ashley Evans       — Global Senior Pastor & Founder   [APPROVED]
+//   2. Ps Jane Evans         — College President                [APPROVED]
+//   3. Ps Tony Corbridge     — Pastoral Leadership              [PHOTO PENDING]
+//   4. Ps Andy Smith         — Campus Pastor, Atlanta           [PHOTO PENDING]
+//   5. Ps Josh               — role TBC                         [PHOTO PENDING]
+// Frames 3–5 are approval-blocked and filtered out at runtime via
+// APPROVED_FRAMES until proper portraits land. Until then the rotation runs
+// 2-up between Ashley + Jane — the casting standard wins over filling slots.
+// See docs/college-photo-casting-brief.md and docs/college-still-needed.md.
 // Choreography: priority on slot 0, 8s dwell, 1.2s crossfade — DO NOT change.
-// See docs/college-photo-casting-brief.md
-const COLLEGE_FRAMES = [
-  { url: "/photos/college/hero/01_classroom_feel.jpg",   alt: "Lecture in session — Futures Leadership College" },
-  { url: "/photos/college/hero/02_leaders_laughing.jpg", alt: "Cohort moment — Futures Leadership College" },
-  { url: "/photos/college/hero/03_group_young.jpg",      alt: "Receiving from the front — Futures Leadership College" },
-  { url: "/photos/college/hero/04_mixed_ages.jpg",       alt: "Pastoral leadership — Futures Leadership College" },
-  { url: "/photos/college/hero/05_deployment.jpg",       alt: "Graduate deployed on a worship platform — Futures Leadership College" },
+type HeroFrame = {
+  url: string;
+  alt: string;
+  name: string;
+  role: string;
+  /** Set false for placeholder photos pending a proper portrait drop */
+  approved: boolean;
+};
+
+const COLLEGE_FRAMES: HeroFrame[] = [
+  {
+    url: "/photos/college/faculty/ashley.jpg",
+    alt: "Ps Ashley Evans — Global Senior Pastor & Founder",
+    name: "Ps Ashley Evans",
+    role: "Global Senior Pastor & Founder",
+    approved: true,
+  },
+  {
+    url: "/photos/college/faculty/jane.jpg",
+    alt: "Ps Jane Evans — College President",
+    name: "Ps Jane Evans",
+    role: "College President",
+    approved: true,
+  },
+  {
+    url: "/photos/college/leadership/tony.jpg",
+    alt: "Ps Tony Corbridge",
+    name: "Ps Tony Corbridge",
+    role: "Pastoral Leadership",
+    approved: false, // PHOTO PENDING — see docs/college-still-needed.md
+  },
+  {
+    url: "/photos/college/leadership/andy.jpg",
+    alt: "Ps Andy Smith — Campus Pastor, Atlanta",
+    name: "Ps Andy Smith",
+    role: "Campus Pastor, Atlanta",
+    approved: false, // PHOTO PENDING — see docs/college-still-needed.md
+  },
+  {
+    url: "/photos/college/leadership/josh.jpg",
+    alt: "Ps Josh — role TBC",
+    name: "Ps Josh",
+    role: "role TBC",
+    approved: false, // PHOTO PENDING — see docs/college-still-needed.md
+  },
 ];
+
+// Render-time view: only fully-approved frames make it onto the page.
+const APPROVED_FRAMES: HeroFrame[] = COLLEGE_FRAMES.filter((f) => f.approved);
 
 function ScrollCue({ reducedMotion }: { reducedMotion: boolean | null }) {
   const [hidden, setHidden] = useState(false);
@@ -275,16 +323,18 @@ function ScrollCue({ reducedMotion }: { reducedMotion: boolean | null }) {
 // Full-bleed photo band used between text-heavy sections to satisfy the
 // visual-rhythm rule: no more than 8s of scroll without a photograph.
 // Top + bottom cream gradient lets the band breathe into surrounding sections.
+//
+// IMPORTANT: no objectPosition overrides anywhere on this page.
+// If a photo doesn't sit right with default center-center cover, it must be
+// reframed at the source — not patched with an offset. See punch-list P0-0c.
 function DividerBand({
   src,
   alt,
   height = "clamp(280px, 38vw, 480px)",
-  position = "center",
 }: {
   src: string;
   alt: string;
   height?: string;
-  position?: string;
 }) {
   return (
     <div
@@ -299,7 +349,6 @@ function DividerBand({
         sizes="100vw"
         unoptimized
         className="object-cover"
-        style={{ objectPosition: position }}
       />
       <div
         className="absolute inset-0"
@@ -327,11 +376,13 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
     return () => window.clearTimeout(t);
   }, [reducedMotion]);
 
-  // Photo crossfade rotation — only after recede has happened
+  // Photo crossfade rotation — only after recede has happened.
+  // Cycles only over APPROVED_FRAMES so unshot leadership slots stay hidden.
   useEffect(() => {
     if (reducedMotion) return;
+    if (APPROVED_FRAMES.length <= 1) return;
     const id = window.setInterval(() => {
-      setFrameIndex((i) => (i + 1) % COLLEGE_FRAMES.length);
+      setFrameIndex((i) => (i + 1) % APPROVED_FRAMES.length);
     }, 8000);
     return () => window.clearInterval(id);
   }, [reducedMotion]);
@@ -353,7 +404,7 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
     >
       {/* Rotating photos — render all, animate opacity to crossfade */}
       <div aria-hidden className="absolute inset-0">
-        {COLLEGE_FRAMES.map((f, i) => {
+        {APPROVED_FRAMES.map((f, i) => {
           const isActive = i === frameIndex;
           const targetOpacity = reducedMotion
             ? (i === 0 ? 0.7 : 0)
@@ -502,6 +553,33 @@ function CollegeHero({ hero }: { hero: CollegeData["hero"] }) {
 
       {/* Scroll cue */}
       <ScrollCue reducedMotion={reducedMotion} />
+
+      {/* Hero frame caption — name · role of the currently-rotating leader.
+          Always visible (not hover): more honest about provenance, more
+          accessible. Crossfades on the same 1.2s curve as the photo. */}
+      {APPROVED_FRAMES.length > 0 && (
+        <div
+          className="pointer-events-none absolute bottom-6 right-6 z-20 max-w-[60vw] text-right sm:bottom-8 sm:right-10"
+          aria-live="polite"
+        >
+          {APPROVED_FRAMES.map((f, i) => (
+            <p
+              key={f.url}
+              className="font-ui text-[10px] uppercase tracking-[0.16em] text-cream/70"
+              style={{
+                position: i === 0 ? "relative" : "absolute",
+                top: i === 0 ? undefined : 0,
+                right: i === 0 ? undefined : 0,
+                opacity: i === frameIndex ? 1 : 0,
+                transition: reducedMotion ? "none" : "opacity 1200ms cubic-bezier(0.4, 0, 0.2, 1)",
+                textShadow: "0 1px 4px rgba(20,18,15,0.55)",
+              }}
+            >
+              {f.name} <span aria-hidden>·</span> {f.role}
+            </p>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
@@ -756,7 +834,6 @@ function PersonaSection({ personas }: { personas: CollegeData["personas"] }) {
                       unoptimized
                       sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
                       className="object-cover"
-                      style={{ objectPosition: "center 30%" }}
                     />
                   </div>
                 ) : null}
@@ -1373,7 +1450,7 @@ function TimesWeLiveIn() {
           sizes="100vw"
           unoptimized
           className="object-cover"
-          style={{ objectPosition: "center 20%", opacity: 0.22 }}
+          style={{ opacity: 0.22 }}
         />
         <div
           className="absolute inset-0"
@@ -2562,6 +2639,9 @@ const LEGACY_STORIES: Array<{
   name: string;
   role: string;
   detail: string;
+  /** Optional one-line pull quote — narrative-strategist written + pastor-signed.
+   *  Leave undefined until copy lands; render is conditional. */
+  quote?: string;
 }> = [
   {
     name: "Ps Mark Elmendorp",
@@ -2632,7 +2712,7 @@ function RealStories() {
           What <em className="italic">twenty-five years</em> looks like.
         </h2>
         <p className="mt-5 max-w-[60ch] font-body text-[16px] italic text-ink-600">
-          Together they lead 23 campuses and reach tens of thousands of people every weekend.
+          Together they lead 23 campuses and reach tens of thousands of people every weekend. <strong className="not-italic font-medium text-ink-900">None of them planted alone.</strong>
         </p>
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {LEGACY_STORIES.map((s) => {
@@ -2672,6 +2752,11 @@ function RealStories() {
                 <p className="mt-5 font-ui text-[12px] uppercase tracking-[0.18em] text-ink-600">
                   {s.detail}
                 </p>
+                {s.quote && (
+                  <p className="mt-3 font-display italic text-[14px] leading-snug text-ink-700">
+                    &ldquo;{s.quote}&rdquo;
+                  </p>
+                )}
               </div>
             );
           })}
