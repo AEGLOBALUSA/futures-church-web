@@ -200,13 +200,17 @@ export function CollegePageClient({
 
 /* --------------------------------- HERO --------------------------------- */
 
+// Photo paths follow the brief's 5-photo hero rotation slots (§2 of punch-list).
+// Slot 0 holds an existing real portrait so a face lands at 0.0s on first paint
+// even before the /photos/college/hero/ assets are uploaded.
+// When real assets land at the paths below they will appear automatically.
 const COLLEGE_FRAMES = [
-  { url: "/photos/pastors/ashley-evans.jpg",       alt: "Ashley Evans — Global Senior Pastor" },
-  { url: "/photos/college/hero/01_classroom_feel.jpg", alt: "Futures Leadership College — lecture" },
-  { url: "/photos/pastors/jane.jpg",               alt: "Jane Evans — College President" },
-  { url: "/photos/college/hero/02_leaders_laughing.jpg", alt: "Futures Leadership College — cohort" },
-  { url: "/photos/college/hero/03_group_young.jpg",  alt: "Futures Leadership College — students" },
-  { url: "/photos/college/hero/04_mixed_ages.jpg",   alt: "Futures Leadership College — community" },
+  { url: "/photos/pastors/ashley.jpg",                   alt: "Ashley Evans — Global Senior Pastor" },
+  { url: "/photos/college/hero/01_student_formation.jpg", alt: "Student mid-formation — am I the right age?" },
+  { url: "/photos/college/hero/02_cohort_hallway.jpg",    alt: "Cohort in a hallway, mid-laugh — will I belong?" },
+  { url: "/photos/college/hero/03_lecture_intensity.jpg", alt: "Lecture in session — will I be challenged?" },
+  { url: "/photos/college/hero/04_mentor_moment.jpg",     alt: "Mentor moment — will I be loved?" },
+  { url: "/photos/college/hero/05_deployment.jpg",        alt: "Graduate deployed — on a stage, in a youth room, on a worship platform" },
 ];
 
 function ScrollCue({ reducedMotion }: { reducedMotion: boolean | null }) {
@@ -2447,7 +2451,20 @@ function StickyCtaBar() {
   );
 }
 
-const REAL_STORIES = [
+// Photo paths follow the punch-list §6 environmental-portrait direction.
+// Set `photo` once real assets land at /photos/college/stories/<slug>.jpg —
+// the render falls back to initial avatars while photo is undefined.
+//   hannah-k.jpg — direction: on a worship platform, mid-rehearsal or service
+//   marcus-t.jpg — direction: with his youth group
+//   priya-n.jpg  — direction: at her desk in her marketing role, Bible visible
+//   daniel-r.jpg — direction: on a Sunday at his Atlanta campus
+const REAL_STORIES: Array<{
+  name: string;
+  role: string;
+  stream: string;
+  quote: string;
+  photo?: string;
+}> = [
   {
     name: "Hannah K.",
     role: "Worship Director · Adelaide",
@@ -2496,12 +2513,28 @@ function RealStories() {
               style={{ border: "1px solid rgba(20,20,20,0.06)" }}
             >
               <div className="flex items-start gap-4">
-                <div
-                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full"
-                  style={{ background: "#EDE4D3" }}
-                >
-                  <span className="font-display italic" style={{ fontSize: 22, fontWeight: 300, color: "#A83D2E" }}>{s.name.split(" ")[0][0]}</span>
-                </div>
+                {s.photo ? (
+                  <div
+                    className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full"
+                    style={{ background: "#EDE4D3" }}
+                  >
+                    <Image
+                      src={s.photo}
+                      alt={s.name}
+                      fill
+                      unoptimized
+                      sizes="56px"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full"
+                    style={{ background: "#EDE4D3" }}
+                  >
+                    <span className="font-display italic" style={{ fontSize: 22, fontWeight: 300, color: "#A83D2E" }}>{s.name.split(" ")[0][0]}</span>
+                  </div>
+                )}
                 <div>
                   <p className="font-ui text-[12px] font-medium text-ink-900">{s.name}</p>
                   <p className="mt-0.5 font-ui text-[11px] uppercase tracking-[0.16em] text-warm-700">{s.role}</p>
