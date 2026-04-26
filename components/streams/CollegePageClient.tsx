@@ -58,7 +58,7 @@ type CollegeData = {
   whyNow: {
     eyebrow: string;
     headline: string;
-    stat: { value: string; label: string };
+    stat?: { value: string; label: string };
     image: string;
     body: string;
   };
@@ -91,7 +91,24 @@ type CollegeData = {
     stats: { label: string; value: string }[];
     alumni: { name: string; now: string; quote: string }[];
   };
-  tuition: { year1: number; year2: number; currency: string; notes: string[] };
+  tuition: {
+    currency: string;
+    streams: {
+      slug: string;
+      name: string;
+      price: number;
+      tagline: string;
+      includes: string;
+      outOfPocket: number;
+    }[];
+    founderCircle: {
+      code: string;
+      amount: number;
+      note: string;
+    };
+    aid: string[];
+    closingLine: string;
+  };
   enrollment: {
     eyebrow: string;
     headline: string;
@@ -1765,46 +1782,20 @@ function TuitionAndAid({ tuition }: { tuition: CollegeData["tuition"] }) {
   return (
     <section id="tuition" className="px-6 py-28 sm:px-10" style={{ background: "#F7F0E4" }}>
       <div className="mx-auto max-w-[1100px]">
+        {/* Founder's Circle banner */}
         <div
-          className="mb-8 flex flex-wrap items-center gap-3 rounded-[14px] px-5 py-4"
+          className="mb-10 flex flex-wrap items-center gap-3 rounded-[14px] px-5 py-4"
           style={{ background: "rgba(200,154,60,0.12)", border: "1px solid rgba(200,154,60,0.35)" }}
         >
           <span className="font-ui text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: "#C89A3C" }}>
             Founder&rsquo;s Circle
           </span>
           <span className="font-body text-[14px] text-ink-700">
-            Code <strong className="font-medium">FOUNDER500</strong> — $500 off the 2026 intake. First 100 applicants. Closes 29 May.
+            Code <strong className="font-medium">{tuition.founderCircle.code}</strong> &mdash; {tuition.founderCircle.note}
           </span>
           <a href="#founders-circle" className="ml-auto font-ui text-[11px] uppercase tracking-[0.18em] text-warm-700 hover:text-ink-900 transition-colors">
-            Claim it →
+            Claim it &rarr;
           </a>
-        </div>
-        {/* Compact fee strip */}
-        <div
-          className="mb-12 flex flex-wrap items-center justify-between gap-4 rounded-[18px] px-6 py-5"
-          style={{ background: "#EDE4D3", border: "1px solid rgba(20,20,20,0.08)" }}
-        >
-          <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
-            <span className="font-display italic text-ink-900" style={{ fontSize: 22, fontWeight: 300 }}>
-              ${tuition.year1.toLocaleString()}
-              <span className="ml-2 font-ui text-[11px] uppercase tracking-[0.2em] text-warm-700">Year one</span>
-            </span>
-            <span className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-600">
-              Need-based aid up to 60%
-            </span>
-            <span className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-600">
-              Merit up to 40%
-            </span>
-            <span className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-600">
-              Sponsored: 25–100%
-            </span>
-          </div>
-          <span
-            className="font-ui text-[11px] uppercase tracking-[0.2em]"
-            style={{ color: "#A83D2E" }}
-          >
-            Typical out-of-pocket · $6,800 / year
-          </span>
         </div>
 
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Tuition &amp; aid</p>
@@ -1814,30 +1805,65 @@ function TuitionAndAid({ tuition }: { tuition: CollegeData["tuition"] }) {
         >
           The <em className="italic">cost</em>, honestly.
         </h2>
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <GlassCard className="p-8">
-            <p className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-600">Year one</p>
-            <p className="mt-2 font-display text-ink-900" style={{ fontSize: 44, fontWeight: 300 }}>
-              ${tuition.year1.toLocaleString()}
-            </p>
-            <p className="mt-1 font-ui text-[12px] text-ink-600">{tuition.currency}</p>
-          </GlassCard>
-          <GlassCard className="p-8">
-            <p className="font-ui text-[11px] uppercase tracking-[0.2em] text-ink-600">Year two</p>
-            <p className="mt-2 font-display text-ink-900" style={{ fontSize: 44, fontWeight: 300 }}>
-              ${tuition.year2.toLocaleString()}
-            </p>
-            <p className="mt-1 font-ui text-[12px] text-ink-600">{tuition.currency}</p>
-          </GlassCard>
+
+        {/* Three stream cards */}
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {tuition.streams.map((s) => {
+            const isFlagship = s.slug === "academic";
+            return (
+              <div
+                key={s.slug}
+                className={`flex flex-col rounded-[22px] bg-white p-8 ${
+                  isFlagship
+                    ? "shadow-[0_24px_50px_-22px_rgba(20,20,20,0.28)] ring-1 ring-warm-700/20"
+                    : "shadow-[0_18px_40px_-22px_rgba(20,20,20,0.2)]"
+                }`}
+                style={{ border: "1px solid rgba(20,20,20,0.06)" }}
+              >
+                <div className="flex items-center justify-between">
+                  <p className="font-ui text-[11px] uppercase tracking-[0.2em] text-warm-700">{s.name}</p>
+                  {isFlagship && (
+                    <span
+                      className="font-ui text-[10px] uppercase tracking-[0.2em]"
+                      style={{ color: "#C89A3C" }}
+                    >
+                      Flagship
+                    </span>
+                  )}
+                </div>
+                <p className="mt-3 font-display italic text-ink-900" style={{ fontSize: 18, fontWeight: 300, lineHeight: 1.3 }}>
+                  {s.tagline}
+                </p>
+                <div className="mt-6 flex items-baseline gap-1">
+                  <span className="font-display text-ink-900" style={{ fontSize: 48, fontWeight: 300, lineHeight: 1 }}>
+                    ${s.price.toLocaleString()}
+                  </span>
+                  <span className="font-ui text-[12px] text-ink-600">/year</span>
+                </div>
+                <p className="mt-1 font-ui text-[11px] uppercase tracking-[0.2em] text-ink-500">{tuition.currency}</p>
+                <p className="mt-6 font-body text-[14px] leading-relaxed text-ink-600">{s.includes}</p>
+                <p className="mt-auto pt-6 font-ui text-[11px] uppercase tracking-[0.18em]" style={{ color: "#A83D2E" }}>
+                  Typical out-of-pocket after aid: ${s.outOfPocket.toLocaleString()}/year
+                </p>
+              </div>
+            );
+          })}
         </div>
-        <ul className="mt-8 space-y-3 font-body text-[15px] text-ink-600">
-          {tuition.notes.map((n) => (
-            <li key={n} className="flex gap-3">
+
+        {/* Aid bullets */}
+        <ul className="mt-10 space-y-3 font-body text-[15px] text-ink-600">
+          {tuition.aid.map((a) => (
+            <li key={a} className="flex gap-3">
               <span className="mt-[9px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm-500" />
-              <span>{n}</span>
+              <span>{a}</span>
             </li>
           ))}
         </ul>
+
+        {/* Closing line */}
+        <p className="mt-10 font-display italic text-ink-700" style={{ fontSize: 18, fontWeight: 300 }}>
+          {tuition.closingLine}
+        </p>
       </div>
     </section>
   );
@@ -2532,6 +2558,33 @@ function StickyCtaBar() {
 //   marcus-t.jpg — direction: with his youth group
 //   priya-n.jpg  — direction: at her desk in her marketing role, Bible visible
 //   daniel-r.jpg — direction: on a Sunday at his Atlanta campus
+const LEGACY_STORIES: Array<{
+  name: string;
+  role: string;
+  detail: string;
+}> = [
+  {
+    name: "Ps Mark Elmendorp",
+    role: "Lead Pastor, Emerge Church",
+    detail: "Brisbane · 3 campuses",
+  },
+  {
+    name: "Ps Matt Heins",
+    role: "Lead Pastor, Faith Church",
+    detail: "Melbourne · 5 campuses",
+  },
+  {
+    name: "Ps Paul Geerling",
+    role: "Lead Pastor, IC Church",
+    detail: "14 campuses",
+  },
+  {
+    name: "Ps Janine Donato",
+    role: "Campus Pastor, Futures Salisbury",
+    detail: "1,000-strong",
+  },
+];
+
 const REAL_STORIES: Array<{
   name: string;
   role: string;
@@ -2570,16 +2623,74 @@ function RealStories() {
     <section id="stories" className="px-6 py-24 sm:px-10" style={{ background: "#F2E6D1" }}>
       <div className="mx-auto max-w-[1200px]">
         <p className="font-ui text-[11px] tracking-[0.06em] text-warm-700">Real stories</p>
+
+        {/* Tier 1 — Legacy */}
         <h2
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
         >
-          Four people. <em className="italic">Four years on.</em>
+          What <em className="italic">twenty-five years</em> looks like.
         </h2>
-        <p className="mt-5 max-w-[60ch] font-body text-[16px] text-ink-600">
-          Real graduates. Real roles. Real photos and full names below — used with permission.
+        <p className="mt-5 max-w-[60ch] font-body text-[16px] italic text-ink-600">
+          Together they lead 23 campuses and reach tens of thousands of people every weekend.
         </p>
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {LEGACY_STORIES.map((s) => {
+            const initials = s.name
+              .replace(/^Ps\s+/, "")
+              .split(" ")
+              .map((p) => p[0])
+              .slice(0, 2)
+              .join("");
+            return (
+              <div
+                key={s.name}
+                className="flex flex-col rounded-[22px] bg-white p-7 shadow-[0_24px_50px_-22px_rgba(20,20,20,0.28)]"
+                style={{ border: "1px solid rgba(20,20,20,0.06)" }}
+              >
+                <span
+                  aria-hidden
+                  className="mb-5 block h-[2px] w-10"
+                  style={{ background: "#C89A3C" }}
+                />
+                <div className="flex items-start gap-4">
+                  <div
+                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full"
+                    style={{ background: "#EDE4D3" }}
+                  >
+                    <span className="font-display italic" style={{ fontSize: 20, fontWeight: 300, color: "#A83D2E" }}>
+                      {initials}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-display text-ink-900" style={{ fontSize: 18, fontWeight: 400, lineHeight: 1.2 }}>
+                      {s.name}
+                    </p>
+                    <p className="mt-1 font-ui text-[11px] uppercase tracking-[0.16em] text-warm-700">{s.role}</p>
+                  </div>
+                </div>
+                <p className="mt-5 font-ui text-[12px] uppercase tracking-[0.18em] text-ink-600">
+                  {s.detail}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Divider */}
+        <div className="my-16 h-px w-full" style={{ background: "rgba(20,20,20,0.10)" }} />
+
+        {/* Tier 2 — The next wave */}
+        <h3
+          className="font-display text-ink-900"
+          style={{ fontSize: "clamp(1.6rem,3.2vw,2.2rem)", fontWeight: 300, lineHeight: 1.05 }}
+        >
+          And <em className="italic">the next wave.</em>
+        </h3>
+        <p className="mt-4 max-w-[60ch] font-body text-[15px] text-ink-600">
+          Recent graduates already in role. Real photos and full names — used with permission.
+        </p>
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {REAL_STORIES.map((s) => (
             <div
               key={s.name}

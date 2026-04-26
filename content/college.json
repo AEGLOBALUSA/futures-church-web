@@ -54,10 +54,6 @@
   "whyNow": {
     "eyebrow": "Why now",
     "headline": "The Church must lead the change &mdash; not react to it.",
-    "stat": {
-      "value": "70% &rarr; 47%",
-      "label": "U.S. church attendance (Gallup, 2024)"
-    },
     "image": "/photos/mosaic/mosaic_au_5.jpg",
     "body": "A generation is searching for something real. This is not a moment to shrink back. It is a moment to outthink, outbuild, and outlead \u2014 with theology that holds and skill that ships."
   },
@@ -266,16 +262,45 @@
     ]
   },
   "tuition": {
-    "year1": 14800,
-    "year2": 15400,
     "currency": "USD",
-    "notes": [
+    "streams": [
+      {
+        "slug": "audit",
+        "name": "Audit",
+        "price": 3000,
+        "tagline": "Come just to learn.",
+        "includes": "All lectures, all subjects. No exams, no cohort.",
+        "outOfPocket": 1200
+      },
+      {
+        "slug": "internship",
+        "name": "Internship",
+        "price": 4000,
+        "tagline": "Learn while you serve.",
+        "includes": "Full curriculum + cohort + in-campus placement.",
+        "outOfPocket": 1800
+      },
+      {
+        "slug": "academic",
+        "name": "Academic",
+        "price": 6000,
+        "tagline": "The full Alphacrucis-accredited track.",
+        "includes": "Full curriculum + cohort + assessment + transcript.",
+        "outOfPocket": 2800
+      }
+    ],
+    "founderCircle": {
+      "code": "FOUNDER500",
+      "amount": 500,
+      "note": "Founder's Circle \u2014 $500 off any stream for the first 50 enrolments."
+    },
+    "aid": [
       "Need-based scholarships cover up to 60% of tuition for qualifying students.",
       "Merit-based scholarships available for top applicants (up to 40%).",
       "Employer / campus-sponsored pathway: your sending church can cover 25\u2013100%.",
-      "Interest-free payment plans up to 24 months.",
-      "Typical out-of-pocket after aid: $6,800 / year."
-    ]
+      "Interest-free payment plans, 12\u201324 months."
+    ],
+    "closingLine": "This is the most accessible Futures College has ever been."
   },
   "enrollment": {
     "eyebrow": "2026 cohort",
@@ -341,7 +366,7 @@
     },
     {
       "q": "How much does it cost?",
-      "a": "Year One is $14,800 USD. Need-based and merit-based scholarships cover up to 60%. Typical out-of-pocket after aid is ~$6,800/year."
+      "a": "Three streams, three prices: Audit $3,000 USD/yr, Internship $4,000/yr, Academic $6,000/yr. Need-based and merit-based scholarships cover up to 60%. Typical out-of-pocket after aid: Audit ~$1,200, Internship ~$1,800, Academic ~$2,800."
     },
     {
       "q": "Can I take just one subject?",
