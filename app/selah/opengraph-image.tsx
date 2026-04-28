@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Selah — Three voices. Scripture first.";
+export const alt = "Selah — A daily pastoral companion.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -76,7 +76,7 @@ export default function OpengraphImage() {
               color: "#8B5E2E",
             }}
           >
-            three voices. scripture first.
+            a daily pastoral companion.
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export default function OpengraphImage() {
             color: "#534D44",
           }}
         >
-          <span>A pastoral companion for your hardest questions.</span>
+          <span>For the questions you can&rsquo;t google.</span>
           <span style={{ fontStyle: "italic", color: "#C8906B" }}>
             futures.church/selah
           </span>

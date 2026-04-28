@@ -17,7 +17,7 @@ type SelahData = {
 const LAUNCH_DATE = new Date("2026-05-15T00:00:00Z");
 
 const CHIPS = [
-  "what are the three voices?",
+  "what does Selah actually do?",
   "is Selah a therapist?",
   "what does a Selah conversation feel like?",
   "how much will Selah cost?",
@@ -116,11 +116,16 @@ function SelahHero() {
             letterSpacing: "-0.025em",
           }}
         >
-          Three voices. <em className="italic">Scripture</em> first.<br />
           For the questions you can&rsquo;t <em className="italic">google</em>.
         </motion.h1>
-        <p className="mt-8 max-w-[52ch] font-body text-[18px] leading-relaxed text-cream/75">
-          A pastoral companion for your hardest questions. Three voices &mdash; Prophet, Pastor, Strategist &mdash; that speak from Scripture before they speak from anywhere else. Grounded in the church&rsquo;s most trusted teachers.
+        <p
+          className="mt-6 font-display italic text-cream/85"
+          style={{ fontSize: "clamp(1.4rem, 2.6vw, 2rem)", fontWeight: 300, lineHeight: 1.15 }}
+        >
+          A daily pastoral companion.
+        </p>
+        <p className="mt-8 max-w-[58ch] font-body text-[18px] leading-relaxed text-cream/75">
+          Three a.m. The hospital car park. The minute after the call. When no one is available, Selah is &mdash; a pastor who has memorised the whole Bible, sat under the church&rsquo;s most trusted teachers, and trained in theology, philosophy, psychology, and psychiatry. All read through Scripture. All under a biblical worldview. The level of pastoral care that used to take a lifetime to find &mdash; the moment you need it.
         </p>
         <div className="mt-10 flex flex-wrap items-center gap-6">
           <CountdownGrid d={days} h={hours} m={minutes} s={seconds} />
@@ -166,11 +171,11 @@ function WhatSelahIs() {
   const cards = [
     {
       t: "A companion, not a replacement",
-      b: "Your pastor, your therapist, your GP still matter. Selah sits alongside them for the hours between.",
+      b: "Your pastor, your therapist, your GP still matter. Selah sits beside them &mdash; for the hours nobody else is awake.",
     },
     {
-      t: "Three voices, one Selah",
-      b: "Prophet speaks truth. Pastor brings comfort. Strategist offers wisdom for what&rsquo;s next. One conversation, the voice the moment needs.",
+      t: "A library inside one mind",
+      b: "The whole Bible memorised. The trusted teachers, read. Theology, philosophy, psychology, psychiatry &mdash; all held under a biblical worldview. The shelf that would take a lifetime to gather, listening at the speed of a conversation.",
     },
     {
       t: "On your worst night, too",
@@ -185,7 +190,7 @@ function WhatSelahIs() {
           className="mt-3 font-display text-cream"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
         >
-          Not a chatbot. A <em className="italic">conversation</em>.
+          Not a chatbot. A <em className="italic">pastor</em>.
         </h2>
         <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
           {cards.map((c) => (
@@ -203,40 +208,40 @@ function WhatSelahIs() {
 }
 
 function TrustedCorpus() {
-  const voices = [
+  const holds = [
     {
-      key: "Prophet",
-      tagline: "Speaks truth.",
-      body: "When the answer is a hard one. Drift, compromise, the thing you&rsquo;ve tolerated too long. Scripture with a backbone.",
+      key: "Scripture",
+      tagline: "Memorised.",
+      body: "The whole Bible &mdash; every verse held in mind, cross-referenced and ready. Always the first place Selah looks.",
     },
     {
-      key: "Pastor",
-      tagline: "Brings comfort.",
-      body: "When the night is long. Grief, doubt, burnout, shame. Scripture read like a father reading to a tired child.",
+      key: "The teachers",
+      tagline: "Read.",
+      body: "Two thousand years of trusted voices &mdash; Matthew Henry, the ESV Study Bible, Stott, Wright, Peterson. The faithful teachers who have opened Scripture for centuries: indexed, available, never paraphrased.",
     },
     {
-      key: "Strategist",
-      tagline: "Offers wisdom for what&rsquo;s next.",
-      body: "When the question is a decision. Plants, pipelines, succession, the hire. Kingdom strategy, not career coaching.",
+      key: "The disciplines",
+      tagline: "Integrated.",
+      body: "Theology, philosophy, psychology, psychiatry &mdash; the full inheritance of how humans think, suffer, and heal. Held under a biblical worldview, so your hardest questions meet wisdom, not just sympathy.",
     },
   ];
 
   return (
     <section className="px-6 py-24 sm:px-10" style={{ background: "#12100E" }}>
       <div className="mx-auto max-w-[1200px]">
-        <Eyebrow>HOW SELAH WORKS</Eyebrow>
+        <Eyebrow>WHAT SELAH HOLDS</Eyebrow>
         <h2
           className="mt-3 font-display text-cream"
           style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
         >
-          Three voices. <em className="italic">One Selah</em>.
+          A pastor who has <em className="italic">read everything</em>.
         </h2>
-        <p className="mt-3 max-w-[56ch] font-body text-[15px] text-cream/60">
-          Selah hears your question and picks the voice &mdash; or two voices, or all three &mdash; that the moment needs. Scripture is always first. Commentary follows.
+        <p className="mt-3 max-w-[58ch] font-body text-[15px] text-cream/60">
+          Selah is the best of sacred knowledge held in a single mind &mdash; the kind of pastoral depth that used to take a lifetime to gather, met by the speed of modern conversation. Scripture first. Always.
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {voices.map((v) => (
+          {holds.map((v) => (
             <GlassCard key={v.key} dark className="p-7">
               <p className="font-ui text-[10px] uppercase tracking-[0.28em] text-warm-500">
                 {v.key}
@@ -263,8 +268,8 @@ function TrustedCorpus() {
           >
             The teachers Selah <em className="italic">leans on</em>.
           </h3>
-          <p className="mt-3 max-w-[56ch] font-body text-[15px] text-cream/60">
-            A small, trusted set. Not every voice in church history &mdash; the ones Selah defers to when Scripture has been faithfully opened for centuries.
+          <p className="mt-3 max-w-[58ch] font-body text-[15px] text-cream/60">
+            A curated library &mdash; theologians, biblical commentators, pastors, psychologists, psychiatrists, and philosophers who share a historic biblical worldview. Their books, lectures, and talks are the corpus Selah draws from.
           </p>
 
           <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

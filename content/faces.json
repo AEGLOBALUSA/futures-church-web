@@ -5,13 +5,13 @@
     "instructions": "Every entry below is an Unsplash placeholder until real Futures photography arrives. Swap URLs one at a time — no code changes needed. When an entry is real, change `source` from 'unsplash-placeholder' to 'futures-comms' and update `name`, `campus`, `photographer` fields. Components read exclusively from this file via lib/content/faces.ts — never hardcode URLs.",
     "licenseNote": "Unsplash photos are license-free for any use. Futures-comms photos require signed model release stored in /ops/releases/.",
     "cropStrategy": "Crop params are tuned per slot: hero uses 4:5 portrait + fit=crop&crop=faces,focalpoint; voices use 1:1 tight face crops; mosaic uses tile-specific dimensions; campus uses 4:3 landscape; footer uses 1:1 tight face. All rely on Unsplash's CDN-side cropping — nothing is downloaded locally.",
-    "diversityIntent": "Futures is a global family. Imagery must reflect that at all times — Australian (including Aboriginal), American (African-American, Latino, white, Asian-American), Indonesian (Javanese, Balinese, Sundanese, Minahasan), Venezuelan / Latin American, Spanish / Portuguese / Brazilian, South Asian, East Asian, Pacific Islander, African. No single ethnicity should dominate any surface. Every time a photographer swaps a placeholder for a real photo, they must preserve or strengthen the ethnic mix of that slot's neighbours.",
+    "diversityIntent": "Futures' on-the-ground family across its 21 campuses is majority Australian-and-American (predominantly white) with substantial Indonesian, Latin (Spanish-speaking / Venezuelan), and Brazilian / Portuguese contingents — and that's the mix the imagery must reflect. Target ratio across every public surface: at least 50% white / European-descent faces, the remaining ~50% split between Indonesian (Javanese, Balinese, Sundanese, Minahasan), Spanish / Latin American (incl. Venezuelan), and Brazilian / Portuguese. Other ethnicities are welcome where they reflect the actual congregation, but should not dominate any surface. When swapping a placeholder for a real photo, preserve this ratio across the slot's neighbours.",
     "targetMixPerSurface": {
-      "hero_portraits": "4 faces — at minimum 1 Black / African-American, 1 Latino / Venezuelan, 1 Indonesian / Asian, 1 white / European. Child face ok in any role.",
-      "voices_row": "12 faces — roughly 3 Australian (incl. Indigenous or Asian-Australian), 3 American (at least 1 African-American, 1 Latino, 1 Asian-American), 2 Indonesian, 2 Venezuelan / Latino, 1 Brazilian or Portuguese, 1 European.",
-      "footer_strip": "20 faces — mirror voices_row distribution but broader; each region represented at least twice.",
-      "mosaic": "58 tiles — faces and scenes. At minimum 10 clearly Black subjects, 10 clearly Asian / Indonesian, 6 Latino / Venezuelan, 6 children of mixed ethnicity. No single-ethnicity cluster of more than 3 tiles.",
-      "campus_wall": "26 scenes — one per campus. Photography should read as the actual region (Adelaide architecture, Bali rice terraces, Caracas skyline, etc.)."
+      "hero_portraits": "4 faces — 2 clearly white (one of which is the anchor / large slot), 1 Indonesian or Asian-Australian, 1 Spanish-Latin or Brazilian. Mix can flex but the white share must remain ≥50%.",
+      "voices_row": "12 faces — 6 white (Australian / American / European), 2 Indonesian, 2 Spanish-Latin (incl. Venezuelan), 2 Brazilian / Portuguese.",
+      "footer_strip": "20 faces — same ratio: 10 white, 4 Indonesian, 3 Spanish-Latin, 3 Brazilian / Portuguese.",
+      "mosaic": "58 tiles — ~30 clearly white subjects, ~12 Indonesian / Asian, ~8 Spanish-Latin, ~8 Brazilian / Portuguese. Group shots count toward whichever ethnicity is the visual majority. No single-ethnicity cluster of more than 4 tiles in a row.",
+      "campus_wall": "26 scenes — one per campus. Photography should read as the actual region (Adelaide architecture, Bali rice terraces, Caracas skyline, São Paulo, etc.)."
     },
     "swapOrder": [
       "hero_portraits (highest visibility — swap first, preserve ethnic mix)",
@@ -36,8 +36,8 @@
     {
       "id": "hero-02",
       "role": "medium",
-      "url": "/photos/community/hero-conversation.jpg",
-      "alt": "Two friends in mid-conversation at the coffee bar — the quiet kind of welcome you remember.",
+      "url": "/photos/community/hero-couple.jpg",
+      "alt": "A couple under a Futures umbrella on a wet Sunday — the kind of small moment you remember.",
       "name": "",
       "campus": "",
       "source": "futures-comms"
@@ -45,8 +45,8 @@
     {
       "id": "hero-03",
       "role": "small",
-      "url": "/photos/community/hero-prayer-circle.jpg",
-      "alt": "A moment of connection between two members of the Futures family.",
+      "url": "/photos/community/hero-couple-warm.jpg",
+      "alt": "A warm conversation in the foyer — the family, mid-Sunday.",
       "name": "",
       "campus": "",
       "source": "futures-comms"
@@ -54,8 +54,8 @@
     {
       "id": "hero-04",
       "role": "small",
-      "url": "/photos/community/hero-elder.jpg",
-      "alt": "An older member of the family in mid-conversation — every age, every stage.",
+      "url": "/photos/community/hero-prayer-circle.jpg",
+      "alt": "Two men from the Futures family connecting after the service.",
       "name": "",
       "campus": "",
       "source": "futures-comms"
