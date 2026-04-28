@@ -11,15 +11,11 @@ type Pastor = {
   tone: string;
 };
 
-// Real pastor photos served via Cloudinary fetch-wrapper over the ChurchCo
-// S3 bucket — stable, public, auto-format (AVIF/WebP). Mirror to
-// cdn.futures.church before launch for true durability.
 const GLOBAL: Pastor[] = [
   {
     name: "Ashley & Jane Evans",
     role: "Global Senior Pastors",
-    image:
-      "https://res.cloudinary.com/thechurchcoproduction/image/fetch/f_auto,q_80,w_1200/https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/03/Ps-A-J.png",
+    image: "/photos/pastors/ashley-jane.jpg",
     tone: "#C45236",
   },
 ];

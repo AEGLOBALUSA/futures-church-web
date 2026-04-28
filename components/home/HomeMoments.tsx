@@ -18,7 +18,7 @@ const MOMENTS: Moment[] = [
     title: "Sunday morning, Paradise",
     caption: "The doors open. The coffee starts. The family arrives.",
     campus: "Paradise · Adelaide",
-    image: "/photos/mosaic/mosaic_au_5.jpg",
+    image: "/photos/community/moment-sunday-foyer.jpg",
     accent: "#C8906B",
   },
   {
@@ -34,7 +34,7 @@ const MOMENTS: Moment[] = [
     title: "La familia, Futuros",
     caption: "Spanish, laughter, three generations at one table.",
     campus: "Futuros Duluth · Georgia",
-    image: "/photos/mosaic/mosaic_au_12.jpg",
+    image: "/photos/mosaic/mosaic_us_12.jpg",
     accent: "#C45236",
   },
   {
@@ -42,7 +42,7 @@ const MOMENTS: Moment[] = [
     title: "Sunday morning, Bali",
     caption: "Denpasar — young Balinese believers filling the room.",
     campus: "Bali · Indonesia",
-    image: "/photos/mosaic/mosaic_au_15.jpg",
+    image: "/photos/mosaic/mosaic_id_15.jpg",
     accent: "#8A5A3C",
   },
   {
@@ -58,7 +58,7 @@ const MOMENTS: Moment[] = [
     title: "Youth night, Solo",
     caption: "Surakarta's teenagers pack out the hall on Fridays.",
     campus: "Solo · Central Java",
-    image: "/photos/mosaic/mosaic_au_30.jpg",
+    image: "/photos/mosaic/mosaic_id_30.jpg",
     accent: "#C8906B",
   },
   {
@@ -74,7 +74,7 @@ const MOMENTS: Moment[] = [
     title: "Harvest Sunday, Langowan",
     caption: "Minahasan North Sulawesi fills the church with what it grows.",
     campus: "Langowan · North Sulawesi",
-    image: "/photos/mosaic/mosaic_au_50.jpg",
+    image: "/photos/mosaic/mosaic_id_50.jpg",
     accent: "#AC9B25",
   },
 ];

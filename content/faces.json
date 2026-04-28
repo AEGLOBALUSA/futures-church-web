@@ -27,8 +27,8 @@
     {
       "id": "hero-01",
       "role": "large",
-      "url": "/photos/voices/hero-family.jpg",
-      "alt": "A young Futures family walking into Sunday — mum carrying their daughter, dad pushing the pram.",
+      "url": "/photos/community/hero-laughing.jpg",
+      "alt": "Three women from the Futures family laughing together after Sunday — joy spilling over.",
       "name": "",
       "campus": "",
       "source": "futures-comms"
@@ -36,8 +36,8 @@
     {
       "id": "hero-02",
       "role": "medium",
-      "url": "/photos/voices/voice_4.jpg",
-      "alt": "a member of the Futures family",
+      "url": "/photos/community/hero-conversation.jpg",
+      "alt": "Two friends in mid-conversation at the coffee bar — the quiet kind of welcome you remember.",
       "name": "",
       "campus": "",
       "source": "futures-comms"
@@ -45,8 +45,8 @@
     {
       "id": "hero-03",
       "role": "small",
-      "url": "/photos/voices/voice_7.jpg",
-      "alt": "a member of the Futures family",
+      "url": "/photos/community/hero-prayer-circle.jpg",
+      "alt": "A moment of connection between two members of the Futures family.",
       "name": "",
       "campus": "",
       "source": "futures-comms"
@@ -54,8 +54,8 @@
     {
       "id": "hero-04",
       "role": "small",
-      "url": "/photos/voices/voice_11.jpg",
-      "alt": "a member of the Futures family",
+      "url": "/photos/community/hero-elder.jpg",
+      "alt": "An older member of the family in mid-conversation — every age, every stage.",
       "name": "",
       "campus": "",
       "source": "futures-comms"

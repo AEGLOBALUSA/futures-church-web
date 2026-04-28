@@ -196,7 +196,6 @@ export function HomeHero() {
               className="object-cover object-center"
               style={{ filter: "saturate(0.85) brightness(0.95)" }}
               priority={i === 0}
-              unoptimized
             />
           </div>
         ))}
@@ -225,51 +224,6 @@ export function HomeHero() {
       />
 
       <div className="pointer-events-none absolute inset-0 grain-overlay opacity-40" aria-hidden />
-
-      <div className="absolute top-28 left-6 sm:left-10 z-10 flex items-center gap-3">
-        <p
-          className="text-[11px] font-sans"
-          style={{
-            letterSpacing: "0.28em",
-            color: "#1C1A17",
-            textTransform: "uppercase",
-            fontWeight: 600,
-            textShadow: "0 1px 2px rgba(253,251,246,0.6)",
-          }}
-        >
-          Futures · Church
-        </p>
-        <span
-          aria-hidden
-          className="hidden sm:flex items-center gap-1.5 rounded-full border px-2.5 py-1"
-          style={{
-            borderColor: "rgba(184, 92, 59, 0.32)",
-            background: "rgba(184, 92, 59, 0.06)",
-          }}
-        >
-          <span className="relative flex h-1.5 w-1.5">
-            <span
-              className="absolute inline-flex h-full w-full animate-ping rounded-full"
-              style={{ background: "#B85C3B", opacity: 0.55 }}
-            />
-            <span
-              className="relative inline-flex h-1.5 w-1.5 rounded-full"
-              style={{ background: "#B85C3B" }}
-            />
-          </span>
-          <span
-            className="font-sans"
-            style={{
-              fontSize: 9.5,
-              letterSpacing: "0.28em",
-              color: "#8B4A2E",
-              textTransform: "uppercase",
-            }}
-          >
-            Selah · Live
-          </span>
-        </span>
-      </div>
 
       <Link
         href="/campuses"
@@ -311,7 +265,8 @@ export function HomeHero() {
                 fontWeight: 300,
               }}
             >
-              Come <em className="italic">home</em>. Ask Milo.
+              <span className="block">Come <em className="italic">home</em>.</span>
+              <span className="block">Ask Milo.</span>
             </h1>
             <p
               className="mt-5 font-sans max-w-[46ch]"
@@ -735,13 +690,12 @@ function PortraitFrame({
         ...style,
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={src}
         alt={alt}
-        loading="lazy"
-        decoding="async"
-        className={`h-full w-full object-cover transition-[filter] duration-500 ease-out group-hover:saturate-100 ${kenBurns ? "hero-kb" : ""}`}
+        fill
+        sizes="(min-width: 1024px) 31vw, 180px"
+        className={`object-cover transition-[filter] duration-500 ease-out group-hover:saturate-100 ${kenBurns ? "hero-kb" : ""}`}
         style={{ filter: "saturate(0.85)" }}
       />
       {caption && (
