@@ -121,7 +121,6 @@ export function HomeMosaic() {
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 25vw"
                 className="object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
-                unoptimized
                 loading="lazy"
               />
               <div

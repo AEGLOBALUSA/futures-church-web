@@ -101,7 +101,6 @@ export function HomeCampuses() {
                         fill
                         sizes="(max-width: 640px) 100vw, 33vw"
                         className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
-                        unoptimized
                       />
                     )}
                     <div

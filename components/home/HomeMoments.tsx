@@ -135,7 +135,6 @@ export function HomeMoments() {
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.05]"
-                  unoptimized
                 />
                 <div
                   aria-hidden

@@ -120,7 +120,6 @@ function PastorCard({
           fill
           sizes="(max-width: 1024px) 100vw, 640px"
           className="object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.04]"
-          unoptimized
         />
         <div
           aria-hidden

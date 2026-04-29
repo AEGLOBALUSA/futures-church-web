@@ -130,11 +130,12 @@ function BUHero() {
               className="absolute left-0 top-0 h-[78%] w-[64%] overflow-hidden rounded-[26px]"
               style={{ boxShadow: "0 30px 60px -28px rgba(20,20,20,0.45)" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={BU_IMG.heroLead}
                 alt=""
-                className="h-full w-full object-cover"
+                fill
+                sizes="(min-width: 1024px) 35vw, 0px"
+                className="object-cover"
                 style={{ filter: "saturate(0.95)" }}
               />
             </div>
@@ -142,15 +143,25 @@ function BUHero() {
               className="absolute right-0 top-[12%] h-[38%] w-[44%] overflow-hidden rounded-[22px]"
               style={{ boxShadow: "0 22px 48px -24px rgba(20,20,20,0.4)", border: "3px solid #FDFBF6" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={BU_IMG.heroSecondA} alt="" className="h-full w-full object-cover" />
+              <Image
+                src={BU_IMG.heroSecondA}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 22vw, 0px"
+                className="object-cover"
+              />
             </div>
             <div
               className="absolute bottom-0 right-[4%] h-[42%] w-[48%] overflow-hidden rounded-[22px]"
               style={{ boxShadow: "0 22px 48px -24px rgba(20,20,20,0.4)", border: "3px solid #FDFBF6" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={BU_IMG.heroSecondB} alt="" className="h-full w-full object-cover" />
+              <Image
+                src={BU_IMG.heroSecondB}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 24vw, 0px"
+                className="object-cover"
+              />
             </div>
           </motion.div>
         </div>
@@ -176,16 +187,26 @@ function BUManifesto({ paragraphs }: { paragraphs: string[] }) {
             className="relative aspect-[4/5] w-full overflow-hidden rounded-[24px]"
             style={{ boxShadow: "0 26px 54px -28px rgba(20,20,20,0.4)" }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={BU_IMG.janePortrait} alt="Jane Evans" className="h-full w-full object-cover" />
+            <Image
+              src={BU_IMG.janePortrait}
+              alt="Jane Evans"
+              fill
+              sizes="(max-width: 768px) 100vw, 40vw"
+              className="object-cover"
+            />
           </div>
           <div
             className="absolute -bottom-6 -right-4 hidden h-[38%] w-[55%] overflow-hidden rounded-[18px] md:block"
             style={{ boxShadow: "0 22px 48px -24px rgba(20,20,20,0.4)", border: "3px solid #FDFBF6" }}
             aria-hidden
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={BU_IMG.janeWriting} alt="" className="h-full w-full object-cover" />
+            <Image
+              src={BU_IMG.janeWriting}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 0px, 22vw"
+              className="object-cover"
+            />
           </div>
         </motion.div>
 
@@ -235,8 +256,14 @@ function GlobalGatheringCalendar({ gatherings }: { gatherings: WomenData["gather
           className="relative mb-12 aspect-[16/6] w-full overflow-hidden rounded-[22px]"
           style={{ boxShadow: "0 26px 54px -30px rgba(20,20,20,0.4)" }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={BU_IMG.gatheringWide} alt="" className="h-full w-full object-cover" aria-hidden />
+          <Image
+            src={BU_IMG.gatheringWide}
+            alt=""
+            fill
+            sizes="(max-width: 1200px) 100vw, 1200px"
+            className="object-cover"
+            aria-hidden
+          />
           <div
             aria-hidden
             className="absolute inset-0"
@@ -344,8 +371,14 @@ function BUCircleLocator({ circles }: { circles: WomenData["circles"] }) {
             className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px]"
             style={{ boxShadow: "0 26px 54px -28px rgba(20,20,20,0.4)" }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={BU_IMG.circleScene} alt="" className="h-full w-full object-cover" aria-hidden />
+            <Image
+              src={BU_IMG.circleScene}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+              aria-hidden
+            />
             <div
               aria-hidden
               className="absolute inset-0"
@@ -497,8 +530,13 @@ function BUPodcastFeed({ podcast }: { podcast: WomenData["podcast"] }) {
                     style={{ boxShadow: "0 0 0 2px #FDFBF6, 0 6px 16px -6px rgba(20,20,20,0.3)" }}
                     aria-hidden
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={avatar} alt="" className="h-full w-full object-cover" />
+                    <Image
+                      src={avatar}
+                      alt=""
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                    />
                   </div>
                   <div className="min-w-0">
                     <p className="font-ui text-[11px] uppercase tracking-[0.2em] text-warm-700">
