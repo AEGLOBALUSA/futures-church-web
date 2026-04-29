@@ -46,7 +46,10 @@ export function Footer() {
 
   return (
     <footer className="relative bg-cream text-ink-900">
-      <div className="mx-auto max-w-7xl px-6 pt-16 pb-10 sm:px-10 lg:px-16">
+      <div
+        className="mx-auto max-w-7xl px-6 pt-16 sm:px-10 lg:px-16"
+        style={{ paddingBottom: "max(2.5rem, env(safe-area-inset-bottom))" }}
+      >
         {/* Columns */}
         <div className="pb-14">
           <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
@@ -68,7 +71,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="text-ink-600 transition-colors hover:text-warm-500"
+                  className="-m-3 inline-flex h-11 w-11 items-center justify-center text-ink-600 transition-colors hover:text-warm-500"
                 >
                   <Instagram className="h-5 w-5" strokeWidth={1.6} />
                 </a>
@@ -77,7 +80,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="YouTube"
-                  className="text-ink-600 transition-colors hover:text-warm-500"
+                  className="-m-3 inline-flex h-11 w-11 items-center justify-center text-ink-600 transition-colors hover:text-warm-500"
                 >
                   <Youtube className="h-5 w-5" strokeWidth={1.6} />
                 </a>
@@ -86,7 +89,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Spotify podcast"
-                  className="text-ink-600 transition-colors hover:text-warm-500"
+                  className="-m-3 inline-flex h-11 w-11 items-center justify-center text-ink-600 transition-colors hover:text-warm-500"
                 >
                   <Music2 className="h-5 w-5" strokeWidth={1.6} />
                 </a>
@@ -95,7 +98,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="text-ink-600 transition-colors hover:text-warm-500"
+                  className="-m-3 inline-flex h-11 w-11 items-center justify-center text-ink-600 transition-colors hover:text-warm-500"
                 >
                   <Facebook className="h-5 w-5" strokeWidth={1.6} />
                 </a>
