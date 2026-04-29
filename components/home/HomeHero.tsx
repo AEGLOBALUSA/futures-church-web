@@ -234,7 +234,7 @@ export function HomeHero() {
         <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
       </Link>
 
-      <div className="relative z-10 mx-auto grid min-h-screen max-w-[1440px] items-center gap-10 px-6 py-28 sm:px-10 lg:grid-cols-[minmax(0,55fr)_minmax(0,45fr)] lg:gap-14 lg:px-16">
+      <div className="relative z-10 mx-auto grid min-h-screen max-w-[1440px] items-center gap-10 px-6 py-28 sm:px-10 lg:grid-cols-[minmax(0,50fr)_minmax(0,50fr)] lg:gap-12 lg:px-16">
         <div className="w-full lg:max-w-[640px]">
           <motion.div
             ref={cardRef}
@@ -613,7 +613,7 @@ function HeroPortraitCollage() {
           alt={large.alt}
           caption={large.name ? `${large.name} · ${large.campus}` : undefined}
           className="absolute bottom-0 left-0"
-          style={{ width: "62%", height: "62%" }}
+          style={{ width: "70%", height: "70%" }}
           delay={0.25}
           kenBurns
         />
@@ -622,7 +622,7 @@ function HeroPortraitCollage() {
           alt={medium.alt}
           caption={medium.name ? `${medium.name} · ${medium.campus}` : undefined}
           className="absolute right-[2%] top-0"
-          style={{ width: "46%", height: "42%" }}
+          style={{ width: "52%", height: "48%" }}
           delay={0.4}
           kenBurns
         />
@@ -630,7 +630,7 @@ function HeroPortraitCollage() {
           src={smalls[0].url}
           alt={smalls[0].alt}
           className="absolute"
-          style={{ top: "18%", left: "40%", width: "28%", height: "26%" }}
+          style={{ top: "20%", left: "44%", width: "32%", height: "30%" }}
           delay={0.55}
         />
         <PortraitFrame
@@ -638,7 +638,7 @@ function HeroPortraitCollage() {
           alt={smalls[1].alt}
           caption={smalls[1].name ? `${smalls[1].name} · ${smalls[1].campus}` : undefined}
           className="absolute bottom-[4%] right-0"
-          style={{ width: "32%", height: "30%" }}
+          style={{ width: "38%", height: "35%" }}
           delay={0.7}
         />
       </div>

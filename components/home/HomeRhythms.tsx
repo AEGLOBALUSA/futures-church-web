@@ -26,9 +26,9 @@ const RHYTHMS = [
   {
     slug: "selah",
     title: "Selah — our app",
-    caption: "A daily pause. Scripture. Stillness. Your phone — gentler.",
+    caption: "A daily pastoral companion. For the questions you can't google.",
     href: "/selah",
-    cta: "download",
+    cta: "learn more",
     icon: Smartphone,
     tone: "#AC9B25",
   },

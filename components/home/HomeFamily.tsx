@@ -19,8 +19,7 @@ const CARDS: FamilyCard[] = [
     title: "bU Women",
     href: "/women",
     caption: "Real women. Real rooms. No mask required.",
-    image:
-      "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=1200&q=75&auto=format&fit=crop",
+    image: "/photos/community/family-bu-women.jpg",
     tone: "#C45236",
   },
   {
@@ -28,8 +27,7 @@ const CARDS: FamilyCard[] = [
     title: "Dreamers",
     href: "/dreamers",
     caption: "Young adults who haven\u2019t given up on the dream.",
-    image:
-      "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=1200&q=75&auto=format&fit=crop",
+    image: "/photos/community/family-dreamers.jpg",
     tone: "#AC9B25",
   },
   {
@@ -37,8 +35,7 @@ const CARDS: FamilyCard[] = [
     title: "Kids",
     href: "/kids",
     caption: "Loud, bright, safe. Two hours no parent wants to miss.",
-    image:
-      "https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=1200&q=75&auto=format&fit=crop",
+    image: "/photos/community/family-kids.jpg",
     tone: "#D9B089",
   },
   {
@@ -46,17 +43,15 @@ const CARDS: FamilyCard[] = [
     title: "Global College",
     href: "/college",
     caption: "Train for a life of following Jesus — and leading.",
-    image:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=75&auto=format&fit=crop",
+    image: "/photos/community/family-college.jpg",
     tone: "#C8906B",
   },
   {
     slug: "selah",
     title: "Selah",
     href: "/selah",
-    caption: "A daily pause. Scripture. Stillness. Your phone — gentler.",
-    image:
-      "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1200&q=75&auto=format&fit=crop",
+    caption: "A daily pastoral companion. For the questions you can’t google.",
+    image: "/photos/community/family-online.jpg",
     tone: "#8A5A3C",
   },
 ];
