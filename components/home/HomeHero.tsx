@@ -173,7 +173,7 @@ export function HomeHero() {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-[100dvh] overflow-hidden"
       style={{
         background:
           "radial-gradient(ellipse at 20% 30%, #F7F1E6 0%, #F2E6D1 38%, #E8C9A6 72%, #C89675 100%)",
@@ -234,7 +234,7 @@ export function HomeHero() {
         <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
       </Link>
 
-      <div className="relative z-10 mx-auto grid min-h-screen max-w-[1440px] items-center gap-10 px-6 py-28 sm:px-10 lg:grid-cols-[minmax(0,50fr)_minmax(0,50fr)] lg:gap-12 lg:px-16">
+      <div className="relative z-10 mx-auto grid min-h-[100dvh] max-w-[1440px] items-center gap-10 px-6 py-28 sm:px-10 lg:grid-cols-[minmax(0,50fr)_minmax(0,50fr)] lg:gap-12 lg:px-16">
         <div className="w-full lg:max-w-[640px]">
           <motion.div
             ref={cardRef}

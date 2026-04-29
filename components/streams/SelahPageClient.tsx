@@ -90,7 +90,7 @@ function useCountdown(target: Date) {
 function SelahHero() {
   const { days, hours, minutes, seconds } = useCountdown(LAUNCH_DATE);
   return (
-    <section className="relative flex min-h-[96vh] items-center overflow-hidden">
+    <section className="relative flex min-h-[96dvh] items-center overflow-hidden">
       <div
         aria-hidden
         className="absolute inset-0"
@@ -110,7 +110,7 @@ function SelahHero() {
           transition={{ duration: 1.1, ease: [0.25, 0.1, 0.25, 1] }}
           className="mt-6 font-display"
           style={{
-            fontSize: "clamp(3rem,9vw,8rem)",
+            fontSize: "clamp(2.4rem,9vw,8rem)",
             fontWeight: 300,
             lineHeight: 0.94,
             letterSpacing: "-0.025em",
@@ -381,7 +381,7 @@ function TryAQuestion() {
         <GlassCard dark breathe className="mt-8 p-6">
           <div
             ref={scrollerRef}
-            className="max-h-[calc(100vh-220px)] min-h-[120px] space-y-4 overflow-y-auto overscroll-contain scroll-smooth pr-2"
+            className="max-h-[calc(100dvh-220px)] min-h-[120px] space-y-4 overflow-y-auto overscroll-contain scroll-smooth pr-2"
           >
             {messages.length === 0 && (
               <div className="flex flex-wrap gap-2">
