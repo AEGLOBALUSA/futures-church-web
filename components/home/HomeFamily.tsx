@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 type FamilyCard = {
   slug: string;
@@ -57,6 +57,7 @@ const CARDS: FamilyCard[] = [
 ];
 
 export function HomeFamily() {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="relative py-28 sm:py-36" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10">
@@ -68,7 +69,7 @@ export function HomeFamily() {
             The family
           </p>
           <motion.h2
-            initial={{ opacity: 0, y: 14 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -95,7 +96,7 @@ export function HomeFamily() {
           {CARDS.map((c, i) => (
             <motion.div
               key={c.slug}
-              initial={{ opacity: 0, y: 16 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.7, delay: i * 0.05, ease: [0.25, 0.1, 0.25, 1] }}
