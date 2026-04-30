@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Play, X } from "lucide-react";
 
 // Moments — 12 scenes across the Futures family. Image-driven Ken-Burns today;
@@ -120,6 +120,7 @@ const MOMENTS: Moment[] = [
 ];
 
 export function MomentsReel() {
+  const reduceMotion = useReducedMotion();
   const [active, setActive] = useState<Moment | null>(null);
 
   // Close modal on ESC
@@ -139,7 +140,7 @@ export function MomentsReel() {
     >
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -277,6 +278,7 @@ function MomentCard({
   index: number;
   onOpen: () => void;
 }) {
+  const reduceMotion = useReducedMotion();
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -287,7 +289,7 @@ function MomentCard({
       onMouseLeave={() => setHovered(false)}
       onFocus={() => setHovered(true)}
       onBlur={() => setHovered(false)}
-      initial={{ opacity: 0, y: 24 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.7, delay: index * 0.05, ease: [0.25, 0.1, 0.25, 1] }}

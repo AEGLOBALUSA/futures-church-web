@@ -198,7 +198,7 @@ export function CampusesHero() {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-[100dvh] overflow-hidden"
       style={{
         background:
           "radial-gradient(ellipse at 20% 30%, #F7F1E6 0%, #F2E6D1 38%, #E8C9A6 72%, #C89675 100%)",
@@ -278,7 +278,7 @@ export function CampusesHero() {
       </Link>
 
       {/* Main content — glass card / country view on left, globe right on desktop; stacked on mobile */}
-      <div className="relative z-10 grid min-h-screen items-center gap-10 px-6 py-28 sm:px-10 lg:grid-cols-[minmax(0,620px)_minmax(0,1fr)] lg:gap-14 lg:px-16">
+      <div className="relative z-10 grid min-h-[100dvh] items-center gap-10 px-6 py-28 sm:px-10 lg:grid-cols-[minmax(0,620px)_minmax(0,1fr)] lg:gap-14 lg:px-16">
         <div className="w-full lg:max-w-[620px]">
           <AnimatePresence mode="wait">
           {activeRegion ? (

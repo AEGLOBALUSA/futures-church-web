@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { MapPin, ArrowRight } from "lucide-react";
 import { campuses } from "@/lib/content/campuses";
 import { CAMPUS_PHOTOS, PASTOR_PHOTOS } from "./CampusesMap";
@@ -80,6 +80,7 @@ const COUNTRIES: {
 ];
 
 export function CountryPortals() {
+  const reduceMotion = useReducedMotion();
   const [hovered, setHovered] = useState<CountryKey | null>(null);
 
   function scrollToCountry(key: CountryKey) {
@@ -98,7 +99,7 @@ export function CountryPortals() {
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
         {/* Section intro */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -287,6 +288,7 @@ export function CountryPortals() {
 }
 
 function OnlineBand() {
+  const reduceMotion = useReducedMotion();
   const online = campuses.find((c) => c.slug === "online");
   if (!online) return null;
   const photo = CAMPUS_PHOTOS[online.slug];
@@ -294,7 +296,7 @@ function OnlineBand() {
   return (
     <motion.div
       id="country-online"
-      initial={{ opacity: 0, y: 24 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-120px" }}
       transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -399,6 +401,7 @@ function CountrySection({
 }: {
   country: (typeof COUNTRIES)[number];
 }) {
+  const reduceMotion = useReducedMotion();
   const list = useMemo(
     () => campuses.filter((x) => c.campusFilter(x.country, x.region)),
     [c]
@@ -407,7 +410,7 @@ function CountrySection({
   return (
     <motion.div
       id={`country-${c.key}`}
-      initial={{ opacity: 0, y: 24 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-120px" }}
       transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}

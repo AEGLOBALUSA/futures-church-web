@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { visitFears } from "@/lib/content/visit-fears";
 
 /**
@@ -9,9 +9,10 @@ import { visitFears } from "@/lib/content/visit-fears";
  * as a reassurance flight before the form fields.
  */
 export function VisitFears() {
+  const reduceMotion = useReducedMotion();
   return (
     <motion.section
-      initial={{ opacity: 0, y: 14 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { AIInput } from "@/components/ai/AIInput";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow, Sub } from "@/components/ui/Type";
@@ -171,13 +171,14 @@ function BUHero() {
 }
 
 function BUManifesto({ paragraphs }: { paragraphs: string[] }) {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="px-6 py-28 sm:px-10" style={{ background: "#FDFBF6" }}>
       <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-14 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-start md:gap-16">
         {/* Portrait column — a single tall frame plus one smaller writing
             still-life, so the letter reads like it's from a real desk. */}
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -237,6 +238,7 @@ function BUManifesto({ paragraphs }: { paragraphs: string[] }) {
 }
 
 function GlobalGatheringCalendar({ gatherings }: { gatherings: WomenData["gatherings"] }) {
+  const reduceMotion = useReducedMotion();
   const [country, setCountry] = useState<string>("all");
   const countries = useMemo(
     () => ["all", ...Array.from(new Set(gatherings.map((g) => g.country)))],
@@ -249,7 +251,7 @@ function GlobalGatheringCalendar({ gatherings }: { gatherings: WomenData["gather
         {/* Wide atmospheric banner — hundreds of hands in a room — sets the
             mood before the calendar grid gets tactical. */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
@@ -348,6 +350,7 @@ function GlobalGatheringCalendar({ gatherings }: { gatherings: WomenData["gather
 }
 
 function BUCircleLocator({ circles }: { circles: WomenData["circles"] }) {
+  const reduceMotion = useReducedMotion();
   const [query, setQuery] = useState("");
   const match = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -361,7 +364,7 @@ function BUCircleLocator({ circles }: { circles: WomenData["circles"] }) {
     <section className="px-6 py-24 sm:px-10">
       <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] md:items-center md:gap-16">
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}

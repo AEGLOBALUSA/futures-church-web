@@ -49,7 +49,7 @@ function DreamersHero({ reel }: { reel: string[] }) {
   }, [reel.length]);
 
   return (
-    <section className="relative h-[min(100vh,900px)] min-h-[620px] overflow-hidden">
+    <section className="relative h-[min(100dvh,900px)] min-h-[620px] overflow-hidden">
       <AnimatePresence>
         <motion.div
           key={reel[idx]}

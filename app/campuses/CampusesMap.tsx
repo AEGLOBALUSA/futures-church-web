@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { MapPin, Search } from "lucide-react";
 import { campuses, type CampusRegion } from "@/lib/content/campuses";
@@ -260,6 +260,7 @@ export const CAMPUS_GALLERY: Record<string, string[]> = {
 };
 
 export function CampusesMap() {
+  const reduceMotion = useReducedMotion();
   const [query, setQuery] = useState("");
   const normalized = query.trim().toLowerCase();
 
@@ -280,7 +281,7 @@ export function CampusesMap() {
     >
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -305,7 +306,7 @@ export function CampusesMap() {
 
         {/* Search — find-by-city/ZIP, highest-utility addition on the page */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
@@ -352,7 +353,7 @@ export function CampusesMap() {
             return (
               <motion.div
                 key={r.key}
-                initial={{ opacity: 0, y: 20 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
