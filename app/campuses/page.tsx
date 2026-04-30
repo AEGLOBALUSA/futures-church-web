@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CampusesHero } from "./CampusesHero";
 import { CountryPortals } from "./CountryPortals";
+import { AllCampusesGallery } from "./AllCampusesGallery";
 import { Invitation } from "./Invitation";
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function CampusesPage() {
         <CampusesHero />
       </Suspense>
       <CountryPortals />
+      <AllCampusesGallery />
       <Invitation />
     </main>
   );
