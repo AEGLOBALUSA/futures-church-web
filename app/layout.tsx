@@ -8,7 +8,6 @@ import { CollegeNav } from "@/components/layout/CollegeNav";
 import { CollegeFooter } from "@/components/layout/CollegeFooter";
 import { AIGuideProvider } from "@/lib/ai/AIGuideContext";
 import { AIGuideDock } from "@/components/ai/AIGuideDock";
-import { ServiceTimeBanner } from "@/components/layout/ServiceTimeBanner";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -134,7 +133,6 @@ export default async function RootLayout({
       <body className="min-h-screen bg-cream font-sans text-ink-900 antialiased">
         <AIGuideProvider>
           {isCollegeDomain ? <CollegeNav /> : <Nav />}
-          {!isCollegeDomain && <ServiceTimeBanner />}
           <main className="relative">{children}</main>
           {isCollegeDomain ? <CollegeFooter /> : <Footer />}
           <AIGuideDock />
