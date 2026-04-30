@@ -58,6 +58,42 @@
       "name": "",
       "campus": "Atlanta",
       "source": "futures-comms"
+    },
+    {
+      "id": "hero-05",
+      "role": "small",
+      "url": "/photos/campuses/futuros_4.jpg",
+      "alt": "A member of the Futuros family — Caracas, Venezuela",
+      "name": "",
+      "campus": "Caracas (launching)",
+      "source": "futures-comms"
+    },
+    {
+      "id": "hero-06",
+      "role": "small",
+      "url": "/photos/campuses/cemani_3.jpg",
+      "alt": "A member of the Cemani family — Indonesia",
+      "name": "",
+      "campus": "Cemani",
+      "source": "futures-comms"
+    },
+    {
+      "id": "hero-07",
+      "role": "small",
+      "url": "/photos/campuses/solo_5.jpg",
+      "alt": "A young woman in Solo, Indonesia",
+      "name": "",
+      "campus": "Solo",
+      "source": "futures-comms"
+    },
+    {
+      "id": "hero-08",
+      "role": "small",
+      "url": "/photos/campuses/futuros_8.jpg",
+      "alt": "A Futuros family member — Venezuela",
+      "name": "",
+      "campus": "Valencia (launching)",
+      "source": "futures-comms"
     }
   ],
   "voices_row": [],
