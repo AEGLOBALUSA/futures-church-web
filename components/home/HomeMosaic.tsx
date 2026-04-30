@@ -6,12 +6,14 @@ import { motion, useReducedMotion } from "framer-motion";
 
 // Asymmetric photo mosaic — editorial, museum-like. 12-column grid, photos
 // span varied sizes so the eye has texture to travel through. Real Futures
-// photography from Australia and USA.
+// photography from Australia, USA, Indonesia, and Venezuela (Futuros).
 //
 // Layout principles:
 //   — mix portrait and landscape
 //   — let a few tiles breathe with larger spans
 //   — no captions; the pictures carry the weight
+//   — diversity intent: ≥50% white (Australian / American), with substantial
+//     Indonesian and Spanish-Latin (Futuros / Venezuela) presence
 const TILES: { src: string; alt: string; span: string; rowSpan?: string }[] = [
   // Row 1/2 — left tower + two stacks
   { src: "/photos/mosaic/mosaic_au_5.jpg",  alt: "Sojourner Cafe",                                                                  span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
@@ -44,6 +46,42 @@ const TILES: { src: string; alt: string; span: string; rowSpan?: string }[] = [
   // Row 8 — two wide
   { src: "/photos/mosaic/mosaic_au_73.jpg", alt: "Gathering",                                                                       span: "col-span-6 sm:col-span-6" },
   { src: "/photos/mosaic/mosaic_us_2.jpg",  alt: "Franklin",                                                                        span: "col-span-6 sm:col-span-6" },
+
+  // — — — Extension begins here — — —
+  // The lower mosaic widens the family's geography: Futuros (Venezuela / Spanish-speaking),
+  // Solo and Cemani (Indonesia), and a deeper bench of Australian + USA campuses.
+
+  // Row 9 — left tower (Futuros) + two stacks
+  { src: "/photos/campuses/futuros_2.jpg",   alt: "Futuros family — Caracas, Venezuela",                                            span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
+  { src: "/photos/campuses/solo_4.jpg",      alt: "Sunday morning — Solo, Indonesia",                                               span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/salisbury_4.jpg", alt: "Salisbury small group — Adelaide, Australia",                                    span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/paradise_4.jpg",  alt: "Paradise campus — Adelaide, Australia",                                          span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/futuros_5.jpg",   alt: "Hands raised — Futuros, Venezuela",                                              span: "col-span-6 sm:col-span-4" },
+
+  // Row 10 — two wide
+  { src: "/photos/campuses/cemani_5.jpg",    alt: "Cemani gathering — Indonesia",                                                   span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/campuses/franklin_3.jpg",  alt: "Franklin, Tennessee — kids and parents",                                         span: "col-span-6 sm:col-span-6" },
+
+  // Row 11/12 — right tower (Futuros) + two stacks
+  { src: "/photos/campuses/futuros_3.jpg",   alt: "Caracas, Venezuela — laughter",                                                  span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
+  { src: "/photos/campuses/clare_5.jpg",     alt: "Clare Valley campus — South Australia",                                          span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/solo_8.jpg",      alt: "Solo, Indonesia — small group",                                                  span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_18.jpg",  alt: "Sunday in the foyer — Adelaide",                                                 span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/futuros_7.jpg",   alt: "Communion — Futuros, Venezuela",                                                 span: "col-span-6 sm:col-span-4" },
+
+  // Row 13 — three
+  { src: "/photos/mosaic/mosaic_au_29.jpg",  alt: "Adelaide gathering",                                                             span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/cemani_7.jpg",    alt: "Cemani, Indonesia — Sunday",                                                     span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_42.jpg",  alt: "Adelaide City — kids running",                                                   span: "col-span-6 sm:col-span-4" },
+
+  // Row 14 — one wide, two narrow
+  { src: "/photos/campuses/futuros_10.jpg",  alt: "A wide gathering — Futuros, Venezuela",                                          span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/mosaic/mosaic_id_30.jpg",  alt: "Indonesian gathering",                                                           span: "col-span-6 sm:col-span-3" },
+  { src: "/photos/campuses/futuros_4.jpg",   alt: "A Futuros couple — Caracas, Venezuela",                                          span: "col-span-6 sm:col-span-3" },
+
+  // Row 15 — two wide closer
+  { src: "/photos/campuses/kadina_3.jpg",    alt: "Kadina campus — South Australia",                                                span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/campuses/mtbarker_4.jpg",  alt: "Mt Barker campus — Adelaide Hills",                                              span: "col-span-6 sm:col-span-6" },
 ];
 
 export function HomeMosaic() {
