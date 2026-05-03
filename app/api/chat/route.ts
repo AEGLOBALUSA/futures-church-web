@@ -4,6 +4,7 @@ import { streamClaude, type StreamUsage } from "@/lib/ai/anthropic";
 import { streamOpenAI } from "@/lib/ai/openai";
 import { detectLanguageFromHeader } from "@/lib/ai/system-prompt";
 import { createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { checkAndIncrement, clientIpFrom } from "@/lib/rate-limit";
 
 const MessageSchema = z.object({
   role: z.enum(["user", "assistant"]),
@@ -32,6 +33,29 @@ export async function POST(req: NextRequest) {
   }
 
   const { messages, model, sessionId } = parsed.data;
+
+  // Rate limit — per-IP, 30 chat turns / 5 minutes. Generous enough that a real
+  // conversation never hits it; tight enough that runaway-cost abuse is bounded.
+  const ip = clientIpFrom(req.headers);
+  const rl = await checkAndIncrement({
+    key: `chat:${ip}`,
+    limit: 30,
+    windowSeconds: 300,
+  });
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: "rate-limited", message: "Slow down a moment — try again in a few minutes." },
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": String(rl.limit),
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": String(Math.floor(rl.resetAtMs / 1000)),
+          "Retry-After": String(Math.max(1, Math.ceil((rl.resetAtMs - Date.now()) / 1000))),
+        },
+      }
+    );
+  }
 
   // Detect visitor language from Accept-Language header so Milo can
   // greet a Spanish/Indonesian/Portuguese visitor in their language.

@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/providers/email";
 import { pushToCRM } from "@/lib/providers/crm";
 import { saveToInbox } from "@/lib/inbox";
+import { checkAndIncrement, clientIpFrom } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -24,7 +25,22 @@ const TEAM_SLA: Record<string, string> = {
   prayer: "same day",
 };
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  // Rate limit — per-IP, 5 submissions / hour. Stops form-spam bots cold;
+  // a real human never hits it.
+  const ip = clientIpFrom(req.headers);
+  const rl = await checkAndIncrement({
+    key: `contact:${ip}`,
+    limit: 5,
+    windowSeconds: 3600,
+  });
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { ok: false, error: "rate-limited", message: "Too many submissions. Try again in an hour." },
+      { status: 429 }
+    );
+  }
+
   let body: ContactPayload;
   try {
     body = (await req.json()) as ContactPayload;

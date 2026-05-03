@@ -1,9 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { pushToCRM } from "@/lib/providers/crm";
 import { sendEmail } from "@/lib/providers/email";
 import { sendSMS } from "@/lib/providers/sms";
 import { getCampusContact } from "@/lib/content/campus-contact";
 import { saveToInbox } from "@/lib/inbox";
+import { checkAndIncrement, clientIpFrom } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -19,7 +20,18 @@ type VisitPayload = {
   phone?: string;
 };
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  // Rate limit — 5/hour per IP. Generous enough for a real planner.
+  const ip = clientIpFrom(req.headers);
+  const rl = await checkAndIncrement({
+    key: `visit:${ip}`,
+    limit: 5,
+    windowSeconds: 3600,
+  });
+  if (!rl.allowed) {
+    return NextResponse.json({ ok: false, error: "rate-limited" }, { status: 429 });
+  }
+
   let body: VisitPayload;
   try {
     body = (await req.json()) as VisitPayload;
