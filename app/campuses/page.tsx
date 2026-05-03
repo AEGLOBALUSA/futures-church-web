@@ -3,6 +3,8 @@ import { Suspense } from "react";
 import { CampusesHero } from "./CampusesHero";
 import { CountryPortals } from "./CountryPortals";
 import { Invitation } from "./Invitation";
+import { NearestCampusFinder } from "@/components/campuses/NearestCampusFinder";
+import { campuses } from "@/lib/content/campuses";
 
 export const metadata: Metadata = {
   title: "Campuses · Futures Church",
@@ -27,6 +29,11 @@ export default function CampusesPage() {
       <Suspense fallback={<div className="min-h-screen" />}>
         <CampusesHero />
       </Suspense>
+      <section className="px-6 pt-2 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-3xl">
+          <NearestCampusFinder campuses={campuses} />
+        </div>
+      </section>
       <CountryPortals />
       <Invitation />
     </main>
