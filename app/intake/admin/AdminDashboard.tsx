@@ -159,6 +159,12 @@ export function AdminDashboard({
           >
             Inbox · contact + visit + prayer
           </Link>
+          <Link
+            href="/intake/admin/activity"
+            className="rounded-full border border-ink-900/15 bg-cream/70 px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.22em] text-ink-900 hover:bg-cream-300"
+          >
+            Activity · last 7 days
+          </Link>
         </div>
 
         {stats.total === 0 && (
