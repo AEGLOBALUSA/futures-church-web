@@ -68,8 +68,8 @@ export default async function LeaderPage({
     .filter((l) => l.slug !== leader.slug && l.kind === leader.kind)
     .slice(0, 6);
 
-  // JSON-LD Person schema — helps Google's Knowledge Graph understand who
-  // this leader is and connects them to the parent Organization.
+  // JSON-LD Person + BreadcrumbList — Person tells Google who this leader is;
+  // BreadcrumbList lets the search result show the path Home › Leaders › <name>.
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -86,9 +86,19 @@ export default async function LeaderPage({
     sameAs: leader.links.map((l) => l.href).filter((h) => h.startsWith("http")),
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Leaders", item: `${SITE_URL}/leaders` },
+      { "@type": "ListItem", position: 3, name: leader.name, item: `${SITE_URL}/leaders/${leader.slug}` },
+    ],
+  };
+
   return (
     <main className="bg-cream text-ink-900 selection:bg-warm-500 selection:text-cream">
-      <JsonLd data={personSchema} />
+      <JsonLd data={[personSchema, breadcrumbSchema]} />
       <section className="mx-auto max-w-shell px-6 pt-24 pb-16 sm:px-10 lg:px-16">
         <Link
           href="/leaders"

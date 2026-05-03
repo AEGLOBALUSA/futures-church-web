@@ -60,8 +60,7 @@ export default async function SermonPage({
   const featured = isFeatured(sermon) ? sermon : null;
   const { prev, next } = neighborSermons(seriesSlug, sermonId);
 
-  // VideoObject schema — when Google indexes this page, the sermon shows up
-  // properly in video search + rich results. Tied to the parent series.
+  // VideoObject + BreadcrumbList schemas.
   const videoSchema = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
@@ -82,9 +81,20 @@ export default async function SermonPage({
     inLanguage: "en",
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Watch", item: `${SITE_URL}/watch` },
+      { "@type": "ListItem", position: 3, name: series.title, item: `${SITE_URL}/watch/${seriesSlug}` },
+      { "@type": "ListItem", position: 4, name: sermon.title, item: `${SITE_URL}/watch/${seriesSlug}/${sermon.id}` },
+    ],
+  };
+
   return (
     <main className="bg-cream-200 text-ink-900">
-      <JsonLd data={videoSchema} />
+      <JsonLd data={[videoSchema, breadcrumbSchema]} />
       <section className="relative isolate overflow-hidden">
         <div className="relative aspect-video w-full bg-ink-900 sm:aspect-[21/9] lg:aspect-[24/10]">
           {/* Video player — falls back to thumbnail + "Watch on YouTube" placeholder when videoUrl is absent */}

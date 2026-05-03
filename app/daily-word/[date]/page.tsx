@@ -116,9 +116,19 @@ export default async function DailyWordEntryPage({
     isAccessibleForFree: true,
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Daily Word", item: `${SITE_URL}/daily-word` },
+      { "@type": "ListItem", position: 3, name: formatLong(date), item: `${SITE_URL}/daily-word/${date}` },
+    ],
+  };
+
   return (
     <main className="bg-cream-200 text-ink-900">
-      <JsonLd data={articleSchema} />
+      <JsonLd data={[articleSchema, breadcrumbSchema]} />
       <section className="relative overflow-hidden">
         <div
           aria-hidden

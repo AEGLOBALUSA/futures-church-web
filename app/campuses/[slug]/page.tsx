@@ -184,9 +184,19 @@ export default async function CampusPage({
     areaServed: campus.city,
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Campuses", item: `${SITE_URL}/campuses` },
+      { "@type": "ListItem", position: 3, name: campus.name, item: `${SITE_URL}/campuses/${campus.slug}` },
+    ],
+  };
+
   return (
     <main className="bg-[#FDFBF6] text-[#1C1A17] selection:bg-[#C8906B] selection:text-[#FDFBF6]">
-      <JsonLd data={churchSchema} />
+      <JsonLd data={[churchSchema, breadcrumbSchema]} />
       <section className="relative px-6 pt-28 pb-16 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-6xl">
           <Link

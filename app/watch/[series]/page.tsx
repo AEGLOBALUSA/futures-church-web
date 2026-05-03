@@ -8,6 +8,9 @@ import {
   getSeriesBySlug,
   getSeriesEpisodes,
 } from "@/lib/content/sermons";
+import { JsonLd } from "@/components/seo/JsonLd";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://futures.church";
 
 export function generateStaticParams() {
   return getAllSeries().map((s) => ({ series: s.slug }));
@@ -42,8 +45,34 @@ export default async function SeriesPage({
   if (!series) notFound();
   const episodes = getSeriesEpisodes(slug);
 
+  // CreativeWorkSeries + BreadcrumbList — let Google connect this series
+  // to its individual sermons (which carry isPartOf back to here).
+  const seriesSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWorkSeries",
+    name: series.title,
+    description: series.blurb,
+    image: series.cover,
+    url: `${SITE_URL}/watch/${slug}`,
+    numberOfEpisodes: series.episodes,
+    creator: { "@type": "Person", name: series.preacher },
+    publisher: { "@type": "Organization", name: "Futures Church", url: SITE_URL },
+    inLanguage: "en",
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Watch", item: `${SITE_URL}/watch` },
+      { "@type": "ListItem", position: 3, name: series.title, item: `${SITE_URL}/watch/${slug}` },
+    ],
+  };
+
   return (
     <main className="bg-cream-200 text-ink-900">
+      <JsonLd data={[seriesSchema, breadcrumbSchema]} />
       {/* Hero — cover photo with overlay copy */}
       <section className="relative isolate overflow-hidden">
         <div className="relative h-[60vh] min-h-[440px] w-full">
