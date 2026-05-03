@@ -199,4 +199,15 @@
     .grain-overlay::after { animation: none !important; }
     .aurora-blob { animation: none !important; }
   }
+
+  /* Save-Data — Chrome/Edge in data-saver mode (or a CDN setting Save-Data: on).
+     The class is added to <html> server-side by app/layout.tsx based on the
+     incoming request header. We treat it like reduced-motion + drop the grain
+     overlay (a sizeable background image). */
+  html.save-data .grain-overlay::after { display: none !important; }
+  html.save-data .aurora-blob { animation: none !important; }
+  html.save-data * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

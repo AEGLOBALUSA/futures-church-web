@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CollegeNav } from "@/components/layout/CollegeNav";
 import { CollegeFooter } from "@/components/layout/CollegeFooter";
 import { AIGuideProvider } from "@/lib/ai/AIGuideContext";
-import { AIGuideDock } from "@/components/ai/AIGuideDock";
+import { AIGuideDockLazy } from "@/components/ai/AIGuideDockLazy";
 import { ServiceTimeBanner } from "@/components/layout/ServiceTimeBanner";
 import { EditModeProvider } from "@/components/edit/EditModeProvider";
 import { EditModePill } from "@/components/edit/EditModePill";
@@ -121,8 +121,17 @@ export default async function RootLayout({
     editorScope = null;
   }
 
+  // Save-Data header (Chrome/Edge in data-saver mode, plus some CDN normalisation).
+  // We expose it as a class on <html> so any component can opt out of heavy
+  // animation / auto-play / large hero work via a CSS selector or `:has()`
+  // without a context roundtrip.
+  const saveData = (h.get("save-data") ?? "").toLowerCase() === "on";
+
   return (
-    <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${interTight.variable} ${saveData ? "save-data" : ""}`}
+    >
       <head>
         <script
           type="application/ld+json"
@@ -155,7 +164,7 @@ export default async function RootLayout({
             {!isCollegeDomain && <ServiceTimeBanner />}
             <main id="main" className="relative">{children}</main>
             {isCollegeDomain ? <CollegeFooter /> : <Footer />}
-            <AIGuideDock />
+            <AIGuideDockLazy />
             <EditModePill />
           </AIGuideProvider>
         </EditModeProvider>
