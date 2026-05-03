@@ -23,6 +23,36 @@ export type SystemBlock = {
 };
 
 /**
+ * Detect a coarse language code (en/es/id/pt) from an Accept-Language header.
+ * We only differentiate the languages our campuses speak. Everyone else gets
+ * English. The first language with a quality score wins.
+ */
+export function detectLanguageFromHeader(header: string | null | undefined): "en" | "es" | "id" | "pt" {
+  if (!header) return "en";
+  const parts = header
+    .toLowerCase()
+    .split(",")
+    .map((p) => {
+      const [lang, qStr] = p.trim().split(";q=");
+      return { lang: lang.split("-")[0], q: qStr ? Number(qStr) : 1 };
+    })
+    .filter((p) => Number.isFinite(p.q))
+    .sort((a, b) => b.q - a.q);
+  for (const { lang } of parts) {
+    if (lang === "es" || lang === "id" || lang === "pt") return lang;
+    if (lang === "en") return "en";
+  }
+  return "en";
+}
+
+const GREETING_HINT: Record<"en" | "es" | "id" | "pt", string> = {
+  en: "The visitor's browser language is English. Default to English.",
+  es: "The visitor's browser language is Spanish. Greet them in Spanish if the conversation hasn't established a language yet (\"Hola\" / \"Bienvenido\"). The Futuros campuses are Duluth (USA), Kennesaw (USA), Grayson (USA — launching), and Caracas / Maracaibo / Valencia / Barquisimeto (Venezuela — launching). They can switch to English mid-conversation.",
+  id: "The visitor's browser language is Bahasa Indonesia. Greet them in Bahasa if the conversation hasn't established a language yet (\"Halo\" / \"Selamat datang\"). The Indonesian campuses are Cemani, Solo, Samarinda, Langowan, and Bali. They can switch to English mid-conversation.",
+  pt: "The visitor's browser language is Portuguese. Greet warmly in Portuguese (\"Olá\") and let them know we don't have a Portuguese campus yet, but our Online campus + Daily Word work for them, and the closest live church is in Caracas, Venezuela (Spanish).",
+};
+
+/**
  * Async — pulls live campus intake data from Supabase. The intake block sits
  * AFTER the static roster + general knowledge so it overrides them when a
  * pastor has filled in real details.
@@ -30,7 +60,10 @@ export type SystemBlock = {
  * Each block is independently cacheable so a fresh intake update only
  * invalidates the intake block, not the personality / general knowledge.
  */
-export async function buildSystemBlocks(pageContext?: string): Promise<SystemBlock[]> {
+export async function buildSystemBlocks(
+  pageContext?: string,
+  language: "en" | "es" | "id" | "pt" = "en"
+): Promise<SystemBlock[]> {
   const blocks: SystemBlock[] = [
     { type: "text", text: MILO_PERSONALITY },
     {
@@ -82,6 +115,16 @@ export async function buildSystemBlocks(pageContext?: string): Promise<SystemBlo
       text: `# Page context\n${buildPageContext(pageContext)}`,
     });
   }
+
+  // Language hint — last so it sits closest to the user message and primes
+  // the response language without polluting the cacheable knowledge blocks.
+  if (language !== "en") {
+    blocks.push({
+      type: "text",
+      text: `# Language hint\n${GREETING_HINT[language]}`,
+    });
+  }
+
   return blocks;
 }
 

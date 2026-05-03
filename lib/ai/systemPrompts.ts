@@ -6,9 +6,15 @@ import { SYSTEM_PROMPT, buildSystemBlocks, buildStaticSystemPrompt } from "./sys
 
 export const BASE_SYSTEM_PROMPT = SYSTEM_PROMPT;
 
-/** Async — includes live intake data. Use this in API routes that can `await`. */
-export async function promptFor(context: AIGuideContextName): Promise<string> {
-  const blocks = await buildSystemBlocks(context);
+/**
+ * Async — includes live intake data + a language hint when supplied.
+ * Use this in API routes that can `await`.
+ */
+export async function promptFor(
+  context: AIGuideContextName,
+  language: "en" | "es" | "id" | "pt" = "en"
+): Promise<string> {
+  const blocks = await buildSystemBlocks(context, language);
   return blocks.map((b) => b.text).join("\n\n");
 }
 

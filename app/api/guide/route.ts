@@ -1,6 +1,7 @@
 import { streamText } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { promptFor } from "@/lib/ai/systemPrompts";
+import { detectLanguageFromHeader } from "@/lib/ai/system-prompt";
 import type { AIGuideContextName } from "@/lib/ai/AIGuideContext";
 
 export const runtime = "edge";
@@ -37,7 +38,8 @@ export async function POST(req: Request) {
     { role: "user" as const, content: userText },
   ];
 
-  const system = await promptFor(context);
+  const language = detectLanguageFromHeader(req.headers.get("accept-language"));
+  const system = await promptFor(context, language);
   const result = await streamText({
     model: anthropic("claude-sonnet-4-6"),
     system,
