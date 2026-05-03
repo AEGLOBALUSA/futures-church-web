@@ -9,6 +9,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://futures.church";
 const STATIC_ROUTES: { path: string; freq: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number }[] = [
   { path: "", freq: "daily", priority: 1 },
   { path: "/about", freq: "monthly", priority: 0.7 },
+  { path: "/accountability", freq: "yearly", priority: 0.5 },
   { path: "/baptism", freq: "monthly", priority: 0.6 },
   { path: "/bible-app", freq: "monthly", priority: 0.6 },
   { path: "/books", freq: "monthly", priority: 0.6 },
