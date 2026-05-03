@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { checkAndIncrement, clientIpFrom } from "@/lib/rate-limit";
 
 const PrayerSchema = z.object({
   name: z.string().max(100).optional(),
@@ -11,6 +12,18 @@ const PrayerSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  // Rate limit — 5/hour per IP. Generous enough for someone praying through
+  // multiple distinct concerns; tight enough to stop spam.
+  const ip = clientIpFrom(req.headers);
+  const rl = await checkAndIncrement({
+    key: `prayer:${ip}`,
+    limit: 5,
+    windowSeconds: 3600,
+  });
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "rate-limited" }, { status: 429 });
+  }
+
   let body: unknown;
   try {
     body = await req.json();

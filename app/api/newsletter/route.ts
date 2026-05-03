@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { checkAndIncrement, clientIpFrom } from "@/lib/rate-limit";
 
 const NewsletterSchema = z.object({
   email: z.string().email(),
@@ -12,6 +13,19 @@ const NewsletterSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  // Rate limit — 10/hour per IP. Higher than the message forms because
+  // legitimate visitors might subscribe multiple lists (newsletter + Selah +
+  // daily word) in quick succession.
+  const ip = clientIpFrom(req.headers);
+  const rl = await checkAndIncrement({
+    key: `newsletter:${ip}`,
+    limit: 10,
+    windowSeconds: 3600,
+  });
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "rate-limited" }, { status: 429 });
+  }
+
   let body: unknown;
   try {
     body = await req.json();
