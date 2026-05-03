@@ -117,8 +117,17 @@ export function AdminDashboard({
           <Link href="/" className="font-display text-body-lg text-ink-900">
             Futures<span className="text-accent">.</span>
           </Link>
-          <span className="font-ui text-[10px] uppercase tracking-[0.24em] text-ink-500">
-            Campus intake · admin
+          <span className="flex flex-col items-center leading-tight">
+            <span className="font-ui text-[10px] uppercase tracking-[0.24em] text-ink-500">
+              Campus intake · admin
+            </span>
+            <Link
+              href="/intake/admin/coverage"
+              className="mt-1 font-display italic text-warm-700 hover:text-ink-900"
+              style={{ fontSize: 12, fontWeight: 300 }}
+            >
+              edits
+            </Link>
           </span>
           <button
             type="button"
@@ -158,6 +167,12 @@ export function AdminDashboard({
             className="rounded-full border border-ink-900/15 bg-cream/70 px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.22em] text-ink-900 hover:bg-cream-300"
           >
             Inbox · contact + visit + prayer
+          </Link>
+          <Link
+            href="/intake/admin/coverage"
+            className="rounded-full border border-warm-500/40 bg-warm-500/10 px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.22em] text-warm-700 hover:bg-warm-500/20"
+          >
+            Edits · site-wide content
           </Link>
           <Link
             href="/intake/admin/activity"
