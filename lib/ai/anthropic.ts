@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { SYSTEM_PROMPT } from "./system-prompt";
+import { buildSystemBlocks } from "./system-prompt";
 
 function getClient() {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -10,12 +10,17 @@ export type ChatMessage = { role: "user" | "assistant"; content: string };
 export async function streamClaude(
   messages: ChatMessage[],
   onToken: (token: string) => void,
-  onDone: () => void
+  onDone: () => void,
+  pageContext?: string
 ) {
+  // Build system blocks (async — pulls live intake data from Supabase).
+  // Cache control on the static blocks keeps cost low across repeated turns.
+  const system = await buildSystemBlocks(pageContext);
+
   const stream = await getClient().messages.create({
-    model: "claude-sonnet-4-5",
+    model: "claude-sonnet-4-6",
     max_tokens: 1024,
-    system: SYSTEM_PROMPT,
+    system,
     messages,
     stream: true,
   });

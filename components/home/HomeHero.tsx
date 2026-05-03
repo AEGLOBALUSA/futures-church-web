@@ -489,16 +489,59 @@ export function HomeHero() {
             </AnimatePresence>
 
             {!hasMessages && (
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                className="mt-7 flex flex-wrap gap-2.5"
-              >
-                {HOME_CHIPS.map((chip, i) => (
-                  <ChipButton key={chip} text={chip} delay={0.08 * i} onClick={() => handleChip(chip)} />
-                ))}
-              </motion.div>
+              <>
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="mt-7 flex flex-wrap gap-2.5"
+                >
+                  {HOME_CHIPS.map((chip, i) => (
+                    <ChipButton key={chip} text={chip} delay={0.08 * i} onClick={() => handleChip(chip)} />
+                  ))}
+                </motion.div>
+
+                {/* Tap-not-type fallback: regions for anyone who'd rather click than ask. */}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2"
+                >
+                  <span
+                    className="font-sans"
+                    style={{
+                      color: "#8A8178",
+                      fontSize: 11,
+                      letterSpacing: "0.22em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    or by region
+                  </span>
+                  {[
+                    { label: "Adelaide", href: "/campuses#australia" },
+                    { label: "Atlanta", href: "/campuses#united-states" },
+                    { label: "Indonesia", href: "/campuses#indonesia" },
+                    { label: "Venezuela", href: "/campuses#venezuela" },
+                    { label: "Online", href: "/campuses/online" },
+                  ].map((r) => (
+                    <Link
+                      key={r.label}
+                      href={r.href}
+                      className="font-sans transition-colors duration-200"
+                      style={{
+                        fontSize: 13,
+                        color: "#534D44",
+                        borderBottom: "1px dashed rgba(83,77,68,0.3)",
+                        paddingBottom: 1,
+                      }}
+                    >
+                      {r.label}
+                    </Link>
+                  ))}
+                </motion.div>
+              </>
             )}
 
             <div className="mt-10 flex items-center gap-3">

@@ -9,6 +9,9 @@ import { CollegeFooter } from "@/components/layout/CollegeFooter";
 import { AIGuideProvider } from "@/lib/ai/AIGuideContext";
 import { AIGuideDock } from "@/components/ai/AIGuideDock";
 import { ServiceTimeBanner } from "@/components/layout/ServiceTimeBanner";
+import { EditModeProvider } from "@/components/edit/EditModeProvider";
+import { EditModePill } from "@/components/edit/EditModePill";
+import { getEditorScope } from "@/lib/edit/auth";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -108,6 +111,15 @@ export default async function RootLayout({
   const h = await headers();
   const host = (h.get("x-forwarded-host") ?? h.get("host") ?? "").toLowerCase();
   const isCollegeDomain = host.endsWith("futuresglobal.college");
+  // Detect editor scope on the server so the layout can hand it to the
+  // EditModeProvider without a client roundtrip. Failures (e.g. INTAKE_ADMIN_SECRET
+  // unset in dev) degrade gracefully to "no editor."
+  let editorScope: Awaited<ReturnType<typeof getEditorScope>> = null;
+  try {
+    editorScope = await getEditorScope();
+  } catch {
+    editorScope = null;
+  }
 
   return (
     <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
@@ -129,13 +141,16 @@ export default async function RootLayout({
         )}
       </head>
       <body className="min-h-screen bg-cream font-sans text-ink-900 antialiased">
-        <AIGuideProvider>
-          {isCollegeDomain ? <CollegeNav /> : <Nav />}
-          {!isCollegeDomain && <ServiceTimeBanner />}
-          <main className="relative">{children}</main>
-          {isCollegeDomain ? <CollegeFooter /> : <Footer />}
-          <AIGuideDock />
-        </AIGuideProvider>
+        <EditModeProvider scope={editorScope}>
+          <AIGuideProvider>
+            {isCollegeDomain ? <CollegeNav /> : <Nav />}
+            {!isCollegeDomain && <ServiceTimeBanner />}
+            <main className="relative">{children}</main>
+            {isCollegeDomain ? <CollegeFooter /> : <Footer />}
+            <AIGuideDock />
+            <EditModePill />
+          </AIGuideProvider>
+        </EditModeProvider>
       </body>
     </html>
   );

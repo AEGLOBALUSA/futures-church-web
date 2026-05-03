@@ -15,3 +15,6 @@ yarn-error.log*
 
 .DS_Store
 *.pem
+
+# Generated bundle — produced by scripts/setup-portal.sh
+supabase/_apply.sql

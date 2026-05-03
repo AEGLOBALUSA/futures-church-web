@@ -37,9 +37,10 @@ export async function POST(req: Request) {
     { role: "user" as const, content: userText },
   ];
 
+  const system = await promptFor(context);
   const result = await streamText({
-    model: anthropic("claude-sonnet-4-5"),
-    system: promptFor(context),
+    model: anthropic("claude-sonnet-4-6"),
+    system,
     messages,
     temperature: 0.7,
     maxOutputTokens: 600,

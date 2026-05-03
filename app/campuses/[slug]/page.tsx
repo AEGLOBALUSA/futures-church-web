@@ -14,8 +14,15 @@ import {
   getDisplayablePortrait,
   getCampusPortrait,
 } from "@/lib/content/campus-portraits";
-import { getCampusVoice } from "@/lib/content/campus-voices";
+import {
+  getMergedCampusVoice,
+  getCampusIntakePhotos,
+  getCampusIntakeFacts,
+} from "@/lib/intake/campus-content";
 import { PendingNote } from "@/components/campus/PendingNote";
+import { getCampusEvents, getNextServiceEvent } from "@/lib/events/server";
+import { ThisSundayStrip, ComingUpRail } from "@/components/events/CampusEventsSection";
+import { EditableText } from "@/components/edit/EditableText";
 
 const REGION_LABEL: Record<CampusRegion, string> = {
   australia: "Australia",
@@ -42,6 +49,10 @@ const REGION_TONE: Record<CampusRegion, string> = {
 export async function generateStaticParams() {
   return campuses.map((c) => ({ slug: c.slug }));
 }
+
+// Regenerate every minute so intake updates appear on the live page within ~60s
+// of a pastor saving — without forcing a full dynamic render on every request.
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -80,8 +91,8 @@ export default async function CampusPage({
   const isLaunching = campus.status === "launching";
   const isOnline = campus.status === "online";
   const tone = REGION_TONE[campus.region];
-  const photo = CAMPUS_PHOTOS[campus.slug];
-  const gallery = CAMPUS_GALLERY[campus.slug] ?? [];
+  const staticPhoto = CAMPUS_PHOTOS[campus.slug];
+  const staticGallery = CAMPUS_GALLERY[campus.slug] ?? [];
   const nearby = campuses
     .filter((c) => c.region === campus.region && c.slug !== campus.slug)
     .slice(0, 4);
@@ -89,7 +100,37 @@ export default async function CampusPage({
   const campusPastorEntry = (campusPastorsData as Array<{ slug: string; pastors: Array<{ name: string; role: string; photo: string; placeholder: boolean }> }>).find(c => c.slug === slug);
   const pastoralPhoto = campusPastorEntry?.pastors.find(p => !p.placeholder) ?? null;
 
-  const voice = getCampusVoice(slug);
+  // Pull merged voice + intake photos + intake facts + events in parallel.
+  // Each falls back gracefully when its data source isn't filled in yet.
+  const [voice, intakePhotos, intakeFacts, nextService, upcomingEvents] = await Promise.all([
+    getMergedCampusVoice(slug),
+    getCampusIntakePhotos(slug),
+    getCampusIntakeFacts(slug),
+    getNextServiceEvent(slug),
+    getCampusEvents(slug, { from: new Date() }),
+  ]);
+  // Filter the upcoming list to exclude the "This Sunday" hero event so it doesn't double up.
+  const comingUp = nextService
+    ? upcomingEvents.filter((e) => e.id !== nextService.id)
+    : upcomingEvents;
+
+  // Intake hero photo wins when present (it's the pastor's own pick).
+  const photo = intakePhotos.hero?.url ?? staticPhoto;
+  // Combine intake gallery (front) with static (back), de-duped by URL.
+  const intakeGalleryUrls = intakePhotos.gallery.map((g) => g.url).filter((u): u is string => !!u);
+  const gallery = [...intakeGalleryUrls, ...staticGallery.filter((s) => !intakeGalleryUrls.includes(s))];
+
+  // Intake socials override the static ones.
+  const instagramUrl = intakeFacts.instagram ?? campus.instagram;
+  const facebookUrl = intakeFacts.facebook ?? campus.facebook;
+
+  // Service-time line: prefer intake (pastor's words), fall back to campus.serviceTime placeholder.
+  const serviceLine =
+    intakeFacts.serviceTimes.length > 0
+      ? intakeFacts.serviceTimes
+          .map((s) => [s.day, s.time, s.timezone].filter(Boolean).join(" · "))
+          .join("  +  ")
+      : campus.serviceTime ?? null;
   const pastorFirstNames = campus.leadPastors
     ? campus.leadPastors.split(" & ").map((n) => n.split(" ")[0]).join(" & ")
     : "the pastoral team";
@@ -171,11 +212,29 @@ export default async function CampusPage({
                 </p>
               )}
 
-              {campus.address && (
+              {(intakeFacts.addressStreet || campus.address) && (
                 <div className="mt-3 flex items-center gap-2 font-sans" style={{ color: "#534D44", fontSize: 14 }}>
                   <MapPin className="h-4 w-4" style={{ color: tone }} strokeWidth={1.8} />
-                  <span>{campus.address}, {campus.city}</span>
+                  <span>
+                    {intakeFacts.addressStreet ?? campus.address}
+                    {", "}
+                    {intakeFacts.addressCity ?? campus.city}
+                  </span>
                 </div>
+              )}
+
+              {!isLaunching && !isOnline && serviceLine && (
+                <p
+                  className="mt-2 font-display italic"
+                  style={{
+                    color: "#1C1A17",
+                    fontSize: 17,
+                    fontWeight: 300,
+                    letterSpacing: "-0.005em",
+                  }}
+                >
+                  {serviceLine}
+                </p>
               )}
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -211,9 +270,9 @@ export default async function CampusPage({
                   </Link>
                 )}
 
-                {campus.instagram && (
+                {instagramUrl && (
                   <a
-                    href={campus.instagram}
+                    href={instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors"
@@ -223,9 +282,9 @@ export default async function CampusPage({
                     <Instagram className="h-4 w-4" strokeWidth={1.6} />
                   </a>
                 )}
-                {campus.facebook && (
+                {facebookUrl && (
                   <a
-                    href={campus.facebook}
+                    href={facebookUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors"
@@ -298,6 +357,14 @@ export default async function CampusPage({
           </div>
         </div>
       </section>
+
+      {nextService && (
+        <section className="px-6 -mt-2 pb-12 sm:px-10 lg:px-16">
+          <div className="mx-auto max-w-6xl">
+            <ThisSundayStrip event={nextService} tone={tone} campusName={campus.name} />
+          </div>
+        </section>
+      )}
 
       {pastoralPhoto && !pastorPortrait && (
         <section className="px-6 py-20 sm:px-10 lg:px-16">
@@ -480,7 +547,13 @@ export default async function CampusPage({
               {/* Left — the pastor's own paragraph, or a visible pending note */}
               <div>
                 {voice.whatToExpect ? (
-                  <p
+                  <EditableText
+                    campusSlug={slug}
+                    sectionKey="story"
+                    fieldKey="story_long"
+                    value={voice.whatToExpect}
+                    multiline
+                    maxLength={1500}
                     className="font-display"
                     style={{
                       color: "#1C1A17",
@@ -488,9 +561,7 @@ export default async function CampusPage({
                       lineHeight: 1.45,
                       fontWeight: 300,
                     }}
-                  >
-                    {voice.whatToExpect}
-                  </p>
+                  />
                 ) : (
                   <PendingNote
                     label="What to expect"
@@ -501,12 +572,16 @@ export default async function CampusPage({
                 )}
 
                 {voice.firstTimeLine && (
-                  <p
-                    className="mt-6 font-sans italic"
+                  <EditableText
+                    campusSlug={slug}
+                    sectionKey="story"
+                    fieldKey="story_short"
+                    value={voice.firstTimeLine}
+                    multiline={false}
+                    maxLength={200}
+                    className="mt-6 font-sans italic block"
                     style={{ color: "#534D44", fontSize: 15, lineHeight: 1.6 }}
-                  >
-                    &ldquo;{voice.firstTimeLine}&rdquo;
-                  </p>
+                  />
                 )}
               </div>
 
@@ -589,12 +664,16 @@ export default async function CampusPage({
               </div>
               <div>
                 {voice.kidsBlock ? (
-                  <p
+                  <EditableText
+                    campusSlug={slug}
+                    sectionKey="kids"
+                    fieldKey="kids_overview"
+                    value={voice.kidsBlock}
+                    multiline
+                    maxLength={800}
                     className="font-sans"
                     style={{ color: "#1C1A17", fontSize: 16, lineHeight: 1.7 }}
-                  >
-                    {voice.kidsBlock}
-                  </p>
+                  />
                 ) : (
                   <PendingNote
                     label="Kids ministry"
@@ -625,17 +704,21 @@ export default async function CampusPage({
               From {pastorFirstNames}
             </p>
             {voice.pastorBio ? (
-              <p
-                className="mt-4 font-display"
+              <EditableText
+                campusSlug={slug}
+                sectionKey="pastors"
+                fieldKey="pastor_bio_long"
+                value={voice.pastorBio}
+                multiline
+                maxLength={1500}
+                className="mt-4 font-display block"
                 style={{
                   color: "#1C1A17",
                   fontSize: "clamp(1.25rem, 1.9vw, 1.65rem)",
                   lineHeight: 1.5,
                   fontWeight: 300,
                 }}
-              >
-                {voice.pastorBio}
-              </p>
+              />
             ) : (
               <div className="mt-4">
                 <PendingNote
@@ -779,6 +862,10 @@ export default async function CampusPage({
             </div>
           </div>
         </section>
+      )}
+
+      {!isLaunching && comingUp.length > 0 && (
+        <ComingUpRail events={comingUp.slice(0, 6)} tone={tone} campusName={campus.name} />
       )}
 
       <CampusAIPanel
