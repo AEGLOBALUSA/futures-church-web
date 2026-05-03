@@ -145,10 +145,13 @@ export async function buildSystemBlocks(
         `Futures campuses by great-circle distance are:\n\n` +
         `${formatNearestCampusesForMilo(nearest)}\n\n` +
         `Use this to answer location-relevant questions directly. Lead with ` +
-        `the closest one, name its distance and service time, and link to ` +
-        `/plan-a-visit. Don't ask for their location again — you have it. If ` +
-        `the closest is more than 200 km away, acknowledge that visiting may ` +
-        `not be practical and offer Online Church + /watch instead.`,
+        `the closest one, name its distance and service time. When you ` +
+        `mention a campus, preserve the [Campus name](/campuses/slug) ` +
+        `markdown link form above so the page renders it as clickable. ` +
+        `Offer the [plan a visit](/plan-a-visit) link too. Don't ask for ` +
+        `their location again — you have it. If the closest is more than ` +
+        `200 km away, acknowledge that visiting may not be practical and ` +
+        `offer [online church](/watch) instead.`,
     });
   }
 

@@ -82,7 +82,9 @@ export function formatNearestCampusesForMilo(
     const dist = distanceKm < 1 ? "<1" : Math.round(distanceKm).toString();
     const pastors = campus.leadPastors ? ` — ${campus.leadPastors}` : "";
     const service = campus.serviceTime ?? "Sundays";
-    return `- ${campus.name} (${campus.city}, ${campus.country})${pastors}: ${dist} km away. ${service}. /campuses/${campus.slug}`;
+    // Markdown-link form so Milo can echo `[Adelaide City](/campuses/adelaide-city)`
+    // back into the chat — MiloMarkdown then renders it as a clickable link.
+    return `- [${campus.name}](/campuses/${campus.slug}) (${campus.city}, ${campus.country})${pastors}: ${dist} km away. ${service}.`;
   });
   return lines.join("\n");
 }
