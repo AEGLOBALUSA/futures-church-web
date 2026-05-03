@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 type Pastor = {
   name: string;
@@ -11,15 +11,11 @@ type Pastor = {
   tone: string;
 };
 
-// Real pastor photos served via Cloudinary fetch-wrapper over the ChurchCo
-// S3 bucket — stable, public, auto-format (AVIF/WebP). Mirror to
-// cdn.futures.church before launch for true durability.
 const GLOBAL: Pastor[] = [
   {
     name: "Ashley & Jane Evans",
     role: "Global Senior Pastors",
-    image:
-      "https://res.cloudinary.com/thechurchcoproduction/image/fetch/f_auto,q_80,w_1200/https://thechurchco-production.s3.amazonaws.com/uploads/sites/229/2022/03/Ps-A-J.png",
+    image: "/photos/pastors/ashley-jane.jpg",
     tone: "#C45236",
   },
 ];
@@ -34,6 +30,7 @@ const AUSTRALIA: Pastor[] = [
 ];
 
 export function HomePastors() {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="relative py-28 sm:py-40" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10">
@@ -46,7 +43,7 @@ export function HomePastors() {
               Meet the pastors
             </p>
             <motion.h2
-              initial={{ opacity: 0, y: 14 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -100,9 +97,10 @@ function PastorCard({
   i: number;
   primary?: boolean;
 }) {
+  const reduceMotion = useReducedMotion();
   return (
     <motion.article
-      initial={{ opacity: 0, y: 18 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.8, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
@@ -122,7 +120,6 @@ function PastorCard({
           fill
           sizes="(max-width: 1024px) 100vw, 640px"
           className="object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.04]"
-          unoptimized
         />
         <div
           aria-hidden

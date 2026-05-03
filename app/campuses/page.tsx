@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CampusesHero } from "./CampusesHero";
 import { CountryPortals } from "./CountryPortals";
+import { AllCampusesGallery } from "./AllCampusesGallery";
 import { Invitation } from "./Invitation";
 import { NearestCampusFinder } from "@/components/campuses/NearestCampusFinder";
 import { campuses } from "@/lib/content/campuses";
@@ -35,6 +36,7 @@ export default function CampusesPage() {
         </div>
       </section>
       <CountryPortals />
+      <AllCampusesGallery />
       <Invitation />
     </main>
   );

@@ -48,7 +48,10 @@ export function Footer() {
 
   return (
     <footer className="relative bg-cream text-ink-900">
-      <div className="mx-auto max-w-7xl px-6 pt-16 pb-10 sm:px-10 lg:px-16">
+      <div
+        className="mx-auto max-w-7xl px-6 pt-16 sm:px-10 lg:px-16"
+        style={{ paddingBottom: "max(2.5rem, env(safe-area-inset-bottom))" }}
+      >
         {/* Columns */}
         <div className="pb-14">
           <div className="grid grid-cols-2 gap-10 md:grid-cols-5">

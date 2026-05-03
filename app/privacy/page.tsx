@@ -27,7 +27,7 @@ export default function PrivacyPage() {
           body: [
             "When you talk to Selah, your messages are not stored, not logged, and not read by anyone. No moderator inbox. No pastor alert. No staff review.",
             "Your conversation exists only in your browser for the length of that session. Close the tab and it\u2019s gone.",
-            "What we do track \u2014 at the aggregate level only \u2014 is how many conversations happened, how long they lasted, which of the three voices was chosen, and whether the crisis classifier fired. Never the content of what you said.",
+            "What we do track \u2014 at the aggregate level only \u2014 is how many conversations happened, how long they lasted, what type of pastoral mode the conversation drew on, and whether the crisis classifier fired. Never the content of what you said.",
             "If the crisis classifier fires (for example, language suggesting self-harm), Selah surfaces real-world help \u2014 988 in the US, Lifeline 13 11 14 in Australia, Samaritans 116 123 in the UK, or your local emergency number. We do not notify a human on your behalf.",
           ],
         },

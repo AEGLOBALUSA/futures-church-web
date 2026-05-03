@@ -20,6 +20,13 @@ export type HeroPortrait = {
   source: FaceSource;
 };
 
+/**
+ * VoiceCard — kept as a typed shape for any future testimonial section.
+ * The voices_row array in faces.json is currently empty; the placeholder
+ * testimonials and Unsplash URLs were removed because they were never wired
+ * into a component (HomeVoices reads from /photos/voices/voice_*.jpg directly).
+ * Re-populate when real testimonials with model releases are ready.
+ */
 export type VoiceCard = {
   id: string;
   url: string;

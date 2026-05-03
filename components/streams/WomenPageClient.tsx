@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { AIInput } from "@/components/ai/AIInput";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow, Sub } from "@/components/ui/Type";
@@ -130,11 +130,12 @@ function BUHero() {
               className="absolute left-0 top-0 h-[78%] w-[64%] overflow-hidden rounded-[26px]"
               style={{ boxShadow: "0 30px 60px -28px rgba(20,20,20,0.45)" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={BU_IMG.heroLead}
                 alt=""
-                className="h-full w-full object-cover"
+                fill
+                sizes="(min-width: 1024px) 35vw, 0px"
+                className="object-cover"
                 style={{ filter: "saturate(0.95)" }}
               />
             </div>
@@ -142,15 +143,25 @@ function BUHero() {
               className="absolute right-0 top-[12%] h-[38%] w-[44%] overflow-hidden rounded-[22px]"
               style={{ boxShadow: "0 22px 48px -24px rgba(20,20,20,0.4)", border: "3px solid #FDFBF6" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={BU_IMG.heroSecondA} alt="" className="h-full w-full object-cover" />
+              <Image
+                src={BU_IMG.heroSecondA}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 22vw, 0px"
+                className="object-cover"
+              />
             </div>
             <div
               className="absolute bottom-0 right-[4%] h-[42%] w-[48%] overflow-hidden rounded-[22px]"
               style={{ boxShadow: "0 22px 48px -24px rgba(20,20,20,0.4)", border: "3px solid #FDFBF6" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={BU_IMG.heroSecondB} alt="" className="h-full w-full object-cover" />
+              <Image
+                src={BU_IMG.heroSecondB}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 24vw, 0px"
+                className="object-cover"
+              />
             </div>
           </motion.div>
         </div>
@@ -160,13 +171,14 @@ function BUHero() {
 }
 
 function BUManifesto({ paragraphs }: { paragraphs: string[] }) {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="px-6 py-28 sm:px-10" style={{ background: "#FDFBF6" }}>
       <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-14 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-start md:gap-16">
         {/* Portrait column — a single tall frame plus one smaller writing
             still-life, so the letter reads like it's from a real desk. */}
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -176,16 +188,26 @@ function BUManifesto({ paragraphs }: { paragraphs: string[] }) {
             className="relative aspect-[4/5] w-full overflow-hidden rounded-[24px]"
             style={{ boxShadow: "0 26px 54px -28px rgba(20,20,20,0.4)" }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={BU_IMG.janePortrait} alt="Jane Evans" className="h-full w-full object-cover" />
+            <Image
+              src={BU_IMG.janePortrait}
+              alt="Jane Evans"
+              fill
+              sizes="(max-width: 768px) 100vw, 40vw"
+              className="object-cover"
+            />
           </div>
           <div
             className="absolute -bottom-6 -right-4 hidden h-[38%] w-[55%] overflow-hidden rounded-[18px] md:block"
             style={{ boxShadow: "0 22px 48px -24px rgba(20,20,20,0.4)", border: "3px solid #FDFBF6" }}
             aria-hidden
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={BU_IMG.janeWriting} alt="" className="h-full w-full object-cover" />
+            <Image
+              src={BU_IMG.janeWriting}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 0px, 22vw"
+              className="object-cover"
+            />
           </div>
         </motion.div>
 
@@ -216,6 +238,7 @@ function BUManifesto({ paragraphs }: { paragraphs: string[] }) {
 }
 
 function GlobalGatheringCalendar({ gatherings }: { gatherings: WomenData["gatherings"] }) {
+  const reduceMotion = useReducedMotion();
   const [country, setCountry] = useState<string>("all");
   const countries = useMemo(
     () => ["all", ...Array.from(new Set(gatherings.map((g) => g.country)))],
@@ -228,15 +251,21 @@ function GlobalGatheringCalendar({ gatherings }: { gatherings: WomenData["gather
         {/* Wide atmospheric banner — hundreds of hands in a room — sets the
             mood before the calendar grid gets tactical. */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
           className="relative mb-12 aspect-[16/6] w-full overflow-hidden rounded-[22px]"
           style={{ boxShadow: "0 26px 54px -30px rgba(20,20,20,0.4)" }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={BU_IMG.gatheringWide} alt="" className="h-full w-full object-cover" aria-hidden />
+          <Image
+            src={BU_IMG.gatheringWide}
+            alt=""
+            fill
+            sizes="(max-width: 1200px) 100vw, 1200px"
+            className="object-cover"
+            aria-hidden
+          />
           <div
             aria-hidden
             className="absolute inset-0"
@@ -321,6 +350,7 @@ function GlobalGatheringCalendar({ gatherings }: { gatherings: WomenData["gather
 }
 
 function BUCircleLocator({ circles }: { circles: WomenData["circles"] }) {
+  const reduceMotion = useReducedMotion();
   const [query, setQuery] = useState("");
   const match = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -334,7 +364,7 @@ function BUCircleLocator({ circles }: { circles: WomenData["circles"] }) {
     <section className="px-6 py-24 sm:px-10">
       <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] md:items-center md:gap-16">
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
@@ -344,8 +374,14 @@ function BUCircleLocator({ circles }: { circles: WomenData["circles"] }) {
             className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px]"
             style={{ boxShadow: "0 26px 54px -28px rgba(20,20,20,0.4)" }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={BU_IMG.circleScene} alt="" className="h-full w-full object-cover" aria-hidden />
+            <Image
+              src={BU_IMG.circleScene}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+              aria-hidden
+            />
             <div
               aria-hidden
               className="absolute inset-0"
@@ -497,8 +533,13 @@ function BUPodcastFeed({ podcast }: { podcast: WomenData["podcast"] }) {
                     style={{ boxShadow: "0 0 0 2px #FDFBF6, 0 6px 16px -6px rgba(20,20,20,0.3)" }}
                     aria-hidden
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={avatar} alt="" className="h-full w-full object-cover" />
+                    <Image
+                      src={avatar}
+                      alt=""
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                    />
                   </div>
                   <div className="min-w-0">
                     <p className="font-ui text-[11px] uppercase tracking-[0.2em] text-warm-700">

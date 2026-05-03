@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 type Moment = {
   id: string;
@@ -18,7 +18,7 @@ const MOMENTS: Moment[] = [
     title: "Sunday morning, Paradise",
     caption: "The doors open. The coffee starts. The family arrives.",
     campus: "Paradise · Adelaide",
-    image: "/photos/mosaic/mosaic_au_5.jpg",
+    image: "/photos/community/moment-sunday-foyer.jpg",
     accent: "#C8906B",
   },
   {
@@ -34,7 +34,7 @@ const MOMENTS: Moment[] = [
     title: "La familia, Futuros",
     caption: "Spanish, laughter, three generations at one table.",
     campus: "Futuros Duluth · Georgia",
-    image: "/photos/mosaic/mosaic_au_12.jpg",
+    image: "/photos/mosaic/mosaic_us_12.jpg",
     accent: "#C45236",
   },
   {
@@ -42,7 +42,7 @@ const MOMENTS: Moment[] = [
     title: "Sunday morning, Bali",
     caption: "Denpasar — young Balinese believers filling the room.",
     campus: "Bali · Indonesia",
-    image: "/photos/mosaic/mosaic_au_15.jpg",
+    image: "/photos/mosaic/mosaic_id_15.jpg",
     accent: "#8A5A3C",
   },
   {
@@ -58,7 +58,7 @@ const MOMENTS: Moment[] = [
     title: "Youth night, Solo",
     caption: "Surakarta's teenagers pack out the hall on Fridays.",
     campus: "Solo · Central Java",
-    image: "/photos/mosaic/mosaic_au_30.jpg",
+    image: "/photos/mosaic/mosaic_id_30.jpg",
     accent: "#C8906B",
   },
   {
@@ -74,12 +74,61 @@ const MOMENTS: Moment[] = [
     title: "Harvest Sunday, Langowan",
     caption: "Minahasan North Sulawesi fills the church with what it grows.",
     campus: "Langowan · North Sulawesi",
-    image: "/photos/mosaic/mosaic_au_50.jpg",
+    image: "/photos/mosaic/mosaic_id_50.jpg",
     accent: "#AC9B25",
+  },
+  {
+    id: "midweek-prayer",
+    title: "Midweek prayer",
+    caption: "A circle of hands, a Tuesday night, a quiet room.",
+    campus: "Across the family",
+    image: "/photos/community/moment-prayer.jpg",
+    accent: "#8A5A3C",
+  },
+  {
+    id: "intergen-table",
+    title: "Three generations, one table",
+    caption: "Grandparents, parents, kids — Sunday lunch after church.",
+    campus: "Across the family",
+    image: "/photos/community/moment-intergen.jpg",
+    accent: "#765020",
+  },
+  {
+    id: "after-the-prayer",
+    title: "After the prayer",
+    caption: "The hug that says — you're not alone in this.",
+    campus: "Across the family",
+    image: "/photos/community/moment-group-hug.jpg",
+    accent: "#C45236",
+  },
+  {
+    id: "three-friends",
+    title: "Three friends, after the service",
+    caption: "Conversations that start in a foyer and never quite end.",
+    campus: "Across the family",
+    image: "/photos/community/moment-three-friends.jpg",
+    accent: "#C8906B",
+  },
+  {
+    id: "rain-sunday",
+    title: "Sunday in the rain",
+    caption: "The kind of weather that makes the inside feel warmer.",
+    campus: "Across the family",
+    image: "/photos/community/moment-in-the-rain.jpg",
+    accent: "#534D44",
+  },
+  {
+    id: "worship-morning",
+    title: "Worship, Sunday morning",
+    caption: "Hands open, eyes closed — the room finds one voice.",
+    campus: "Across the family",
+    image: "/photos/community/moment-worship.jpg",
+    accent: "#D9B089",
   },
 ];
 
 export function HomeMoments() {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="relative py-28 sm:py-36" style={{ background: "#FDFBF6" }}>
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10">
@@ -91,7 +140,7 @@ export function HomeMoments() {
             One family · many rooms
           </p>
           <motion.h2
-            initial={{ opacity: 0, y: 14 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -118,7 +167,7 @@ export function HomeMoments() {
           {MOMENTS.map((m, i) => (
             <motion.article
               key={m.id}
-              initial={{ opacity: 0, y: 16 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.7, delay: (i % 4) * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
@@ -134,7 +183,6 @@ export function HomeMoments() {
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.05]"
-                  unoptimized
                 />
                 <div
                   aria-hidden

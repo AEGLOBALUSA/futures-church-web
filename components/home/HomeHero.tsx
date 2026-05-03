@@ -197,7 +197,7 @@ export function HomeHero() {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-[100dvh] overflow-hidden"
       style={{
         background:
           "radial-gradient(ellipse at 20% 30%, #F7F1E6 0%, #F2E6D1 38%, #E8C9A6 72%, #C89675 100%)",
@@ -220,7 +220,6 @@ export function HomeHero() {
               className="object-cover object-center"
               style={{ filter: "saturate(0.85) brightness(0.95)" }}
               priority={i === 0}
-              unoptimized
             />
           </div>
         ))}
@@ -250,51 +249,6 @@ export function HomeHero() {
 
       <div className="pointer-events-none absolute inset-0 grain-overlay opacity-40" aria-hidden />
 
-      <div className="absolute top-28 left-6 sm:left-10 z-10 flex items-center gap-3">
-        <p
-          className="text-[11px] font-sans"
-          style={{
-            letterSpacing: "0.28em",
-            color: "#1C1A17",
-            textTransform: "uppercase",
-            fontWeight: 600,
-            textShadow: "0 1px 2px rgba(253,251,246,0.6)",
-          }}
-        >
-          Futures · Church
-        </p>
-        <span
-          aria-hidden
-          className="hidden sm:flex items-center gap-1.5 rounded-full border px-2.5 py-1"
-          style={{
-            borderColor: "rgba(184, 92, 59, 0.32)",
-            background: "rgba(184, 92, 59, 0.06)",
-          }}
-        >
-          <span className="relative flex h-1.5 w-1.5">
-            <span
-              className="absolute inline-flex h-full w-full animate-ping rounded-full"
-              style={{ background: "#B85C3B", opacity: 0.55 }}
-            />
-            <span
-              className="relative inline-flex h-1.5 w-1.5 rounded-full"
-              style={{ background: "#B85C3B" }}
-            />
-          </span>
-          <span
-            className="font-sans"
-            style={{
-              fontSize: 9.5,
-              letterSpacing: "0.28em",
-              color: "#8B4A2E",
-              textTransform: "uppercase",
-            }}
-          >
-            Selah · Live
-          </span>
-        </span>
-      </div>
-
       <Link
         href="/campuses"
         className="absolute bottom-10 right-6 sm:right-10 z-10 group flex items-center gap-2 text-[15px] italic font-display"
@@ -304,7 +258,7 @@ export function HomeHero() {
         <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
       </Link>
 
-      <div className="relative z-10 mx-auto grid min-h-screen max-w-[1440px] items-center gap-10 px-6 py-28 sm:px-10 lg:grid-cols-[minmax(0,55fr)_minmax(0,45fr)] lg:gap-14 lg:px-16">
+      <div className="relative z-10 mx-auto grid min-h-[100dvh] max-w-[1440px] items-center gap-10 px-6 py-28 sm:px-10 lg:grid-cols-[minmax(0,50fr)_minmax(0,50fr)] lg:gap-12 lg:px-16">
         <div className="w-full lg:max-w-[640px]">
           <motion.div
             ref={cardRef}
@@ -335,7 +289,8 @@ export function HomeHero() {
                 fontWeight: 300,
               }}
             >
-              Come <em className="italic">home</em>. Ask Milo.
+              <span className="block">Come <em className="italic">home</em>.</span>
+              <span className="block">Ask Milo.</span>
             </h1>
             <p
               className="mt-5 font-sans max-w-[46ch]"
@@ -730,7 +685,7 @@ function HeroPortraitCollage() {
           alt={large.alt}
           caption={large.name ? `${large.name} · ${large.campus}` : undefined}
           className="absolute bottom-0 left-0"
-          style={{ width: "62%", height: "62%" }}
+          style={{ width: "70%", height: "70%" }}
           delay={0.25}
           kenBurns
         />
@@ -739,7 +694,7 @@ function HeroPortraitCollage() {
           alt={medium.alt}
           caption={medium.name ? `${medium.name} · ${medium.campus}` : undefined}
           className="absolute right-[2%] top-0"
-          style={{ width: "46%", height: "42%" }}
+          style={{ width: "52%", height: "48%" }}
           delay={0.4}
           kenBurns
         />
@@ -747,7 +702,7 @@ function HeroPortraitCollage() {
           src={smalls[0].url}
           alt={smalls[0].alt}
           className="absolute"
-          style={{ top: "18%", left: "40%", width: "28%", height: "26%" }}
+          style={{ top: "20%", left: "44%", width: "32%", height: "30%" }}
           delay={0.55}
         />
         <PortraitFrame
@@ -755,7 +710,7 @@ function HeroPortraitCollage() {
           alt={smalls[1].alt}
           caption={smalls[1].name ? `${smalls[1].name} · ${smalls[1].campus}` : undefined}
           className="absolute bottom-[4%] right-0"
-          style={{ width: "32%", height: "30%" }}
+          style={{ width: "38%", height: "35%" }}
           delay={0.7}
         />
       </div>
@@ -807,13 +762,12 @@ function PortraitFrame({
         ...style,
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={src}
         alt={alt}
-        loading="lazy"
-        decoding="async"
-        className={`h-full w-full object-cover transition-[filter] duration-500 ease-out group-hover:saturate-100 ${kenBurns ? "hero-kb" : ""}`}
+        fill
+        sizes="(min-width: 1024px) 31vw, 180px"
+        className={`object-cover transition-[filter] duration-500 ease-out group-hover:saturate-100 ${kenBurns ? "hero-kb" : ""}`}
         style={{ filter: "saturate(0.85)" }}
       />
       {caption && (

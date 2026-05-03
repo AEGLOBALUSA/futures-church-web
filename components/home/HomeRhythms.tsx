@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Play, BookOpen, Smartphone } from "lucide-react";
 
 const RHYTHMS = [
@@ -26,15 +26,16 @@ const RHYTHMS = [
   {
     slug: "selah",
     title: "Selah — our app",
-    caption: "A daily pause. Scripture. Stillness. Your phone — gentler.",
+    caption: "A daily pastoral companion. For the questions you can't google.",
     href: "/selah",
-    cta: "download",
+    cta: "learn more",
     icon: Smartphone,
     tone: "#AC9B25",
   },
 ];
 
 export function HomeRhythms() {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="relative py-28 sm:py-36" style={{ background: "#FDFBF6" }}>
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10">
@@ -46,7 +47,7 @@ export function HomeRhythms() {
             Rhythms for the week
           </p>
           <motion.h2
-            initial={{ opacity: 0, y: 14 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -68,7 +69,7 @@ export function HomeRhythms() {
             return (
               <motion.div
                 key={r.slug}
-                initial={{ opacity: 0, y: 16 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.7, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}

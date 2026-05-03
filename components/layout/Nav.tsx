@@ -79,6 +79,7 @@ export function Nav() {
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-300 ${shellClass}`}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
         <Link
@@ -168,7 +169,7 @@ export function Nav() {
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Open menu"
-          className="p-2 md:hidden"
+          className="flex h-11 w-11 items-center justify-center md:hidden"
         >
           <Menu className={`h-5 w-5 ${isDark ? "text-cream" : "text-ink-900"}`} strokeWidth={1.75} />
         </button>
@@ -190,7 +191,7 @@ export function Nav() {
               WebkitBackdropFilter: "blur(24px) saturate(160%)",
             }}
           >
-            <div className="flex h-full flex-col px-6 pb-10 pt-5">
+            <div className="flex h-full flex-col px-6 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(2.5rem,env(safe-area-inset-bottom))]">
               <div className="flex items-center justify-between">
                 <Link
                   href="/"
@@ -205,7 +206,7 @@ export function Nav() {
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
-                  className="p-2"
+                  className="flex h-11 w-11 items-center justify-center"
                 >
                   <X className={`h-5 w-5 ${isDark ? "text-cream" : "text-ink-900"}`} strokeWidth={1.75} />
                 </button>
@@ -227,7 +228,7 @@ export function Nav() {
                             key={c.href}
                             href={c.href}
                             onClick={() => setOpen(false)}
-                            className={`font-display italic ${isDark ? "text-cream" : "text-ink-900"}`}
+                            className={`block py-2 font-display italic ${isDark ? "text-cream" : "text-ink-900"}`}
                             style={{ fontSize: 26, fontWeight: 300 }}
                           >
                             {c.label}
@@ -240,7 +241,7 @@ export function Nav() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className={`font-display italic ${isDark ? "text-cream" : "text-ink-900"}`}
+                      className={`block py-2 font-display italic ${isDark ? "text-cream" : "text-ink-900"}`}
                       style={{ fontSize: 28, fontWeight: 300 }}
                     >
                       {item.label}

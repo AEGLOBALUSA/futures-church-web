@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { AIInput } from "@/components/ai/AIInput";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow, Hero, Sub } from "@/components/ui/Type";
@@ -85,6 +85,7 @@ function KidsHero() {
 }
 
 function KidsPromise({ promise }: { promise: KidsData["promise"] }) {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="px-6 py-24 sm:px-10">
       <div className="mx-auto max-w-[1180px]">
@@ -93,7 +94,7 @@ function KidsPromise({ promise }: { promise: KidsData["promise"] }) {
           {promise.map((p, i) => (
             <motion.div
               key={p.title}
-              initial={{ opacity: 0, y: 16 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}

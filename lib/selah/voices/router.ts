@@ -1,13 +1,23 @@
 /**
- * Voice router — picks which voice(s) Selah speaks with for a given input.
+ * Voice router — picks which pastoral mode(s) Selah speaks in for a given
+ * input.
  *
- * Returns a VoiceSignal with scores 0–1 for each voice. Threshold > 0.5
- * includes that voice in the blend. If none cross, default to Pastor.
+ * INTERNAL ARCHITECTURE — NEVER USER-VISIBLE.
  *
- * Uses a two-stage strategy:
- *   1. Keyword prior — fast, local, deterministic. Good at the obvious cases.
- *   2. Haiku classifier — slower, semantic, catches the subtle cases the
- *      keyword prior misses. Called only when the prior is ambiguous.
+ * Selah presents to users as one pastor. Under the hood, the system prompt
+ * is composed from one of three pastoral modes — Prophet, Pastor, Strategist
+ * — chosen per turn. The names map to distinct biblical archetypes the model
+ * is trained to lean into; they're a coding convenience, not marketing copy.
+ * If you ever surface these names to the user, you've crossed the line.
+ *
+ * Returns a VoiceSignal with scores 0–1 for each mode. Threshold > 0.5
+ * includes that mode in the blend. If none cross, default to Pastor — that's
+ * the warm, present default a user expects when no specific signal is loud.
+ *
+ * Two-stage strategy:
+ *   1. Keyword prior — fast, local, deterministic. Catches obvious cases.
+ *   2. Haiku classifier — slower, semantic, catches the subtle cases. Only
+ *      called when the prior is ambiguous.
  */
 
 import { Anthropic } from "@anthropic-ai/sdk";
@@ -167,7 +177,7 @@ export function buildHybridSystemPrompt(signals: VoiceSignal): {
 
   if (parts.length > 1) {
     parts.push(
-      `You are speaking with multiple voices in harmony. Prophet speaks truth. Pastor holds the person. Strategist names the way forward. Blend them so the person hears one Selah, not three — truth with gentleness, direction with presence.`,
+      `Multiple pastoral modes are in play in this moment. Hold them as one integrated voice — truth carried with gentleness, direction carried with presence. The person should hear one Selah, never the seams between modes.`,
     );
   }
 

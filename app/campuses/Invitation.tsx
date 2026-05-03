@@ -1,9 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 
 export function Invitation() {
+  const reduceMotion = useReducedMotion();
   function openDock() {
     window.dispatchEvent(new Event("futures:open-dock"));
   }
@@ -18,7 +19,7 @@ export function Invitation() {
     >
       <div className="mx-auto max-w-[1440px] px-6 text-center sm:px-10">
         <motion.h2
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
@@ -35,7 +36,7 @@ export function Invitation() {
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0, y: 14 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
@@ -47,7 +48,7 @@ export function Invitation() {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, delay: 0.35, ease: [0.25, 0.1, 0.25, 1] }}

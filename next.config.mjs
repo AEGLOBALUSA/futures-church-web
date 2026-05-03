@@ -13,6 +13,8 @@ const nextConfig = {
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "thechurchco-production.s3.amazonaws.com" },
       { protocol: "https", hostname: "futures.college" },
+      // v3 prototype — source of original Futures photography until assets migrate locally.
+      { protocol: "https", hostname: "futures-church-v3.netlify.app" },
     ],
   },
   experimental: {

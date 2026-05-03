@@ -60,7 +60,7 @@ export function AIGuideDock() {
                 ? `Ask Milo (${unreadCount} new message${unreadCount === 1 ? "" : "s"})`
                 : "Ask Milo"
             }
-            className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-full border px-5 py-3 font-ui shadow-[0_20px_48px_-24px_rgba(20,20,20,0.35)] backdrop-blur-glass transition-transform hover:-translate-y-0.5 ${launcherClass}`}
+            className={`fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-6 z-50 flex items-center gap-3 rounded-full border px-5 py-3 font-ui shadow-[0_20px_48px_-24px_rgba(20,20,20,0.35)] backdrop-blur-glass transition-transform hover:-translate-y-0.5 ${launcherClass}`}
             style={{
               WebkitBackdropFilter: "blur(24px) saturate(180%)",
               backdropFilter: "blur(24px) saturate(180%)",
@@ -95,11 +95,11 @@ export function AIGuideDock() {
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
             role="dialog"
             aria-label="Milo — Futures guide"
-            className={`fixed bottom-6 right-6 z-50 flex w-[min(460px,calc(100vw-2rem))] flex-col overflow-hidden rounded-[28px] border backdrop-blur-glass ${dockClass}`}
+            className={`fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-6 z-50 flex w-[min(460px,calc(100vw-2rem))] flex-col overflow-hidden rounded-[28px] border backdrop-blur-glass ${dockClass}`}
             style={{
               WebkitBackdropFilter: "blur(24px) saturate(180%)",
               backdropFilter: "blur(24px) saturate(180%)",
-              maxHeight: "min(720px, calc(100vh - 2rem))",
+              maxHeight: "min(720px, calc(100dvh - 2rem))",
             }}
           >
             <header className={`flex items-center justify-between border-b px-5 py-4 ${headerBorder}`}>
@@ -125,7 +125,7 @@ export function AIGuideDock() {
                 type="button"
                 onClick={closeDock}
                 aria-label="Close Milo"
-                className={`flex h-8 w-8 items-center justify-center rounded-full transition ${closeBtn}`}
+                className={`flex h-11 w-11 items-center justify-center rounded-full transition ${closeBtn}`}
               >
                 <X className="h-4 w-4" />
               </button>

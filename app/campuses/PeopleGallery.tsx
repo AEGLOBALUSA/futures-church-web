@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import { Quote } from "lucide-react";
 
 // Full names + locations + portraits.
@@ -83,6 +83,7 @@ const PEOPLE: Person[] = [
 ];
 
 export function PeopleGallery() {
+  const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const x = useTransform(scrollYProgress, [0, 1], ["2%", "-8%"]);
@@ -95,7 +96,7 @@ export function PeopleGallery() {
     >
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
@@ -144,6 +145,7 @@ export function PeopleGallery() {
 }
 
 function PersonCard({ person, index }: { person: Person; index: number }) {
+  const reduceMotion = useReducedMotion();
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLElement>(null);
   const mx = useMotionValue(0);
@@ -166,7 +168,7 @@ function PersonCard({ person, index }: { person: Person; index: number }) {
   return (
     <motion.figure
       ref={cardRef}
-      initial={{ opacity: 0, y: 30 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.8, delay: index * 0.07, ease: [0.25, 0.1, 0.25, 1] }}

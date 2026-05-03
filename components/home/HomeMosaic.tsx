@@ -6,44 +6,82 @@ import { motion, useReducedMotion } from "framer-motion";
 
 // Asymmetric photo mosaic — editorial, museum-like. 12-column grid, photos
 // span varied sizes so the eye has texture to travel through. Real Futures
-// photography from Australia and USA.
+// photography from Australia, USA, Indonesia, and Venezuela (Futuros).
 //
 // Layout principles:
 //   — mix portrait and landscape
 //   — let a few tiles breathe with larger spans
 //   — no captions; the pictures carry the weight
+//   — diversity intent: ≥50% white (Australian / American), with substantial
+//     Indonesian and Spanish-Latin (Futuros / Venezuela) presence
 const TILES: { src: string; alt: string; span: string; rowSpan?: string }[] = [
   // Row 1/2 — left tower + two stacks
-  { src: "/photos/mosaic/mosaic_au_5.jpg",  alt: "Sojourner Cafe",      span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
-  { src: "/photos/mosaic/mosaic_au_8.jpg",  alt: "Youth connecting",    span: "col-span-6 sm:col-span-4" },
-  { src: "/photos/mosaic/mosaic_au_14.jpg", alt: "Kids ministry",       span: "col-span-6 sm:col-span-4" },
-  { src: "/photos/mosaic/mosaic_au_28.jpg", alt: "Community",           span: "col-span-6 sm:col-span-4" },
-  { src: "/photos/mosaic/mosaic_au_35.jpg", alt: "Family",              span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_5.jpg",  alt: "Sojourner Cafe",                                                                  span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/dscf1346-md.jpg", alt: "Three women from the family laughing together after Sunday — Adelaide City",       span: "col-span-6 sm:col-span-4" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/7i8a0252-md.jpg", alt: "Pre-service mingle — Bali, Indonesia",                                              span: "col-span-6 sm:col-span-4" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/img_2190-md.jpg", alt: "Wider crowd of attendees — Adelaide",                                               span: "col-span-6 sm:col-span-4" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/img_2104-md.jpg", alt: "Small cluster of people in a kitchen — Solo, Indonesia",                            span: "col-span-6 sm:col-span-4" },
 
   // Row 3 — two wide
-  { src: "/photos/mosaic/mosaic_au_71.jpg", alt: "Baptism",             span: "col-span-6 sm:col-span-6" },
-  { src: "/photos/mosaic/mosaic_au_25.jpg", alt: "A Sunday moment",     span: "col-span-6 sm:col-span-6" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/mdia2516-md.jpg", alt: "Wide-frame Sunday gathering",                                                       span: "col-span-6 sm:col-span-6" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/dscf1360-md.jpg", alt: "Three friends laughing — Adelaide City",                                            span: "col-span-6 sm:col-span-6" },
 
   // Row 4/5 — right tower + two stacks
-  { src: "/photos/mosaic/mosaic_au_22.jpg", alt: "Worship",             span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
-  { src: "/photos/mosaic/mosaic_au_9.jpg",  alt: "Young hearts",        span: "col-span-6 sm:col-span-4" },
-  { src: "/photos/mosaic/mosaic_au_13.jpg", alt: "A glimpse",           span: "col-span-6 sm:col-span-4" },
-  { src: "/photos/mosaic/mosaic_au_62.jpg", alt: "Sunday lunch",        span: "col-span-6 sm:col-span-4" },
-  { src: "/photos/mosaic/mosaic_us_11.jpg", alt: "USA campus",          span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_22.jpg", alt: "Worship",                                                                         span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/wgb_8291-md.jpg", alt: "Young woman in a champagne shirt smiling — Atlanta",                                span: "col-span-6 sm:col-span-4" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/7i8a9019-md.jpg", alt: "A couple in conversation by the foyer — Paradise",                                  span: "col-span-6 sm:col-span-4" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/img_2153-md.jpg", alt: "Mid-event at the bar — Gwinnett",                                                   span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_us_11.jpg", alt: "USA campus",                                                                      span: "col-span-6 sm:col-span-4" },
 
   // Row 6 — three
-  { src: "/photos/mosaic/mosaic_au_44.jpg", alt: "In the rain",         span: "col-span-6 sm:col-span-4" },
-  { src: "/photos/mosaic/mosaic_au_17.jpg", alt: "Friendship",          span: "col-span-6 sm:col-span-4" },
-  { src: "/photos/mosaic/mosaic_au_41.jpg", alt: "The room",            span: "col-span-6 sm:col-span-4" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/as3_8268-md.jpg", alt: "Silhouette against a horizon, lake-side — Duluth",                                  span: "col-span-6 sm:col-span-4" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/wgb_4940-md.jpg", alt: "Couch group, mid-conversation — Salisbury",                                         span: "col-span-6 sm:col-span-4" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/7i8a9271-md.jpg", alt: "A pair laughing — Cemani",                                                          span: "col-span-6 sm:col-span-4" },
 
   // Row 7 — one wide, two narrow
-  { src: "/photos/mosaic/mosaic_au_45.jpg", alt: "Together",            span: "col-span-6 sm:col-span-6" },
-  { src: "/photos/mosaic/mosaic_au_42.jpg", alt: "Prayer",              span: "col-span-6 sm:col-span-3" },
-  { src: "/photos/mosaic/mosaic_au_27.jpg", alt: "Sunday arrival",      span: "col-span-6 sm:col-span-3" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/wgb_7742-md.jpg", alt: "Four women side-by-side — Atlanta",                                                 span: "col-span-6 sm:col-span-6" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/wgb_6089-md.jpg", alt: "Coral floral dress, mid-conversation — Atlanta",                                    span: "col-span-6 sm:col-span-3" },
+  { src: "https://futures-church-v3.netlify.app/v3-photos/as3_7587-md.jpg", alt: "An Asian man in a cream jacket against a brick wall",                               span: "col-span-6 sm:col-span-3" },
 
   // Row 8 — two wide
-  { src: "/photos/mosaic/mosaic_au_73.jpg", alt: "Gathering",           span: "col-span-6 sm:col-span-6" },
-  { src: "/photos/mosaic/mosaic_us_2.jpg",  alt: "Franklin",            span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/mosaic/mosaic_au_73.jpg", alt: "Gathering",                                                                       span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/mosaic/mosaic_us_2.jpg",  alt: "Franklin",                                                                        span: "col-span-6 sm:col-span-6" },
+
+  // — — — Extension begins here — — —
+  // The lower mosaic widens the family's geography: Futuros (Venezuela / Spanish-speaking),
+  // Solo and Cemani (Indonesia), and a deeper bench of Australian + USA campuses.
+
+  // Row 9 — left tower (Futuros) + two stacks
+  { src: "/photos/campuses/futuros_2.jpg",   alt: "Futuros family — Caracas, Venezuela",                                            span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
+  { src: "/photos/campuses/solo_4.jpg",      alt: "Sunday morning — Solo, Indonesia",                                               span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/salisbury_4.jpg", alt: "Salisbury small group — Adelaide, Australia",                                    span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/paradise_4.jpg",  alt: "Paradise campus — Adelaide, Australia",                                          span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/futuros_5.jpg",   alt: "Hands raised — Futuros, Venezuela",                                              span: "col-span-6 sm:col-span-4" },
+
+  // Row 10 — two wide
+  { src: "/photos/campuses/cemani_5.jpg",    alt: "Cemani gathering — Indonesia",                                                   span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/campuses/franklin_3.jpg",  alt: "Franklin, Tennessee — kids and parents",                                         span: "col-span-6 sm:col-span-6" },
+
+  // Row 11/12 — right tower (Futuros) + two stacks
+  { src: "/photos/campuses/futuros_3.jpg",   alt: "Caracas, Venezuela — laughter",                                                  span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
+  { src: "/photos/campuses/clare_5.jpg",     alt: "Clare Valley campus — South Australia",                                          span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/solo_8.jpg",      alt: "Solo, Indonesia — small group",                                                  span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_18.jpg",  alt: "Sunday in the foyer — Adelaide",                                                 span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/futuros_7.jpg",   alt: "Communion — Futuros, Venezuela",                                                 span: "col-span-6 sm:col-span-4" },
+
+  // Row 13 — three
+  { src: "/photos/mosaic/mosaic_au_29.jpg",  alt: "Adelaide gathering",                                                             span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/campuses/cemani_7.jpg",    alt: "Cemani, Indonesia — Sunday",                                                     span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_42.jpg",  alt: "Adelaide City — kids running",                                                   span: "col-span-6 sm:col-span-4" },
+
+  // Row 14 — one wide, two narrow
+  { src: "/photos/campuses/futuros_10.jpg",  alt: "A wide gathering — Futuros, Venezuela",                                          span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/mosaic/mosaic_id_30.jpg",  alt: "Indonesian gathering",                                                           span: "col-span-6 sm:col-span-3" },
+  { src: "/photos/campuses/futuros_4.jpg",   alt: "A Futuros couple — Caracas, Venezuela",                                          span: "col-span-6 sm:col-span-3" },
+
+  // Row 15 — two wide closer
+  { src: "/photos/campuses/kadina_3.jpg",    alt: "Kadina campus — South Australia",                                                span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/campuses/mtbarker_4.jpg",  alt: "Mt Barker campus — Adelaide Hills",                                              span: "col-span-6 sm:col-span-6" },
 ];
 
 export function HomeMosaic() {
@@ -121,7 +159,6 @@ export function HomeMosaic() {
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 25vw"
                 className="object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
-                unoptimized
                 loading="lazy"
               />
               <div
