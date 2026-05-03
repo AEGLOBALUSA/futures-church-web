@@ -24,28 +24,57 @@ const CHIPS = [
   "can someone meet me at the door?",
 ];
 
-const EXPECT_TILES = [
+// Hero rotation \u2014 three warm "first Sunday" frames from the curated library.
+// Sourced locally so they ship with the site (no Unsplash hot-link).
+const HERO_FRAMES = [
+  { url: "/photos/hero/hero_5.jpg",  alt: "Futures Church \u2014 family on a Sunday morning" },
+  { url: "/photos/hero/hero_31.jpg", alt: "Futures Church \u2014 Sunday together" },
+  { url: "/photos/hero/hero_30.jpg", alt: "Futures Church \u2014 community after the service" },
+];
+
+// "From the carpark to the couch." A 4-tile arrival journey, lead tile is
+// the largest (the moment of pulling in). All photos are local from the
+// curated library \u2014 no stock.
+const EXPECT_TILES: { t: string; b: string; p: string; lead?: boolean }[] = [
   {
-    t: "Parking",
-    b: "Plenty of free spots at every campus. Pull in near the main entrance \u2014 a host will wave you in.",
-    p: "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=1200&q=80&auto=format&fit=crop",
+    t: "Pulling in",
+    b: "Free parking at every campus. Pull near the main entrance and a host will wave you in. Late is fine \u2014 slip into the back, no one rushes you.",
+    p: "/photos/hero/hero_30.jpg",
+    lead: true,
   },
   {
-    t: "Entrance",
-    b: "A warm welcome desk. Quick hello, no quiz. You&rsquo;ll know exactly where to go.",
-    p: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1200&q=80&auto=format&fit=crop",
+    t: "At the door",
+    b: "Warm welcome desk, quick hello, no quiz. A host will walk you to the room if you want.",
+    p: "/photos/hero/hero_12.jpg",
   },
   {
     t: "Kids check-in",
     b: "Digital check-in, matching security tags, background-checked volunteers. Your kids will be happy.",
-    p: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1200&q=80&auto=format&fit=crop",
+    p: "/photos/hero/hero_8.jpg",
   },
   {
     t: "Where to sit",
-    b: "Anywhere. Front row, back row, the couch. Stay for coffee after \u2014 we&rsquo;re not in a hurry.",
-    p: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1200&q=80&auto=format&fit=crop",
+    b: "Anywhere. Front row, back row, the couch. Stay for coffee after \u2014 we're not in a hurry.",
+    p: "/photos/hero/hero_16.jpg",
   },
 ];
+
+// Map a campus name to a warm tone \u2014 used for the testimonial initial circles
+// so each card's accent matches the campus's region tone (Adelaide warm-cream,
+// USA mustard, Indonesia clay, etc.).
+const CAMPUS_TONE: Record<string, string> = {
+  "Paradise": "#C8906B",
+  "Adelaide City": "#C8906B",
+  "Mount Barker": "#C8906B",
+  "Salisbury": "#C8906B",
+  "Gwinnett": "#AC9B25",
+  "Kennesaw": "#AC9B25",
+  "Alpharetta": "#AC9B25",
+  "Franklin": "#AC9B25",
+  "Bali": "#C45236",
+  "Solo": "#C45236",
+  "Cemani": "#C45236",
+};
 
 const FAQ: { q: string; a: string }[] = [
   { q: "What should I wear?", a: "Come as you are. Jeans and a t-shirt is fine. So is a suit. We really mean it." },
@@ -79,41 +108,129 @@ export function PlanAVisitPageClient() {
 }
 
 function PlanAVisitHero() {
+  // Cross-fade between three "first Sunday" frames every ~6 seconds, with a
+  // gentle Ken Burns drift on each. Same rhythm as the home hero so the site
+  // feels coherent.
+  const [frame, setFrame] = useState(0);
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setFrame((f) => (f + 1) % HERO_FRAMES.length);
+    }, 6000);
+    return () => window.clearInterval(id);
+  }, []);
+
   return (
-    <section className="relative overflow-hidden px-6 pb-20 pt-32 sm:px-10">
+    <section className="relative overflow-hidden px-6 pb-20 pt-28 sm:px-10 sm:pt-32">
+      {/* Ambient warm wash behind everything — same gradient family as the rest of the site. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 20% 10%, rgba(204,143,74,0.14), transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 25% 12%, rgba(204,143,74,0.16), transparent 70%)",
         }}
       />
-      <div className="relative mx-auto max-w-[1200px]">
-        <Eyebrow>PLAN A VISIT &middot; EVERY CAMPUS</Eyebrow>
-        <motion.h1
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mt-4 font-display text-ink-900"
+
+      <div className="relative mx-auto grid max-w-[1280px] items-center gap-10 lg:grid-cols-[5fr_6fr] lg:gap-14">
+        {/* Photo column — Ken-Burns rotation, full warmth. Order-2 on mobile so the
+            text leads, order-1 on desktop so the eye lands on faces first. */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98, y: 14 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1.1, ease: [0.25, 0.1, 0.25, 1] }}
+          className="relative order-2 overflow-hidden rounded-[28px] border border-ink-900/5 lg:order-1"
           style={{
-            fontSize: "clamp(2.5rem,6.5vw,5.5rem)",
-            fontWeight: 300,
-            lineHeight: 0.98,
-            letterSpacing: "-0.02em",
+            aspectRatio: "5 / 6",
+            boxShadow: "0 40px 80px -32px rgba(20,20,20,0.32)",
           }}
         >
-          Come visit. We&rsquo;ve been <em className="italic">expecting</em> you.
-        </motion.h1>
-        <p className="mt-6 max-w-[54ch] font-body text-[18px] leading-relaxed text-ink-600">
-          Tell us a few things and we&rsquo;ll save you a seat &mdash; and meet you at the door.
-        </p>
-        <div className="mt-10 max-w-[620px]">
-          <GlassCard breathe className="p-5">
-            <AIInput placeholder="Ask a first-visit question&hellip;" chips={CHIPS} compact />
-          </GlassCard>
+          {HERO_FRAMES.map((f, i) => (
+            <div
+              key={f.url}
+              className={`pa-frame absolute inset-0 transition-opacity duration-[1100ms] ease-in-out ${
+                i === frame ? "is-active" : ""
+              }`}
+              style={{ opacity: i === frame ? 1 : 0 }}
+            >
+              <Image
+                src={f.url}
+                alt={f.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="object-cover object-center"
+                style={{ filter: "saturate(0.94) brightness(0.97)" }}
+                priority={i === 0}
+                unoptimized
+              />
+            </div>
+          ))}
+          {/* Warm bottom-left vignette so the right-column eyebrow doesn't feel competed-with. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(247,241,230,0.05) 0%, rgba(200,150,117,0.18) 60%, rgba(140,90,60,0.28) 100%)",
+            }}
+          />
+        </motion.div>
+
+        {/* Content column — eyebrow, headline, AI pill. */}
+        <div className="order-1 lg:order-2">
+          <Eyebrow>PLAN A VISIT &middot; EVERY CAMPUS</Eyebrow>
+          <motion.h1
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-4 font-display text-ink-900"
+            style={{
+              fontSize: "clamp(2.5rem,6.5vw,5.5rem)",
+              fontWeight: 300,
+              lineHeight: 0.98,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Come visit. We&rsquo;ve been <em className="italic">expecting</em> you.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-6 max-w-[54ch] font-body text-[18px] leading-relaxed text-ink-600"
+          >
+            Tell us a few things and we&rsquo;ll save you a seat &mdash; and meet you at the door.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-9 max-w-[620px]"
+          >
+            <GlassCard breathe className="p-5">
+              <AIInput placeholder="Ask a first-visit question&hellip;" chips={CHIPS} compact />
+            </GlassCard>
+            <p className="mt-4 font-ui text-[11px] uppercase tracking-[0.22em] text-ink-500">
+              Or fill the three-step plan below — takes about 60 seconds.
+            </p>
+          </motion.div>
         </div>
       </div>
+
+      {/* Subtle Ken Burns — same shape as the home hero so motion feels familial.
+          Auto-disabled by the global prefers-reduced-motion + html.save-data hooks
+          in globals.css. */}
+      <style jsx>{`
+        .pa-frame.is-active :global(img) {
+          animation: paKb 14s ease-in-out alternate infinite;
+        }
+        @keyframes paKb {
+          0%   { transform: scale(1.0)  translate(0, 0); }
+          100% { transform: scale(1.06) translate(-1.2%, -0.8%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .pa-frame.is-active :global(img) { animation: none !important; }
+        }
+      `}</style>
     </section>
   );
 }
@@ -607,47 +724,119 @@ function FormNav({
 }
 
 function WhatToExpect() {
+  // Editorial 1 + 3 layout — the lead tile is the moment of arrival, the
+  // others stack alongside it as the unfolding rest of the morning.
+  const lead = EXPECT_TILES.find((t) => t.lead) ?? EXPECT_TILES[0];
+  const rest = EXPECT_TILES.filter((t) => t !== lead);
+
   return (
     <section className="px-6 py-24 sm:px-10">
-      <div className="mx-auto max-w-[1200px]">
-        <Eyebrow>WHAT TO EXPECT</Eyebrow>
-        <h2
-          className="mt-3 font-display text-ink-900"
-          style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+      <div className="mx-auto max-w-[1280px]">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          From the carpark to the <em className="italic">couch</em>.
-        </h2>
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {EXPECT_TILES.map((t) => (
-            <article
-              key={t.t}
-              className="overflow-hidden rounded-[20px] bg-white"
-              style={{ border: "1px solid rgba(20,20,20,0.05)" }}
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <Image
-                  src={t.p}
-                  alt={t.t}
-                  fill
-                  unoptimized
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-5">
-                <p
-                  className="font-display italic text-ink-900"
-                  style={{ fontSize: 22, fontWeight: 300 }}
-                >
-                  {t.t}
-                </p>
-                <p
-                  className="mt-3 font-body text-[14px] leading-relaxed text-ink-600"
-                  dangerouslySetInnerHTML={{ __html: t.b }}
-                />
-              </div>
-            </article>
-          ))}
+          <Eyebrow>WHAT TO EXPECT</Eyebrow>
+          <h2
+            className="mt-3 font-display text-ink-900"
+            style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+          >
+            From the carpark to the <em className="italic">couch</em>.
+          </h2>
+          <p className="mt-5 max-w-[58ch] font-body text-[16px] leading-relaxed text-ink-600">
+            The whole arc of a Sunday morning, in four moments. None of them are surprises.
+          </p>
+        </motion.div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:gap-10">
+          {/* Lead tile — the arrival moment */}
+          <motion.article
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            className="overflow-hidden rounded-[24px] bg-white"
+            style={{
+              border: "1px solid rgba(20,20,20,0.05)",
+              boxShadow: "0 30px 60px -32px rgba(20,20,20,0.18)",
+            }}
+          >
+            <div className="relative aspect-[5/4] w-full overflow-hidden lg:aspect-[6/5]">
+              <Image
+                src={lead.p}
+                alt={lead.t}
+                fill
+                unoptimized
+                sizes="(max-width: 1024px) 100vw, 56vw"
+                className="object-cover"
+                style={{ filter: "saturate(0.94)" }}
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, transparent 50%, rgba(28,26,23,0.18) 100%)",
+                }}
+              />
+            </div>
+            <div className="p-7 lg:p-9">
+              <p className="font-ui text-[10px] uppercase tracking-[0.24em] text-warm-700">
+                Step one
+              </p>
+              <p
+                className="mt-2 font-display italic text-ink-900"
+                style={{ fontSize: "clamp(1.65rem, 2.6vw, 2.1rem)", fontWeight: 300, lineHeight: 1.1 }}
+              >
+                {lead.t}
+              </p>
+              <p
+                className="mt-4 max-w-[44ch] font-body text-[16px] leading-relaxed text-ink-600"
+                dangerouslySetInnerHTML={{ __html: lead.b }}
+              />
+            </div>
+          </motion.article>
+
+          {/* Three smaller tiles, stacked vertically on desktop */}
+          <div className="flex flex-col gap-5 lg:gap-6">
+            {rest.map((t, idx) => (
+              <motion.article
+                key={t.t}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7, delay: 0.1 + idx * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+                className="group flex gap-4 overflow-hidden rounded-[20px] bg-white p-3 transition-colors hover:bg-cream-100"
+                style={{ border: "1px solid rgba(20,20,20,0.05)" }}
+              >
+                <div className="relative aspect-square w-[110px] shrink-0 overflow-hidden rounded-[14px] sm:w-[140px]">
+                  <Image
+                    src={t.p}
+                    alt={t.t}
+                    fill
+                    unoptimized
+                    sizes="140px"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    style={{ filter: "saturate(0.94)" }}
+                  />
+                </div>
+                <div className="flex flex-col justify-center pr-3">
+                  <p
+                    className="font-display italic text-ink-900"
+                    style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)", fontWeight: 300, lineHeight: 1.15 }}
+                  >
+                    {t.t}
+                  </p>
+                  <p
+                    className="mt-1.5 font-body text-[13.5px] leading-snug text-ink-600"
+                    dangerouslySetInnerHTML={{ __html: t.b }}
+                  />
+                </div>
+              </motion.article>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -659,13 +848,20 @@ function FirstTimeFAQ() {
   return (
     <section className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
       <div className="mx-auto max-w-[820px]">
-        <Eyebrow>FIRST-TIME QUESTIONS</Eyebrow>
-        <h2
-          className="mt-3 font-display text-ink-900"
-          style={{ fontSize: "clamp(1.75rem,3.6vw,2.5rem)", fontWeight: 300, lineHeight: 1.05 }}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          The ones we <em className="italic">always</em> get.
-        </h2>
+          <Eyebrow>FIRST-TIME QUESTIONS</Eyebrow>
+          <h2
+            className="mt-3 font-display text-ink-900"
+            style={{ fontSize: "clamp(1.75rem,3.6vw,2.5rem)", fontWeight: 300, lineHeight: 1.05 }}
+          >
+            The ones we <em className="italic">always</em> get.
+          </h2>
+        </motion.div>
         <div className="mt-8 divide-y divide-ink-900/10 border-y border-ink-900/10">
           {FAQ.map((it, i) => {
             const isOpen = open === i;
@@ -713,31 +909,96 @@ function PreVisitTestimonials() {
   return (
     <section className="px-6 py-24 sm:px-10">
       <div className="mx-auto max-w-[1200px]">
-        <Eyebrow>FIRST-TIME VOICES</Eyebrow>
-        <h2
-          className="mt-3 font-display text-ink-900"
-          style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          Real. Specific. <em className="italic">Short</em>.
-        </h2>
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
-            <figure
-              key={t.name}
-              className="rounded-[22px] bg-white p-7"
-              style={{ border: "1px solid rgba(20,20,20,0.06)" }}
-            >
-              <blockquote
-                className="font-display italic text-ink-900"
-                style={{ fontSize: 22, fontWeight: 300, lineHeight: 1.25 }}
+          <Eyebrow>FIRST-TIME VOICES</Eyebrow>
+          <h2
+            className="mt-3 font-display text-ink-900"
+            style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
+          >
+            Real. Specific. <em className="italic">Short</em>.
+          </h2>
+        </motion.div>
+
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {TESTIMONIALS.map((t, idx) => {
+            const tone = CAMPUS_TONE[t.campus] ?? "#C8906B";
+            const initial = t.name.charAt(0).toUpperCase();
+            return (
+              <motion.figure
+                key={t.name}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{
+                  duration: 0.75,
+                  delay: idx * 0.1,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
+                className="relative overflow-hidden rounded-[24px] bg-white p-7 sm:p-8"
+                style={{
+                  border: "1px solid rgba(20,20,20,0.06)",
+                  boxShadow: "0 24px 48px -32px rgba(20,20,20,0.12)",
+                }}
               >
-                &ldquo;{t.q}&rdquo;
-              </blockquote>
-              <figcaption className="mt-5 font-ui text-[11px] uppercase tracking-[0.22em] text-warm-700">
-                {t.name} &middot; {t.campus}
-              </figcaption>
-            </figure>
-          ))}
+                {/* Decorative quote mark — branded campus tone, large + faint */}
+                <span
+                  aria-hidden
+                  className="absolute right-5 top-2 font-display italic"
+                  style={{
+                    color: tone,
+                    opacity: 0.18,
+                    fontSize: 100,
+                    lineHeight: 1,
+                    fontWeight: 300,
+                  }}
+                >
+                  &ldquo;
+                </span>
+
+                <blockquote
+                  className="relative font-display italic text-ink-900"
+                  style={{ fontSize: 21, fontWeight: 300, lineHeight: 1.3 }}
+                >
+                  &ldquo;{t.q}&rdquo;
+                </blockquote>
+
+                <figcaption className="mt-7 flex items-center gap-3.5">
+                  {/* Branded initial in a campus-toned circle. We don't have real
+                      visitor portraits and we never fake them — the initial circle
+                      is honest and still feels designed. */}
+                  <span
+                    aria-hidden
+                    className="flex size-11 shrink-0 items-center justify-center rounded-full font-display italic"
+                    style={{
+                      background: tone,
+                      color: "#FDFBF6",
+                      fontSize: 18,
+                      fontWeight: 300,
+                      boxShadow: `0 8px 18px -10px ${tone}80`,
+                    }}
+                  >
+                    {initial}
+                  </span>
+                  <span>
+                    <span
+                      className="block font-display italic text-ink-900"
+                      style={{ fontSize: 16, fontWeight: 300 }}
+                    >
+                      {t.name}
+                    </span>
+                    <span className="mt-0.5 block font-ui text-[10px] uppercase tracking-[0.24em] text-ink-500">
+                      First Sunday &middot; {t.campus}
+                    </span>
+                  </span>
+                </figcaption>
+              </motion.figure>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -747,7 +1008,13 @@ function PreVisitTestimonials() {
 function VisitAlternatives() {
   return (
     <section className="px-6 py-24 sm:px-10" style={{ background: "#F7F1E6" }}>
-      <div className="mx-auto max-w-[820px] text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+        className="mx-auto max-w-[820px] text-center"
+      >
         <Eyebrow>CAN&rsquo;T COME THIS WEEK?</Eyebrow>
         <h2
           className="mt-3 font-display text-ink-900"
@@ -772,7 +1039,7 @@ function VisitAlternatives() {
             Browse every campus &rarr;
           </Link>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
