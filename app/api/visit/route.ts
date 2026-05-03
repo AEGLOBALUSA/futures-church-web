@@ -3,6 +3,7 @@ import { pushToCRM } from "@/lib/providers/crm";
 import { sendEmail } from "@/lib/providers/email";
 import { sendSMS } from "@/lib/providers/sms";
 import { getCampusContact } from "@/lib/content/campus-contact";
+import { saveToInbox } from "@/lib/inbox";
 
 export const runtime = "nodejs";
 
@@ -36,6 +37,17 @@ export async function POST(req: Request) {
   const contact = getCampusContact(body.campusSlug);
   const visitTime = Date.parse(body.visitDate);
   const firstName = (body.name ?? "").split(" ")[0] || "friend";
+
+  // Persist first so the campus team always has the record,
+  // even if email/SMS keys aren't set yet.
+  await saveToInbox({
+    source: "visit",
+    name: body.name,
+    email: body.email,
+    phone: body.phone,
+    campusSlug: body.campusSlug,
+    body: { ...body, campusPastor: contact.pastorName },
+  });
 
   await pushToCRM({
     source: "plan-a-visit",

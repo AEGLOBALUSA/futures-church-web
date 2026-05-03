@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { sendEmail } from "@/lib/providers/email";
 import { pushToCRM } from "@/lib/providers/crm";
+import { saveToInbox } from "@/lib/inbox";
 
 export const runtime = "nodejs";
 
@@ -36,6 +37,17 @@ export async function POST(req: Request) {
   }
 
   const sla = TEAM_SLA[body.team] ?? "3 business days";
+
+  // Persist first — durable record even if email/CRM aren't yet wired.
+  await saveToInbox({
+    source: "contact",
+    name: body.name,
+    email: body.email,
+    campusSlug: body.campus,
+    team: body.team,
+    urgent: body.urgent ?? false,
+    body: { ...body, sla },
+  });
 
   await pushToCRM({
     source: "contact",
