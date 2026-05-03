@@ -15,6 +15,12 @@ import {
   MILO_PERSONALITY,
 } from "./milo-knowledge";
 import { buildEventsKnowledgeForMilo } from "@/lib/events/server";
+import {
+  findNearestCampuses,
+  formatNearestCampusesForMilo,
+} from "./tools/findNearestCampuses";
+
+export type UserLocation = { lat: number; lng: number };
 
 export type SystemBlock = {
   type: "text";
@@ -62,7 +68,8 @@ const GREETING_HINT: Record<"en" | "es" | "id" | "pt", string> = {
  */
 export async function buildSystemBlocks(
   pageContext?: string,
-  language: "en" | "es" | "id" | "pt" = "en"
+  language: "en" | "es" | "id" | "pt" = "en",
+  userLocation?: UserLocation
 ): Promise<SystemBlock[]> {
   const blocks: SystemBlock[] = [
     { type: "text", text: MILO_PERSONALITY },
@@ -122,6 +129,26 @@ export async function buildSystemBlocks(
     blocks.push({
       type: "text",
       text: `# Language hint\n${GREETING_HINT[language]}`,
+    });
+  }
+
+  // User location context — only included when the visitor has shared their
+  // coordinates this turn. NEVER cached (precision changes per-visitor) and
+  // sits last so it overrides any earlier campus-distance assumptions.
+  if (userLocation) {
+    const nearest = findNearestCampuses(userLocation.lat, userLocation.lng, 3);
+    blocks.push({
+      type: "text",
+      text:
+        `# User location context\n` +
+        `The visitor has shared their location this turn. Their three nearest ` +
+        `Futures campuses by great-circle distance are:\n\n` +
+        `${formatNearestCampusesForMilo(nearest)}\n\n` +
+        `Use this to answer location-relevant questions directly. Lead with ` +
+        `the closest one, name its distance and service time, and link to ` +
+        `/plan-a-visit. Don't ask for their location again — you have it. If ` +
+        `the closest is more than 200 km away, acknowledge that visiting may ` +
+        `not be practical and offer Online Church + /watch instead.`,
     });
   }
 

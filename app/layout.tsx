@@ -11,6 +11,7 @@ import { AIGuideDockLazy } from "@/components/ai/AIGuideDockLazy";
 import { ServiceTimeBanner } from "@/components/layout/ServiceTimeBanner";
 import { EditModeProvider } from "@/components/edit/EditModeProvider";
 import { EditModePill } from "@/components/edit/EditModePill";
+import { MotionConfigProvider } from "@/components/layout/MotionConfigProvider";
 import { getEditorScope } from "@/lib/edit/auth";
 
 const fraunces = Fraunces({
@@ -160,12 +161,14 @@ export default async function RootLayout({
         </a>
         <EditModeProvider scope={editorScope}>
           <AIGuideProvider>
-            {isCollegeDomain ? <CollegeNav /> : <Nav />}
-            {!isCollegeDomain && <ServiceTimeBanner />}
-            <main id="main" className="relative">{children}</main>
-            {isCollegeDomain ? <CollegeFooter /> : <Footer />}
-            <AIGuideDockLazy />
-            <EditModePill />
+            <MotionConfigProvider>
+              {isCollegeDomain ? <CollegeNav /> : <Nav />}
+              {!isCollegeDomain && <ServiceTimeBanner />}
+              <main id="main" className="relative">{children}</main>
+              {isCollegeDomain ? <CollegeFooter /> : <Footer />}
+              <AIGuideDockLazy />
+              <EditModePill />
+            </MotionConfigProvider>
           </AIGuideProvider>
         </EditModeProvider>
       </body>

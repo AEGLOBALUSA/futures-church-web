@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useUserLocation } from "./useUserLocation";
 
 const STORAGE_KEY = "futures-guide-conversation";
 const MAX_MESSAGES = 50;
@@ -48,7 +49,11 @@ type AIGuideState = {
   isStreaming: boolean;
   unreadCount: number;
   pageContext: AIGuideContextName;
-  sendMessage: (text: string) => Promise<void>;
+  sendMessage: (
+    text: string,
+    options?: { userLocation?: { lat: number; lng: number } }
+  ) => Promise<void>;
+  requestLocationAndResend: () => Promise<void>;
   appendAssistantChunk: (id: string, chunk: string) => void;
   openDock: () => void;
   closeDock: () => void;
@@ -115,8 +120,13 @@ export function AIGuideProvider({ children }: { children: React.ReactNode }) {
     if (!openRef.current) setUnreadCount((c) => c + 1);
   }, []);
 
+  const { request: requestLocation } = useUserLocation();
+
   const sendMessage = useCallback(
-    async (text: string) => {
+    async (
+      text: string,
+      options?: { userLocation?: { lat: number; lng: number } }
+    ) => {
       const trimmed = text.trim();
       if (!trimmed) return;
 
@@ -141,6 +151,7 @@ export function AIGuideProvider({ children }: { children: React.ReactNode }) {
               role: m.role,
               content: m.content,
             })),
+            userLocation: options?.userLocation,
           }),
         });
 
@@ -180,6 +191,18 @@ export function AIGuideProvider({ children }: { children: React.ReactNode }) {
     [messages, pageContext, appendAssistantChunk],
   );
 
+  // Triggered when the user clicks Milo's "[share your location]" link.
+  // Asks the browser for coordinates, then re-sends the most recent user
+  // message with the coordinates attached so Milo can answer with the
+  // ranked nearest-campuses block injected into the system prompt.
+  const requestLocationAndResend = useCallback(async () => {
+    const coords = await requestLocation();
+    if (!coords) return;
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    const target = lastUser?.content ?? "Where is my closest campus?";
+    await sendMessage(target, { userLocation: coords });
+  }, [messages, requestLocation, sendMessage]);
+
   const openDock = useCallback(() => {
     setIsOpen(true);
     setUnreadCount(0);
@@ -202,6 +225,7 @@ export function AIGuideProvider({ children }: { children: React.ReactNode }) {
       unreadCount,
       pageContext,
       sendMessage,
+      requestLocationAndResend,
       appendAssistantChunk,
       openDock,
       closeDock,
@@ -215,6 +239,7 @@ export function AIGuideProvider({ children }: { children: React.ReactNode }) {
       unreadCount,
       pageContext,
       sendMessage,
+      requestLocationAndResend,
       appendAssistantChunk,
       openDock,
       closeDock,

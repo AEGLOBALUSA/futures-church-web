@@ -18,6 +18,11 @@ export type StreamClaudeOptions = {
   pageContext?: string;
   /** Coarse language hint from Accept-Language. Default "en". */
   language?: "en" | "es" | "id" | "pt";
+  /**
+   * Visitor coordinates from a one-tap geolocation prompt. Used this turn to
+   * inject a "nearest campuses" system block and never stored anywhere.
+   */
+  userLocation?: { lat: number; lng: number };
 };
 
 export async function streamClaude(
@@ -26,7 +31,11 @@ export async function streamClaude(
   onDone: (usage: StreamUsage) => void,
   options: StreamClaudeOptions = {}
 ) {
-  const system = await buildSystemBlocks(options.pageContext, options.language ?? "en");
+  const system = await buildSystemBlocks(
+    options.pageContext,
+    options.language ?? "en",
+    options.userLocation
+  );
 
   const stream = await getClient().messages.create({
     model: "claude-sonnet-4-6",

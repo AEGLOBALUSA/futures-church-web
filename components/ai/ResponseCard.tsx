@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 import type { Message } from "@/lib/ai/AIGuideContext";
+import { MiloMarkdown } from "./MiloMarkdown";
 
 const NOTEBOOK_BG = `
   repeating-linear-gradient(
@@ -18,9 +19,16 @@ type ResponseCardProps = {
   message: Message;
   className?: string;
   children?: ReactNode;
+  /** Fires when the user clicks Milo's `[share your location]` link. */
+  onShareLocation?: () => void;
 };
 
-export function ResponseCard({ message, className, children }: ResponseCardProps) {
+export function ResponseCard({
+  message,
+  className,
+  children,
+  onShareLocation,
+}: ResponseCardProps) {
   const isUser = message.role === "user";
 
   if (isUser) {
@@ -54,7 +62,9 @@ export function ResponseCard({ message, className, children }: ResponseCardProps
       }}
     >
       <div className="absolute left-0 top-0 h-full w-[3px] bg-warm-500/60" aria-hidden />
-      <div className="whitespace-pre-wrap">{message.content}</div>
+      <div className="whitespace-pre-wrap">
+        <MiloMarkdown text={message.content} onShareLocation={onShareLocation} />
+      </div>
       {children}
     </article>
   );

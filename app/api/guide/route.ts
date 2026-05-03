@@ -15,7 +15,25 @@ type Payload = {
   message: string;
   context?: AIGuideContextName;
   history?: IncomingMessage[];
+  /**
+   * Visitor coordinates from a one-tap geolocation prompt. Used this turn
+   * only — never stored, never logged at precision.
+   */
+  userLocation?: { lat: number; lng: number };
 };
+
+function isValidCoords(loc: unknown): loc is { lat: number; lng: number } {
+  if (!loc || typeof loc !== "object") return false;
+  const o = loc as { lat?: unknown; lng?: unknown };
+  return (
+    typeof o.lat === "number" &&
+    typeof o.lng === "number" &&
+    o.lat >= -90 &&
+    o.lat <= 90 &&
+    o.lng >= -180 &&
+    o.lng <= 180
+  );
+}
 
 export async function POST(req: Request) {
   let body: Payload;
@@ -39,7 +57,8 @@ export async function POST(req: Request) {
   ];
 
   const language = detectLanguageFromHeader(req.headers.get("accept-language"));
-  const system = await promptFor(context, language);
+  const userLocation = isValidCoords(body.userLocation) ? body.userLocation : undefined;
+  const system = await promptFor(context, language, userLocation);
   const result = await streamText({
     model: anthropic("claude-sonnet-4-6"),
     system,

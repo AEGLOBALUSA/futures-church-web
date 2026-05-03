@@ -15,6 +15,14 @@ const ChatBodySchema = z.object({
   messages: z.array(MessageSchema).max(40),
   model: z.enum(["claude", "openai"]),
   sessionId: z.string().uuid().optional(),
+  /**
+   * Visitor-shared coordinates from a one-tap geolocation prompt on the client.
+   * Used this turn only — never stored, never logged at precision. The server
+   * uses them to compute nearest campuses and inject a system-prompt block.
+   */
+  userLocation: z
+    .object({ lat: z.number().min(-90).max(90), lng: z.number().min(-180).max(180) })
+    .optional(),
 });
 
 export const runtime = "nodejs";
@@ -32,7 +40,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 422 });
   }
 
-  const { messages, model, sessionId } = parsed.data;
+  const { messages, model, sessionId, userLocation } = parsed.data;
 
   // Rate limit — per-IP, 30 chat turns / 5 minutes. Generous enough that a real
   // conversation never hits it; tight enough that runaway-cost abuse is bounded.
@@ -80,7 +88,7 @@ export async function POST(req: NextRequest) {
         };
 
         if (model === "claude") {
-          await streamClaude(messages, onToken, onDone, { language });
+          await streamClaude(messages, onToken, onDone, { language, userLocation });
         } else {
           await streamOpenAI(messages, onToken, () => onDone());
         }

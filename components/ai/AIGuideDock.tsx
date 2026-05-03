@@ -9,8 +9,15 @@ import { AIInput } from "./AIInput";
 import { ResponseCard } from "./ResponseCard";
 
 export function AIGuideDock() {
-  const { isOpen, openDock, closeDock, messages, unreadCount, isStreaming } =
-    useAIGuide();
+  const {
+    isOpen,
+    openDock,
+    closeDock,
+    messages,
+    unreadCount,
+    isStreaming,
+    requestLocationAndResend,
+  } = useAIGuide();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
   const isDark = pathname?.startsWith("/selah") ?? false;
@@ -141,7 +148,13 @@ export function AIGuideDock() {
                   </p>
                 </div>
               ) : (
-                messages.map((m) => <ResponseCard key={m.id} message={m} />)
+                messages.map((m) => (
+                  <ResponseCard
+                    key={m.id}
+                    message={m}
+                    onShareLocation={requestLocationAndResend}
+                  />
+                ))
               )}
               {isStreaming && messages[messages.length - 1]?.role === "user" && (
                 <div className="flex gap-1 self-start pl-2">

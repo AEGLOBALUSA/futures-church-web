@@ -13,6 +13,8 @@ import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Bookmark } from "lucide-react";
 import { heroPortraits } from "@/lib/content/faces";
+import { MiloMarkdown } from "@/components/ai/MiloMarkdown";
+import { useUserLocation } from "@/lib/ai/useUserLocation";
 
 // Pastoral leadership — rotating portraits of the family who carry Futures.
 // Jane + Ashley Evans (Global Senior), Tony + Aste Corbridge (Paradise campus),
@@ -75,7 +77,12 @@ export function HomeHero() {
     my.set(0);
   }
 
-  async function sendMessage(text: string) {
+  const { request: requestLocation } = useUserLocation();
+
+  async function sendMessage(
+    text: string,
+    options?: { userLocation?: { lat: number; lng: number } }
+  ) {
     const trimmed = text.trim();
     if (!trimmed || streaming) return;
 
@@ -91,7 +98,12 @@ export function HomeHero() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history, model: "claude", sessionId: sessionId.current }),
+        body: JSON.stringify({
+          messages: history,
+          model: "claude",
+          sessionId: sessionId.current,
+          userLocation: options?.userLocation,
+        }),
       });
       if (!res.ok || !res.body) throw new Error("stream failed");
 
@@ -133,6 +145,18 @@ export function HomeHero() {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     sendMessage(input);
+  }
+
+  // Triggered when the user clicks Milo's `[share your location]` link in
+  // any of the rendered assistant messages. Re-sends the user's most recent
+  // question with coordinates attached so Milo can answer with the ranked
+  // nearest-campuses block injected into the system prompt.
+  async function handleShareLocation() {
+    const coords = await requestLocation();
+    if (!coords) return;
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    const target = lastUser?.content ?? "Where is my closest campus?";
+    await sendMessage(target, { userLocation: coords });
   }
 
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
@@ -429,7 +453,10 @@ export function HomeHero() {
                                   className="font-sans whitespace-pre-wrap"
                                   style={{ color: "#1C1A17", fontSize: 16.5, lineHeight: 1.62 }}
                                 >
-                                  {m.content}
+                                  <MiloMarkdown
+                                    text={m.content}
+                                    onShareLocation={handleShareLocation}
+                                  />
                                   {streaming && m.content === "" && (
                                     <span
                                       className="inline-block h-[1em] w-[2px] -mb-[2px] ml-[1px] align-middle animate-pulse"
@@ -573,11 +600,11 @@ export function HomeHero() {
 
       <style jsx>{`
         .kb-frame.is-active {
-          animation: kenburns 8s ease-out forwards;
+          animation: kenburns 14s ease-in-out alternate infinite;
         }
         @keyframes kenburns {
           0% { transform: scale(1.02) translate(0, 0); }
-          100% { transform: scale(1.12) translate(-1.5%, -1%); }
+          100% { transform: scale(1.08) translate(-1.2%, -0.8%); }
         }
         .breathing-glass {
           animation: breathe 8s ease-in-out infinite;
