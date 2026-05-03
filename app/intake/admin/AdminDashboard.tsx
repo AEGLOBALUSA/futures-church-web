@@ -153,6 +153,12 @@ export function AdminDashboard({
           >
             Campus links · seed & copy
           </Link>
+          <Link
+            href="/intake/admin/inbox"
+            className="rounded-full border border-ink-900/15 bg-cream/70 px-4 py-1.5 font-ui text-[11px] uppercase tracking-[0.22em] text-ink-900 hover:bg-cream-300"
+          >
+            Inbox · contact + visit + prayer
+          </Link>
         </div>
 
         {stats.total === 0 && (
