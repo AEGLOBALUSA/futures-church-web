@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, BookOpen, Share2 } from "lucide-react";
 import dailyWord from "@/content/daily-word.json";
 import { EmailCapture } from "@/components/ui/EmailCapture";
+import { JsonLd } from "@/components/seo/JsonLd";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://futures.church";
 
 type FullEntry = {
   date: string;
@@ -94,8 +97,28 @@ export default async function DailyWordEntryPage({
   const { prev, next } = neighborDates(date);
   const isToday = !!full;
 
+  // Article schema — helps search engines + LLMs treat each devotional as a
+  // discoverable piece of content with date + author + scripture context.
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: full?.scripture.reference ?? archive?.reference ?? "Daily Word",
+    datePublished: date,
+    author: { "@type": "Organization", name: "Futures Church", url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: "Futures Church",
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/opengraph-image` },
+    },
+    description: full?.reflection ?? archive?.preview ?? undefined,
+    url: `${SITE_URL}/daily-word/${date}`,
+    isAccessibleForFree: true,
+  };
+
   return (
     <main className="bg-cream-200 text-ink-900">
+      <JsonLd data={articleSchema} />
       <section className="relative overflow-hidden">
         <div
           aria-hidden

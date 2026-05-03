@@ -11,6 +11,9 @@ import {
   type FeaturedSermon,
   type ArchiveSermon,
 } from "@/lib/content/sermons";
+import { JsonLd } from "@/components/seo/JsonLd";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://futures.church";
 
 export function generateStaticParams() {
   const out: { series: string; sermon: string }[] = [];
@@ -57,8 +60,31 @@ export default async function SermonPage({
   const featured = isFeatured(sermon) ? sermon : null;
   const { prev, next } = neighborSermons(seriesSlug, sermonId);
 
+  // VideoObject schema — when Google indexes this page, the sermon shows up
+  // properly in video search + rich results. Tied to the parent series.
+  const videoSchema = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: sermon.title,
+    description: `${sermon.preacher} on ${sermon.scripture}`,
+    thumbnailUrl: sermon.thumb,
+    uploadDate: sermon.date,
+    duration: sermon.duration,
+    contentUrl: featured?.videoUrl ?? undefined,
+    embedUrl: featured?.videoUrl ?? undefined,
+    publisher: { "@type": "Organization", name: "Futures Church", url: SITE_URL },
+    creator: { "@type": "Person", name: sermon.preacher },
+    isPartOf: {
+      "@type": "CreativeWorkSeries",
+      name: series.title,
+      url: `${SITE_URL}/watch/${seriesSlug}`,
+    },
+    inLanguage: "en",
+  };
+
   return (
     <main className="bg-cream-200 text-ink-900">
+      <JsonLd data={videoSchema} />
       <section className="relative isolate overflow-hidden">
         <div className="relative aspect-video w-full bg-ink-900 sm:aspect-[21/9] lg:aspect-[24/10]">
           {/* Video player — falls back to thumbnail + "Watch on YouTube" placeholder when videoUrl is absent */}

@@ -23,6 +23,9 @@ import { PendingNote } from "@/components/campus/PendingNote";
 import { getCampusEvents, getNextServiceEvent } from "@/lib/events/server";
 import { ThisSundayStrip, ComingUpRail } from "@/components/events/CampusEventsSection";
 import { EditableText } from "@/components/edit/EditableText";
+import { JsonLd } from "@/components/seo/JsonLd";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://futures.church";
 
 const REGION_LABEL: Record<CampusRegion, string> = {
   australia: "Australia",
@@ -151,8 +154,39 @@ export default async function CampusPage({
         pastorPortraitRecord.hero_secondary.hero_fallback),
   );
 
+  // Church + Place schemas — give Google + LLMs a structured sense of where
+  // this campus is and how to reach it. Helps "[city] church" queries return
+  // us with a rich card.
+  const churchSchema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Church",
+    name: `Futures Church ${campus.name}`,
+    url: `${SITE_URL}/campuses/${campus.slug}`,
+    image: photo ?? undefined,
+    parentOrganization: {
+      "@type": "Organization",
+      name: "Futures Church",
+      url: SITE_URL,
+    },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: intakeFacts.addressStreet ?? campus.address ?? undefined,
+      addressLocality: intakeFacts.addressCity ?? campus.city,
+      addressCountry: campus.country,
+    },
+    geo:
+      campus.lat && campus.lng
+        ? { "@type": "GeoCoordinates", latitude: campus.lat, longitude: campus.lng }
+        : undefined,
+    email: intakeFacts.campusEmail ?? "hello@futures.church",
+    telephone: intakeFacts.campusPhone ?? undefined,
+    sameAs: [instagramUrl, facebookUrl, intakeFacts.youtube].filter((u): u is string => !!u),
+    areaServed: campus.city,
+  };
+
   return (
     <main className="bg-[#FDFBF6] text-[#1C1A17] selection:bg-[#C8906B] selection:text-[#FDFBF6]">
+      <JsonLd data={churchSchema} />
       <section className="relative px-6 pt-28 pb-16 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-6xl">
           <Link

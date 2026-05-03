@@ -11,6 +11,9 @@ import {
 } from "@/lib/content/leaders";
 import { getCampusIntakeFacts } from "@/lib/intake/campus-content";
 import { getMergedCampusVoice } from "@/lib/intake/campus-content";
+import { JsonLd } from "@/components/seo/JsonLd";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://futures.church";
 
 export async function generateStaticParams() {
   return getAllLeaderSlugs().map((slug) => ({ slug }));
@@ -65,8 +68,27 @@ export default async function LeaderPage({
     .filter((l) => l.slug !== leader.slug && l.kind === leader.kind)
     .slice(0, 6);
 
+  // JSON-LD Person schema — helps Google's Knowledge Graph understand who
+  // this leader is and connects them to the parent Organization.
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: leader.name,
+    jobTitle: leader.kind === "senior" ? "Global Senior Pastor" : leader.role,
+    worksFor: { "@type": "Organization", name: "Futures Church", url: SITE_URL },
+    affiliation:
+      leader.campusName && leader.campusSlug
+        ? { "@type": "Church", name: leader.campusName, url: `${SITE_URL}/campuses/${leader.campusSlug}` }
+        : undefined,
+    image: leader.photo && !leader.photoPlaceholder ? leader.photo : undefined,
+    url: `${SITE_URL}/leaders/${leader.slug}`,
+    description: leader.oneLine ?? leader.bioParagraphs[0] ?? undefined,
+    sameAs: leader.links.map((l) => l.href).filter((h) => h.startsWith("http")),
+  };
+
   return (
     <main className="bg-cream text-ink-900 selection:bg-warm-500 selection:text-cream">
+      <JsonLd data={personSchema} />
       <section className="mx-auto max-w-shell px-6 pt-24 pb-16 sm:px-10 lg:px-16">
         <Link
           href="/leaders"
