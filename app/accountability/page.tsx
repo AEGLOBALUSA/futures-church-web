@@ -46,9 +46,9 @@ export default function AccountabilityPage() {
           If you have a concern, you can speak with your campus pastor, email{" "}
           <a
             className="underline decoration-warm-500 underline-offset-2 hover:text-ink-900"
-            href="mailto:safeguarding@futures.church"
+            href="mailto:hello@futures.church"
           >
-            safeguarding@futures.church
+            hello@futures.church
           </a>
           , or report it directly to the relevant authority in your jurisdiction.
         </P>
@@ -65,9 +65,9 @@ export default function AccountabilityPage() {
           For finance questions, email{" "}
           <a
             className="underline decoration-warm-500 underline-offset-2 hover:text-ink-900"
-            href="mailto:finance@futures.church"
+            href="mailto:hello@futures.church"
           >
-            finance@futures.church
+            hello@futures.church
           </a>
           .
         </P>
@@ -82,7 +82,7 @@ export default function AccountabilityPage() {
         </Lede>
 
         <Defn term="Global Senior Pastors">Ashley &amp; Jane Evans.</Defn>
-        <Defn term="Australia Lead Pastors">Josh &amp; Sjhana.</Defn>
+        <Defn term="Australia Lead Pastors">Josh &amp; Sjhana Greenwood.</Defn>
         <Defn term="Regional Boards">
           Each operating country has a registered governing board.
         </Defn>
@@ -99,9 +99,9 @@ export default function AccountabilityPage() {
             Questions:{" "}
             <a
               className="underline decoration-warm-500 underline-offset-2 hover:text-ink-900"
-              href="mailto:accountability@futures.church"
+              href="mailto:hello@futures.church"
             >
-              accountability@futures.church
+              hello@futures.church
             </a>
           </p>
         </div>
