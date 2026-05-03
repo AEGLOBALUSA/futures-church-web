@@ -38,7 +38,7 @@ const HERO_FRAMES = [
 const EXPECT_TILES: { t: string; b: string; p: string; lead?: boolean }[] = [
   {
     t: "Pulling in",
-    b: "Free parking at every campus. Pull near the main entrance and a host will wave you in. Late is fine \u2014 slip into the back, no one rushes you.",
+    b: "Free parking at every campus. Pull near the main entrance and a host will wave you in. Late is fine \u2014 no one rushes you.",
     p: "/photos/hero/hero_30.jpg",
     lead: true,
   },
@@ -49,7 +49,7 @@ const EXPECT_TILES: { t: string; b: string; p: string; lead?: boolean }[] = [
   },
   {
     t: "Kids check-in",
-    b: "Digital check-in, matching security tags, background-checked volunteers. Your kids will be happy.",
+    b: "Digital check-in, matching security tags, background-checked volunteers. Your kids are in good hands — and you'll know exactly where they are.",
     p: "/photos/hero/hero_8.jpg",
   },
   {
@@ -76,12 +76,16 @@ const CAMPUS_TONE: Record<string, string> = {
   "Cemani": "#C45236",
 };
 
+// Hybrid FAQ \u2014 3 universal + 3 real-fears. Composition is deliberate:
+// the panel's "real fears" set (kid screams / cry / asked if saved) won
+// strongly with skeptics + dechurched, but anxious parents and older
+// returners destabilised on a 100% emotional set. Mixing keeps both
+// audiences. Western-coded identity question dropped for ESL safety.
 const FAQ: { q: string; a: string }[] = [
   { q: "What should I wear?", a: "Come as you are. Jeans and a t-shirt is fine. So is a suit. We really mean it." },
-  { q: "Will people pressure me?", a: "No. You&rsquo;ll be welcomed, not cornered. Nobody&rsquo;s making you sing, give, or sign anything." },
-  { q: "What&rsquo;s the service like?", a: "Worship, teaching, prayer. About seventy-five minutes. You can leave anytime and we won&rsquo;t chase." },
+  { q: "What if my kid screams?", a: "Our kids&rsquo; team has done this thousands of times. If you need to step out, the lobby has couches, coffee, and the whole service on screens." },
   { q: "Is there anything for my kids?", a: "Yes \u2014 all ages, every Sunday, background-checked team, with parents-first security." },
-  { q: "Do I have to give money?", a: "No. You&rsquo;re our guest. Giving is for the family, and even then it&rsquo;s always optional." },
+  { q: "How long is the service?", a: "About 80 to 90 minutes. Worship, a message, then coffee if you want to stay." },
   { q: "Can I just watch first?", a: "Absolutely. Start with /watch and come visit when you&rsquo;re ready \u2014 no judgement either way." },
 ];
 
@@ -98,6 +102,7 @@ export function PlanAVisitPageClient() {
   return (
     <main className="bg-cream text-ink-900">
       <PlanAVisitHero />
+      <VisitPromiseStrip />
       <ThreeStepForm />
       <WhatToExpect />
       <FirstTimeFAQ />
@@ -190,7 +195,7 @@ function PlanAVisitHero() {
               letterSpacing: "-0.02em",
             }}
           >
-            Come visit. We&rsquo;ve been <em className="italic">expecting</em> you.
+            Plan a <em className="italic">visit</em>.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -198,7 +203,7 @@ function PlanAVisitHero() {
             transition={{ duration: 0.9, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
             className="mt-6 max-w-[54ch] font-body text-[18px] leading-relaxed text-ink-600"
           >
-            Tell us a few things and we&rsquo;ll save you a seat &mdash; and meet you at the door.
+            Tell us a few things and your campus pastor will text you Saturday morning &mdash; so you know who to look for at the door.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -231,6 +236,60 @@ function PlanAVisitHero() {
           .pa-frame.is-active :global(img) { animation: none !important; }
         }
       `}</style>
+    </section>
+  );
+}
+
+// Three quiet "won't/never" promises, sat between the hero and the form so
+// anxious first-timers see the safety floor before they're asked for anything.
+// Phrased as the pastor's wife asked — what we WON'T do, plus the Saturday
+// text that's coming whether they like it or not (they'll like it).
+const VISIT_PROMISES: { eyebrow: string; line: string }[] = [
+  { eyebrow: "No spotlight", line: "We won't ask you to stand, raise a hand, or fill out a card." },
+  { eyebrow: "No collection", line: "We don't ask guests to give. Giving is for our church family — you're our guest." },
+  { eyebrow: "One Saturday text", line: "Your campus pastor will text Saturday so you know who to look for." },
+];
+
+function VisitPromiseStrip() {
+  return (
+    <section
+      aria-label="What you won't experience as a first-time visitor"
+      className="relative px-6 pb-6 pt-2 sm:px-10"
+    >
+      <div className="mx-auto max-w-[1280px]">
+        <motion.ul
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+          className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5"
+        >
+          {VISIT_PROMISES.map((p, idx) => (
+            <motion.li
+              key={p.eyebrow}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: 0.08 * idx, ease: [0.25, 0.1, 0.25, 1] }}
+              className="flex items-start gap-4 rounded-2xl border border-ink-900/8 bg-cream-200/60 px-5 py-4 backdrop-blur-sm"
+            >
+              <span
+                aria-hidden
+                className="mt-1 block size-1.5 shrink-0 rounded-full"
+                style={{ background: "#CC8F4A" }}
+              />
+              <span className="flex-1">
+                <span className="block font-ui text-[10px] uppercase tracking-[0.24em] text-warm-700">
+                  {p.eyebrow}
+                </span>
+                <span className="mt-1.5 block font-body text-[14.5px] leading-relaxed text-ink-700">
+                  {p.line}
+                </span>
+              </span>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </div>
     </section>
   );
 }
@@ -448,12 +507,6 @@ function ThreeStepForm() {
                     />
                     <CampusFaces campusSlug={state.campusSlug} />
                     <VisitFears />
-                    <p
-                      className="mt-16 max-w-[46ch] font-display italic text-ink-700"
-                      style={{ fontSize: "clamp(1.1rem, 2vw, 1.25rem)", fontWeight: 300, lineHeight: 1.3 }}
-                    >
-                      If you&rsquo;re still reading, you&rsquo;re probably coming. Let&rsquo;s make it easy.
-                    </p>
                   </>
                 )}
 
@@ -730,8 +783,18 @@ function WhatToExpect() {
   const rest = EXPECT_TILES.filter((t) => t !== lead);
 
   return (
-    <section className="px-6 py-24 sm:px-10">
-      <div className="mx-auto max-w-[1280px]">
+    <section className="relative overflow-hidden px-6 py-24 sm:px-10">
+      {/* Warm wash so the section sits inside the same gradient family as the hero —
+          no more sterile white-on-cream. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 80% 30%, rgba(204,143,74,0.12), transparent 70%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-[1280px]">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -743,98 +806,114 @@ function WhatToExpect() {
             className="mt-3 font-display text-ink-900"
             style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
           >
-            From the carpark to the <em className="italic">couch</em>.
+            From the front gate to the coffee after.
           </h2>
-          <p className="mt-5 max-w-[58ch] font-body text-[16px] leading-relaxed text-ink-600">
-            The whole arc of a Sunday morning, in four moments. None of them are surprises.
-          </p>
         </motion.div>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:gap-10">
-          {/* Lead tile — the arrival moment */}
-          <motion.article
+          {/* Lead tile — the arrival moment. Glass-card body so the page warmth
+              flows through the cards instead of stopping at white panels. */}
+          <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="overflow-hidden rounded-[24px] bg-white"
-            style={{
-              border: "1px solid rgba(20,20,20,0.05)",
-              boxShadow: "0 30px 60px -32px rgba(20,20,20,0.18)",
-            }}
           >
-            <div className="relative aspect-[5/4] w-full overflow-hidden lg:aspect-[6/5]">
-              <Image
-                src={lead.p}
-                alt={lead.t}
-                fill
-                unoptimized
-                sizes="(max-width: 1024px) 100vw, 56vw"
-                className="object-cover"
-                style={{ filter: "saturate(0.94)" }}
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(180deg, transparent 50%, rgba(28,26,23,0.18) 100%)",
-                }}
-              />
-            </div>
-            <div className="p-7 lg:p-9">
-              <p className="font-ui text-[10px] uppercase tracking-[0.24em] text-warm-700">
-                Step one
-              </p>
-              <p
-                className="mt-2 font-display italic text-ink-900"
-                style={{ fontSize: "clamp(1.65rem, 2.6vw, 2.1rem)", fontWeight: 300, lineHeight: 1.1 }}
-              >
-                {lead.t}
-              </p>
-              <p
-                className="mt-4 max-w-[44ch] font-body text-[16px] leading-relaxed text-ink-600"
-                dangerouslySetInnerHTML={{ __html: lead.b }}
-              />
-            </div>
-          </motion.article>
+            <GlassCard breathe className="overflow-hidden p-0">
+              <article>
+                <div className="relative aspect-[5/4] w-full overflow-hidden lg:aspect-[6/5]">
+                  <Image
+                    src={lead.p}
+                    alt={lead.t}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 1024px) 100vw, 56vw"
+                    className="object-cover"
+                    style={{ filter: "saturate(0.96)" }}
+                  />
+                  {/* Warm campus-tone wash mixed in soft-light so the photo sits inside
+                      the same color family as the page. */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{
+                      background: "rgba(200,144,107,0.18)",
+                      mixBlendMode: "soft-light",
+                    }}
+                  />
+                  <div
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, transparent 55%, rgba(28,26,23,0.22) 100%)",
+                    }}
+                  />
+                </div>
+                <div className="p-7 lg:p-9">
+                  <p className="font-ui text-[10px] uppercase tracking-[0.24em] text-warm-700">
+                    Step one
+                  </p>
+                  <p
+                    className="mt-2 font-display italic text-ink-900"
+                    style={{ fontSize: "clamp(1.65rem, 2.6vw, 2.1rem)", fontWeight: 300, lineHeight: 1.1 }}
+                  >
+                    {lead.t}
+                  </p>
+                  <p
+                    className="mt-4 max-w-[44ch] font-body text-[16px] leading-relaxed text-ink-600"
+                    dangerouslySetInnerHTML={{ __html: lead.b }}
+                  />
+                </div>
+              </article>
+            </GlassCard>
+          </motion.div>
 
-          {/* Three smaller tiles, stacked vertically on desktop */}
+          {/* Three smaller tiles, stacked vertically on desktop. Glass cards too. */}
           <div className="flex flex-col gap-5 lg:gap-6">
             {rest.map((t, idx) => (
-              <motion.article
+              <motion.div
                 key={t.t}
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.7, delay: 0.1 + idx * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-                className="group flex gap-4 overflow-hidden rounded-[20px] bg-white p-3 transition-colors hover:bg-cream-100"
-                style={{ border: "1px solid rgba(20,20,20,0.05)" }}
               >
-                <div className="relative aspect-square w-[110px] shrink-0 overflow-hidden rounded-[14px] sm:w-[140px]">
-                  <Image
-                    src={t.p}
-                    alt={t.t}
-                    fill
-                    unoptimized
-                    sizes="140px"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                    style={{ filter: "saturate(0.94)" }}
-                  />
-                </div>
-                <div className="flex flex-col justify-center pr-3">
-                  <p
-                    className="font-display italic text-ink-900"
-                    style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)", fontWeight: 300, lineHeight: 1.15 }}
-                  >
-                    {t.t}
-                  </p>
-                  <p
-                    className="mt-1.5 font-body text-[13.5px] leading-snug text-ink-600"
-                    dangerouslySetInnerHTML={{ __html: t.b }}
-                  />
-                </div>
-              </motion.article>
+                <GlassCard className="group flex gap-4 overflow-hidden p-3 transition-transform hover:-translate-y-0.5">
+                  <div className="relative aspect-square w-[110px] shrink-0 overflow-hidden rounded-[14px] sm:w-[140px]">
+                    <Image
+                      src={t.p}
+                      alt={t.t}
+                      fill
+                      unoptimized
+                      sizes="140px"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      style={{ filter: "saturate(0.96)" }}
+                    />
+                    {/* Same warm soft-light wash on each thumb so the row feels familial. */}
+                    <div
+                      aria-hidden
+                      className="absolute inset-0"
+                      style={{
+                        background: "rgba(200,144,107,0.16)",
+                        mixBlendMode: "soft-light",
+                      }}
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center pr-3">
+                    <p
+                      className="font-display italic text-ink-900"
+                      style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)", fontWeight: 300, lineHeight: 1.15 }}
+                    >
+                      {t.t}
+                    </p>
+                    <p
+                      className="mt-1.5 font-body text-[13.5px] leading-snug text-ink-600"
+                      dangerouslySetInnerHTML={{ __html: t.b }}
+                    />
+                  </div>
+                </GlassCard>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -859,7 +938,7 @@ function FirstTimeFAQ() {
             className="mt-3 font-display text-ink-900"
             style={{ fontSize: "clamp(1.75rem,3.6vw,2.5rem)", fontWeight: 300, lineHeight: 1.05 }}
           >
-            The ones we <em className="italic">always</em> get.
+            The ones we always get.
           </h2>
         </motion.div>
         <div className="mt-8 divide-y divide-ink-900/10 border-y border-ink-900/10">
@@ -920,7 +999,7 @@ function PreVisitTestimonials() {
             className="mt-3 font-display text-ink-900"
             style={{ fontSize: "clamp(2rem,4.4vw,3rem)", fontWeight: 300, lineHeight: 1.02 }}
           >
-            Real. Specific. <em className="italic">Short</em>.
+            What people said after their first Sunday.
           </h2>
         </motion.div>
 
@@ -929,7 +1008,7 @@ function PreVisitTestimonials() {
             const tone = CAMPUS_TONE[t.campus] ?? "#C8906B";
             const initial = t.name.charAt(0).toUpperCase();
             return (
-              <motion.figure
+              <motion.div
                 key={t.name}
                 initial={{ opacity: 0, y: 22 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -939,64 +1018,71 @@ function PreVisitTestimonials() {
                   delay: idx * 0.1,
                   ease: [0.25, 0.1, 0.25, 1],
                 }}
-                className="relative overflow-hidden rounded-[24px] bg-white p-7 sm:p-8"
-                style={{
-                  border: "1px solid rgba(20,20,20,0.06)",
-                  boxShadow: "0 24px 48px -32px rgba(20,20,20,0.12)",
-                }}
               >
-                {/* Decorative quote mark — branded campus tone, large + faint */}
-                <span
-                  aria-hidden
-                  className="absolute right-5 top-2 font-display italic"
+                <GlassCard
+                  breathe
+                  className="relative overflow-hidden p-7 sm:p-8"
                   style={{
-                    color: tone,
-                    opacity: 0.18,
-                    fontSize: 100,
-                    lineHeight: 1,
-                    fontWeight: 300,
+                    boxShadow: `0 24px 48px -32px ${tone}40, inset 0 0 0 1px rgba(255,255,255,0.5)`,
                   }}
                 >
-                  &ldquo;
-                </span>
-
-                <blockquote
-                  className="relative font-display italic text-ink-900"
-                  style={{ fontSize: 21, fontWeight: 300, lineHeight: 1.3 }}
-                >
-                  &ldquo;{t.q}&rdquo;
-                </blockquote>
-
-                <figcaption className="mt-7 flex items-center gap-3.5">
-                  {/* Branded initial in a campus-toned circle. We don't have real
-                      visitor portraits and we never fake them — the initial circle
-                      is honest and still feels designed. */}
+                  {/* Soft campus-tone glow in the corner so each card carries its
+                      campus's warmth without overwhelming the cream wash. */}
                   <span
                     aria-hidden
-                    className="flex size-11 shrink-0 items-center justify-center rounded-full font-display italic"
+                    className="pointer-events-none absolute -right-12 -top-12 size-44 rounded-full blur-2xl"
+                    style={{ background: `${tone}40` }}
+                  />
+                  {/* Decorative quote mark — branded campus tone, large + faint */}
+                  <span
+                    aria-hidden
+                    className="absolute right-5 top-2 font-display italic"
                     style={{
-                      background: tone,
-                      color: "#FDFBF6",
-                      fontSize: 18,
+                      color: tone,
+                      opacity: 0.22,
+                      fontSize: 100,
+                      lineHeight: 1,
                       fontWeight: 300,
-                      boxShadow: `0 8px 18px -10px ${tone}80`,
                     }}
                   >
-                    {initial}
+                    &ldquo;
                   </span>
-                  <span>
+
+                  <blockquote
+                    className="relative font-display italic text-ink-900"
+                    style={{ fontSize: 21, fontWeight: 300, lineHeight: 1.3 }}
+                  >
+                    &ldquo;{t.q}&rdquo;
+                  </blockquote>
+
+                  <figcaption className="relative mt-7 flex items-center gap-3.5">
                     <span
-                      className="block font-display italic text-ink-900"
-                      style={{ fontSize: 16, fontWeight: 300 }}
+                      aria-hidden
+                      className="flex size-11 shrink-0 items-center justify-center rounded-full font-display italic"
+                      style={{
+                        background: tone,
+                        color: "#FDFBF6",
+                        fontSize: 18,
+                        fontWeight: 300,
+                        boxShadow: `0 8px 18px -10px ${tone}80`,
+                      }}
                     >
-                      {t.name}
+                      {initial}
                     </span>
-                    <span className="mt-0.5 block font-ui text-[10px] uppercase tracking-[0.24em] text-ink-500">
-                      First Sunday &middot; {t.campus}
+                    <span>
+                      <span
+                        className="block font-display italic text-ink-900"
+                        style={{ fontSize: 16, fontWeight: 300 }}
+                      >
+                        {t.name}
+                      </span>
+                      <span className="mt-0.5 block font-ui text-[10px] uppercase tracking-[0.24em] text-ink-500">
+                        First Sunday &middot; {t.campus}
+                      </span>
                     </span>
-                  </span>
-                </figcaption>
-              </motion.figure>
+                  </figcaption>
+                </GlassCard>
+              </motion.div>
             );
           })}
         </div>
@@ -1020,7 +1106,7 @@ function VisitAlternatives() {
           className="mt-3 font-display text-ink-900"
           style={{ fontSize: "clamp(1.75rem,3.6vw,2.5rem)", fontWeight: 300, lineHeight: 1.05 }}
         >
-          Start with a <em className="italic">watch</em>.
+          Start with a watch.
         </h2>
         <p className="mx-auto mt-5 max-w-[48ch] font-body text-[16px] leading-relaxed text-ink-600">
           No pressure. Pick a recent service and meet the family from your couch first.

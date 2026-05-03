@@ -4,10 +4,10 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "What We Believe",
   description:
-    "At Futures Church, we are committed to building our lives, our families, and our church on the foundation of God's Word. The seventeen convictions that drive everything we do.",
+    "You don’t have to agree with any of this to be welcome on a Sunday. But if you ever wondered what we mean when we say we follow Jesus, this is the long answer.",
   openGraph: {
     title: "What We Believe · Futures Church",
-    description: "The seventeen convictions that drive everything we do.",
+    description: "Seventeen things we keep coming back to. Read what helps, skip what doesn’t.",
   },
 };
 

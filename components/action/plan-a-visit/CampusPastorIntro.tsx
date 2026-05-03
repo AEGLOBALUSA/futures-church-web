@@ -61,14 +61,16 @@ export function CampusPastorIntro({
         </p>
         <h2
           id="pastor-intro-heading"
-          className="mt-3 max-w-[22ch] font-display italic text-ink-900"
-          style={{ fontSize: "clamp(1.65rem, 3.6vw, 2.25rem)", fontWeight: 300, lineHeight: 1.1 }}
+          className="mt-3 max-w-[28ch] font-display italic text-ink-900"
+          style={{ fontSize: "clamp(1.15rem, 2.2vw, 1.4rem)", fontWeight: 300, lineHeight: 1.25 }}
         >
           {intro.intro_line}
         </h2>
-        <p className="mt-6 max-w-[46ch] font-body text-[16px] leading-[1.7] text-ink-600">
-          {intro.blurb}
-        </p>
+        {/* The longer personal `blurb` was deliberately removed from Step 1 of
+            the visit form. Focus-group panel data showed front-loading a long
+            personal note triggers "surveillance" reactions in never-churched
+            and skeptic cohorts before they've committed. The portrait + name
+            + one short greeting line carries the welcome without the weight. */}
       </div>
     </motion.section>
   );
