@@ -257,3 +257,13 @@ export function groupSlotsByPage(): Map<string, SlotDefinition[]> {
   }
   return map;
 }
+
+/** Look up a slot definition by id. */
+export function slotById(id: string): SlotDefinition | undefined {
+  return SLOT_REGISTRY.find((s) => s.id === id);
+}
+
+/** All slot definitions for one page route (e.g. "/kids"). */
+export function slotsForPage(page: string): SlotDefinition[] {
+  return SLOT_REGISTRY.filter((s) => s.page === page);
+}

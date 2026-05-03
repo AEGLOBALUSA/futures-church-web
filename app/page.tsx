@@ -7,19 +7,24 @@ import { HomeRhythms } from "@/components/home/HomeRhythms";
 import { HomeInvitation } from "@/components/home/HomeInvitation";
 import { HomeVoices } from "@/components/home/HomeVoices";
 import { HomeMosaic } from "@/components/home/HomeMosaic";
+import { SlotProvider } from "@/components/edit/SlotProvider";
+import { getSlotsForPage } from "@/lib/content/slots/server";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const slots = await getSlotsForPage("/");
   return (
-    <main className="bg-[#FDFBF6] text-[#1C1A17] selection:bg-[#C8906B] selection:text-[#FDFBF6]">
-      <HomeHero />
-      <HomeMoments />
-      <HomePastors />
-      <HomeCampuses />
-      <HomeFamily />
-      <HomeVoices />
-      <HomeMosaic />
-      <HomeRhythms />
-      <HomeInvitation />
-    </main>
+    <SlotProvider initialValues={slots}>
+      <main className="bg-[#FDFBF6] text-[#1C1A17] selection:bg-[#C8906B] selection:text-[#FDFBF6]">
+        <HomeHero />
+        <HomeMoments />
+        <HomePastors />
+        <HomeCampuses />
+        <HomeFamily />
+        <HomeVoices />
+        <HomeMosaic />
+        <HomeRhythms />
+        <HomeInvitation />
+      </main>
+    </SlotProvider>
   );
 }

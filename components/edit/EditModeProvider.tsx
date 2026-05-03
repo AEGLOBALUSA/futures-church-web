@@ -31,12 +31,27 @@ export function EditModeProvider({
   const [editorName, setEditorNameState] = useState<string>("");
 
   // Hydrate edit-mode + name from localStorage on first mount.
+  // Also: if the URL has ?review=1, auto-enable mode for an admin so
+  // the coverage-dashboard deeplinks land already in review state.
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.localStorage.getItem(MODE_STORAGE_KEY) === "1") setModeState(true);
     const stored = window.localStorage.getItem(NAME_STORAGE_KEY);
     if (stored) setEditorNameState(stored);
-  }, []);
+
+    // ?review=1 deeplink — only honoured for an admin scope. Strip the
+    // param after activating so a refresh doesn't re-trigger when the
+    // admin toggles off.
+    if (scope?.kind === "admin") {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("review") === "1") {
+        setModeState(true);
+        window.localStorage.setItem(MODE_STORAGE_KEY, "1");
+        url.searchParams.delete("review");
+        window.history.replaceState(null, "", url.toString());
+      }
+    }
+  }, [scope]);
 
   const setMode = useCallback((next: boolean) => {
     setModeState(next);

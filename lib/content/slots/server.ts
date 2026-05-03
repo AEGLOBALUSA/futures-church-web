@@ -12,8 +12,9 @@
  * is hard-coded (or to the empty review-mode placeholder).
  */
 
+import { cache } from "react";
 import { createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
-import { SLOT_REGISTRY, type SlotDefinition } from "./registry";
+import { SLOT_REGISTRY, slotsForPage, type SlotDefinition } from "./registry";
 
 export type SlotRecord = {
   id: string;
@@ -27,6 +28,55 @@ export type SlotRecord = {
 export type SlotWithDefinition = SlotRecord & {
   definition: SlotDefinition;
 };
+
+/**
+ * Batched fetch of every slot for a page route. One Supabase round-trip
+ * per page render. Wrapped in React `cache()` so multiple calls within a
+ * single request are deduped.
+ *
+ * Returns the records as a plain array (serialisable across the server →
+ * client boundary, where SlotProvider converts to a Map for O(1) reads).
+ */
+export const getSlotsForPage = cache(async (page: string): Promise<SlotRecord[]> => {
+  const definitions = slotsForPage(page);
+  if (definitions.length === 0) return [];
+
+  // No Supabase: return placeholders so the dashboard still works.
+  if (!isSupabaseConfigured()) {
+    return definitions.map((d) => ({
+      id: d.id,
+      value: "",
+      owner: d.defaultOwner,
+      status: "empty" as const,
+      updatedAt: null,
+      updatedBy: null,
+    }));
+  }
+
+  const supabase = createSupabaseServiceClient();
+  const { data } = await supabase
+    .from("content_slot")
+    .select("id, value, owner, status, updated_at, updated_by")
+    .in(
+      "id",
+      definitions.map((d) => d.id)
+    );
+
+  const byId = new Map((data ?? []).map((r) => [r.id as string, r]));
+  return definitions.map((d) => {
+    const r = byId.get(d.id);
+    return {
+      id: d.id,
+      value: r?.value ?? "",
+      owner: r?.owner ?? d.defaultOwner,
+      status:
+        (r?.status as SlotRecord["status"]) ??
+        (r?.value && r.value.length > 0 ? "filled" : "empty"),
+      updatedAt: r?.updated_at ?? null,
+      updatedBy: r?.updated_by ?? null,
+    };
+  });
+});
 
 /** Hot-load a single slot value. Returns null if Supabase is offline. */
 export async function getSlot(id: string): Promise<SlotRecord | null> {

@@ -91,9 +91,11 @@ export async function POST(req: NextRequest) {
     updated_by: editedBy,
   });
 
-  // Revalidate the page that hosts this slot.
+  // Revalidate the page that hosts this slot AND the coverage dashboard
+  // so the next visit to either reflects the new value/status.
   try {
     revalidatePath(definition.page);
+    revalidatePath("/intake/admin/coverage");
   } catch {
     /* ignore — revalidation failures don't block the save */
   }
