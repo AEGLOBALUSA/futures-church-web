@@ -526,15 +526,17 @@ export function HomeHero() {
                     { label: "Venezuela", href: "/campuses#venezuela" },
                     { label: "Online", href: "/campuses/online" },
                   ].map((r) => (
+                    // Inline-block + py-1.5 lifts the tap target to ~32px tall
+                    // (above WCAG 2.1 AA's 24px minimum) while preserving the
+                    // inline visual rhythm.
                     <Link
                       key={r.label}
                       href={r.href}
-                      className="font-sans transition-colors duration-200"
+                      className="inline-block py-1.5 font-sans transition-colors duration-200 hover:text-ink-900"
                       style={{
                         fontSize: 13,
                         color: "#534D44",
                         borderBottom: "1px dashed rgba(83,77,68,0.3)",
-                        paddingBottom: 1,
                       }}
                     >
                       {r.label}

@@ -98,7 +98,12 @@ const config: Config = {
           700: "#141417",
           600: "#534D44",
           500: "#5A5A63",
-          400: "#8A8178",
+          // ink-400: bumped from #8A8178 (3.6:1 on cream — fails AA) to
+          // #6E6760 (5.5:1 on cream — passes AA for body text). Used widely
+          // for captions, metadata, eyebrow labels, and "dim" prose.
+          400: "#6E6760",
+          // ink-300: decorative-only. Reserve for non-essential dim text;
+          // never use for content a visitor needs to read.
           300: "#8A8A94",
         },
         ember: {

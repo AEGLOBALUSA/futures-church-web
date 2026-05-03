@@ -63,13 +63,15 @@ export function Footer() {
               <p className="mt-4 max-w-xs font-sans text-ink-600" style={{ fontSize: 14, lineHeight: 1.6 }}>
                 One family across 21 campuses in 4 countries. Since 1922.
               </p>
-              <div className="mt-6 flex items-center gap-4">
+              {/* Social icons — wrapped in 44x44 hit areas for AA touch-target compliance.
+                  Negative margin keeps the visual layout tight as before. */}
+              <div className="mt-4 flex items-center -ml-3">
                 <a
                   href="https://instagram.com/futureschurch"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="text-ink-600 transition-colors hover:text-warm-500"
+                  className="inline-flex size-11 items-center justify-center text-ink-600 transition-colors hover:text-warm-500"
                 >
                   <Instagram className="h-5 w-5" strokeWidth={1.6} />
                 </a>
@@ -78,7 +80,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="YouTube"
-                  className="text-ink-600 transition-colors hover:text-warm-500"
+                  className="inline-flex size-11 items-center justify-center text-ink-600 transition-colors hover:text-warm-500"
                 >
                   <Youtube className="h-5 w-5" strokeWidth={1.6} />
                 </a>
@@ -87,7 +89,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Spotify podcast"
-                  className="text-ink-600 transition-colors hover:text-warm-500"
+                  className="inline-flex size-11 items-center justify-center text-ink-600 transition-colors hover:text-warm-500"
                 >
                   <Music2 className="h-5 w-5" strokeWidth={1.6} />
                 </a>
@@ -96,7 +98,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="text-ink-600 transition-colors hover:text-warm-500"
+                  className="inline-flex size-11 items-center justify-center text-ink-600 transition-colors hover:text-warm-500"
                 >
                   <Facebook className="h-5 w-5" strokeWidth={1.6} />
                 </a>

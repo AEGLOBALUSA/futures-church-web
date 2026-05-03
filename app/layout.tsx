@@ -141,11 +141,19 @@ export default async function RootLayout({
         )}
       </head>
       <body className="min-h-screen bg-cream font-sans text-ink-900 antialiased">
+        {/* Skip to main content — first focusable element. Visually hidden until
+            keyboard focus brings it forward. Required for WCAG 2.1 AA. */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink-900 focus:px-5 focus:py-3 focus:font-ui focus:text-[12px] focus:uppercase focus:tracking-[0.22em] focus:text-cream"
+        >
+          Skip to main content
+        </a>
         <EditModeProvider scope={editorScope}>
           <AIGuideProvider>
             {isCollegeDomain ? <CollegeNav /> : <Nav />}
             {!isCollegeDomain && <ServiceTimeBanner />}
-            <main className="relative">{children}</main>
+            <main id="main" className="relative">{children}</main>
             {isCollegeDomain ? <CollegeFooter /> : <Footer />}
             <AIGuideDock />
             <EditModePill />
