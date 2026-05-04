@@ -22,6 +22,11 @@ export function AIGuideDock() {
   const pathname = usePathname();
   const isDark = pathname?.startsWith("/selah") ?? false;
 
+  // The homepage hero contains its own Milo conversation surface. Rendering
+  // the dock launcher on top of it (a) duplicates Milo and (b) physically
+  // covers the bottom of the hero's growing chat thread. Hide on /.
+  if (pathname === "/") return null;
+
   useEffect(() => {
     if (!scrollRef.current) return;
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
