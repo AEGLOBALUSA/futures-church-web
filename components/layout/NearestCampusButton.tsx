@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { MapPin, Loader2 } from "lucide-react";
 import { useUserLocation } from "@/lib/ai/useUserLocation";
-import { useIpLocation } from "@/lib/ai/useIpLocation";
 import { findNearestCampuses } from "@/lib/ai/tools/findNearestCampuses";
 
 type Variant = "nav" | "nav-dark" | "mobile";
@@ -13,30 +12,39 @@ type Variant = "nav" | "nav-dark" | "mobile";
 /**
  * One-tap "find my nearest campus" CTA.
  *
- * Click flow (no permission prompt path first):
+ * Click flow:
  *   1. Try IP-based geolocation via /api/geo (Netlify edge headers).
- *      → Instant, no browser permission prompt, city-level accuracy
- *        which is plenty for ranking 21 campuses worldwide.
- *   2. If IP unavailable (local dev, VPN, header stripped), fall back
- *      to browser geolocation (asks permission, exact coords).
- *   3. Rank physical campuses by distance, take the closest.
- *   4. Push to that campus's page.
+ *      Instant, no permission prompt. Done in the click handler with a
+ *      bare fetch so a hook-level bug can't take the page down.
+ *   2. Fall back to browser geolocation if IP isn't available.
+ *   3. Rank campuses, push to the closest.
  *
  * Failure paths fall back to /campuses so the visitor lands somewhere useful.
  */
 export function NearestCampusButton({ variant = "nav" }: { variant?: Variant }) {
   const router = useRouter();
   const { request } = useUserLocation();
-  const { lookup } = useIpLocation();
   const [busy, setBusy] = useState(false);
+
+  async function lookupIp(): Promise<{ lat: number; lng: number } | null> {
+    try {
+      const res = await fetch("/api/geo", { cache: "no-store" });
+      if (!res.ok) return null;
+      const json = await res.json();
+      if (json && json.ok && json.coords && typeof json.coords.lat === "number") {
+        return { lat: json.coords.lat, lng: json.coords.lng };
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  }
 
   async function go() {
     if (busy) return;
     setBusy(true);
     try {
-      // Try IP first — instant, no prompt.
-      let coords = (await lookup())?.coords ?? null;
-      // Fall back to browser geolocation if IP wasn't available.
+      let coords = await lookupIp();
       if (!coords) coords = await request();
       if (!coords) {
         router.push("/campuses");

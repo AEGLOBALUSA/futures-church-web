@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { MapPin, Navigation, Loader2 } from "lucide-react";
 import type { Campus } from "@/lib/content/campuses";
-import { useIpLocation } from "@/lib/ai/useIpLocation";
 
 type WithDistance = Campus & { distanceKm: number };
 
@@ -30,11 +29,9 @@ function formatDistance(km: number, locale: string): string {
 }
 
 export function NearestCampusFinder({ campuses }: { campuses: Campus[] }) {
-  const [status, setStatus] = useState<"idle" | "ip-loading" | "ip-loaded" | "asking" | "loaded" | "denied" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "asking" | "loaded" | "denied" | "error">("idle");
   const [nearest, setNearest] = useState<WithDistance[]>([]);
-  const [city, setCity] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { lookup } = useIpLocation();
 
   function rankByCoords(me: { lat: number; lng: number }) {
     return campuses
@@ -47,41 +44,35 @@ export function NearestCampusFinder({ campuses }: { campuses: Campus[] }) {
       .slice(0, 3);
   }
 
-  // On mount, try IP-based geo so the visitor lands with a list already
-  // populated — no clicks, no prompts. The "Use precise location" button
-  // remains as an opt-in upgrade for visitors who want exact distance.
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      setStatus("ip-loading");
-      const ip = await lookup();
-      if (cancelled) return;
-      if (!ip) {
-        setStatus("idle");
-        return;
-      }
-      setNearest(rankByCoords(ip.coords));
-      setCity(ip.city ?? ip.region ?? ip.country ?? null);
-      setStatus("ip-loaded");
-    })();
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Try IP first (no permission prompt), then fall back to browser
+  // geolocation. Both paths feed the same rank+render code.
+  async function findNearest() {
+    setErrorMessage(null);
+    setStatus("asking");
 
-  function findNearest() {
+    // Step 1 — IP lookup via /api/geo. Inline fetch (no hook) keeps this
+    // bulletproof: any failure here is silent, and we move on.
+    try {
+      const res = await fetch("/api/geo", { cache: "no-store" });
+      if (res.ok) {
+        const json = await res.json();
+        if (json?.ok && json.coords && typeof json.coords.lat === "number") {
+          setNearest(rankByCoords({ lat: json.coords.lat, lng: json.coords.lng }));
+          setStatus("loaded");
+          return;
+        }
+      }
+    } catch {}
+
+    // Step 2 — browser geolocation fallback.
     if (typeof navigator === "undefined" || !navigator.geolocation) {
       setStatus("error");
       setErrorMessage("Your browser doesn't support location lookup. Try the campus list below.");
       return;
     }
-    setStatus("asking");
-    setErrorMessage(null);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const me = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        setNearest(rankByCoords(me));
+        setNearest(rankByCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }));
         setStatus("loaded");
       },
       (err) => {
@@ -116,16 +107,12 @@ export function NearestCampusFinder({ campuses }: { campuses: Campus[] }) {
         <button
           type="button"
           onClick={findNearest}
-          disabled={status === "asking" || status === "ip-loading"}
+          disabled={status === "asking"}
           className="inline-flex items-center gap-2 rounded-full bg-ink-900 px-5 py-3 font-ui text-[11px] uppercase tracking-[0.24em] text-cream transition hover:bg-warm-700 disabled:opacity-60"
         >
           {status === "asking" ? (
             <>
               <Loader2 className="size-4 animate-spin" /> Locating…
-            </>
-          ) : status === "ip-loaded" ? (
-            <>
-              <Navigation className="size-4" /> Use precise location
             </>
           ) : (
             <>
@@ -135,17 +122,11 @@ export function NearestCampusFinder({ campuses }: { campuses: Campus[] }) {
         </button>
       </div>
 
-      {status === "ip-loaded" && city && (
-        <p className="mt-3 font-sans text-body-sm text-ink-500">
-          Based on your IP, looks like you&rsquo;re in <span className="text-ink-700">{city}</span>. Tap above for exact distance.
-        </p>
-      )}
-
       {(status === "denied" || status === "error") && errorMessage && (
         <p className="mt-4 font-sans text-body-sm text-ink-600">{errorMessage}</p>
       )}
 
-      {(status === "loaded" || status === "ip-loaded") && nearest.length > 0 && (
+      {status === "loaded" && nearest.length > 0 && (
         <ul className="mt-6 space-y-3">
           {nearest.map((c, i) => (
             <li key={c.slug}>
@@ -185,7 +166,7 @@ export function NearestCampusFinder({ campuses }: { campuses: Campus[] }) {
         </ul>
       )}
 
-      {(status === "loaded" || status === "ip-loaded") && nearest.length === 0 && (
+      {status === "loaded" && nearest.length === 0 && (
         <p className="mt-4 font-sans text-body-sm text-ink-600">
           We couldn&rsquo;t find a Futures campus close to you. Try our online campus —{" "}
           <Link href="/campuses/online" className="text-accent underline underline-offset-4">
