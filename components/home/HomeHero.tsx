@@ -358,23 +358,28 @@ export function HomeHero() {
 
             <AnimatePresence>
               {hasMessages && (
+                // Animation: opacity + slight slide-up only. Earlier height-animation
+                // version had a spring transition that snapshotted height at start,
+                // then clipped streaming tokens via overflow-hidden until spring settled
+                // (~1-2s). New version lets the box size to content immediately so
+                // streaming text never gets cut off, even mid-stream.
                 <motion.div
                   key="response"
-                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={{ opacity: 1, height: "auto", marginTop: 24 }}
-                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ type: "spring", stiffness: 120, damping: 18, mass: 1 }}
-                  className="overflow-hidden"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="mt-6"
                 >
                   <div
                     className="relative"
                     style={{
                       background:
                         "radial-gradient(circle at 1px 1px, rgba(28,26,23,0.04) 1px, transparent 0) 0 0 / 16px 16px, #FFFDF8",
-                      borderRadius: 20,
-                      padding: "22px 24px",
+                      borderRadius: 22,
+                      padding: "26px 28px",
                       boxShadow:
-                        "0 14px 34px -14px rgba(20,20,20,0.18), inset 0 0 0 1px rgba(20,20,20,0.04)",
+                        "0 18px 40px -16px rgba(20,20,20,0.20), inset 0 0 0 1px rgba(20,20,20,0.04)",
                     }}
                     role="status"
                     aria-live="polite"
@@ -383,10 +388,14 @@ export function HomeHero() {
                     <div className="relative z-10 flex items-start gap-4">
                       <div
                         aria-hidden
-                        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full font-display text-[14px]"
-                        style={{ background: "#C8906B", color: "#FDFBF6" }}
+                        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full font-display text-[15px]"
+                        style={{
+                          background: "#C8906B",
+                          color: "#FDFBF6",
+                          boxShadow: "0 4px 12px -4px rgba(200,144,107,0.5)",
+                        }}
                       >
-                        f
+                        M
                       </div>
                       <div className="min-w-0 flex-1">
                         <p
@@ -398,37 +407,42 @@ export function HomeHero() {
                             textTransform: "uppercase",
                           }}
                         >
-                          a note from the Futures team
+                          Milo · your Futures guide
                         </p>
-                        <div className="mt-2 space-y-3">
-                          {messages.map((m) => (
-                            <div key={m.id}>
-                              {m.role === "user" ? (
-                                <p
-                                  className="font-display italic"
-                                  style={{ color: "#534D44", fontSize: 16 }}
-                                >
-                                  &ldquo;{m.content}&rdquo;
-                                </p>
-                              ) : (
-                                <p
-                                  className="font-sans whitespace-pre-wrap"
-                                  style={{ color: "#1C1A17", fontSize: 16.5, lineHeight: 1.62 }}
-                                >
-                                  <MiloMarkdown
-                                    text={m.content}
-                                    onShareLocation={handleShareLocation}
-                                  />
-                                  {streaming && m.content === "" && (
-                                    <span
-                                      className="inline-block h-[1em] w-[2px] -mb-[2px] ml-[1px] align-middle animate-pulse"
-                                      style={{ background: "#C8906B" }}
+                        <div className="mt-3 space-y-4">
+                          {messages.map((m, idx) => {
+                            const isLastAssistant =
+                              m.role === "assistant" && idx === messages.length - 1;
+                            const showCursor = streaming && isLastAssistant;
+                            return (
+                              <div key={m.id}>
+                                {m.role === "user" ? (
+                                  <p
+                                    className="font-display italic"
+                                    style={{ color: "#534D44", fontSize: 16.5, lineHeight: 1.5 }}
+                                  >
+                                    &ldquo;{m.content}&rdquo;
+                                  </p>
+                                ) : (
+                                  <p
+                                    className="font-sans whitespace-pre-wrap"
+                                    style={{ color: "#1C1A17", fontSize: 16.5, lineHeight: 1.65 }}
+                                  >
+                                    <MiloMarkdown
+                                      text={m.content}
+                                      onShareLocation={handleShareLocation}
                                     />
-                                  )}
-                                </p>
-                              )}
-                            </div>
-                          ))}
+                                    {showCursor && (
+                                      <span
+                                        className="inline-block h-[1em] w-[2px] -mb-[2px] ml-[2px] align-middle animate-pulse"
+                                        style={{ background: "#C8906B" }}
+                                      />
+                                    )}
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                       <button
