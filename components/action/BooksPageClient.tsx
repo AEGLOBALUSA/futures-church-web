@@ -22,7 +22,7 @@ const CHIPS = [
 const TESTIMONIALS = [
   { q: "No More Fear put words to the thing I&rsquo;d been living with for a decade.", name: "Caleb", book: "No More Fear" },
   { q: "I read Help I&rsquo;m A Mother in one night and slept better than I had in months.", name: "Olivia", book: "Help I&rsquo;m A Mother!" },
-  { q: "Scarcity to Supply changed how we think about money as a family.", name: "Daniel & Em", book: "From Scarcity to Supernatural Supply" },
+  { q: "Scarcity to Supply healed our marriage. The stress just lifted.", name: "Daniel & Em", book: "From Scarcity to Supernatural Supply" },
 ];
 
 export function BooksPageClient() {
