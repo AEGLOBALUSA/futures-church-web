@@ -34,6 +34,7 @@ const COLUMNS: { heading: string; links: { href: string; label: string }[] }[] =
     links: [
       { href: "/what-we-believe", label: "What we believe" },
       { href: "/accountability", label: "Accountability" },
+      { href: "/how-milo-works", label: "How Milo works" },
       { href: "/vision", label: "Vision" },
       { href: "/history", label: "History" },
       { href: "/leaders", label: "Leaders" },

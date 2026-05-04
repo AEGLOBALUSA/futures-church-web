@@ -20,6 +20,7 @@ const STATIC_ROUTES: { path: string; freq: MetadataRoute.Sitemap[number]["change
   { path: "/dreamers", freq: "weekly", priority: 0.7 },
   { path: "/give", freq: "monthly", priority: 0.7 },
   { path: "/history", freq: "monthly", priority: 0.6 },
+  { path: "/how-milo-works", freq: "yearly", priority: 0.5 },
   { path: "/kids", freq: "weekly", priority: 0.7 },
   { path: "/leaders", freq: "monthly", priority: 0.7 },
   { path: "/plan-a-visit", freq: "weekly", priority: 0.95 },
