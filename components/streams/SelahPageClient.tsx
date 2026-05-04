@@ -194,7 +194,7 @@ function TrustedCorpus() {
     {
       key: "The teachers",
       tagline: "Read.",
-      body: "Two thousand years of trusted voices &mdash; Matthew Henry, the ESV Study Bible, Stott, Wright, Peterson. The faithful teachers who have opened Scripture for centuries: indexed, available, never paraphrased.",
+      body: "Two thousand years of trusted voices &mdash; the great commentators, expositors, and pastors who have opened Scripture for centuries: indexed, available, never paraphrased.",
     },
     {
       key: "The disciplines",
