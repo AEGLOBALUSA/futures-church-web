@@ -152,6 +152,12 @@ export default async function RootLayout({
             src="https://plausible.io/js/script.js"
           />
         )}
+        {/* Netlify Identity widget — required so email-invite tokens
+            (https://.../#invite_token=...) are caught on any page and the
+            user is shown the "set password" flow that hands them off to
+            /admin for Decap CMS. Loads on every page; ~6 KB, no UI until
+            triggered by a token in the URL. */}
+        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async />
       </head>
       <body className="min-h-screen bg-cream font-sans text-ink-900 antialiased">
         {/* Skip to main content — first focusable element. Visually hidden until

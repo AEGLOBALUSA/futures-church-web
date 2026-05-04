@@ -1,3 +1,7 @@
+# Decap CMS — clean /admin URL serves the studio
+/admin                    /admin/index.html 200
+/admin/                   /admin/index.html 200
+
 /campuses/futures-online  /campuses/online  301
 /ezra                     /                 301
 /ezra/*                   /                 301

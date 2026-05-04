@@ -1,0 +1,97 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: simple
+
+media_folder: public/photos
+public_folder: /photos
+
+site_url: https://futures-church.netlify.app
+display_url: https://futures-church.netlify.app
+logo_url: https://futures-church.netlify.app/favicon.svg
+
+collections:
+  - name: photo_slots
+    label: "Photo Slots"
+    label_singular: "Photo Slot"
+    description: >-
+      Replace a photo on the live site. Click a slot, upload the new image,
+      keep the same filename, hit Save. Live in ~90 seconds.
+    files:
+      # ---------- Senior Pastors / Leaders ----------
+      - name: ashley_jane
+        label: "Senior Pastors card — Ashley & Jane Evans"
+        file: public/data/photo-slots/ashley-jane.yml
+        fields:
+          - { name: image, label: "Image (replace this)", widget: image, media_folder: "/public/photos/pastors", public_folder: "/photos/pastors", required: true }
+          - { name: caption, label: "Caption (read-only ref)", widget: string, default: "Ashley & Jane Evans — Global Senior Pastors", required: false }
+          - { name: notes, label: "Notes for next editor", widget: text, required: false }
+
+      - name: josh_sjhana
+        label: "Australia Lead Pastors card — Josh & Sjhana Greenwood"
+        file: public/data/photo-slots/josh-sjhana.yml
+        fields:
+          - { name: image, label: "Image", widget: image, media_folder: "/public/photos/pastors", public_folder: "/photos/pastors", required: true }
+          - { name: caption, label: "Caption (read-only ref)", widget: string, default: "Josh & Sjhana Greenwood — Australia Lead Pastors", required: false }
+          - { name: notes, label: "Notes", widget: text, required: false }
+
+      # ---------- Country heroes ----------
+      - name: country_usa
+        label: "Country hero — United States"
+        file: public/data/photo-slots/country-usa.yml
+        fields:
+          - { name: image, label: "Image", widget: image, media_folder: "/public/photos/countries", public_folder: "/photos/countries", required: true }
+          - { name: notes, label: "Notes", widget: text, required: false }
+
+      - name: country_australia
+        label: "Country hero — Australia"
+        file: public/data/photo-slots/country-australia.yml
+        fields:
+          - { name: image, label: "Image", widget: image, media_folder: "/public/photos/countries", public_folder: "/photos/countries", required: true }
+          - { name: notes, label: "Notes", widget: text, required: false }
+
+      - name: country_indonesia
+        label: "Country hero — Indonesia"
+        file: public/data/photo-slots/country-indonesia.yml
+        fields:
+          - { name: image, label: "Image", widget: image, media_folder: "/public/photos/countries", public_folder: "/photos/countries", required: true }
+          - { name: notes, label: "Notes", widget: text, required: false }
+
+      - name: country_venezuela
+        label: "Country hero — Venezuela"
+        file: public/data/photo-slots/country-venezuela.yml
+        fields:
+          - { name: image, label: "Image", widget: image, media_folder: "/public/photos/countries", public_folder: "/photos/countries", required: true }
+          - { name: notes, label: "Notes", widget: text, required: false }
+
+  # ---------- Campus photos (folder collection — many entries, all same shape) ----------
+  - name: campus_photos
+    label: "Campus Photos"
+    label_singular: "Campus Photo"
+    description: >-
+      Photos used on individual campus cards across the campuses page.
+      File naming convention — keep filenames lowercase, no spaces.
+    folder: public/data/campus-photos
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: "Slot label (e.g. 'Alpharetta — main')", widget: string, required: true }
+      - { name: image, label: "Image", widget: image, media_folder: "/public/photos/campuses", public_folder: "/photos/campuses", required: true }
+      - { name: campus, label: "Which campus?", widget: string, required: false }
+      - { name: notes, label: "Notes", widget: text, required: false }
+
+  # ---------- Free media library — covers everything else ----------
+  # Photo Guide: a single markdown doc the team can update with notes,
+  # naming conventions, and known photo slots. Doubles as the entry point
+  # that proves the CMS is working.
+  - name: docs
+    label: "Photo Guide"
+    label_singular: "Guide"
+    files:
+      - name: photo_guide
+        label: "Photo Guide for the Media Team"
+        file: public/data/photo-guide.md
+        fields:
+          - { name: title, label: Title, widget: string, default: "Photo Guide" }
+          - { name: body, label: Guide, widget: markdown, required: true }
