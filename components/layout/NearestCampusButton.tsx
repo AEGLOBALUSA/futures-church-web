@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { MapPin, Loader2 } from "lucide-react";
 import { useUserLocation } from "@/lib/ai/useUserLocation";
+import { useIpLocation } from "@/lib/ai/useIpLocation";
 import { findNearestCampuses } from "@/lib/ai/tools/findNearestCampuses";
 
 type Variant = "nav" | "nav-dark" | "mobile";
@@ -12,24 +13,31 @@ type Variant = "nav" | "nav-dark" | "mobile";
 /**
  * One-tap "find my nearest campus" CTA.
  *
- * Click flow:
- *   1. Ask the browser for coordinates (one-shot, never auto-prompts).
- *   2. Rank physical campuses by distance, take the closest.
- *   3. Push to that campus's page.
+ * Click flow (no permission prompt path first):
+ *   1. Try IP-based geolocation via /api/geo (Netlify edge headers).
+ *      → Instant, no browser permission prompt, city-level accuracy
+ *        which is plenty for ranking 21 campuses worldwide.
+ *   2. If IP unavailable (local dev, VPN, header stripped), fall back
+ *      to browser geolocation (asks permission, exact coords).
+ *   3. Rank physical campuses by distance, take the closest.
+ *   4. Push to that campus's page.
  *
- * Failure paths (denied permission, no result, missing geolocation API)
- * fall back to /campuses so the visitor still gets somewhere useful.
+ * Failure paths fall back to /campuses so the visitor lands somewhere useful.
  */
 export function NearestCampusButton({ variant = "nav" }: { variant?: Variant }) {
   const router = useRouter();
   const { request } = useUserLocation();
+  const { lookup } = useIpLocation();
   const [busy, setBusy] = useState(false);
 
   async function go() {
     if (busy) return;
     setBusy(true);
     try {
-      const coords = await request();
+      // Try IP first — instant, no prompt.
+      let coords = (await lookup())?.coords ?? null;
+      // Fall back to browser geolocation if IP wasn't available.
+      if (!coords) coords = await request();
       if (!coords) {
         router.push("/campuses");
         return;
