@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Josh — Futures Church Website Handoff</title>
+<style>
+  :root {
+    --cream: #FDFBF6;
+    --cream-2: #F7F1E6;
+    --cream-3: #F2E6D1;
+    --tan: #E8C9A6;
+    --tan-2: #C8906B;
+    --ink: #1C1A17;
+    --ink-2: #534D44;
+    --ink-3: #8A8178;
+    --accent: #C45236;
+    --accent-2: #AC9B25;
+    --accent-3: #8A5A3C;
+    --good: #4A7C2A;
+    --warn: #C45236;
+    --shadow: 0 18px 40px -22px rgba(20,20,20,0.18);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 60px 40px 120px;
+  }
+  /* Cover */
+  .cover {
+    background: radial-gradient(ellipse at 20% 30%, var(--cream-2) 0%, var(--cream-3) 40%, var(--tan) 80%);
+    margin: -60px -40px 60px;
+    padding: 100px 60px 80px;
+    border-radius: 0 0 28px 28px;
+    box-shadow: var(--shadow);
+  }
+  .cover .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    line-height: 1.05;
+    font-weight: 300;
+    margin: 16px 0 8px;
+    color: var(--ink);
+  }
+  .cover h1 em { font-style: italic; color: var(--accent); }
+  .cover .lede {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 56ch;
+    margin: 24px 0 0;
+  }
+  .cover .by {
+    margin-top: 32px;
+    font-size: 14px;
+    color: var(--ink-3);
+    font-style: italic;
+  }
+  /* Section */
+  .section {
+    margin: 80px 0;
+    scroll-margin-top: 40px;
+  }
+  .section .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    line-height: 1.15;
+    font-weight: 400;
+    margin: 12px 0 24px;
+    color: var(--ink);
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  h3 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    margin: 36px 0 12px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-2);
+    margin: 28px 0 8px;
+    font-weight: 600;
+  }
+  p { margin: 0 0 14px; max-width: 65ch; }
+  /* Login card */
+  .login-card {
+    background: var(--cream);
+    border: 1px solid rgba(20,20,20,0.08);
+    border-radius: 18px;
+    padding: 28px 32px;
+    margin: 24px 0;
+    box-shadow: var(--shadow);
+  }
+  .login-card .row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 14px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(20,20,20,0.08);
+  }
+  .login-card .row:last-child { border-bottom: 0; }
+  .login-card .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+    align-self: center;
+    font-weight: 600;
+  }
+  .login-card .value {
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+    color: var(--ink);
+    font-size: 15px;
+    word-break: break-all;
+  }
+  .pw {
+    display: inline-block;
+    background: #FFF6E8;
+    border: 1px solid #E8C9A6;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 15px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px -8px rgba(20,20,20,0.1);
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(20,20,20,0.06);
+    vertical-align: top;
+  }
+  th {
+    background: var(--cream-2);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  tr:last-child td { border-bottom: 0; }
+  td code {
+    background: var(--cream-2);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  /* Step cards */
+  .steps { counter-reset: step; margin: 24px 0; }
+  .step {
+    counter-increment: step;
+    position: relative;
+    padding: 18px 24px 18px 70px;
+    background: white;
+    border-radius: 14px;
+    margin: 12px 0;
+    box-shadow: 0 4px 14px -8px rgba(20,20,20,0.08);
+    border-left: 3px solid var(--tan-2);
+  }
+  .step::before {
+    content: counter(step);
+    position: absolute;
+    left: 22px;
+    top: 18px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--tan-2);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: Georgia, serif;
+  }
+  .step h4 { margin-top: 0; }
+  /* Pull quote */
+  .pull {
+    background: linear-gradient(135deg, #FFF6E8 0%, #F7F1E6 100%);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 4px 14px 14px 4px;
+    margin: 28px 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  /* Callouts */
+  .callout {
+    border-radius: 14px;
+    padding: 18px 24px;
+    margin: 20px 0;
+    border: 1px solid;
+  }
+  .callout-warn  { background: #FFF4E6; border-color: #F2C99B; color: #6B3F1A; }
+  .callout-good  { background: #EEF6E5; border-color: #BDDB9A; color: #3A5A1F; }
+  .callout-info  { background: #EAF1FA; border-color: #A2C0E2; color: #1F4068; }
+  .callout strong { display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 6px; }
+  /* Bullets */
+  ul, ol { padding-left: 24px; max-width: 65ch; }
+  li { margin: 8px 0; }
+  /* Tags */
+  .tag {
+    display: inline-block;
+    background: var(--cream-2);
+    color: var(--ink-2);
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    margin-right: 6px;
+    font-weight: 500;
+  }
+  .tag-good { background: #EEF6E5; color: #3A5A1F; }
+  .tag-warn { background: #FFE9D6; color: #6B3F1A; }
+  .tag-bad  { background: #FCE2DD; color: #6B2A1A; }
+  /* Toc */
+  nav.toc {
+    background: white;
+    padding: 24px 28px;
+    border-radius: 16px;
+    margin: 32px 0 60px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(20,20,20,0.06);
+  }
+  nav.toc h3 { margin-top: 0; font-size: 1.05rem; color: var(--ink-2); }
+  nav.toc ol { padding-left: 22px; margin: 12px 0 0; }
+  nav.toc a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(20,20,20,0.2);
+  }
+  nav.toc a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  /* Section dividers */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,20,20,0.15), transparent);
+    margin: 80px 0;
+  }
+  /* URL display */
+  .url {
+    display: inline-block;
+    font-family: "SF Mono", Monaco, monospace;
+    background: var(--cream-2);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--accent-3);
+    word-break: break-all;
+  }
+  a.url { text-decoration: none; }
+  a.url:hover { background: var(--tan); color: var(--ink); }
+  /* Print-friendly */
+  @media print {
+    body { background: white; font-size: 12pt; }
+    .cover { background: white; box-shadow: none; }
+    .step, table, nav.toc, .login-card { box-shadow: none; border: 1px solid #ddd; }
+    .section { page-break-inside: avoid; }
+    h2 { page-break-after: avoid; }
+  }
+  @media (max-width: 640px) {
+    .page { padding: 30px 20px 80px; }
+    .cover { margin: -30px -20px 40px; padding: 60px 30px 50px; }
+    .login-card .row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="cover">
+  <p class="eyebrow">Futures Church Website Handoff</p>
+  <h1>Josh — your <em>turn</em>.</h1>
+  <p class="lede">The new website is built and ready for content. For the next 14 days you (or whoever you delegate to) are the engine that gets it filled. Here's everything you need.</p>
+  <p class="by">From Ashley · 4 May 2026 · Read top-to-bottom or jump via the contents below</p>
+</header>
+
+<nav class="toc">
+  <h3>What's in this pack</h3>
+  <ol>
+    <li><a href="#start">Start here — the master overview</a> <span class="tag">5 min read</span></li>
+    <li><a href="#login">Your login — works everywhere</a> <span class="tag">2 min</span></li>
+    <li><a href="#editlist">The master edit list — every slot, who owns it</a> <span class="tag">5 min</span></li>
+    <li><a href="#insite">In-site editing — how the dashed boxes work</a> <span class="tag">5 min</span></li>
+    <li><a href="#photos">Photos — the campus pool curator</a> <span class="tag">5 min</span></li>
+    <li><a href="#daily">Daily 5-minute habits — inbox + activity</a> <span class="tag">5 min</span></li>
+    <li><a href="#stuck">When you're stuck — escalation</a> <span class="tag">5 min</span></li>
+    <li><a href="#email">The pastor email template</a> <span class="tag">3 min</span></li>
+    <li><a href="#video">3-min video walkthrough script</a> <span class="tag">3 min</span></li>
+    <li><a href="#checklist">Day-by-day checklist</a> <span class="tag">printable</span></li>
+  </ol>
+</nav>
+
+<!-- ========== 1. START HERE ========== -->
+<section class="section" id="start">
+  <p class="eyebrow">01 — Start here</p>
+  <h2>The <em>master overview</em></h2>
+
+  <h3>What this is, in one paragraph</h3>
+  <p>The new Futures Church website is built. The pages are designed. The animations work. <strong>The only thing missing is the words and photos that describe each of our 21 campuses and our key program pages.</strong> Your job for the next 14 days is to be the engine that gets those words and photos in — either by writing them yourself, delegating to a writer, or chasing the campus pastors to fill in their own.</p>
+
+  <p>The hard engineering is done. The hard <em>writing</em> now starts.</p>
+
+  <h3>The two kinds of people who can edit, and what each can touch</h3>
+  <table>
+    <thead><tr><th>Role</th><th>Login</th><th>Can edit</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>You (admin)</strong></td>
+        <td>Single password — <span class="pw">FCADMIN</span></td>
+        <td>Anywhere on the site. Every campus. Every global page. Plus all admin dashboards (inbox, activity, coverage, seed).</td>
+      </tr>
+      <tr>
+        <td><strong>Each campus pastor</strong></td>
+        <td>Unique link from you — single-use, then 30-day session</td>
+        <td>Their own campus pages only. They cannot see admin dashboards or edit other campuses.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The four hats you wear</h3>
+  <div class="steps">
+    <div class="step">
+      <h4>Hat 1 — Fill your own assigned slots</h4>
+      <p>13 site-wide content slots default to "Josh Greenwood (or appointee)." Things like the Kids program description, the Generosity paragraph, the Selah hero line. <strong>No one else writes these.</strong> Either you do it, or your delegated writer does. Days 1–5.</p>
+    </div>
+    <div class="step">
+      <h4>Hat 2 — Send the pastor email + chase laggards</h4>
+      <p>21 pastors get a unique link from you. Pre-drafted email is in <a href="#email">Section 8</a>. CSV with their tokens is at <code>/tmp/futures-intake-tokens-2026-05-04.csv</code> on Ashley's machine. Send Day 1, nudge Day 7, phone-call Day 10.</p>
+    </div>
+    <div class="step">
+      <h4>Hat 3 — Watch the inbox daily</h4>
+      <p><span class="url">/intake/admin/inbox</span> — visitor messages land here (contact, prayer, plan-a-visit). Read daily. Forward to the right campus pastor.</p>
+    </div>
+    <div class="step">
+      <h4>Hat 4 — Spot weirdness in the activity feed</h4>
+      <p><span class="url">/intake/admin/activity</span> — live feed of every edit. Skim once a day. If something looks wrong, step in.</p>
+    </div>
+  </div>
+
+  <h3>Your 14-day journey at a glance</h3>
+  <table>
+    <thead><tr><th>Day</th><th>What</th></tr></thead>
+    <tbody>
+      <tr><td>Day 1</td><td>Read this whole pack. Log in. Test by editing one slot.</td></tr>
+      <tr><td>Day 1</td><td>Send the pastor email — 21 unique emails</td></tr>
+      <tr><td>Days 2–5</td><td>Fill your 13 own-assigned slots</td></tr>
+      <tr><td>Day 7</td><td>Nudge any pastor below 30%</td></tr>
+      <tr><td>Day 10</td><td>Phone-call any pastor still at 0%</td></tr>
+      <tr><td>Day 14 (Sun May 17)</td><td>Soft deadline. Audit. File gap report to Ashley.</td></tr>
+      <tr><td>Ongoing</td><td>Daily inbox + activity skim — 5 min/day</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-warn">
+    <strong>Three things to remember every day</strong>
+    <p style="margin: 0;"><strong>1.</strong> Everything you save goes live the moment you save it. No review queue. No draft mode. <strong>2.</strong> Delegating is encouraged — your time is better spent leading. Hand the password to a writer if you have one. <strong>3.</strong> When something is broken, text Ashley. Don't fix it yourself.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 2. LOGIN ========== -->
+<section class="section" id="login">
+  <p class="eyebrow">02 — Your login</p>
+  <h2>One login. Works <em>everywhere</em>.</h2>
+
+  <p>This same password unlocks two completely different surfaces: the admin dashboards <strong>and</strong> in-site editing on every public page. You don't need a second password for "in-site editing." It's the same <span class="pw">FCADMIN</span>.</p>
+
+  <div class="login-card">
+    <div class="row">
+      <div class="label">URL</div>
+      <div class="value"><a href="https://futures-church.netlify.app/intake/admin/login" class="url">https://futures-church.netlify.app/intake/admin/login</a></div>
+    </div>
+    <div class="row">
+      <div class="label">Password</div>
+      <div class="value"><span class="pw">FCADMIN</span> &nbsp; <em style="font-style: italic; color: var(--ink-3); font-size: 13px;">(all capital letters, no spaces)</em></div>
+    </div>
+    <div class="row">
+      <div class="label">Session</div>
+      <div class="value">30 days from first login</div>
+    </div>
+  </div>
+
+  <h3>Bookmark these 4 pages</h3>
+  <table>
+    <thead><tr><th>Bookmark</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><code>/intake/admin</code></td><td>Master campus dashboard. See all 21 campuses, who's filled, who hasn't.</td></tr>
+      <tr><td><code>/intake/admin/coverage</code></td><td><strong>Your home base.</strong> Every site-wide content slot, who owns it, what % is done.</td></tr>
+      <tr><td><code>/intake/admin/activity</code></td><td>Live feed of every edit happening, every campus, every minute.</td></tr>
+      <tr><td><code>/intake/admin/inbox</code></td><td>Real visitor messages. Read daily.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 3. EDIT LIST ========== -->
+<section class="section" id="editlist">
+  <p class="eyebrow">03 — Master edit list</p>
+  <h2>Every edit needed, on <em>one screen</em></h2>
+
+  <p>The single URL that matters most: <a href="https://futures-church.netlify.app/intake/admin/coverage" class="url">/intake/admin/coverage</a></p>
+
+  <p>This page is a single-screen overview of <strong>every editable text or photo slot on the entire website</strong> — what's filled, what's empty, who owns each one, what % is done. Updates live as edits happen.</p>
+
+  <h3>What "coverage" means</h3>
+  <p>The site is built out of <strong>slots</strong> — small named pieces of content you can fill in. Some are <em>site-wide</em> (Kids page, Selah page, Generosity paragraph) — usually owned by you. Some are <em>campus-specific</em> — owned by the campus pastor.</p>
+
+  <h3>What you'll see on each row</h3>
+  <table>
+    <thead><tr><th>Column</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Page</strong></td><td>Which page this slot lives on (e.g., <code>/kids</code>, <code>/campuses/paradise</code>)</td></tr>
+      <tr><td><strong>Slot name</strong></td><td>What this content is (e.g., "Program description", "Service times")</td></tr>
+      <tr><td><strong>Owner</strong></td><td>Who's responsible — you, a campus pastor, etc.</td></tr>
+      <tr><td><strong>Status</strong></td><td><span class="tag tag-bad">Empty</span> <span class="tag tag-warn">Drafted</span> <span class="tag tag-good">Filled</span></td></tr>
+      <tr><td><strong>Word budget</strong></td><td>Roughly how many words to aim for</td></tr>
+      <tr><td><strong>Action</strong></td><td>A "Fill →" button that takes you straight to the page in edit mode</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Your 13 personally-assigned slots</h3>
+  <p>These default to "Josh Greenwood (or appointee)" and <strong>no campus pastor will ever fill these</strong>. Either you write them, or your writer does.</p>
+
+  <table>
+    <thead><tr><th>#</th><th>Page</th><th>Slot</th><th>Words</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>/kids</code></td><td>Page headline</td><td>5–10</td></tr>
+      <tr><td>2</td><td><code>/kids</code></td><td>Program description</td><td>60–90</td></tr>
+      <tr><td>3</td><td><code>/kids</code></td><td>Safety line</td><td>20–35</td></tr>
+      <tr><td>4</td><td><code>/dreamers</code></td><td>Page headline</td><td>5–10</td></tr>
+      <tr><td>5</td><td><code>/dreamers</code></td><td>Program description</td><td>60–90</td></tr>
+      <tr><td>6</td><td><code>/selah</code></td><td>Hero line</td><td>5–10</td></tr>
+      <tr><td>7</td><td><code>/selah</code></td><td>What Selah is</td><td>70–110</td></tr>
+      <tr><td>8</td><td><code>/bible-app</code></td><td>App description</td><td>50–80</td></tr>
+      <tr><td>9</td><td><code>/give</code></td><td>Generosity paragraph</td><td>60–90</td></tr>
+      <tr><td>10</td><td><code>/contact</code></td><td>Contact page lede</td><td>30–50</td></tr>
+      <tr><td>11</td><td><code>/plan-a-visit</code></td><td>Signed first-visit story</td><td>150–200</td></tr>
+      <tr><td>12</td><td><code>/about</code></td><td>Page intro</td><td>50–80</td></tr>
+      <tr><td>13</td><td><code>/history</code></td><td>Page intro</td><td>80–120</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-info">
+    <strong>Recommended workflow</strong>
+    <p style="margin: 0;"><strong>1.</strong> Click "Fill →" on the coverage dashboard <strong>2.</strong> Click the dashed box on the page <strong>3.</strong> Type — don't try to perfect it; refine in week 2 <strong>4.</strong> Wait for "saved" indicator <strong>5.</strong> Move on.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 4. IN-SITE EDITING ========== -->
+<section class="section" id="insite">
+  <p class="eyebrow">04 — In-site editing</p>
+  <h2>Click to edit. <em>Anywhere</em>.</h2>
+
+  <p>After you log in once with <span class="pw">FCADMIN</span>, every public page on the site reveals dashed boxes around editable elements. Click → type → autosaves after 2 seconds.</p>
+
+  <div class="steps">
+    <div class="step">
+      <h4>Go to any page</h4>
+      <p>e.g. <a href="https://futures-church.netlify.app/kids" class="url">/kids</a></p>
+    </div>
+    <div class="step">
+      <h4>Toggle edit mode on</h4>
+      <p>Look for the small "Edit" pill in the corner of the screen (usually top-right or bottom-right). Click it.</p>
+    </div>
+    <div class="step">
+      <h4>Dashed boxes appear</h4>
+      <p>Warm-toned outlines around every editable text/photo. The badge in each box shows: who owns this slot + slot name.</p>
+    </div>
+    <div class="step">
+      <h4>Click a box, type</h4>
+      <p>The box becomes editable. Just type. <strong>No save button. No publish button.</strong></p>
+    </div>
+    <div class="step">
+      <h4>Stop typing for 2 seconds</h4>
+      <p>You'll see "saved · just now" appear in the corner. That's autosave. <strong>Live on the site immediately.</strong></p>
+    </div>
+    <div class="step">
+      <h4>Verify (optional)</h4>
+      <p>Reload the page (<code>Cmd+Shift+R</code>). Your text is still there → confirmed live.</p>
+    </div>
+  </div>
+
+  <h3>Common mistakes to avoid</h3>
+  <ul>
+    <li><strong>Don't paste from Word with formatting.</strong> Hidden formatting can break the layout. Paste as plain text (<code>Cmd+Shift+V</code>) or paste into TextEdit first.</li>
+    <li><strong>Don't use ALL CAPS for emphasis.</strong> The site has its own typography rules. Caps will look shouty.</li>
+    <li><strong>Don't write "click here" or "see below".</strong> Visitors may arrive deep-linked. Write so each paragraph stands alone.</li>
+    <li><strong>Don't overthink it.</strong> First pass: write something honest in your voice. Second pass next week: refine. <em>Done is better than perfect.</em></li>
+  </ul>
+
+  <div class="callout callout-good">
+    <strong>The "saved" indicator</strong>
+    <p style="margin: 0;">After you stop typing, watch for one of: <span class="tag tag-good">Saved · just now</span> (good) <span class="tag tag-warn">Saving…</span> (in progress) <span class="tag tag-bad">Save failed — retry</span> (network hiccup, click retry). If you see no indicator at all → assume your edit didn't save. Reload and check.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 5. PHOTOS ========== -->
+<section class="section" id="photos">
+  <p class="eyebrow">05 — Photos</p>
+  <h2>The <em>campus pool</em> curator</h2>
+
+  <p>Each campus has a <strong>photo pool</strong> — a folder of images that the pastor (or their delegate) has uploaded. Then <strong>you curate</strong> which photo goes into which slot on the campus's page (the hero, the secondary, the leaders portrait, etc.). One pool, multiple destinations.</p>
+
+  <h3>Where to find the photo curator for a campus</h3>
+  <p><span class="url">/intake/admin/[campus-slug]/photos</span></p>
+  <p>Examples:</p>
+  <ul>
+    <li><a href="https://futures-church.netlify.app/intake/admin/paradise/photos" class="url">/intake/admin/paradise/photos</a></li>
+    <li><a href="https://futures-church.netlify.app/intake/admin/adelaide-city/photos" class="url">/intake/admin/adelaide-city/photos</a></li>
+  </ul>
+
+  <h3>The two halves of the curator page</h3>
+  <table>
+    <thead><tr><th>Half</th><th>What it shows</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Top — The pool</strong></td><td>Every photo the pastor uploaded. Thumbnails. Caption. Assign button.</td></tr>
+      <tr><td><strong>Bottom — The slots</strong></td><td>Hero photo, Secondary, Leaders portrait, Mosaic 1–4, Service photo. Each shows what's currently assigned.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The Futures photo brief — what makes a "good" photo</h3>
+  <table>
+    <thead><tr><th class="good">✓ Good</th><th class="warn">✗ Bad</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Real moments, not posed</td>
+        <td>Stock photography (visitors can sniff stock from a mile away)</td>
+      </tr>
+      <tr>
+        <td>Faces in focus, eyes visible</td>
+        <td>Empty auditoriums with stage lights</td>
+      </tr>
+      <tr>
+        <td>Outside the building when possible</td>
+        <td>Heavily filtered / Instagram-style</td>
+      </tr>
+      <tr>
+        <td>Diverse — different ages, ethnicities, contexts</td>
+        <td>Selfies (wrong scale, wrong context)</td>
+      </tr>
+      <tr>
+        <td>Captioned with location/year if known</td>
+        <td>Group shots where everyone's squinting at the sun</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-info">
+    <strong>Don't be shy about removing things</strong>
+    <p style="margin: 0;">A campus page with 4 great photos beats a campus page with 12 mediocre ones. If a pool has nothing strong, ask the pastor for more. If they can't deliver, use what's least-bad in the hero slot and leave the mosaic slots empty.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 6. DAILY ========== -->
+<section class="section" id="daily">
+  <p class="eyebrow">06 — Daily 5-minute habits</p>
+  <h2>Two URLs. <em>Five minutes</em>. Daily.</h2>
+
+  <h3>1. The inbox — <span class="url">/intake/admin/inbox</span></h3>
+  <p>Visitor messages land here when someone fills in:</p>
+  <table>
+    <thead><tr><th>Form</th><th>Where it lives</th><th>What visitor wants</th></tr></thead>
+    <tbody>
+      <tr><td>Contact</td><td><code>/contact</code></td><td>General questions, "I want to talk to a pastor"</td></tr>
+      <tr><td>Plan a visit</td><td><code>/plan-a-visit</code></td><td>"Help me know what to expect Sunday"</td></tr>
+      <tr><td>Prayer request</td><td><code>/prayer</code></td><td>"Please pray for ___"</td></tr>
+      <tr><td>Press / partnership</td><td><code>/press</code> or <code>/connect</code></td><td>Media or ministry inquiries</td></tr>
+    </tbody>
+  </table>
+
+  <h3>How to triage</h3>
+  <table>
+    <thead><tr><th>Message type</th><th>Forward to</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>Prayer request for [Campus X]</td><td>Lead pastor of [Campus X]</td><td>Forward, write "I'll cover this until you reply"</td></tr>
+      <tr><td>Plan-a-visit for [Campus X]</td><td>Pastor + connections lead</td><td>"Pastor [name] will text you within 24h"</td></tr>
+      <tr><td>Doctrine / theology</td><td>Ashley or Pastor Jane</td><td>Mark "needs senior response"</td></tr>
+      <tr><td>Press / partnership</td><td>Ashley</td><td>Forward</td></tr>
+      <tr><td>Spam / abuse</td><td>(no one)</td><td>Mark resolved. Flag Ashley if pattern emerges.</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Aim:</strong> every message gets a response (from someone) within 24 hours.</p>
+
+  <h3>2. The activity feed — <span class="url">/intake/admin/activity</span></h3>
+  <p>Live chronological feed of every edit happening across the site. You're not auditing for blame; you're watching for <strong>anomalies</strong>.</p>
+
+  <table>
+    <thead><tr><th>Signal</th><th>Maybe</th><th>You do</th></tr></thead>
+    <tbody>
+      <tr><td>Same slot edited 8+ times in 30 min by 3 different people</td><td>Two writers fighting</td><td>Text the campus pastor: "Who's your point person?"</td></tr>
+      <tr><td>"test" / "lorem ipsum" / "TESTING" appearing</td><td>Someone stress-testing</td><td>Reach out, confirm intent</td></tr>
+      <tr><td>200-word paragraph replaced with 5 words</td><td>Accidental delete</td><td>Activity feed shows the "before" — restore manually</td></tr>
+      <tr><td>Profanity, hostile content, named individuals</td><td>Hacked / angry pastor</td><td><strong>Revert immediately. Then text Ashley.</strong></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 7. STUCK ========== -->
+<section class="section" id="stuck">
+  <p class="eyebrow">07 — When you're stuck</p>
+  <h2>Don't fix it. <em>Capture it</em>. Text Ashley.</h2>
+
+  <p><strong>The first rule:</strong> you don't fix anything technical yourself. You spot the problem, capture the right details, and text Ashley. The system has been engineered to be repaired by Ashley in 5–30 minutes once flagged.</p>
+
+  <h3>The 30-second "is this real?" check</h3>
+  <ol>
+    <li><strong>Hard reload</strong> — <code>Cmd+Shift+R</code> (Mac) or <code>Ctrl+Shift+R</code> (Windows)</li>
+    <li><strong>Try incognito/private window</strong> — rules out browser extensions</li>
+    <li><strong>Try a different network</strong> — phone hotspot</li>
+    <li><strong>Try a different device</strong> — your phone if you were on laptop</li>
+  </ol>
+  <p>If the problem persists across all of those, it's real. Escalate.</p>
+
+  <h3>The most common 5 problems</h3>
+  <table>
+    <thead><tr><th>Problem</th><th>First try</th><th>If still broken</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Can't log in</strong></td>
+        <td>Confirm <code>FCADMIN</code> all caps, no spaces. Hard reload.</td>
+        <td>Text Ashley with browser + last-working time</td>
+      </tr>
+      <tr>
+        <td><strong>An edit won't save</strong></td>
+        <td>Refresh — your text might've actually saved. Try a different slot.</td>
+        <td>If only this slot fails: text Ashley with slot name. If <em>all</em> slots fail: call immediately.</td>
+      </tr>
+      <tr>
+        <td><strong>A pastor's link doesn't work</strong></td>
+        <td>Re-check the CSV. Re-issue from <code>/intake/admin/seed</code>.</td>
+        <td>Text Ashley if seed page misbehaves</td>
+      </tr>
+      <tr>
+        <td><strong>No dashed boxes appearing</strong></td>
+        <td>Hard reload. Confirm logged in (<code>/intake/admin</code> works?). Try a different page.</td>
+        <td>Text Ashley</td>
+      </tr>
+      <tr>
+        <td><strong>Milo not responding</strong></td>
+        <td>Try a different question. Refresh.</td>
+        <td>Text Ashley — likely a quick API quota fix</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Escalation chain</h3>
+  <table>
+    <thead><tr><th>Severity</th><th>Examples</th><th>Response time</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag tag-good">🟢 Minor</span></td><td>Typo in label, confusing tooltip</td><td>Within 24h</td></tr>
+      <tr><td><span class="tag tag-warn">🟡 Medium</span></td><td>One link broken, one slot failing</td><td>Within 4h</td></tr>
+      <tr><td><span class="tag tag-bad">🔴 Major</span></td><td>Login down, all saves failing, offensive content live</td><td>Immediate. By phone if no text reply in 15 min.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The "what to send Ashley" checklist</h3>
+  <ol>
+    <li>What URL (exact link)</li>
+    <li>What you did (clicked X, typed Y)</li>
+    <li>What you expected</li>
+    <li>What actually happened</li>
+    <li>What you tried (hard reload, incognito, etc.)</li>
+    <li>Browser + device (Chrome on Mac, etc.)</li>
+  </ol>
+
+  <div class="pull">
+    "Hey — login failing at <code>/intake/admin/login</code>. Typing <code>FCADMIN</code> all caps, expecting <code>/intake/admin</code>. Form says wrong password. Tried hard reload, incognito, different network. Chrome on Mac. Started 10 min ago."
+  </div>
+  <p><em>That message gets fixed in 5 minutes.</em></p>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 8. EMAIL TEMPLATE ========== -->
+<section class="section" id="email">
+  <p class="eyebrow">08 — Pastor email template</p>
+  <h2>The email to all <em>21 pastors</em></h2>
+
+  <p>Send one personalised email to each pastor. The CSV with their unique tokens is at <code>/tmp/futures-intake-tokens-2026-05-04.csv</code> on Ashley's machine. Replace <code>[Pastor Name]</code>, <code>[Campus Name]</code>, and <code>[INSERT UNIQUE LINK]</code> per pastor.</p>
+
+  <div class="login-card">
+    <div class="row">
+      <div class="label">Subject</div>
+      <div class="value">Your campus on the new Futures Church website — 14 days to fill in</div>
+    </div>
+  </div>
+
+  <div class="pull" style="font-style: normal; font-family: -apple-system, system-ui, sans-serif; font-size: 16px;">
+    <p>Hi [Pastor Name],</p>
+    <p>The new Futures Church website is built. Before it goes live, <strong>I need you (or whoever you delegate this to) to fill in a 13-section form about [Campus Name]</strong> — the parts only you know: pastor names, service times, address, what makes [Campus Name] distinctive, kids' program details, the things you'd want a first-timer to know.</p>
+    <p>It's the part of the site we genuinely can't write for you. And once it's filled in, your campus page comes alive — Milo (our website guide) starts answering questions about [Campus Name] correctly, the campus card on the main page reflects you, and visitors planning a Sunday at [Campus Name] get accurate info instead of guesswork.</p>
+    <p><strong>Here's your unique link</strong> <em>(it expires after first use to set up your editor session, then you have a 30-day login):</em></p>
+    <p>🔗 <strong>[INSERT UNIQUE LINK FROM CSV]</strong></p>
+    <p>When you click, you'll see your campus's intake form. Fill in what you can, save as you go (it autosaves), come back later if you need to. Most pastors finish in 30–45 minutes.</p>
+    <p><strong>Two weeks from today is the deadline.</strong> I'll send a nudge at day 7. If you're at zero by day 10, I'm calling you. If you're at zero by day 12, Pastor Ashley is calling.</p>
+    <p>If you genuinely don't have time this week, <strong>forward this email to whoever on your team can do it.</strong> Campus admin, media person, spouse, worship pastor — anyone you trust.</p>
+    <p>Two things to remember:</p>
+    <ul>
+      <li><strong>Everything you save goes live immediately.</strong> No review queue.</li>
+      <li><strong>If you get stuck, text or call me.</strong> Don't guess and don't skip.</li>
+    </ul>
+    <p>Thanks for being on the wall. Excited to see [Campus Name] on the new site.</p>
+    <p>Josh</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 9. VIDEO SCRIPT ========== -->
+<section class="section" id="video">
+  <p class="eyebrow">09 — 3-min video walkthrough</p>
+  <h2>Record this. Send to <em>all 21</em>.</h2>
+
+  <p><strong>Format:</strong> Loom or QuickTime, screen-share. ~3 minutes. Send the link in your pastor email above.</p>
+
+  <h3>Recording tips</h3>
+  <ul>
+    <li><strong>Don't over-rehearse.</strong> A slightly-stumbling Josh is more trusted than a polished read.</li>
+    <li><strong>Show your cursor on screen.</strong> People follow movement.</li>
+    <li><strong>Filename:</strong> <code>futures-intake-josh-walkthrough-2026-05.mp4</code></li>
+    <li><strong>Loom is fastest</strong> — share the auto-generated URL.</li>
+  </ul>
+
+  <h3>The script (≈2:45)</h3>
+  <div class="steps">
+    <div class="step">
+      <h4>0:00 — Title card / your face</h4>
+      <p>"Hey team. This is Josh. I'm going to walk you through the 30-second version of how to fill in your campus on the new Futures website. Then you'll get an email from me with your unique link."</p>
+    </div>
+    <div class="step">
+      <h4>0:15 — Open the unique link, share screen</h4>
+      <p>"When you click your link, you land here. This is your campus's intake form. Thirteen sections down the left side. Click the first one."</p>
+    </div>
+    <div class="step">
+      <h4>0:30 — Click the first section</h4>
+      <p>"You'll see a form. Type into the boxes. <strong>Everything autosaves as you type.</strong> No save button. You can close the tab and come back tomorrow — your work is there."</p>
+    </div>
+    <div class="step">
+      <h4>0:50 — Show the photo upload section</h4>
+      <p>"When you get to a photo section, drag a photo in or click to browse. <strong>Photos go into a campus pool</strong> — the comms team picks which ones go where. Don't worry about cropping."</p>
+    </div>
+    <div class="step">
+      <h4>1:10 — Flip back to the table of contents</h4>
+      <p>"The progress bar at the top shows how complete your campus is. <strong>Aim for 100% in 14 days.</strong> Easier to do 2 sections a day than try to power through."</p>
+    </div>
+    <div class="step">
+      <h4>1:30 — Show the most important section</h4>
+      <p>"The <em>Distinctive</em> section is the most important. One paragraph on what makes your campus your campus — written in YOUR voice, not church copy. That's what people will read, and what Milo will quote."</p>
+    </div>
+    <div class="step">
+      <h4>1:50 — Calm shot</h4>
+      <p>"If you're stuck or unsure, text me directly. Don't guess."</p>
+    </div>
+    <div class="step">
+      <h4>2:10 — End card</h4>
+      <p>"If you can't do this yourself this week, <strong>forward your link to anyone you trust</strong> — campus admin, your spouse, your media person. They can finish it for you and the link still works for 30 days."</p>
+    </div>
+    <div class="step">
+      <h4>2:30 — Sign off</h4>
+      <p>"Two weeks. Let's get the site to launch with every campus represented properly. Thanks for what you do."</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ========== 10. CHECKLIST ========== -->
+<section class="section" id="checklist">
+  <p class="eyebrow">10 — Day-by-day checklist</p>
+  <h2>Print this. <em>Tick</em> as you go.</h2>
+
+  <h3>Day 1 — Set up (15 min)</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>☐ Open <a href="https://futures-church.netlify.app/intake/admin/login" class="url">/intake/admin/login</a></li>
+    <li>☐ Sign in with password <span class="pw">FCADMIN</span></li>
+    <li>☐ Bookmark 4 URLs: <code>/intake/admin</code>, <code>/intake/admin/coverage</code>, <code>/intake/admin/activity</code>, <code>/intake/admin/inbox</code></li>
+    <li>☐ Read this whole pack (or watch your own walkthrough video back)</li>
+    <li>☐ Decide: doing this myself, or delegating to a writer?</li>
+  </ul>
+
+  <h3>Day 1 — Test (10 min)</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>☐ Go to <a href="https://futures-church.netlify.app/intake/admin/coverage" class="url">/intake/admin/coverage</a></li>
+    <li>☐ Find the slot <strong>"Kids → Program description"</strong>. Click <strong>Fill →</strong>.</li>
+    <li>☐ You should land on <code>/kids</code> with a warm dashed box around the empty paragraph.</li>
+    <li>☐ Click the box. Type one sentence. Wait 2 seconds. See "saved" appear.</li>
+    <li>☐ Reload the page (<code>Cmd+Shift+R</code>). Confirm your sentence is still there.</li>
+    <li>☐ If anything was weird, text Ashley <strong>before</strong> sending the pastor email.</li>
+  </ul>
+
+  <h3>Day 2 — Send the pastor email (30 min)</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>☐ Open the email template (Section 8 above)</li>
+    <li>☐ Open the CSV: <code>/tmp/futures-intake-tokens-2026-05-04.csv</code></li>
+    <li>☐ Replace placeholders for each of the 21 pastors</li>
+    <li>☐ Send 21 emails. BCC for any group sends.</li>
+    <li>☐ Forward to regional leads (USA, Indonesia, Venezuela)</li>
+    <li>☐ Post the walkthrough video link in team Slack/WhatsApp</li>
+  </ul>
+
+  <h3>Days 3–5 — Fill your 13 own slots (90 min total)</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>☐ <code>/kids</code> — Page headline (5–10 words)</li>
+    <li>☐ <code>/kids</code> — Program description (60–90 words)</li>
+    <li>☐ <code>/kids</code> — Safety line (20–35 words)</li>
+    <li>☐ <code>/dreamers</code> — Page headline (5–10 words)</li>
+    <li>☐ <code>/dreamers</code> — Program description (60–90 words)</li>
+    <li>☐ <code>/selah</code> — Hero line (5–10 words)</li>
+    <li>☐ <code>/selah</code> — What Selah is (70–110 words)</li>
+    <li>☐ <code>/bible-app</code> — App description (50–80 words)</li>
+    <li>☐ <code>/give</code> — Generosity paragraph (60–90 words)</li>
+    <li>☐ <code>/contact</code> — Contact page lede (30–50 words)</li>
+    <li>☐ <code>/plan-a-visit</code> — Signed first-visit story (150–200 words)</li>
+    <li>☐ <code>/about</code> — Page intro (50–80 words)</li>
+    <li>☐ <code>/history</code> — Page intro (80–120 words)</li>
+  </ul>
+
+  <h3>Days 7 + 10 — Chase the laggards</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>☐ Day 7 (Mon May 11) — open <code>/intake/admin</code>. Anyone below 30%? Send single nudge text: <em>"How's the form coming? Anything I can unblock?"</em></li>
+    <li>☐ Day 10 (Thu May 14) — anyone still at 0%? Pick up the phone. Don't email.</li>
+  </ul>
+
+  <h3>Day 14 (Sun May 17) — Soft deadline</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>☐ Open <code>/intake/admin</code> — count campuses ≥ 50% complete. Target: 18 of 21.</li>
+    <li>☐ Open <code>/intake/admin/coverage</code> — count site-wide slots filled. Target: 13 of 17.</li>
+    <li>☐ Note any gaps. Forward gap list to Ashley with 1-line plan per gap.</li>
+  </ul>
+
+  <h3>Ongoing — Daily 5-min habits</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>☐ Once daily — open <code>/intake/admin/inbox</code>. Read new messages. Forward to right pastor.</li>
+    <li>☐ Once daily — open <code>/intake/admin/activity</code>. Skim feed. Anyone editing anything weird?</li>
+  </ul>
+
+  <hr class="divider">
+
+  <div class="callout callout-good">
+    <strong>You can do this</strong>
+    <p style="margin: 0;">The system is designed so a non-technical person can run it. The hard part isn't the tools — it's the diplomacy of getting 21 busy pastors to write 13 paragraphs each in 14 days. <strong>That's your real job.</strong> The tool is just a tool. — Ashley</p>
+  </div>
+</section>
+
+<footer style="margin-top: 100px; padding-top: 40px; border-top: 1px solid rgba(20,20,20,0.08); text-align: center; color: var(--ink-3); font-size: 13px;">
+  Futures Church Website Handoff Pack · From Ashley · 4 May 2026<br>
+  Live URL: <a href="https://futures-church.netlify.app" class="url">futures-church.netlify.app</a> &nbsp;·&nbsp; Repo: <code>AEGLOBALUSA/futures-church-web</code>
+</footer>
+
+</div>
+</body>
+</html>

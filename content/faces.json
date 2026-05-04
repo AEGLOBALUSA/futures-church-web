@@ -2,59 +2,59 @@
   "_meta": {
     "status": "placeholder",
     "count": 120,
-    "instructions": "Every entry below is an Unsplash placeholder until real Futures photography arrives. Swap URLs one at a time — no code changes needed. When an entry is real, change `source` from 'unsplash-placeholder' to 'futures-comms' and update `name`, `campus`, `photographer` fields. Components read exclusively from this file via lib/content/faces.ts — never hardcode URLs.",
+    "instructions": "Every entry below is an Unsplash placeholder until real Futures photography arrives. Swap URLs one at a time \u2014 no code changes needed. When an entry is real, change `source` from 'unsplash-placeholder' to 'futures-comms' and update `name`, `campus`, `photographer` fields. Components read exclusively from this file via lib/content/faces.ts \u2014 never hardcode URLs.",
     "licenseNote": "Unsplash photos are license-free for any use. Futures-comms photos require signed model release stored in /ops/releases/.",
-    "cropStrategy": "Crop params are tuned per slot: hero uses 4:5 portrait + fit=crop&crop=faces,focalpoint; voices use 1:1 tight face crops; mosaic uses tile-specific dimensions; campus uses 4:3 landscape; footer uses 1:1 tight face. All rely on Unsplash's CDN-side cropping — nothing is downloaded locally.",
-    "diversityIntent": "Futures' on-the-ground family across its 21 campuses is majority Australian-and-American (predominantly white) with substantial Indonesian, Latin (Spanish-speaking / Venezuelan), and Brazilian / Portuguese contingents — and that's the mix the imagery must reflect. Target ratio across every public surface: at least 50% white / European-descent faces, the remaining ~50% split between Indonesian (Javanese, Balinese, Sundanese, Minahasan), Spanish / Latin American (incl. Venezuelan), and Brazilian / Portuguese. Other ethnicities are welcome where they reflect the actual congregation, but should not dominate any surface. When swapping a placeholder for a real photo, preserve this ratio across the slot's neighbours.",
+    "cropStrategy": "Crop params are tuned per slot: hero uses 4:5 portrait + fit=crop&crop=faces,focalpoint; voices use 1:1 tight face crops; mosaic uses tile-specific dimensions; campus uses 4:3 landscape; footer uses 1:1 tight face. All rely on Unsplash's CDN-side cropping \u2014 nothing is downloaded locally.",
+    "diversityIntent": "Futures' on-the-ground family across its 21 campuses is majority Australian-and-American (predominantly white) with substantial Indonesian, Latin (Spanish-speaking / Venezuelan), and Brazilian / Portuguese contingents \u2014 and that's the mix the imagery must reflect. Target ratio across every public surface: at least 50% white / European-descent faces, the remaining ~50% split between Indonesian (Javanese, Balinese, Sundanese, Minahasan), Spanish / Latin American (incl. Venezuelan), and Brazilian / Portuguese. Other ethnicities are welcome where they reflect the actual congregation, but should not dominate any surface. When swapping a placeholder for a real photo, preserve this ratio across the slot's neighbours.",
     "targetMixPerSurface": {
-      "hero_portraits": "4 faces — 2 clearly white (one of which is the anchor / large slot), 1 Indonesian or Asian-Australian, 1 Spanish-Latin or Brazilian. Mix can flex but the white share must remain ≥50%.",
-      "voices_row": "12 faces — 6 white (Australian / American / European), 2 Indonesian, 2 Spanish-Latin (incl. Venezuelan), 2 Brazilian / Portuguese.",
-      "footer_strip": "20 faces — same ratio: 10 white, 4 Indonesian, 3 Spanish-Latin, 3 Brazilian / Portuguese.",
-      "mosaic": "58 tiles — ~30 clearly white subjects, ~12 Indonesian / Asian, ~8 Spanish-Latin, ~8 Brazilian / Portuguese. Group shots count toward whichever ethnicity is the visual majority. No single-ethnicity cluster of more than 4 tiles in a row.",
-      "campus_wall": "26 scenes — one per campus. Photography should read as the actual region (Adelaide architecture, Bali rice terraces, Caracas skyline, São Paulo, etc.)."
+      "hero_portraits": "4 faces \u2014 2 clearly white (one of which is the anchor / large slot), 1 Indonesian or Asian-Australian, 1 Spanish-Latin or Brazilian. Mix can flex but the white share must remain \u226550%.",
+      "voices_row": "12 faces \u2014 6 white (Australian / American / European), 2 Indonesian, 2 Spanish-Latin (incl. Venezuelan), 2 Brazilian / Portuguese.",
+      "footer_strip": "20 faces \u2014 same ratio: 10 white, 4 Indonesian, 3 Spanish-Latin, 3 Brazilian / Portuguese.",
+      "mosaic": "58 tiles \u2014 ~30 clearly white subjects, ~12 Indonesian / Asian, ~8 Spanish-Latin, ~8 Brazilian / Portuguese. Group shots count toward whichever ethnicity is the visual majority. No single-ethnicity cluster of more than 4 tiles in a row.",
+      "campus_wall": "26 scenes \u2014 one per campus. Photography should read as the actual region (Adelaide architecture, Bali rice terraces, Caracas skyline, S\u00e3o Paulo, etc.)."
     },
     "swapOrder": [
-      "hero_portraits (highest visibility — swap first, preserve ethnic mix)",
+      "hero_portraits (highest visibility \u2014 swap first, preserve ethnic mix)",
       "voices_row (testimonial quotes are fake; must be real before launch)",
-      "footer_strip (small, lenient — but keep diversity)",
+      "footer_strip (small, lenient \u2014 but keep diversity)",
       "mosaic (swap in batches of 4; never swap 4 same-ethnicity at once)",
-      "campus_wall (one per campus — send each lead pastor the crop spec)"
+      "campus_wall (one per campus \u2014 send each lead pastor the crop spec)"
     ],
     "knownBrokenUrls": "If any Unsplash URL 404s, log the entry id and swap with another from https://unsplash.com/s/photos/portrait. All params after the '?' are preserved automatically."
   },
   "hero_portraits": [
     {
-      "id": "hero-01",
+      "id": "fam-kids-anchor",
       "role": "large",
-      "url": "/photos/hero/hero_5.jpg",
-      "alt": "Futures Church — a family on a Sunday morning.",
+      "url": "/photos/community/family-kids.jpg",
+      "alt": "An Asian family at a Sunday service \u2014 joy across generations",
       "name": "",
       "campus": "",
       "source": "futures-comms"
     },
     {
-      "id": "hero-02",
+      "id": "warm-mingle",
       "role": "medium",
-      "url": "/photos/hero/hero_28.jpg",
-      "alt": "Futures Church — a moment of connection.",
+      "url": "/photos/community/hero-couple-warm.jpg",
+      "alt": "A warm mingle moment after service \u2014 multiple stories meeting",
       "name": "",
       "campus": "",
       "source": "futures-comms"
     },
     {
-      "id": "hero-03",
+      "id": "cafe-conversation",
       "role": "small",
-      "url": "/photos/hero/hero_16.jpg",
-      "alt": "Futures Church — coffee after the service.",
+      "url": "/photos/community/hero-conversation.jpg",
+      "alt": "Two friends in conversation at the Futures caf\u00e9",
       "name": "",
       "campus": "",
       "source": "futures-comms"
     },
     {
-      "id": "hero-04",
+      "id": "intergen-four",
       "role": "small",
-      "url": "/photos/hero/hero_8.jpg",
-      "alt": "Futures Church — Sunday together.",
+      "url": "/photos/community/moment-intergen.jpg",
+      "alt": "Four friends from across the Futures family in mid-conversation",
       "name": "",
       "campus": "",
       "source": "futures-comms"
@@ -63,7 +63,7 @@
       "id": "hero-05",
       "role": "small",
       "url": "/photos/campuses/futuros_4.jpg",
-      "alt": "A member of the Futuros family — Caracas, Venezuela",
+      "alt": "A member of the Futuros family \u2014 Caracas, Venezuela",
       "name": "",
       "campus": "Caracas (launching)",
       "source": "futures-comms"
@@ -72,7 +72,7 @@
       "id": "hero-06",
       "role": "small",
       "url": "/photos/campuses/cemani_3.jpg",
-      "alt": "A member of the Cemani family — Indonesia",
+      "alt": "A member of the Cemani family \u2014 Indonesia",
       "name": "",
       "campus": "Cemani",
       "source": "futures-comms"
@@ -90,7 +90,7 @@
       "id": "hero-08",
       "role": "small",
       "url": "/photos/campuses/futuros_8.jpg",
-      "alt": "A Futuros family member — Venezuela",
+      "alt": "A Futuros family member \u2014 Venezuela",
       "name": "",
       "campus": "Valencia (launching)",
       "source": "futures-comms"
@@ -788,40 +788,40 @@
       "id": "cw-caracas",
       "campus": "Caracas",
       "service": "opening late 2026",
-      "city_size": "—",
+      "city_size": "\u2014",
       "launching": true,
       "url": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=900&h=675&fit=crop&auto=format&q=80",
-      "alt": "Caracas campus — launching",
+      "alt": "Caracas campus \u2014 launching",
       "source": "unsplash-placeholder"
     },
     {
       "id": "cw-maracaibo",
       "campus": "Maracaibo",
       "service": "opening late 2026",
-      "city_size": "—",
+      "city_size": "\u2014",
       "launching": true,
       "url": "https://images.unsplash.com/photo-1467987506553-8f3916508521?w=900&h=675&fit=crop&auto=format&q=80",
-      "alt": "Maracaibo campus — launching",
+      "alt": "Maracaibo campus \u2014 launching",
       "source": "unsplash-placeholder"
     },
     {
       "id": "cw-valencia",
       "campus": "Valencia",
       "service": "opening late 2026",
-      "city_size": "—",
+      "city_size": "\u2014",
       "launching": true,
       "url": "https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=900&h=675&fit=crop&auto=format&q=80",
-      "alt": "Valencia campus — launching",
+      "alt": "Valencia campus \u2014 launching",
       "source": "unsplash-placeholder"
     },
     {
       "id": "cw-barquisimeto",
       "campus": "Barquisimeto",
       "service": "opening late 2026",
-      "city_size": "—",
+      "city_size": "\u2014",
       "launching": true,
       "url": "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=900&h=675&fit=crop&auto=format&q=80",
-      "alt": "Barquisimeto campus — launching",
+      "alt": "Barquisimeto campus \u2014 launching",
       "source": "unsplash-placeholder"
     }
   ],

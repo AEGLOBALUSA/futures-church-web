@@ -18,19 +18,18 @@ import { useUserLocation } from "@/lib/ai/useUserLocation";
 import { SlotEditor } from "@/components/edit/SlotEditor";
 
 // Editorial hero rotation — real moments from across the Futures family.
-// Per photo brief: not stage shots, not headshots — environmental portraits
-// with chromatic richness so the shots stay lush under the cream gradient
-// overlay. Each frame must have its own colour pop (warm wood, burgundy,
-// coral floral, golden hour) — neutral-wardrobe shots wash out and read
-// black-and-white. 4.2s beat.
+// Per photo brief: chromatic richness so shots stay lush under the cream
+// gradient overlay. Each frame must have its own colour pop (warm wood,
+// burgundy, branded blue, golden hour). 4.2s beat.
 //
-// Energy arc: branded joy → group warmth → couple love → intimate conversation.
-// Geography balance: Asian-AU / multi-ethnic / Caucasian-AU / Indian-AU.
+// Energy arc: branded joy → group warmth → couple love → senior pastor.
+// Includes Jane Evans (Global Senior Pastor) per design brief —
+// pastoral leadership presence across the rotation.
 const HERO_FRAMES = [
   { url: "/photos/community/hero-couple.jpg",         alt: "A young couple laughing under a Futures-branded umbrella in the rain" },
   { url: "/photos/community/moment-sunday-foyer.jpg", alt: "A multi-ethnic group of friends in conversation on a warm camel sofa after Sunday" },
   { url: "/photos/pastors/tony-aste.jpg",             alt: "Tony & Aste Corbridge — Paradise campus pastors, on the beach at golden hour" },
-  { url: "/photos/community/family-college.jpg",      alt: "Two women in close conversation, one in a coral floral dress" },
+  { url: "/photos/pastors/jane.jpg",                  alt: "Jane Evans — Global Senior Pastor" },
 ];
 
 const HOME_CHIPS = [
