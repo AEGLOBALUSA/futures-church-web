@@ -177,7 +177,10 @@ export default async function RootLayout({
               {!isCollegeDomain && <ServiceTimeBanner />}
               <main id="main" className="relative">{children}</main>
               {isCollegeDomain ? <CollegeFooter /> : <Footer />}
-              <AIGuideDockLazy />
+              {/* Floating "Ask Milo" dock launcher removed per directive.
+                  The hero chat surface on the homepage (and /campuses) stays
+                  in place — those are page-level Milo entries, not the
+                  global floating button. */}
               <EditModePill />
             </MotionConfigProvider>
           </AIGuideProvider>
