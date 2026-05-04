@@ -58,7 +58,7 @@ function ContactHero() {
         </motion.h1>
         <SlotEditor id="contact.intro.body">
           <p className="mt-6 max-w-[58ch] font-body text-[18px] leading-relaxed text-ink-600">
-            Start by asking &mdash; our AI will route you to the right team. Or pick a team below. Every note is read by a human within the SLA.
+            Start by asking &mdash; Milo will route you to the right team. Or pick a team below. Every note is read by a human within the SLA.
           </p>
         </SlotEditor>
         <div className="mt-10 max-w-[620px]">

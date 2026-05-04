@@ -30,7 +30,7 @@ export function HeroSection() {
           <p className="section-label text-bone">00 // A HOME FOR EVERYONE</p>
           <div className="flex items-center gap-2.5 text-bone/80 section-label">
             <span className="pulse-dot w-1.5 h-1.5 rounded-full bg-lemon" />
-            <span>AI guide · live</span>
+            <span>your guide · live</span>
           </div>
         </div>
 

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s | Futures Church",
   },
   description:
-    "One family across 21 campuses in Australia, the USA, Indonesia — and South America, launching soon. Ask Milo, our AI guide, where you'll feel at home.",
+    "One family across 21 campuses in Australia, the USA, Indonesia — and South America, launching soon. Ask Milo, our guide, where you'll feel at home.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://futures.church"
   ),

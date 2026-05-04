@@ -18,3 +18,4 @@ yarn-error.log*
 
 # Generated bundle — produced by scripts/setup-portal.sh
 supabase/_apply.sql
+.env.local.bak.*

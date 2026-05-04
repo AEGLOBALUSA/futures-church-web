@@ -37,7 +37,7 @@ export default function AccessibilityPage() {
           h: "Known limitations",
           body: [
             "Some older embedded content (third-party video players, map embeds) may not fully meet AA standards — we're working through these.",
-            "Our AI guide (Milo) is a conversational interface. If the chat widget is inaccessible for you, you can reach a human directly at hello@futures.church.",
+            "Our guide (Milo) is a conversational interface. If the chat widget is inaccessible for you, you can reach a human directly at hello@futures.church.",
           ],
         },
         {

@@ -171,7 +171,7 @@ export default function ConnectPage() {
             Not sure where you are?
           </h2>
           <p className="mt-4 font-sans text-ink-600" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            Ask Milo — our AI guide knows the campus, the people, and the path.
+            Ask Milo — our guide knows the campus, the people, and the path.
             Or reach a real person any time.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
