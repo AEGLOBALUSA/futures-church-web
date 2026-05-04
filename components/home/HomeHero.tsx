@@ -17,15 +17,18 @@ import { MiloMarkdown } from "@/components/ai/MiloMarkdown";
 import { useUserLocation } from "@/lib/ai/useUserLocation";
 import { SlotEditor } from "@/components/edit/SlotEditor";
 
-// Pastoral leadership — rotating portraits of the family who carry Futures.
-// Jane + Ashley Evans (Global Senior), Tony + Aste Corbridge (Paradise campus),
-// with more to come (Josh + Sjhana Greenwood Australia Lead, Doran + Mel South,
-// and other campus pastor couples). 4.2s beat.
+// Editorial hero rotation — real moments from across the Futures family.
+// Per photo brief: not stage shots, not headshots — environmental portraits
+// that read as "this is who we are" in 1.5 seconds. 4.2s beat.
+//
+// Casting balance: couple / couple / friends / individual.
+// Geography balance: Asian-AU / Caucasian-AU / mixed / African-American.
+// Vibe balance: branded-rain / golden-hour / indoor-laugh / candid-elder.
 const HERO_FRAMES = [
-  { url: "/photos/pastors/jane.jpg",      alt: "Jane Evans — Global Senior Pastor" },
-  { url: "/photos/pastors/tony-aste.jpg", alt: "Tony & Aste Corbridge — Paradise campus pastors" },
-  { url: "/photos/pastors/ashley.jpg",    alt: "Ashley Evans — Global Senior Pastor" },
-  { url: "/photos/pastors/aste.jpg",      alt: "Aste Corbridge — Paradise campus" },
+  { url: "/photos/community/hero-couple.jpg",   alt: "A young couple laughing under a Futures-branded umbrella in the rain" },
+  { url: "/photos/pastors/tony-aste.jpg",       alt: "Tony & Aste Corbridge — Paradise campus pastors, on the beach at golden hour" },
+  { url: "/photos/community/hero-laughing.jpg", alt: "Three women from the Futures family laughing together" },
+  { url: "/photos/community/hero-elder.jpg",    alt: "An elder of the Futures family caught mid-laugh during a service" },
 ];
 
 const HOME_CHIPS = [

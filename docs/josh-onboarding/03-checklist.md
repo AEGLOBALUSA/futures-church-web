@@ -9,7 +9,7 @@
 | ☐ | Action |
 |---|---|
 | ☐ | Open https://futures-church.netlify.app/intake/admin/login |
-| ☐ | Sign in with the admin password Ashley sent (3 nature words + 4 digits) |
+| ☐ | Sign in with password `FCADMIN` (all capital letters, no spaces) |
 | ☐ | Bookmark these 4 URLs: `/intake/admin` / `/intake/admin/coverage` / `/intake/admin/activity` / `/intake/admin/inbox` |
 | ☐ | Watch the 3-minute walkthrough video (or read 02-walkthrough-script.md) |
 | ☐ | Decide: am I doing this myself, or am I delegating to my writer? *(if delegating, share password + this checklist with them now)* |

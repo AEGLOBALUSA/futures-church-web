@@ -15,7 +15,9 @@ I've made it as easy as I could. Three things in this pack:
 ## Your login — keep this somewhere safe
 
 - **URL:** https://futures-church.netlify.app/intake/admin/login
-- **Password:** *(see `/tmp/futures-admin-password.txt` on Ashley's machine — 3 nature words + 4 digits)*
+- **Password:** `FCADMIN` *(all capital letters, no spaces)*
+
+**This same password gets you in everywhere — admin dashboards AND in-site editing on every public page.** One login, full access.
 
 That single login gets you into:
 - The master campus dashboard
