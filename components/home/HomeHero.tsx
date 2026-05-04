@@ -17,19 +17,14 @@ import { MiloMarkdown } from "@/components/ai/MiloMarkdown";
 import { useUserLocation } from "@/lib/ai/useUserLocation";
 import { SlotEditor } from "@/components/edit/SlotEditor";
 
-// Editorial hero rotation — real moments from across the Futures family.
-// Per photo brief: chromatic richness so shots stay lush under the cream
-// gradient overlay. Each frame must have its own colour pop (warm wood,
-// burgundy, branded blue, golden hour). 4.2s beat.
-//
-// Energy arc: branded joy → group warmth → couple love → senior pastor.
-// Includes Jane Evans (Global Senior Pastor) per design brief —
-// pastoral leadership presence across the rotation.
+// Pastoral leadership — rotating portraits of the family who carry Futures.
+// Jane + Ashley Evans (Global Senior), Tony + Aste Corbridge (Paradise campus).
+// 4.2s beat. (Original rotation — restored at user request.)
 const HERO_FRAMES = [
-  { url: "/photos/community/hero-couple.jpg",         alt: "A young couple laughing under a Futures-branded umbrella in the rain" },
-  { url: "/photos/community/moment-sunday-foyer.jpg", alt: "A multi-ethnic group of friends in conversation on a warm camel sofa after Sunday" },
-  { url: "/photos/pastors/tony-aste.jpg",             alt: "Tony & Aste Corbridge — Paradise campus pastors, on the beach at golden hour" },
-  { url: "/photos/pastors/jane.jpg",                  alt: "Jane Evans — Global Senior Pastor" },
+  { url: "/photos/pastors/jane.jpg",      alt: "Jane Evans — Global Senior Pastor" },
+  { url: "/photos/pastors/tony-aste.jpg", alt: "Tony & Aste Corbridge — Paradise campus pastors" },
+  { url: "/photos/pastors/ashley.jpg",    alt: "Ashley Evans — Global Senior Pastor" },
+  { url: "/photos/pastors/aste.jpg",      alt: "Aste Corbridge — Paradise campus" },
 ];
 
 const HOME_CHIPS = [
@@ -223,7 +218,7 @@ export function HomeHero() {
               fill
               sizes="100vw"
               className="object-cover object-center"
-              style={{ filter: "saturate(1.05) brightness(0.97)" }}
+              style={{ filter: "saturate(0.85) brightness(0.95)" }}
               priority={i === 0}
             />
           </div>
