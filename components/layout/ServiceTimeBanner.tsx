@@ -128,7 +128,7 @@ export function ServiceTimeBanner() {
   return (
     <div
       role="banner"
-      className="relative z-40 border-b border-ink-900/10 bg-cream/95 backdrop-blur-sm"
+      className="relative z-40 mt-16 border-b border-ink-900/10 bg-cream/95 backdrop-blur-sm"
       style={{ fontSize: 13 }}
     >
       <div className="mx-auto flex min-h-[40px] max-w-7xl items-center gap-4 px-4 py-2 sm:px-6">
