@@ -78,20 +78,39 @@ export function ServiceTimeBanner() {
     }
     setVisible(true);
 
-    // Try geolocation silently (no prompt if permission already granted)
-    if (typeof navigator !== "undefined" && navigator.geolocation) {
-      navigator.permissions?.query({ name: "geolocation" }).then((result) => {
-        if (result.state === "granted") {
-          navigator.geolocation.getCurrentPosition(
-            (pos) => {
-              const c = nearestActiveCampus(pos.coords.latitude, pos.coords.longitude);
-              if (c) setFound(c);
-            },
-            () => {},
-            { timeout: 3000 }
-          );
+    // Silent best-effort geolocation. Wrapped in try/catch + .catch because:
+    //   - navigator.permissions can be undefined on older Safari / privacy
+    //     browsers; chaining .then(...) on undefined throws synchronously.
+    //   - permissions.query for "geolocation" rejects on some platforms when
+    //     a Permissions-Policy header forbids the feature; an unhandled
+    //     rejection during hydration can trip the React error boundary.
+    // Either failure mode just means we silently skip the auto-detect; the
+    // user can still type a city in the search box below.
+    try {
+      if (
+        typeof navigator !== "undefined" &&
+        navigator.geolocation &&
+        navigator.permissions &&
+        typeof navigator.permissions.query === "function"
+      ) {
+        const p = navigator.permissions.query({ name: "geolocation" as PermissionName });
+        if (p && typeof p.then === "function") {
+          p.then((result) => {
+            if (result?.state === "granted") {
+              navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                  const c = nearestActiveCampus(pos.coords.latitude, pos.coords.longitude);
+                  if (c) setFound(c);
+                },
+                () => {},
+                { timeout: 3000 }
+              );
+            }
+          }).catch(() => {});
         }
-      });
+      }
+    } catch {
+      // ignored — banner still shows with the manual search form.
     }
   }, []);
 
