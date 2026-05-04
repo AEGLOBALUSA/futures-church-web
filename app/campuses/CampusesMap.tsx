@@ -159,7 +159,8 @@ export const CAMPUS_GALLERY: Record<string, string[]> = {
   ],
   alpharetta: [
     "/photos/campuses/alpharetta_2.jpg",
-    "/photos/campuses/alpharetta_3.jpg",
+    // alpharetta_3.jpg removed at user request — that family no longer
+    // appears anywhere on the site. Do not re-add.
     "/photos/campuses/alpharetta_4.jpg",
     "/photos/campuses/alpharetta_5.jpg",
     "/photos/campuses/alpharetta_6.jpg",
