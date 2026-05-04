@@ -152,12 +152,14 @@ export default async function RootLayout({
             src="https://plausible.io/js/script.js"
           />
         )}
-        {/* Netlify Identity widget — required so email-invite tokens
-            (https://.../#invite_token=...) are caught on any page and the
-            user is shown the "set password" flow that hands them off to
-            /admin for Decap CMS. Loads on every page; ~6 KB, no UI until
-            triggered by a token in the URL. */}
-        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async />
+        {/* Netlify Identity widget intentionally NOT loaded on every page —
+            it triggered CSP "unsafe-eval" violations on some browsers and
+            took down the whole React tree. The /admin/index.html still loads
+            the widget directly for the CMS login flow. The only feature we
+            lose by not loading it globally is auto-catching invite tokens
+            on arbitrary pages (#invite_token=…). When we start sending
+            invitations, we can either send them as /admin/-prefixed links
+            or reintroduce the widget on a single dedicated /accept page. */}
       </head>
       <body className="min-h-screen bg-cream font-sans text-ink-900 antialiased">
         {/* Skip to main content — first focusable element. Visually hidden until
