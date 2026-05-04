@@ -76,11 +76,13 @@ export function Nav() {
   const hoverText = isDark ? "hover:text-cream" : "hover:text-ink-900";
   const wordmarkText = isDark ? "text-cream" : "text-ink-900";
 
-  const shellClass = scrolled
-    ? isDark
-      ? "bg-obsidian-900/70 backdrop-blur-glass border-b border-cream/10"
-      : "bg-cream/75 backdrop-blur-glass border-b border-ink-900/10"
-    : "bg-transparent border-b border-transparent";
+  // Single consistent shell — no transparent-at-top state. Earlier behavior
+  // started with bg-transparent which let the page bg show through, producing
+  // unreadable nav text on pages where the underlying bg happened to be dark.
+  // Keep `scrolled` only to subtly deepen the shadow on scroll; bg stays put.
+  const shellClass = isDark
+    ? `bg-obsidian-900/85 backdrop-blur-glass border-b border-cream/10 ${scrolled ? "shadow-[0_8px_24px_-16px_rgba(0,0,0,0.5)]" : ""}`
+    : `bg-cream/90 backdrop-blur-glass border-b border-ink-900/10 ${scrolled ? "shadow-[0_8px_24px_-16px_rgba(20,20,20,0.15)]" : ""}`;
 
   return (
     <header
