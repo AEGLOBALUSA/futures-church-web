@@ -19,16 +19,18 @@ import { SlotEditor } from "@/components/edit/SlotEditor";
 
 // Editorial hero rotation — real moments from across the Futures family.
 // Per photo brief: not stage shots, not headshots — environmental portraits
-// that read as "this is who we are" in 1.5 seconds. 4.2s beat.
+// with chromatic richness so the shots stay lush under the cream gradient
+// overlay. Each frame must have its own colour pop (warm wood, burgundy,
+// coral floral, golden hour) — neutral-wardrobe shots wash out and read
+// black-and-white. 4.2s beat.
 //
-// Casting balance: couple / couple / friends / individual.
-// Geography balance: Asian-AU / Caucasian-AU / mixed / African-American.
-// Vibe balance: branded-rain / golden-hour / indoor-laugh / candid-elder.
+// Energy arc: branded joy → group warmth → couple love → intimate conversation.
+// Geography balance: Asian-AU / multi-ethnic / Caucasian-AU / Indian-AU.
 const HERO_FRAMES = [
-  { url: "/photos/community/hero-couple.jpg",   alt: "A young couple laughing under a Futures-branded umbrella in the rain" },
-  { url: "/photos/pastors/tony-aste.jpg",       alt: "Tony & Aste Corbridge — Paradise campus pastors, on the beach at golden hour" },
-  { url: "/photos/community/hero-laughing.jpg", alt: "Three women from the Futures family laughing together" },
-  { url: "/photos/community/hero-elder.jpg",    alt: "An elder of the Futures family caught mid-laugh during a service" },
+  { url: "/photos/community/hero-couple.jpg",         alt: "A young couple laughing under a Futures-branded umbrella in the rain" },
+  { url: "/photos/community/moment-sunday-foyer.jpg", alt: "A multi-ethnic group of friends in conversation on a warm camel sofa after Sunday" },
+  { url: "/photos/pastors/tony-aste.jpg",             alt: "Tony & Aste Corbridge — Paradise campus pastors, on the beach at golden hour" },
+  { url: "/photos/community/family-college.jpg",      alt: "Two women in close conversation, one in a coral floral dress" },
 ];
 
 const HOME_CHIPS = [
@@ -222,7 +224,7 @@ export function HomeHero() {
               fill
               sizes="100vw"
               className="object-cover object-center"
-              style={{ filter: "saturate(0.85) brightness(0.95)" }}
+              style={{ filter: "saturate(1.05) brightness(0.97)" }}
               priority={i === 0}
             />
           </div>
