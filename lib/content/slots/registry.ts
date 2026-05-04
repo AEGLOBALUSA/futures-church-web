@@ -34,8 +34,8 @@ export type SlotDefinition = {
   wordBudget?: string;
 };
 
-const JOSH = "Josh Greenwood (or appointee)";
-const ASHLEY_OR_JANE = "Ashley & Jane Evans (or appointee)";
+const JOSH = "Josh Greenwood (or delegated writer)";
+const ASHLEY_OR_JANE = "Ashley & Jane Evans (or delegated writer)";
 
 export const SLOT_REGISTRY: SlotDefinition[] = [
   // ── KIDS ───────────────────────────────────────────────────────
