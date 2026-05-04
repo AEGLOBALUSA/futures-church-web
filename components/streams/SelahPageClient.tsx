@@ -26,34 +26,6 @@ const CHIPS = [
   "why Futures built Selah",
 ];
 
-const TRUSTED_CORPUS = [
-  {
-    name: "Matthew Henry",
-    era: "Historic",
-    strength: "Whole-Bible commentary. Devotional warmth anchored in close reading.",
-  },
-  {
-    name: "ESV Study Bible",
-    era: "Contemporary",
-    strength: "Evangelical consensus notes. Dependable cross-references and context.",
-  },
-  {
-    name: "John Stott",
-    era: "Modern",
-    strength: "Biblical exposition. Clarity on the cross, discipleship, the church.",
-  },
-  {
-    name: "N.T. Wright",
-    era: "Contemporary",
-    strength: "Kingdom, resurrection, and the story of God. Deep New Testament scholarship.",
-  },
-  {
-    name: "Eugene Peterson",
-    era: "Modern",
-    strength: "Pastoral theology. The long obedience, prayer, and a shepherd's ear.",
-  },
-];
-
 export function SelahPageClient({ data }: { data: SelahData }) {
   const { setPageContext } = useAIGuide();
   useEffect(() => setPageContext("selah"), [setPageContext]);
@@ -265,44 +237,6 @@ function TrustedCorpus() {
           ))}
         </div>
 
-        <div className="mt-20">
-          <Eyebrow>THE CORPUS</Eyebrow>
-          <h3
-            className="mt-3 font-display text-cream"
-            style={{ fontSize: "clamp(1.75rem,3.6vw,2.25rem)", fontWeight: 300, lineHeight: 1.05 }}
-          >
-            The teachers Selah <em className="italic">leans on</em>.
-          </h3>
-          <p className="mt-3 max-w-[58ch] font-body text-[15px] text-cream/60">
-            A curated library &mdash; theologians, biblical commentators, pastors, psychologists, psychiatrists, and philosophers who share a historic biblical worldview. Their books, lectures, and talks are the corpus Selah draws from.
-          </p>
-
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {TRUSTED_CORPUS.map((s) => (
-              <div
-                key={s.name}
-                className="rounded-xl border border-warm-500/25 bg-warm-500/[0.06] p-5"
-              >
-                <p
-                  className="font-display text-cream"
-                  style={{ fontSize: 18, fontWeight: 400, lineHeight: 1.15 }}
-                >
-                  {s.name}
-                </p>
-                <p className="mt-2 font-ui text-[10px] uppercase tracking-[0.22em] text-warm-500">
-                  {s.era}
-                </p>
-                <p className="mt-3 font-body text-[13px] leading-relaxed text-cream/65">
-                  {s.strength}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <p className="mt-8 font-ui text-[11px] uppercase tracking-[0.24em] text-cream/40">
-            100+ seeded scenarios for members and pastors &middot; Scripture first, always
-          </p>
-        </div>
       </div>
     </section>
   );
