@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Bookmark } from "lucide-react";
+import { ArrowRight, Bookmark, RotateCcw } from "lucide-react";
 import { heroPortraits } from "@/lib/content/faces";
 import { MiloMarkdown } from "@/components/ai/MiloMarkdown";
 import { useUserLocation } from "@/lib/ai/useUserLocation";
@@ -203,6 +203,19 @@ export function HomeHero() {
       e.preventDefault();
       sendMessage(input);
     }
+  }
+
+  // "Start over" — wipe the persisted conversation and return the hero to its
+  // initial state. Lets a visitor reset Milo without refreshing the page.
+  function clearConversation() {
+    if (streaming) return;
+    setMessages([]);
+    setInput("");
+    setShowFollowUps(false);
+    try {
+      localStorage.removeItem(HERO_MSG_KEY);
+    } catch {}
+    inputRef.current?.focus({ preventScroll: true });
   }
 
   function handleChip(text: string) {
@@ -479,14 +492,27 @@ export function HomeHero() {
                           })}
                         </div>
                       </div>
-                      <button
-                        type="button"
-                        aria-label="Save this answer"
-                        className="flex-shrink-0 p-1 transition-opacity hover:opacity-100"
-                        style={{ color: "#8A8178", opacity: 0.5 }}
-                      >
-                        <Bookmark className="h-[18px] w-[18px]" strokeWidth={1.5} />
-                      </button>
+                      <div className="flex flex-shrink-0 items-center gap-1">
+                        <button
+                          type="button"
+                          aria-label="Save this answer"
+                          className="p-1 transition-opacity hover:opacity-100"
+                          style={{ color: "#8A8178", opacity: 0.5 }}
+                        >
+                          <Bookmark className="h-[18px] w-[18px]" strokeWidth={1.5} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={clearConversation}
+                          disabled={streaming}
+                          aria-label="Start over"
+                          title="Start over"
+                          className="p-1 transition-opacity hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-30"
+                          style={{ color: "#8A8178", opacity: 0.5 }}
+                        >
+                          <RotateCcw className="h-[18px] w-[18px]" strokeWidth={1.5} />
+                        </button>
+                      </div>
                     </div>
                   </div>
 
