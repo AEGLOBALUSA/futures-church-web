@@ -25,7 +25,7 @@ export type SlotDefinition = {
    * Visual rendering hint — drives the SlotEditor's typography to match
    * the surrounding page. Editor inherits font + size from this style.
    */
-  style: "display-italic-lg" | "display-md" | "body" | "body-lg" | "eyebrow";
+  style: "display-hero" | "display-italic-lg" | "display-md" | "body" | "body-lg" | "eyebrow";
   /** "Josh Greenwood (or appointee)" by default; overridden where obvious. */
   defaultOwner: string;
   /** Launch-blocker (1) → nice-to-have (3). */
@@ -45,7 +45,7 @@ export const SLOT_REGISTRY: SlotDefinition[] = [
     pageTitle: "Kids",
     field: "Page headline",
     guidance: "What we want a parent to know in one line. Warm, specific, no jargon.",
-    style: "display-md",
+    style: "display-hero",
     defaultOwner: JOSH,
     priority: 1,
     wordBudget: "5–10 words",
@@ -79,7 +79,7 @@ export const SLOT_REGISTRY: SlotDefinition[] = [
     page: "/dreamers",
     pageTitle: "Dreamers",
     field: "Page headline",
-    style: "display-md",
+    style: "display-hero",
     defaultOwner: JOSH,
     priority: 1,
     wordBudget: "5–10 words",
@@ -102,7 +102,7 @@ export const SLOT_REGISTRY: SlotDefinition[] = [
     page: "/women",
     pageTitle: "bU Women",
     field: "Page headline",
-    style: "display-md",
+    style: "display-hero",
     defaultOwner: "Jane Evans (or bU lead)",
     priority: 1,
     wordBudget: "5–10 words",
@@ -125,7 +125,7 @@ export const SLOT_REGISTRY: SlotDefinition[] = [
     page: "/selah",
     pageTitle: "Selah",
     field: "Hero line",
-    style: "display-md",
+    style: "display-hero",
     defaultOwner: JOSH,
     priority: 1,
     wordBudget: "5–10 words",

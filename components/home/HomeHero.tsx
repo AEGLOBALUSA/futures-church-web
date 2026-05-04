@@ -15,6 +15,7 @@ import { ArrowRight, Bookmark } from "lucide-react";
 import { heroPortraits } from "@/lib/content/faces";
 import { MiloMarkdown } from "@/components/ai/MiloMarkdown";
 import { useUserLocation } from "@/lib/ai/useUserLocation";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 // Pastoral leadership — rotating portraits of the family who carry Futures.
 // Jane + Ashley Evans (Global Senior), Tony + Aste Corbridge (Paradise campus),
@@ -292,14 +293,16 @@ export function HomeHero() {
               <span className="block">Come <em className="italic">home</em>.</span>
               <span className="block">Ask Milo.</span>
             </h1>
-            <p
-              className="mt-5 font-sans max-w-[46ch]"
-              style={{ color: "#534D44", fontSize: "17px", lineHeight: 1.55 }}
-            >
-              One Futures family across four countries — twenty-one local churches and four more
-              launching in Venezuela. A home for everyone. Every race. Every age. Every stage.
-              Ask Milo anything — our always-on guide. A real pastor is never far away.
-            </p>
+            <SlotEditor id="home.hero.tagline">
+              <p
+                className="mt-5 font-sans max-w-[46ch]"
+                style={{ color: "#534D44", fontSize: "17px", lineHeight: 1.55 }}
+              >
+                One Futures family across four countries — twenty-one local churches and four more
+                launching in Venezuela. A home for everyone. Every race. Every age. Every stage.
+                Ask Milo anything — our always-on guide. A real pastor is never far away.
+              </p>
+            </SlotEditor>
 
             <form onSubmit={handleSubmit} className="mt-8">
               <div

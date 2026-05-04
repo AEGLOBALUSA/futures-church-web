@@ -7,6 +7,7 @@ import { AIInput } from "@/components/ai/AIInput";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow } from "@/components/ui/Type";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 const CHIPS = [
   "what&rsquo;s in the app?",
@@ -61,9 +62,11 @@ function BibleAppHero() {
           >
             The Bible. <em className="italic">Quieter</em>.
           </motion.h1>
-          <p className="mt-6 max-w-[54ch] font-body text-[18px] leading-relaxed text-ink-600">
-            Read. Listen. Pause. Futures Bible is the Word with Selah&rsquo;s stillness baked in &mdash; so your morning stops being a scroll.
-          </p>
+          <SlotEditor id="bible-app.intro.body">
+            <p className="mt-6 max-w-[54ch] font-body text-[18px] leading-relaxed text-ink-600">
+              Read. Listen. Pause. Futures Bible is the Word with Selah&rsquo;s stillness baked in &mdash; so your morning stops being a scroll.
+            </p>
+          </SlotEditor>
           <div className="mt-10 max-w-[560px]">
             <GlassCard breathe className="p-5">
               <AIInput placeholder="Ask about the app&hellip;" chips={CHIPS} compact />

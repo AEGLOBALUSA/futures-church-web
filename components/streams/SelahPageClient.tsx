@@ -7,6 +7,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 type FAQItem = { q: string; a: string };
 
@@ -104,26 +105,30 @@ function SelahHero() {
         <p className="font-ui text-[11px] uppercase tracking-[0.3em] text-warm-500">
           SELAH &middot; COMING MAY 15, 2026
         </p>
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="mt-6 font-display"
-          style={{
-            fontSize: "clamp(2.4rem,9vw,8rem)",
-            fontWeight: 300,
-            lineHeight: 0.94,
-            letterSpacing: "-0.025em",
-          }}
-        >
-          For the questions you can&rsquo;t <em className="italic">google</em>.
-        </motion.h1>
-        <p
-          className="mt-6 font-display italic text-cream/85"
-          style={{ fontSize: "clamp(1.4rem, 2.6vw, 2rem)", fontWeight: 300, lineHeight: 1.15 }}
-        >
-          A daily pastoral companion.
-        </p>
+        <SlotEditor id="selah.intro.headline" as="h1">
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="mt-6 font-display"
+            style={{
+              fontSize: "clamp(2.4rem,9vw,8rem)",
+              fontWeight: 300,
+              lineHeight: 0.94,
+              letterSpacing: "-0.025em",
+            }}
+          >
+            For the questions you can&rsquo;t <em className="italic">google</em>.
+          </motion.h1>
+        </SlotEditor>
+        <SlotEditor id="selah.intro.body">
+          <p
+            className="mt-6 font-display italic text-cream/85"
+            style={{ fontSize: "clamp(1.4rem, 2.6vw, 2rem)", fontWeight: 300, lineHeight: 1.15 }}
+          >
+            A daily pastoral companion.
+          </p>
+        </SlotEditor>
         <p className="mt-8 max-w-[58ch] font-body text-[18px] leading-relaxed text-cream/75">
           Three a.m. The hospital car park. The minute after the call. When no one is available, Selah is &mdash; a pastor who has memorised the whole Bible, sat under the church&rsquo;s most trusted teachers, and trained in theology, philosophy, psychology, and psychiatry. All read through Scripture. All under a biblical worldview. The level of pastoral care that used to take a lifetime to find &mdash; the moment you need it.
         </p>

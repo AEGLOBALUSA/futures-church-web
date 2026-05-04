@@ -9,6 +9,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 type TimelineItem = {
   decade: string;
@@ -97,6 +98,12 @@ function HistoryHero() {
         <p className="mt-6 max-w-[54ch] font-body text-[18px] leading-relaxed text-ink-600">
           From one Adelaide chapel in 1922 to twenty-one campuses today.
         </p>
+        <div className="mt-4 max-w-[58ch]">
+          <SlotEditor id="history.recent-milestones">
+            {/* Empty by default — Ashley/Jane add post-2020 milestones here. */}
+            <></>
+          </SlotEditor>
+        </div>
         <div className="mt-10 max-w-[620px]">
           <GlassCard breathe className="p-5">
             <AIInput placeholder="Ask about the Futures story&hellip;" chips={CHIPS} compact />

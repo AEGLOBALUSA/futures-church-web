@@ -14,6 +14,7 @@ import { VisitFears } from "@/components/action/plan-a-visit/VisitFears";
 import { CampusPastorIntro } from "@/components/action/plan-a-visit/CampusPastorIntro";
 import { getCampusIntro } from "@/lib/content/campus-intros";
 import { getCampusFaceEntry } from "@/lib/content/campus-faces";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 const CHIPS = [
   "what's a first visit like?",
@@ -1002,6 +1003,14 @@ function PreVisitTestimonials() {
             What people said after their first Sunday.
           </h2>
         </motion.div>
+
+        {/* Lead with one signed long-form story when filled. Empty by default —
+            renders nothing until Josh sources a real, signed visitor account. */}
+        <div className="mt-10 max-w-[68ch]">
+          <SlotEditor id="plan-a-visit.testimonial.signed-story">
+            <></>
+          </SlotEditor>
+        </div>
 
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
           {TESTIMONIALS.map((t, idx) => {

@@ -35,6 +35,11 @@ const STYLE_PRESETS: Record<
   SlotDefinition["style"],
   { className: string; style?: CSSProperties; emptyHeight: string }
 > = {
+  "display-hero": {
+    className: "font-display italic text-ink-900",
+    style: { fontSize: "clamp(2.5rem, 6.5vw, 5.5rem)", fontWeight: 300, lineHeight: 0.96 },
+    emptyHeight: "min-h-[5rem]",
+  },
   "display-italic-lg": {
     className: "font-display italic text-ink-900",
     style: { fontSize: "clamp(2rem, 4.4vw, 3rem)", fontWeight: 300, lineHeight: 1.02 },

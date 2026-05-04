@@ -15,6 +15,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 type Progress = {
   asOf: string;
@@ -77,9 +78,11 @@ function VisionHero({ data }: { data: Progress }) {
         >
           Two hundred <em className="italic">campuses</em>. Ten thousand <em className="italic">leaders</em>. Two hundred thousand <em className="italic">souls</em>.
         </motion.h1>
-        <p className="mt-6 max-w-[54ch] font-body text-[18px] leading-relaxed text-ink-600">
-          A hundred-year family with a ten-year mission.
-        </p>
+        <SlotEditor id="vision.intro.body">
+          <p className="mt-6 max-w-[54ch] font-body text-[18px] leading-relaxed text-ink-600">
+            A hundred-year family with a ten-year mission.
+          </p>
+        </SlotEditor>
 
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
           <CountUpCard from={data.campuses.current} to={data.campuses.target} label="campuses" />

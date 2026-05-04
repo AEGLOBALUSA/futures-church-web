@@ -6,6 +6,7 @@ import { AIInput } from "@/components/ai/AIInput";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow } from "@/components/ui/Type";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 import teamsData from "@/content/contact/teams.json";
 import { campuses } from "@/lib/content/campuses";
 
@@ -55,9 +56,11 @@ function ContactHero() {
         >
           Tell us what&rsquo;s <em className="italic">on your heart</em>.
         </motion.h1>
-        <p className="mt-6 max-w-[58ch] font-body text-[18px] leading-relaxed text-ink-600">
-          Start by asking &mdash; our AI will route you to the right team. Or pick a team below. Every note is read by a human within the SLA.
-        </p>
+        <SlotEditor id="contact.intro.body">
+          <p className="mt-6 max-w-[58ch] font-body text-[18px] leading-relaxed text-ink-600">
+            Start by asking &mdash; our AI will route you to the right team. Or pick a team below. Every note is read by a human within the SLA.
+          </p>
+        </SlotEditor>
         <div className="mt-10 max-w-[620px]">
           <GlassCard breathe className="p-5">
             <AIInput placeholder="Tell us what you need&hellip;" chips={CHIPS} compact />

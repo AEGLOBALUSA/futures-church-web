@@ -8,6 +8,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow } from "@/components/ui/Type";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
 import { books, type Book } from "@/lib/content/books";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 const CHIPS = [
   "which book should I start with?",
@@ -55,9 +56,11 @@ function BooksHero() {
         >
           Words that <em className="italic">build</em>.
         </motion.h1>
-        <p className="mt-6 max-w-[58ch] font-body text-[18px] leading-relaxed text-ink-600">
-          Books from Ashley and Jane Evans &mdash; read a free chapter, grab a study guide, or lock in the next release.
-        </p>
+        <SlotEditor id="books.intro.body">
+          <p className="mt-6 max-w-[58ch] font-body text-[18px] leading-relaxed text-ink-600">
+            Books from Ashley and Jane Evans &mdash; read a free chapter, grab a study guide, or lock in the next release.
+          </p>
+        </SlotEditor>
         <div className="mt-10 max-w-[620px]">
           <GlassCard breathe className="p-5">
             <AIInput placeholder="Ask which book to read first&hellip;" chips={CHIPS} compact />

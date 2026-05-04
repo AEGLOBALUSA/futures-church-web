@@ -8,6 +8,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow, Sub } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 // Placeholder imagery for the bU Women page. All crop params go through
 // Unsplash's CDN — nothing is downloaded locally. Swap to real photography
@@ -90,26 +91,30 @@ function BUHero() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-end lg:gap-16">
           <div>
             <Eyebrow>bU WOMEN &middot; LED BY JANE EVANS</Eyebrow>
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              <h1
-                className="mt-4 font-display text-ink-900"
-                style={{
-                  fontSize: "clamp(3rem,9vw,7rem)",
-                  fontWeight: 300,
-                  lineHeight: 0.95,
-                  letterSpacing: "-0.02em",
-                }}
+            <SlotEditor id="women.intro.headline" as="h1">
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
               >
-                be you. become <em className="italic">her</em>.
-              </h1>
-            </motion.div>
-            <Sub className="mt-6 max-w-[52ch]">
-              A global movement for women who are done living small.
-            </Sub>
+                <h1
+                  className="mt-4 font-display text-ink-900"
+                  style={{
+                    fontSize: "clamp(3rem,9vw,7rem)",
+                    fontWeight: 300,
+                    lineHeight: 0.95,
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  be you. become <em className="italic">her</em>.
+                </h1>
+              </motion.div>
+            </SlotEditor>
+            <SlotEditor id="women.intro.body">
+              <Sub className="mt-6 max-w-[52ch]">
+                A global movement for women who are done living small.
+              </Sub>
+            </SlotEditor>
             <div className="mt-10 max-w-[620px]">
               <GlassCard breathe className="p-6">
                 <AIInput placeholder="Ask Jane anything&hellip;" chips={CHIPS} compact />

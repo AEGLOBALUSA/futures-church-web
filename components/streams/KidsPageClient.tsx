@@ -8,6 +8,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow, Hero, Sub } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 type KidsData = {
   promise: { title: string; body: string }[];
@@ -67,13 +68,21 @@ function KidsHero() {
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
           className="mt-4 max-w-[20ch]"
         >
-          <Hero>
-            Sundays your kids will <em className="italic">ask</em> to come back to.
-          </Hero>
+          <SlotEditor id="kids.intro.headline" as="h1">
+            <Hero>
+              Sundays your kids will <em className="italic">ask</em> to come back to.
+            </Hero>
+          </SlotEditor>
         </motion.div>
-        <Sub className="mt-6 max-w-[56ch]">
-          Safe, biblical, and genuinely great &mdash; at every Futures campus, every week.
-        </Sub>
+        <SlotEditor id="kids.intro.body">
+          <Sub className="mt-6 max-w-[56ch]">
+            Safe, biblical, and genuinely great &mdash; at every Futures campus, every week.
+          </Sub>
+        </SlotEditor>
+        <SlotEditor id="kids.safety.line">
+          {/* Empty by default — Josh fills with one sentence on screening + two-deep + check-in. */}
+          <></>
+        </SlotEditor>
         <div className="mt-10 max-w-[620px]">
           <GlassCard breathe className="p-6">
             <AIInput placeholder="Ask a parent question&hellip;" chips={CHIPS} compact />

@@ -8,6 +8,7 @@ import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow } from "@/components/ui/Type";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 import paths from "@/content/give/paths.json";
 import allocation from "@/content/give/allocation.json";
 import faq from "@/content/give/faq.json";
@@ -71,10 +72,12 @@ function GiveHero() {
         >
           Every dollar has a <em className="italic">name</em> on it.
         </motion.h1>
-        <p className="mt-6 max-w-[58ch] font-body text-[18px] leading-relaxed text-ink-600">
-          Generosity is worship. It&rsquo;s also how 200 campuses, 10,000 leaders, and 200,000 souls
-          get built &mdash; one faithful gift at a time.
-        </p>
+        <SlotEditor id="give.intro.body">
+          <p className="mt-6 max-w-[58ch] font-body text-[18px] leading-relaxed text-ink-600">
+            Generosity is worship. It&rsquo;s also how 200 campuses, 10,000 leaders, and 200,000 souls
+            get built &mdash; one faithful gift at a time.
+          </p>
+        </SlotEditor>
         <div className="mt-10 max-w-[620px]">
           <GlassCard breathe className="p-5">
             <AIInput placeholder="Ask a giving question&hellip;" chips={CHIPS} compact />

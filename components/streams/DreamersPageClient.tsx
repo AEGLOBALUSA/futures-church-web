@@ -8,6 +8,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Eyebrow } from "@/components/ui/Type";
 import { ValueExchangeForm } from "@/components/forms/ValueExchangeForm";
 import { useAIGuide } from "@/lib/ai/AIGuideContext";
+import { SlotEditor } from "@/components/edit/SlotEditor";
 
 type DreamersData = {
   reel: string[];
@@ -80,23 +81,27 @@ function DreamersHero({ reel }: { reel: string[] }) {
           <p className="font-ui text-[11px] uppercase tracking-[0.24em] text-cream/80">
             DREAMERS &middot; THE NEXT GENERATION
           </p>
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mt-4 font-display"
-            style={{
-              fontSize: "clamp(2.75rem,7vw,6rem)",
-              fontWeight: 300,
-              lineHeight: 0.98,
-              letterSpacing: "-0.02em",
-            }}
-          >
-            For the generation that&rsquo;s about to <em className="italic">change everything</em>.
-          </motion.h1>
-          <p className="mt-6 max-w-[46ch] font-body text-[17px] leading-relaxed text-cream/85">
-            Friday nights, summer camps, and mentors who stay in the room.
-          </p>
+          <SlotEditor id="dreamers.intro.headline" as="h1">
+            <motion.h1
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+              className="mt-4 font-display"
+              style={{
+                fontSize: "clamp(2.75rem,7vw,6rem)",
+                fontWeight: 300,
+                lineHeight: 0.98,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              For the generation that&rsquo;s about to <em className="italic">change everything</em>.
+            </motion.h1>
+          </SlotEditor>
+          <SlotEditor id="dreamers.intro.body">
+            <p className="mt-6 max-w-[46ch] font-body text-[17px] leading-relaxed text-cream/85">
+              Friday nights, summer camps, and mentors who stay in the room.
+            </p>
+          </SlotEditor>
           <div className="mt-8 max-w-[560px]">
             <GlassCard dark breathe className="p-5">
               <AIInput placeholder="Ask a Dreamers question&hellip;" chips={CHIPS} compact />
