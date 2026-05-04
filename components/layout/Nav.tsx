@@ -30,7 +30,12 @@ const NAV_ITEMS: Item[] = [
 
 export function Nav() {
   const pathname = usePathname();
-  const isDark = pathname?.startsWith("/selah") ?? false;
+  // Pages with a dark <main> (bg-ink-900) need the nav rendered in light text
+  // so the wordmark + links don't disappear into the page. Selah uses the
+  // dark layout treatment; legal pages do too.
+  const DARK_PATHS = ["/selah", "/privacy", "/terms"];
+  const isDark =
+    !!pathname && DARK_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
