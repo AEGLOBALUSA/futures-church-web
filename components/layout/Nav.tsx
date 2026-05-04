@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { NearestCampusButton } from "./NearestCampusButton";
+import { MapPin } from "lucide-react";
 
 type Item =
   | { href: string; label: string; children?: undefined }
@@ -165,7 +165,21 @@ export function Nav() {
         </nav>
 
         <div className="hidden md:flex md:items-center md:gap-2">
-          <NearestCampusButton variant={isDark ? "nav-dark" : "nav"} />
+          {/* Static link, no JS, no hooks. The geolocation lookup lives on
+              /campuses where the visitor sees a clear "Use my location"
+              card. Keeping the Nav surface inert removes any path for a
+              hydration-time exception to take down the home page. */}
+          <Link
+            href="/campuses"
+            className={`hidden md:inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-ui text-[13px] transition-colors ${
+              isDark
+                ? "border border-cream/30 text-cream/90 hover:bg-cream/10"
+                : "border border-ink-900/15 text-ink-700 hover:bg-ink-900/5"
+            }`}
+          >
+            <MapPin className="h-3.5 w-3.5" strokeWidth={1.75} />
+            <span>Nearest campus</span>
+          </Link>
           <Link
             href="/plan-a-visit"
             className="inline-flex items-center rounded-full bg-warm-500 px-5 py-2 font-ui text-[14px] text-cream transition-colors hover:bg-warm-700"
@@ -260,9 +274,14 @@ export function Nav() {
               </nav>
 
               <div className="mt-auto flex flex-col gap-3">
-                <div onClick={() => setOpen(false)}>
-                  <NearestCampusButton variant="mobile" />
-                </div>
+                <Link
+                  href="/campuses"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-warm-500 px-5 py-3 font-ui text-[14px] text-warm-700"
+                >
+                  <MapPin className="h-4 w-4" strokeWidth={1.75} />
+                  <span>Find my nearest campus</span>
+                </Link>
                 <Link
                   href="/plan-a-visit"
                   onClick={() => setOpen(false)}
