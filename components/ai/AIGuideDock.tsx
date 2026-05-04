@@ -21,11 +21,12 @@ export function AIGuideDock() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
   const isDark = pathname?.startsWith("/selah") ?? false;
-
-  // The homepage hero contains its own Milo conversation surface. Rendering
-  // the dock launcher on top of it (a) duplicates Milo and (b) physically
-  // covers the bottom of the hero's growing chat thread. Hide on /.
-  if (pathname === "/") return null;
+  // Hide the dock on the homepage — the hero contains its own Milo surface.
+  // CRITICAL: this flag is consumed at the END of the component (after every
+  // hook has already been called). Returning early BEFORE useEffect() causes
+  // React error #310 ("rendered more hooks than during the previous render")
+  // when the visitor navigates from "/" to a page where the dock should show.
+  const hideDock = pathname === "/";
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -47,6 +48,10 @@ export function AIGuideDock() {
   const avatarBg = isDark ? "bg-cream text-ink-900" : "bg-ink-900 text-cream";
   const emptyText = isDark ? "text-cream/60" : "text-ink-600";
   const dotsColor = isDark ? "bg-cream/70" : "bg-ink-600";
+
+  // Render nothing on the homepage. Safe to early-return here because every
+  // hook above has already been called this render (and was last render too).
+  if (hideDock) return null;
 
   return (
     <>
