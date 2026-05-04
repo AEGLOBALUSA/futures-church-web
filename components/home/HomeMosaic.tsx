@@ -17,31 +17,31 @@ import { motion, useReducedMotion } from "framer-motion";
 const TILES: { src: string; alt: string; span: string; rowSpan?: string }[] = [
   // Row 1/2 — left tower + two stacks
   { src: "/photos/mosaic/mosaic_au_5.jpg",  alt: "Sojourner Cafe",                                                                  span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/dscf1346-md.jpg", alt: "Three women from the family laughing together after Sunday — Adelaide City",       span: "col-span-6 sm:col-span-4" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/7i8a0252-md.jpg", alt: "Pre-service mingle — Bali, Indonesia",                                              span: "col-span-6 sm:col-span-4" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/img_2190-md.jpg", alt: "Wider crowd of attendees — Adelaide",                                               span: "col-span-6 sm:col-span-4" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/img_2104-md.jpg", alt: "Small cluster of people in a kitchen — Solo, Indonesia",                            span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_10.jpg", alt: "Three women from the family laughing together after Sunday — Adelaide City",       span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_id_15.jpg", alt: "Pre-service mingle — Bali, Indonesia",                                              span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_13.jpg", alt: "Wider crowd of attendees — Adelaide",                                               span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_id_50.jpg", alt: "Small cluster of people in a kitchen — Solo, Indonesia",                            span: "col-span-6 sm:col-span-4" },
 
   // Row 3 — two wide
-  { src: "https://futures-church-v3.netlify.app/v3-photos/mdia2516-md.jpg", alt: "Wide-frame Sunday gathering",                                                       span: "col-span-6 sm:col-span-6" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/dscf1360-md.jpg", alt: "Three friends laughing — Adelaide City",                                            span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/mosaic/mosaic_au_14.jpg", alt: "Wide-frame Sunday gathering",                                                       span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/mosaic/mosaic_au_16.jpg", alt: "Three friends laughing — Adelaide City",                                            span: "col-span-6 sm:col-span-6" },
 
   // Row 4/5 — right tower + two stacks
   { src: "/photos/mosaic/mosaic_au_22.jpg", alt: "Worship",                                                                         span: "col-span-6 sm:col-span-4", rowSpan: "row-span-2" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/wgb_8291-md.jpg", alt: "Young woman in a champagne shirt smiling — Atlanta",                                span: "col-span-6 sm:col-span-4" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/7i8a9019-md.jpg", alt: "A couple in conversation by the foyer — Paradise",                                  span: "col-span-6 sm:col-span-4" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/img_2153-md.jpg", alt: "Mid-event at the bar — Gwinnett",                                                   span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_us_12.jpg", alt: "Young woman in a champagne shirt smiling — Atlanta",                                span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_17.jpg", alt: "A couple in conversation by the foyer — Paradise",                                  span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/voices/voice_15.jpg", alt: "Mid-event at the bar — Gwinnett",                                                   span: "col-span-6 sm:col-span-4" },
   { src: "/photos/mosaic/mosaic_us_11.jpg", alt: "USA campus",                                                                      span: "col-span-6 sm:col-span-4" },
 
   // Row 6 — three
-  { src: "https://futures-church-v3.netlify.app/v3-photos/as3_8268-md.jpg", alt: "Silhouette against a horizon, lake-side — Duluth",                                  span: "col-span-6 sm:col-span-4" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/wgb_4940-md.jpg", alt: "Couch group, mid-conversation — Salisbury",                                         span: "col-span-6 sm:col-span-4" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/7i8a9271-md.jpg", alt: "A pair laughing — Cemani",                                                          span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/voices/voice_16.jpg", alt: "Silhouette against a horizon, lake-side — Duluth",                                  span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/mosaic/mosaic_au_19.jpg", alt: "Couch group, mid-conversation — Salisbury",                                         span: "col-span-6 sm:col-span-4" },
+  { src: "/photos/voices/voice_17.jpg", alt: "A pair laughing — Cemani",                                                          span: "col-span-6 sm:col-span-4" },
 
   // Row 7 — one wide, two narrow
-  { src: "https://futures-church-v3.netlify.app/v3-photos/wgb_7742-md.jpg", alt: "Four women side-by-side — Atlanta",                                                 span: "col-span-6 sm:col-span-6" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/wgb_6089-md.jpg", alt: "Coral floral dress, mid-conversation — Atlanta",                                    span: "col-span-6 sm:col-span-3" },
-  { src: "https://futures-church-v3.netlify.app/v3-photos/as3_7587-md.jpg", alt: "An Asian man in a cream jacket against a brick wall",                               span: "col-span-6 sm:col-span-3" },
+  { src: "/photos/voices/voice_18.jpg", alt: "Four women side-by-side — Atlanta",                                                 span: "col-span-6 sm:col-span-6" },
+  { src: "/photos/voices/voice_19.jpg", alt: "Coral floral dress, mid-conversation — Atlanta",                                    span: "col-span-6 sm:col-span-3" },
+  { src: "/photos/voices/voice_20.jpg", alt: "An Asian man in a cream jacket against a brick wall",                               span: "col-span-6 sm:col-span-3" },
 
   // Row 8 — two wide
   { src: "/photos/mosaic/mosaic_au_73.jpg", alt: "Gathering",                                                                       span: "col-span-6 sm:col-span-6" },

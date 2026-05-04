@@ -26,8 +26,8 @@
     {
       "id": "hero-01",
       "role": "large",
-      "url": "https://futures-church-v3.netlify.app/v3-photos/as3_7748-md.jpg",
-      "alt": "A young woman from the Futures family, head back, laughing at the sky.",
+      "url": "/photos/hero/hero_5.jpg",
+      "alt": "Futures Church — a family on a Sunday morning.",
       "name": "",
       "campus": "",
       "source": "futures-comms"
@@ -35,28 +35,28 @@
     {
       "id": "hero-02",
       "role": "medium",
-      "url": "https://futures-church-v3.netlify.app/v3-photos/as1_6089-md.jpg",
-      "alt": "A young man in a Futures shirt against the Atlanta skyline.",
+      "url": "/photos/hero/hero_28.jpg",
+      "alt": "Futures Church — a moment of connection.",
       "name": "",
-      "campus": "Atlanta",
+      "campus": "",
       "source": "futures-comms"
     },
     {
       "id": "hero-03",
       "role": "small",
-      "url": "https://futures-church-v3.netlify.app/v3-photos/mdia0823-md.jpg",
-      "alt": "Two men from the Futures family laughing on the steps after Sunday.",
+      "url": "/photos/hero/hero_16.jpg",
+      "alt": "Futures Church — coffee after the service.",
       "name": "",
-      "campus": "Gwinnett",
+      "campus": "",
       "source": "futures-comms"
     },
     {
       "id": "hero-04",
       "role": "small",
-      "url": "https://futures-church-v3.netlify.app/v3-photos/wgb_6080-md.jpg",
-      "alt": "An older couple from the Futures family, mid-embrace.",
+      "url": "/photos/hero/hero_8.jpg",
+      "alt": "Futures Church — Sunday together.",
       "name": "",
-      "campus": "Atlanta",
+      "campus": "",
       "source": "futures-comms"
     },
     {
