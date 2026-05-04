@@ -9,6 +9,7 @@ type Pastor = {
   role: string;
   image: string;
   tone: string;
+  objectPosition?: string;
 };
 
 const GLOBAL: Pastor[] = [
@@ -17,6 +18,7 @@ const GLOBAL: Pastor[] = [
     role: "Global Senior Pastors",
     image: "/photos/pastors/ashley-jane.jpg",
     tone: "#C45236",
+    objectPosition: "center 22%",
   },
 ];
 
@@ -119,6 +121,7 @@ function PastorCard({
           alt={pastor.name}
           fill
           sizes="(max-width: 1024px) 100vw, 640px"
+          style={{ objectPosition: pastor.objectPosition ?? "center" }}
           className="object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.04]"
         />
         <div
