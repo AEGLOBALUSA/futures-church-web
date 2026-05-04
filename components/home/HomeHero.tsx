@@ -51,14 +51,53 @@ function uuid() {
     : Math.random().toString(36).slice(2);
 }
 
+// Persisted state keys — keep the hero conversation continual across page
+// reloads and back-navigations. Tied to a stable sessionId so analytics can
+// thread across sessions.
+const HERO_MSG_KEY = "futures-hero-conversation";
+const HERO_SESSION_KEY = "futures-hero-session";
+
 export function HomeHero() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);
   const [streaming, setStreaming] = useState(false);
   const [showFollowUps, setShowFollowUps] = useState(false);
-  const sessionId = useRef(uuid());
+  const sessionId = useRef<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const followUpRef = useRef<HTMLInputElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Restore prior conversation + sessionId on mount. Trim to last 40 to match
+  // the server-side ChatBodySchema cap.
+  useEffect(() => {
+    try {
+      const rawMsgs = localStorage.getItem(HERO_MSG_KEY);
+      if (rawMsgs) {
+        const parsed = JSON.parse(rawMsgs) as Msg[];
+        if (Array.isArray(parsed) && parsed.length) setMessages(parsed.slice(-40));
+      }
+      const rawSession = localStorage.getItem(HERO_SESSION_KEY);
+      sessionId.current = rawSession || uuid();
+      if (!rawSession) localStorage.setItem(HERO_SESSION_KEY, sessionId.current);
+    } catch {
+      sessionId.current = uuid();
+    }
+  }, []);
+
+  // Persist conversation on every change (last 40, matching the server cap).
+  useEffect(() => {
+    try {
+      localStorage.setItem(HERO_MSG_KEY, JSON.stringify(messages.slice(-40)));
+    } catch {}
+  }, [messages]);
+
+  // After the assistant finishes streaming, focus the inline follow-up input
+  // so the visitor can keep typing without scrolling back to the hero pill.
+  useEffect(() => {
+    if (!streaming && messages.length > 0) {
+      followUpRef.current?.focus({ preventScroll: true });
+    }
+  }, [streaming, messages.length]);
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -450,6 +489,57 @@ export function HomeHero() {
                       </button>
                     </div>
                   </div>
+
+                  {/* Inline follow-up input — sits directly under the answer
+                      so the conversation feels natural. Wired to the same
+                      handler as the top hero pill, so the visitor can use
+                      either. Auto-focuses after the assistant finishes
+                      streaming (see effect at top of component). */}
+                  <motion.form
+                    onSubmit={handleSubmit}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.15 }}
+                    className="mt-4"
+                  >
+                    <div
+                      className={`group relative flex items-center gap-2 rounded-[999px] transition-all duration-300 ease-out ${
+                        streaming ? "is-streaming" : ""
+                      }`}
+                      style={{
+                        height: 56,
+                        background: "rgba(255,255,255,0.85)",
+                        border: `1.5px solid ${input.trim() || streaming ? "#C8906B" : "#E8DFD3"}`,
+                        paddingLeft: 22,
+                        paddingRight: 8,
+                      }}
+                    >
+                      <input
+                        ref={followUpRef}
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        disabled={streaming}
+                        placeholder="ask Milo a follow-up…"
+                        aria-label="Reply to Milo"
+                        className="warm-input flex-1 bg-transparent font-display italic outline-none disabled:opacity-60"
+                        style={{ color: "#1C1A17", fontSize: 16 }}
+                      />
+                      <button
+                        type="submit"
+                        disabled={!input.trim() || streaming}
+                        aria-label="Send reply"
+                        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40"
+                        style={{
+                          background: input.trim() ? "#C8906B" : "#F2E6D1",
+                          color: input.trim() ? "#FDFBF6" : "#8A8178",
+                        }}
+                      >
+                        <ArrowRight className="h-[16px] w-[16px]" strokeWidth={2} />
+                      </button>
+                    </div>
+                  </motion.form>
 
                   {showFollowUps && (
                     <motion.div

@@ -5,6 +5,20 @@ import { Fragment, useMemo, type MouseEvent } from "react";
 const SHARE_LOCATION_HREF = "#milo-share-location";
 const LINK_RE = /\[([^\]]+)\]\(([^)]+)\)/g;
 
+// Strip emphasis markdown Milo's prompt forbids but a model may still emit.
+// Order matters: ** before *, __ before _, otherwise the inner pair eats the wrap.
+// Also strips leading-of-line bullets (-, *, •) and heading hashes (#) that
+// sometimes leak into prose.
+function stripEmphasis(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/(^|[^\w])\*(?!\s)([^*\n]+?)\*(?!\w)/g, "$1$2")
+    .replace(/__(.+?)__/g, "$1")
+    .replace(/(^|\s)_([^_\n]+?)_(?=\s|[.,;:!?)]|$)/g, "$1$2")
+    .replace(/^\s{0,3}#{1,6}\s+/gm, "")
+    .replace(/^\s{0,3}[-*•]\s+/gm, "");
+}
+
 type Segment =
   | { type: "text"; value: string }
   | { type: "link"; value: string; href: string };
@@ -53,7 +67,7 @@ export function MiloMarkdown({
     <>
       {segments.map((seg, i) => {
         if (seg.type === "text") {
-          return <Fragment key={i}>{seg.value}</Fragment>;
+          return <Fragment key={i}>{stripEmphasis(seg.value)}</Fragment>;
         }
         if (seg.href === SHARE_LOCATION_HREF) {
           return (
