@@ -10,7 +10,35 @@
 // via buildCampusRoster() so it stays in sync with lib/content/campuses.ts.
 
 import { campuses, type Campus } from "@/lib/content/campuses";
+import { books, type Book } from "@/lib/content/books";
 import { createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+
+// Build the "Books" section of Milo's knowledge directly from the canonical
+// book registry. Milo MUST use the title and miloTheme verbatim — see the
+// note at the top of lib/content/books.ts. This is the systemic guardrail
+// against describing a book by inferring themes from its title.
+function formatBookForMilo(b: Book): string {
+  const status = b.status === "available" ? "AVAILABLE NOW" : "Coming soon";
+  return `- "${b.title}" — ${b.author} — ${b.miloTheme}. ${status}.`;
+}
+
+function buildBooksBlock(): string {
+  return [
+    "## Books (Ashley & Jane Evans)",
+    "STRICT — these lines come straight from lib/content/books.ts (the author-",
+    "approved registry). Use the EXACT title and theme line for each book.",
+    "Never paraphrase. Never invent additional books. Never substitute a theme",
+    "you inferred from the title. The title can mislead — trust the theme line.",
+    "",
+    ...books.map(formatBookForMilo),
+    "",
+    "Free first chapter of each available at /books. Recommend by season, not by sales.",
+    "",
+    "Specifically: 'From Scarcity to Supernatural Supply' is on GRACE. It is",
+    "NOT a book about money, finances, prosperity, provision, or wealth. The",
+    "title can mislead — the subject is grace.",
+  ].join("\n");
+}
 
 // ────────────────────────────────────────────────────────────────────────────
 // Campus knowledge sourced from intake_response — only campuses where pastors
@@ -302,15 +330,7 @@ Rescue. Restore. Redeem. Release.
 - Free. iOS / Android.
 - More at /bible-app.
 
-## Books (Ashley & Jane Evans) — STRICT: use these exact titles and topic lines verbatim. Never paraphrase. Never invent additional books.
-- "No More Fear" — Ashley — on overcoming fear and anxiety. AVAILABLE NOW.
-- "From Scarcity to Supernatural Supply" — Ashley — on God's provision and breaking a scarcity mindset. AVAILABLE NOW.
-- "Help, I'm A Mother!" — Jane — on parenting and motherhood. AVAILABLE NOW.
-- "Multiply or Die" — Ashley — on multiplication and the local church. Coming soon.
-- "What's Wrong with the Church" — Ashley — Coming soon.
-- Free first chapter of each available at /books. Recommend by season, not by sales.
-
-NEVER describe any of these books as being "about generosity" or "about prosperity." Futures is not a prosperity-gospel church and Ashley has not written on generosity. The Scarcity book is about God's provision and the mindset of scarcity, not generosity.
+${buildBooksBlock()}
 
 ## Giving
 - Methods: card, direct deposit, DonateStock, The Giving Block (crypto).
