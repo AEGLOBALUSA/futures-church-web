@@ -1,27 +1,3 @@
-[[plugins]]
-package = "@netlify/plugin-nextjs"
-
 [build]
-command = "npm run build"
-publish = ".next"
-
-[build.environment]
-NODE_VERSION = "20"
-
-[[headers]]
-for = "/*"
-[headers.values]
-X-Frame-Options = "DENY"
-X-Content-Type-Options = "nosniff"
-Referrer-Policy = "strict-origin-when-cross-origin"
-Permissions-Policy = "camera=(), microphone=(), geolocation=(self)"
-
-# --- futuresglobal.college standalone: rewrite root to /college ---
-[[redirects]]
-  from = "/"
-  to = "/college"
-  status = 200
-  force = true
-  conditions = {Host = ["futuresglobal.college", "www.futuresglobal.college"]}
-
-# /college is now served directly on futures.church — no redirect needed.
+  command = ""
+  publish = "."
